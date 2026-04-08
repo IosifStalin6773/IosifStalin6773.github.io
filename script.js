@@ -1191,7 +1191,7 @@ function initFalloutRadio() {
 
 // Restaurar estados guardados al cargar la página
 function restoreAllStates() {
-    // Restaurar tema Fallout
+    // Restaurar tema Fallout primero
     const wasFalloutTheme = stateManager.loadThemeState();
     if (wasFalloutTheme) {
         document.documentElement.setAttribute('data-theme', 'fallout');
@@ -1214,18 +1214,40 @@ function restoreAllStates() {
         updateThemeIcon('dark');
     }
     
-    // Restaurar visibilidad de la terminal
+    // Restaurar visibilidad de la terminal con mejor timing
     const terminalWasVisible = stateManager.loadTerminalVisible();
     if (terminalWasVisible) {
+        // Esperar más tiempo para asegurar que todo esté cargado
         setTimeout(() => {
-            toggleFloatingTerminal();
-        }, 100);
+            // Verificar si el terminal existe antes de intentar activarlo
+            let terminal = document.getElementById('pipboy-floating-terminal');
+            if (!terminal) {
+                // Si no existe, crearlo primero
+                createFloatingTerminal();
+                terminal = document.getElementById('pipboy-floating-terminal');
+            }
+            
+            if (terminal) {
+                terminal.style.display = 'block';
+                
+                // Actualizar botones si es necesario
+                const terminalToggleBtn = document.getElementById('terminalToggle');
+                if (terminalToggleBtn) {
+                    terminalToggleBtn.classList.add('terminal-active');
+                }
+                
+                const floatBtn = document.getElementById('pipboyFloat');
+                if (floatBtn) {
+                    floatBtn.style.display = 'none';
+                }
+            }
+        }, 500); // Aumentado el tiempo para mejor sincronización
     }
     
     // Restaurar contenido de la terminal
     setTimeout(() => {
         restoreTerminalState();
-    }, 200);
+    }, 1000); // Más tiempo para asegurar que el terminal esté completamente cargado
 }
 
 // Sistema de partículas interactivas
