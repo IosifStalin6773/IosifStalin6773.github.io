@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las funcionalidades
     initThemeLanguage();
     initSmartImages();
+    initPipboyTerminal();
     initParticles();
     initNavigation();
     initScrollEffects();
@@ -259,6 +260,9 @@ function toggleTheme() {
     if (newTheme === 'fallout') {
         playTerminalSound();
         showTerminalMessage('SYSTEM MODE: FALLOUT');
+        showPipboyTerminal();
+    } else {
+        hidePipboyTerminal();
     }
 }
 
@@ -270,9 +274,11 @@ function updateThemeIcon(theme) {
             break;
         case 'fallout':
             themeIcon.className = 'fas fa-tv';
+            document.getElementById('pipboyToggle').style.display = 'flex';
             break;
         default:
             themeIcon.className = 'fas fa-moon';
+            document.getElementById('pipboyToggle').style.display = 'none';
     }
 }
 
@@ -338,6 +344,135 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Terminal Pip-Boy
+function initPipboyTerminal() {
+    const terminal = document.getElementById('pipboy-terminal');
+    const input = document.getElementById('terminal-input');
+    const output = document.getElementById('terminal-output');
+    const toggleBtn = document.getElementById('pipboy-toggle');
+    const helpBtn = document.getElementById('pipboy-help');
+    const closeBtn = document.getElementById('pipboy-close');
+    
+    if (!terminal || !input || !output) return;
+    
+    // Actualizar tiempo
+    updatePipboyTime();
+    setInterval(updatePipboyTime, 1000);
+    
+    // Comandos de terminal
+    const commands = {
+        help: () => {
+            addTerminalLine('Available commands:');
+            addTerminalLine('  help - Show this help');
+            addTerminalLine('  clear - Clear terminal');
+            addTerminalLine('  status - Show system status');
+            addTerminalLine('  date - Show current date');
+            addTerminalLine('  about - About this terminal');
+        },
+        clear: () => {
+            output.innerHTML = '<div class="terminal-line">&gt;</div>';
+        },
+        status: () => {
+            addTerminalLine('SYSTEM STATUS: ONLINE');
+            addTerminalLine('ROBCO INDUSTRIES TERMINAL v3.0.1');
+            addTerminalLine('All systems operational');
+        },
+        date: () => {
+            const now = new Date();
+            addTerminalLine(`Current date: ${now.toLocaleString()}`);
+        },
+        about: () => {
+            addTerminalLine('ROBCO INDUSTRIES PIP-BOY TERMINAL');
+            addTerminalLine('Version 3.0.1');
+            addTerminalLine('Copyright 2077-2281 ROBCO');
+            addTerminalLine('Type "help" for available commands');
+        }
+    };
+    
+    // Event listeners
+    input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const command = input.value.trim().toLowerCase();
+            if (command) {
+                addTerminalLine(`&gt; ${command}`);
+                
+                if (commands[command]) {
+                    commands[command]();
+                } else {
+                    addTerminalLine(`Command not recognized: ${command}`);
+                    addTerminalLine('Type "help" for available commands');
+                }
+                
+                input.value = '';
+            }
+        }
+    });
+    
+    // Botones de control
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            const terminal = document.getElementById('pipboy-terminal');
+            const isVisible = terminal.style.display === 'block';
+            terminal.style.display = isVisible ? 'none' : 'block';
+            
+            const valueSpan = toggleBtn.querySelector('.control-value');
+            valueSpan.textContent = isVisible ? 'OFF' : 'ON';
+        });
+    }
+    
+    if (helpBtn) {
+        helpBtn.addEventListener('click', () => {
+            commands.help();
+        });
+    }
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            const terminal = document.getElementById('pipboy-terminal');
+            terminal.style.display = 'none';
+            addTerminalLine('TERMINAL SESSION ENDED');
+        });
+    }
+}
+
+function addTerminalLine(text) {
+    const output = document.getElementById('terminal-output');
+    if (output) {
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.textContent = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+}
+
+function updatePipboyTime() {
+    const timeElement = document.getElementById('pipboy-time');
+    if (timeElement) {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+}
+
+function showPipboyTerminal() {
+    const terminal = document.getElementById('pipboy-terminal');
+    if (terminal) {
+        terminal.style.display = 'block';
+        addTerminalLine('TERMINAL ACTIVATED');
+        addTerminalLine('Type "help" for available commands');
+    }
+}
+
+function hidePipboyTerminal() {
+    const terminal = document.getElementById('pipboy-terminal');
+    if (terminal) {
+        terminal.style.display = 'none';
+    }
+}
 
 // Sistema de partículas interactivas
 function initParticles() {

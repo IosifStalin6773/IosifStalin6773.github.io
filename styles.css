@@ -114,6 +114,15 @@
     }
 }
 
+@keyframes terminalGlow {
+    0% {
+        text-shadow: 0 0 5px var(--crt-glow);
+    }
+    100% {
+        text-shadow: 0 0 15px var(--crt-glow);
+    }
+}
+
 .control-btn:hover {
     background: var(--primary-color);
     transform: scale(1.1);

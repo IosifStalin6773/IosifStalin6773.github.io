@@ -11,6 +11,43 @@
     <!-- Canvas de partículas -->
     <canvas id="particles-canvas"></canvas>
     
+    <!-- Terminal Pip-Boy (solo visible en tema Fallout) -->
+    <div id="pipboy-terminal" class="pipboy-terminal">
+        <div class="pipboy-screen">
+            <div class="pipboy-header">
+                <div class="pipboy-status">
+                    <span class="status-indicator">●</span>
+                    <span class="status-text">ROBCO INDUSTRIES</span>
+                </div>
+                <div class="pipboy-time" id="pipboy-time">12:34:56</div>
+            </div>
+            <div class="pipboy-content">
+                <div class="terminal-output" id="terminal-output">
+                    <div class="terminal-line">ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL</div>
+                    <div class="terminal-line">VERSION 3.0.1</div>
+                    <div class="terminal-line">COPYRIGHT 2077-2281 ROBCO</div>
+                    <div class="terminal-line">&gt;</div>
+                </div>
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">&gt;</span>
+                    <input type="text" id="terminal-input" class="terminal-input" placeholder="Enter command..." autocomplete="off">
+                </div>
+            </div>
+            <div class="pipboy-controls">
+                <div class="control-button" id="pipboy-toggle">
+                    <span class="control-label">MODE</span>
+                    <span class="control-value">ON</span>
+                </div>
+                <div class="control-button" id="pipboy-help">
+                    <span class="control-label">HELP</span>
+                </div>
+                <div class="control-button" id="pipboy-close">
+                    <span class="control-label">EXIT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Controles de tema e idioma -->
     <div class="theme-language-controls">
         <button class="control-btn" id="themeToggle" title="Cambiar tema">
@@ -18,6 +55,9 @@
         </button>
         <button class="control-btn" id="langToggle" title="Change language / Cambiar idioma">
             <i class="fas fa-globe"></i>
+        </button>
+        <button class="control-btn" id="pipboyToggle" title="Toggle Pip-Boy Terminal" style="display: none;">
+            <i class="fas fa-tv"></i>
         </button>
     </div>
     
