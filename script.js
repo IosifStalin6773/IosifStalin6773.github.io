@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las funcionalidades
     initThemeLanguage();
+    initSmartImages();
     initParticles();
     initNavigation();
     initScrollEffects();
@@ -9,6 +10,146 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initSkillBars();
 });
+
+// Sistema de imágenes inteligente
+function initSmartImages() {
+    // Detectar y cargar imágenes automáticamente
+    loadProfileImage();
+    loadHeroImage();
+    loadProjectImages();
+    loadBackgroundImages();
+}
+
+function loadProfileImage() {
+    const profileElements = document.querySelectorAll('.profile-placeholder, .profile-image');
+    const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    profileElements.forEach(element => {
+        // Intentar cargar imagen de perfil
+        for (const format of imageFormats) {
+            const img = new Image();
+            img.onload = function() {
+                element.innerHTML = '';
+                element.className = 'profile-image';
+                element.appendChild(img);
+            };
+            img.onerror = function() {
+                if (format === imageFormats[imageFormats.length - 1]) {
+                    // Último intento, mantener placeholder
+                    console.log('Profile image not found, keeping placeholder');
+                }
+            };
+            img.src = `assets/images/profile/profile.${format}`;
+            break;
+        }
+    });
+}
+
+function loadHeroImage() {
+    const heroElements = document.querySelectorAll('.hero-image .project-placeholder');
+    const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    heroElements.forEach(element => {
+        for (const format of imageFormats) {
+            const img = new Image();
+            img.onload = function() {
+                element.innerHTML = '';
+                element.className = 'smart-image';
+                element.appendChild(img);
+            };
+            img.onerror = function() {
+                if (format === imageFormats[imageFormats.length - 1]) {
+                    console.log('Hero image not found, keeping placeholder');
+                }
+            };
+            img.src = `assets/images/hero/hero-image.${format}`;
+            break;
+        }
+    });
+}
+
+function loadProjectImages() {
+    const projects = [
+        { id: 'all-in-one-bot', name: 'all-in-one-bot' },
+        { id: 'macos-ventura', name: 'macos-ventura' },
+        { id: 'eft-helix-framework', name: 'eft-helix-framework' },
+        { id: 'permaprops-fivem', name: 'permaprops-fivem' }
+    ];
+    
+    const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    projects.forEach(project => {
+        const elements = document.querySelectorAll(`[data-project="${project.id}"] .project-placeholder, .project-placeholder`);
+        
+        elements.forEach(element => {
+            // Buscar el project card más cercano para determinar el proyecto
+            const projectCard = element.closest('.project-card');
+            if (!projectCard) return;
+            
+            const projectTitle = projectCard.querySelector('h3')?.textContent.toLowerCase();
+            if (!projectTitle || !projectTitle.includes(project.id.split('-')[0])) return;
+            
+            for (const format of imageFormats) {
+                const img = new Image();
+                img.onload = function() {
+                    element.innerHTML = '';
+                    element.className = 'smart-image';
+                    element.appendChild(img);
+                };
+                img.onerror = function() {
+                    if (format === imageFormats[imageFormats.length - 1]) {
+                        console.log(`Project image not found: ${project.name}, keeping placeholder`);
+                    }
+                };
+                img.src = `assets/images/projects/${project.name}.${format}`;
+                break;
+            }
+        });
+    });
+}
+
+function loadBackgroundImages() {
+    const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    // Imagen de fondo para hero section
+    for (const format of imageFormats) {
+        const img = new Image();
+        img.onload = function() {
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.style.position = 'relative';
+                const bgImg = document.createElement('div');
+                bgImg.className = 'hero-bg-image';
+                bgImg.style.backgroundImage = `url('assets/images/backgrounds/hero-bg.${format}')`;
+                bgImg.style.backgroundSize = 'cover';
+                bgImg.style.backgroundPosition = 'center';
+                bgImg.style.backgroundRepeat = 'no-repeat';
+                heroSection.insertBefore(bgImg, heroSection.firstChild);
+            }
+        };
+        img.onerror = function() {
+            if (format === imageFormats[imageFormats.length - 1]) {
+                console.log('Background image not found');
+            }
+        };
+        img.src = `assets/images/backgrounds/hero-bg.${format}`;
+        break;
+    }
+}
+
+// Función helper para añadir imágenes manualmente
+window.addSmartImage = function(container, imagePath, className = 'smart-image') {
+    const element = typeof container === 'string' ? document.querySelector(container) : container;
+    if (!element) return;
+    
+    const img = new Image();
+    img.onload = function() {
+        element.innerHTML = '';
+        element.className = className;
+        element.appendChild(img);
+    };
+    img.src = imagePath;
+};
 
 // Sistema de tema e idioma
 function initThemeLanguage() {
