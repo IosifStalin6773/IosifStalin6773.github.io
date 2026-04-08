@@ -1040,43 +1040,6 @@ function handleTerminalCommand(command) {
             });
             break;
             
-        case 'asteroids':
-            addFloatingLineWithTyping('INITIALIZING ASTEROIDS GAME...', 'info', () => {
-                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════════════════════════╗', 'success');
-                addFloatingLine('║ ROBCO INDUSTRIES - PIP-BOY 3000 GAME SYSTEM                     ║', 'success');
-                addFloatingLine('║ VERSION: 1.0.1 - ASTEROIDS CLONE                          ║', 'success');
-                addFloatingLine('║ STATUS: LOADING...                                      ║', 'warning');
-                addFloatingLine('╚═════════════════════════════════════════════════════════════════════════════╝', 'success');
-                
-                setTimeout(() => {
-                    addFloatingLineWithTyping('GAME LOADED SUCCESSFULLY!', 'success', () => {
-                        addFloatingLine('╔═══════════════════════════════════════════════════════════════╗', 'success');
-                        addFloatingLine('║ CONTROLS:                                              ║', 'info');
-                        addFloatingLine('║ • LEFT KNOB: TURN LEFT                                 ║', 'info');
-                        addFloatingLine('║ • RIGHT KNOB: TURN RIGHT                                ║', 'info');
-                        addFloatingLine('║ • FIRE BUTTON: SHOOT                                     ║', 'info');
-                        addFloatingLine('║ • POWER BUTTON: EXIT GAME                                 ║', 'info');
-                        addFloatingLine('║                                                          ║', 'info');
-                        addFloatingLine('║ SCORE: 0 | HIGH SCORE: 10000                            ║', 'warning');
-                        addFloatingLine('╚═════════════════════════════════════════════════════════════════╝', 'success');
-                        
-                        setTimeout(() => {
-                            addFloatingLineWithTyping('STARTING GAME...', 'info', () => {
-                                addFloatingLine(' ASTEROIDS GAME ACTIVATED! ', 'success');
-                                addFloatingLine('Use arrow keys to move, SPACE to shoot!', 'info');
-                                addFloatingLine('Good luck, Vault Dweller!', 'success');
-                                
-                                // Crear ventana de juego
-                                createAsteroidsGame();
-                                
-                                setTimeout(() => addFloatingLine('>'), 500);
-                            });
-                        }, 1500);
-                    });
-                }, 2000);
-            });
-            break;
-            
         default:
             addFloatingLineWithTyping(`Command not recognized: ${cmd}`, 'error', () => {
                 addFloatingLine('Type "help" for available commands', 'warning');
