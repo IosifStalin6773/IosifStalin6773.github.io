@@ -347,92 +347,210 @@ document.head.appendChild(style);
 
 // Terminal Pip-Boy
 function initPipboyTerminal() {
-    const terminal = document.getElementById('pipboy-terminal');
-    const input = document.getElementById('terminal-input');
-    const output = document.getElementById('terminal-output');
-    const toggleBtn = document.getElementById('pipboy-toggle');
-    const helpBtn = document.getElementById('pipboy-help');
-    const closeBtn = document.getElementById('pipboy-close');
+    // Crear terminal flotante dinámicamente
+    createFloatingTerminal();
     
-    if (!terminal || !input || !output) return;
+    // Event listener para botón flotante
+    const floatBtn = document.getElementById('pipboyFloat');
+    if (floatBtn) {
+        floatBtn.addEventListener('click', toggleFloatingTerminal);
+    }
+}
+
+function createFloatingTerminal() {
+    // Crear estructura HTML de la terminal flotante
+    const terminalHTML = `
+        <div id="pipboy-floating-terminal" class="pipboy-floating-terminal">
+            <div class="pipboy-floating-header">
+                <span>ROBCO INDUSTRIES</span>
+                <button class="minimize-btn" id="minimize-terminal">_</button>
+                <button class="close-floating-btn" id="close-floating-terminal">X</button>
+            </div>
+            <div class="pipboy-floating-content" id="floating-terminal-output">
+                <div class="terminal-line">ROBCO INDUSTRIES PIP-BOY v3.0.1</div>
+                <div class="terminal-line">Type "help" for commands</div>
+                <div class="terminal-line">&gt;</div>
+            </div>
+            <div class="pipboy-floating-controls">
+                <button class="minimize-btn" id="clear-floating-terminal">CLEAR</button>
+                <button class="minimize-btn" id="help-floating-terminal">HELP</button>
+            </div>
+        </div>
+    `;
     
-    // Actualizar tiempo
-    updatePipboyTime();
-    setInterval(updatePipboyTime, 1000);
+    // Insertar en el body
+    document.body.insertAdjacentHTML('beforeend', terminalHTML);
     
-    // Comandos de terminal
+    // Inicializar funcionalidad
+    initFloatingTerminalEvents();
+    updateFloatingTime();
+    setInterval(updateFloatingTime, 1000);
+}
+
+function initFloatingTerminalEvents() {
+    const terminal = document.getElementById('pipboy-floating-terminal');
+    const minimizeBtn = document.getElementById('minimize-terminal');
+    const closeBtn = document.getElementById('close-floating-terminal');
+    const clearBtn = document.getElementById('clear-floating-terminal');
+    const helpBtn = document.getElementById('help-floating-terminal');
+    const output = document.getElementById('floating-terminal-output');
+    
+    if (!terminal) return;
+    
+    let isMinimized = false;
+    let commandHistory = [];
+    let historyIndex = -1;
+    
+    // Comandos
     const commands = {
         help: () => {
-            addTerminalLine('Available commands:');
-            addTerminalLine('  help - Show this help');
-            addTerminalLine('  clear - Clear terminal');
-            addTerminalLine('  status - Show system status');
-            addTerminalLine('  date - Show current date');
-            addTerminalLine('  about - About this terminal');
+            addFloatingLine('Available commands:');
+            addFloatingLine('  help - Show this help');
+            addFloatingLine('  clear - Clear terminal');
+            addFloatingLine('  status - Show system status');
+            addFloatingLine('  date - Show current date');
+            addFloatingLine('  about - About this terminal');
         },
         clear: () => {
             output.innerHTML = '<div class="terminal-line">&gt;</div>';
+            commandHistory = [];
+            historyIndex = -1;
         },
         status: () => {
-            addTerminalLine('SYSTEM STATUS: ONLINE');
-            addTerminalLine('ROBCO INDUSTRIES TERMINAL v3.0.1');
-            addTerminalLine('All systems operational');
+            addFloatingLine('SYSTEM STATUS: ONLINE');
+            addFloatingLine('ROBCO INDUSTRIES TERMINAL v3.0.1');
+            addFloatingLine('All systems operational');
         },
         date: () => {
             const now = new Date();
-            addTerminalLine(`Current date: ${now.toLocaleString()}`);
+            addFloatingLine(`Current date: ${now.toLocaleString()}`);
         },
         about: () => {
-            addTerminalLine('ROBCO INDUSTRIES PIP-BOY TERMINAL');
-            addTerminalLine('Version 3.0.1');
-            addTerminalLine('Copyright 2077-2281 ROBCO');
-            addTerminalLine('Type "help" for available commands');
+            addFloatingLine('ROBCO INDUSTRIES PIP-BOY TERMINAL');
+            addFloatingLine('Version 3.0.1');
+            addFloatingLine('Copyright 2077-2281 ROBCO');
+            addFloatingLine('Type "help" for available commands');
         }
     };
     
-    // Event listeners
-    input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const command = input.value.trim().toLowerCase();
-            if (command) {
-                addTerminalLine(`&gt; ${command}`);
-                
-                if (commands[command]) {
-                    commands[command]();
-                } else {
-                    addTerminalLine(`Command not recognized: ${command}`);
-                    addTerminalLine('Type "help" for available commands');
+    // Input dinámico
+    function createInput() {
+        const input = document.createElement('div');
+        input.innerHTML = '<span class="terminal-prompt">&gt;</span><input type="text" class="terminal-input" placeholder="Enter command..." autocomplete="off">';
+        input.className = 'terminal-input-line';
+        output.appendChild(input);
+        
+        const inputField = input.querySelector('input');
+        
+        // Event listeners
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const command = inputField.value.trim().toLowerCase();
+                if (command) {
+                    addFloatingLine(`&gt; ${command}`);
+                    commandHistory.push(command);
+                    historyIndex = commandHistory.length;
+                    
+                    if (commands[command]) {
+                        commands[command]();
+                    } else {
+                        addFloatingLine(`Command not recognized: ${command}`);
+                        addFloatingLine('Type "help" for available commands');
+                    }
+                    
+                    inputField.value = '';
                 }
-                
-                input.value = '';
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    inputField.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    inputField.value = commandHistory[historyIndex];
+                }
             }
+        });
+        
+        inputField.focus();
+    }
+    
+    // Crear input inicial
+    createInput();
+    
+    // Botones
+    minimizeBtn.addEventListener('click', () => {
+        isMinimized = !isMinimized;
+        terminal.classList.toggle('minimized');
+        minimizeBtn.textContent = isMinimized ? '□' : '_';
+    });
+    
+    closeBtn.addEventListener('click', () => {
+        terminal.remove();
+        const floatBtn = document.getElementById('pipboyFloat');
+        if (floatBtn) {
+            floatBtn.style.display = 'none';
         }
     });
     
-    // Botones de control
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            const terminal = document.getElementById('pipboy-terminal');
-            const isVisible = terminal.style.display === 'block';
-            terminal.style.display = isVisible ? 'none' : 'block';
-            
-            const valueSpan = toggleBtn.querySelector('.control-value');
-            valueSpan.textContent = isVisible ? 'OFF' : 'ON';
-        });
+    clearBtn.addEventListener('click', () => {
+        commands.clear();
+    });
+    
+    helpBtn.addEventListener('click', () => {
+        commands.help();
+    });
+}
+
+function addFloatingLine(text) {
+    const output = document.getElementById('floating-terminal-output');
+    if (output) {
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.textContent = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+}
+
+function updateFloatingTime() {
+    const timeElement = document.querySelector('.pipboy-floating-header span:first-child');
+    if (timeElement) {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+}
+
+function toggleFloatingTerminal() {
+    const terminal = document.getElementById('pipboy-floating-terminal');
+    
+    if (!terminal) {
+        createFloatingTerminal();
+        const floatBtn = document.getElementById('pipboyFloat');
+        if (floatBtn) {
+            floatBtn.style.display = 'none';
+        }
+        return;
     }
     
-    if (helpBtn) {
-        helpBtn.addEventListener('click', () => {
-            commands.help();
-        });
-    }
-    
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            const terminal = document.getElementById('pipboy-terminal');
-            terminal.style.display = 'none';
-            addTerminalLine('TERMINAL SESSION ENDED');
-        });
+    if (terminal.style.display === 'none' || terminal.style.display === '') {
+        terminal.style.display = 'block';
+        const floatBtn = document.getElementById('pipboyFloat');
+        if (floatBtn) {
+            floatBtn.style.display = 'none';
+        }
+    } else {
+        terminal.style.display = 'none';
+        const floatBtn = document.getElementById('pipboyFloat');
+        if (floatBtn) {
+            floatBtn.style.display = 'flex';
+        }
     }
 }
 
