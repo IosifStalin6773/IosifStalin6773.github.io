@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     restoreAllStates();
 });
 
-// Sistema de imágenes inteligente
+// Sistema de imágenes inteligente optimizado
 function initSmartImages() {
-    // Detectar y cargar imágenes automáticamente
+    // Cargar imágenes con lazy loading y optimización
     loadProfileImage();
     loadHeroImage();
     loadProjectImages();
@@ -27,20 +27,21 @@ function initSmartImages() {
 
 function loadProfileImage() {
     const profileElements = document.querySelectorAll('.profile-placeholder, .profile-image');
-    const imageFormats = ['png', 'jpg', 'jpeg', 'webp'];
+    const imageFormats = ['webp', 'avif', 'png', 'jpg', 'jpeg'];
     
     profileElements.forEach(element => {
-        // Intentar cargar imagen de perfil
         let imageLoaded = false;
         
         for (const format of imageFormats) {
             const img = new Image();
+            img.loading = 'lazy';
             img.onload = function() {
                 if (!imageLoaded) {
                     imageLoaded = true;
                     element.innerHTML = '';
                     element.className = 'profile-image';
                     element.appendChild(img);
+                    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
                     console.log(`Profile image loaded: profile.${format}`);
                 }
             };
@@ -49,7 +50,8 @@ function loadProfileImage() {
                     console.log('Profile image not found, keeping placeholder');
                 }
             };
-            img.src = `assets/images/profile/profile.${format}`;
+            img.src = `assets/images/profile.${format}`;
+            break; // Cargar solo el primer formato disponible
         }
     });
 }
