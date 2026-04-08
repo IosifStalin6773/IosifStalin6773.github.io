@@ -369,6 +369,12 @@ function createFloatingTerminal() {
                 <div class="terminal-line">Type "help" for commands</div>
                 <div class="terminal-line">&gt;</div>
             </div>
+            <div class="terminal-input-container">
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">&gt;</span>
+                    <input type="text" class="terminal-input" placeholder="Enter command..." autocomplete="off">
+                </div>
+            </div>
             <div class="pipboy-floating-controls">
                 <button class="minimize-btn" id="clear-floating-terminal">CLEAR</button>
                 <button class="minimize-btn" id="help-floating-terminal">HELP</button>
@@ -505,21 +511,17 @@ function initFloatingTerminalEvents() {
         }, 100);
     }
     
-    // Input dinámico
-    function createInput() {
-        const input = document.createElement('div');
-        input.innerHTML = '<span class="terminal-prompt">&gt;</span><input type="text" class="terminal-input" placeholder="Enter command..." autocomplete="off">';
-        input.className = 'terminal-input-line';
-        output.appendChild(input);
-        
-        const inputField = input.querySelector('input');
+    // Configurar el input fijo
+    function setupFixedInput() {
+        const inputContainer = document.querySelector('.terminal-input-container');
+        const inputField = inputContainer.querySelector('.terminal-input');
         
         // Event listeners
         inputField.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const command = inputField.value.trim().toLowerCase();
                 if (command) {
-                    addFloatingLine(`&gt; ${command}`);
+                    addFloatingLine(`&gt; ${command}`, 'command');
                     commandHistory.push(command);
                     historyIndex = commandHistory.length;
                     
@@ -545,8 +547,8 @@ function initFloatingTerminalEvents() {
         inputField.focus();
     }
     
-    // Crear input inicial
-    createInput();
+    // Configurar el input fijo en lugar de crear inputs dinámicos
+    setupFixedInput();
     
     // Botones
     minimizeBtn.addEventListener('click', () => {
