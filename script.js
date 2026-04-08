@@ -16,9 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     restoreAllStates();
 });
 
-// Sistema de imágenes inteligente optimizado
+// Sistema de imágenes inteligente optimizado con lazy loading
 function initSmartImages() {
-    // Cargar imágenes con lazy loading y optimización
     loadProfileImage();
     loadHeroImage();
     loadProjectImages();
@@ -41,7 +40,7 @@ function loadProfileImage() {
                     element.innerHTML = '';
                     element.className = 'profile-image';
                     element.appendChild(img);
-                    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
                     console.log(`Profile image loaded: profile.${format}`);
                 }
             };
@@ -51,7 +50,7 @@ function loadProfileImage() {
                 }
             };
             img.src = `assets/images/profile.${format}`;
-            break; // Cargar solo el primer formato disponible
+            break;
         }
     });
 }
@@ -93,7 +92,6 @@ function loadProjectImages() {
         const elements = document.querySelectorAll(`[data-project="${project.id}"] .project-placeholder, .project-placeholder`);
         
         elements.forEach(element => {
-            // Buscar el project card más cercano para determinar el proyecto
             const projectCard = element.closest('.project-card');
             if (!projectCard) return;
             
@@ -122,7 +120,6 @@ function loadProjectImages() {
 function loadBackgroundImages() {
     const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
     
-    // Imagen de fondo para hero section
     for (const format of imageFormats) {
         const img = new Image();
         img.onload = function() {
@@ -132,9 +129,7 @@ function loadBackgroundImages() {
                 const bgImg = document.createElement('div');
                 bgImg.className = 'hero-bg-image';
                 bgImg.style.backgroundImage = `url('assets/images/backgrounds/hero-bg.${format}')`;
-                bgImg.style.backgroundSize = 'cover';
-                bgImg.style.backgroundPosition = 'center';
-                bgImg.style.backgroundRepeat = 'no-repeat';
+                bgImg.style.cssText = 'background-size:cover;background-position:center;background-repeat:no-repeat';
                 heroSection.insertBefore(bgImg, heroSection.firstChild);
             }
         };
