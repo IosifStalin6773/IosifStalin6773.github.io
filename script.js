@@ -193,7 +193,7 @@ const translations = {
         'nav.projects': 'Proyectos',
         'nav.skills': 'Habilidades',
         'nav.contact': 'Contacto',
-        'hero.title': 'Hola, Soy IosifStalin6773',
+        'hero.title': 'Hola, Soy Oscar de la Cruz',
         'hero.subtitle': 'Desarrollador Full Stack & Gaming Enthusiast',
         'hero.description': 'Desarrollador apasionado con experiencia en creación de bots, scripts para gaming, aplicaciones web y herramientas personalizadas. Especializado en automatización, desarrollo de servidores de juego y temas personalizados.',
         'hero.btnExperience': 'Ver Experiencia',
@@ -209,7 +209,7 @@ const translations = {
         'nav.projects': 'Projects',
         'nav.skills': 'Skills',
         'nav.contact': 'Contact',
-        'hero.title': 'Hi, I\'m IosifStalin6773',
+        'hero.title': 'Hi, I\'m Oscar de la Cruz',
         'hero.subtitle': 'Full Stack Developer & Gaming Enthusiast',
         'hero.description': 'Passionate developer with experience in creating bots, gaming scripts, web applications and custom tools. Specialized in automation, game server development and custom themes.',
         'hero.btnExperience': 'View Experience',
@@ -610,26 +610,51 @@ function initAsteroidsGame() {
         if (ship.y < 0) ship.y = canvas.height;
         if (ship.y > canvas.height) ship.y = 0;
         
-        // Dibujar nave
+        // Dibujar nave mejorada con mejor visibilidad
         ctx.save();
         ctx.translate(ship.x, ship.y);
         ctx.rotate(ship.angle);
         ctx.strokeStyle = '#00ff41';
-        ctx.lineWidth = 2;
+        ctx.fillStyle = '#00ff41';
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#00ff41';
+        
+        // Cuerpo de la nave (triángulo más grande y visible)
         ctx.beginPath();
-        ctx.moveTo(0, -ship.size);
-        ctx.lineTo(0, ship.size);
+        ctx.moveTo(0, -ship.size * 1.5);
+        ctx.lineTo(-ship.size * 0.8, ship.size * 0.8);
+        ctx.lineTo(ship.size * 0.8, ship.size * 0.8);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
         
-        // Cañón de la nave
+        // Ventana de la cabina más visible
         ctx.beginPath();
-        ctx.moveTo(0, ship.size);
-        ctx.lineTo(ship.size * 0.5, ship.size);
+        ctx.arc(0, 0, ship.size * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#00cc33';
+        ctx.fill();
         ctx.stroke();
+        
+        // Motores traseros
+        ctx.beginPath();
+        ctx.arc(-ship.size * 0.5, ship.size * 0.8, ship.size * 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff6600';
+        ctx.fill();
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.arc(ship.size * 0.5, ship.size * 0.8, ship.size * 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff6600';
+        ctx.fill();
+        ctx.stroke();
+        
         ctx.restore();
         
-        // Actualizar y dibujar asteroides
-        asteroids.forEach(asteroid => {
+        // Actualizar y dibujar asteroides con colisiones
+        const asteroidsToRemove = [];
+        
+        asteroids.forEach((asteroid, asteroidIndex) => {
             asteroid.x += asteroid.vx;
             asteroid.y += asteroid.vy;
             
@@ -639,12 +664,102 @@ function initAsteroidsGame() {
             if (asteroid.y < 0) asteroid.y = canvas.height;
             if (asteroid.y > canvas.height) asteroid.y = 0;
             
+            // Verificar colisión con la nave
+            const dx = asteroid.x - ship.x;
+            const dy = asteroid.y - ship.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < asteroid.size + ship.size) {
+                // Colisión detectada - perder vida
+                lives--;
+                if (lives <= 0) {
+                    gameRunning = false;
+                    addFloatingLine('GAME OVER! Press SPACE to restart', 'error');
+                    return;
+                }
+                
+                // Resetear posición de la nave
+                ship.x = canvas.width / 2;
+                ship.y = canvas.height / 2;
+                ship.vx = 0;
+                ship.vy = 0;
+                ship.angle = 0;
+                
+                // Marcar asteroide para eliminar
+                asteroidsToRemove.push(asteroidIndex);
+                
+                // Crear asteroides más pequeños (división)
+                if (asteroid.size > 15) {
+                    for (let i = 0; i < 2; i++) {
+                        asteroids.push({
+                            x: asteroid.x + (Math.random() - 0.5) * 20,
+                            y: asteroid.y + (Math.random() - 0.5) * 20,
+                            vx: (Math.random() - 0.5) * 3,
+                            vy: (Math.random() - 0.5) * 3,
+                            size: asteroid.size / 2,
+                            angle: Math.random() * Math.PI * 2
+                        });
+                    }
+                }
+                
+                addFloatingLine(`HIT! Lives: ${lives}`, 'warning');
+            }
+            
+            // Verificar colisión con balas
+            const bulletsToRemove = [];
+            bullets.forEach((bullet, bulletIndex) => {
+                const bdx = asteroid.x - bullet.x;
+                const bdy = asteroid.y - bullet.y;
+                const bdistance = Math.sqrt(bdx * bdx + bdy * bdy);
+                
+                if (bdistance < asteroid.size) {
+                    // Marcar bala para eliminar
+                    bulletsToRemove.push(bulletIndex);
+                    
+                    // Marcar asteroide para eliminar
+                    if (!asteroidsToRemove.includes(asteroidIndex)) {
+                        asteroidsToRemove.push(asteroidIndex);
+                    }
+                    
+                    // Aumentar puntuación
+                    score += Math.round(100 / asteroid.size * 10);
+                    
+                    // Crear efecto de explosión
+                    createExplosion(asteroid.x, asteroid.y, asteroid.size);
+                    
+                    // Crear asteroides más pequeños (división)
+                    if (asteroid.size > 15) {
+                        for (let i = 0; i < 2; i++) {
+                            asteroids.push({
+                                x: asteroid.x + (Math.random() - 0.5) * 20,
+                                y: asteroid.y + (Math.random() - 0.5) * 20,
+                                vx: (Math.random() - 0.5) * 3,
+                                vy: (Math.random() - 0.5) * 3,
+                                size: asteroid.size / 2,
+                                angle: Math.random() * Math.PI * 2
+                            });
+                        }
+                    }
+                    
+                    addFloatingLine(`SCORE: ${score}`, 'success');
+                }
+            });
+            
+            // Eliminar balas que colisionaron
+            bulletsToRemove.sort((a, b) => b - a);
+            bulletsToRemove.forEach(index => {
+                bullets.splice(index, 1);
+            });
+            
             // Dibujar asteroide
             ctx.save();
             ctx.translate(asteroid.x, asteroid.y);
             ctx.rotate(asteroid.angle);
             ctx.strokeStyle = '#00ff41';
-            ctx.lineWidth = 1;
+            ctx.fillStyle = '#00ff41';
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00ff41';
             ctx.beginPath();
             for (let i = 0; i < 8; i++) {
                 const angle = (i / 8) * Math.PI * 2;
@@ -655,13 +770,25 @@ function initAsteroidsGame() {
             }
             ctx.closePath();
             ctx.stroke();
+            ctx.globalAlpha = 0.3;
+            ctx.fill();
             ctx.restore();
+        });
+        
+        // Eliminar asteroides que colisionaron
+        asteroidsToRemove.sort((a, b) => b - a);
+        asteroidsToRemove.forEach(index => {
+            asteroids.splice(index, 1);
         });
         
         // Actualizar y dibujar balas
         bullets = bullets.filter(bullet => {
             bullet.x += bullet.vx;
             bullet.y += bullet.vy;
+            bullet.life--;
+            
+            // Eliminar balas sin vida
+            if (bullet.life <= 0) return false;
             
             // Eliminar balas fuera de pantalla
             if (bullet.x < 0 || bullet.x > canvas.width || 
@@ -669,9 +796,17 @@ function initAsteroidsGame() {
                 return false;
             }
             
-            // Dibujar bala
+            // Dibujar bala más visible
             ctx.fillStyle = '#00ff41';
-            ctx.fillRect(bullet.x - 1, bullet.y - 1, 2, 2);
+            ctx.strokeStyle = '#00ff41';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00ff41';
+            ctx.lineWidth = 2;
+            
+            // Dibujar bala como un pequeño rectángulo brillante
+            ctx.fillRect(bullet.x - 2, bullet.y - 2, 4, 4);
+            ctx.strokeRect(bullet.x - 2, bullet.y - 2, 4, 4);
+            
             return true;
         });
         
@@ -691,7 +826,49 @@ function initAsteroidsGame() {
         document.getElementById('game-score').textContent = score;
         document.getElementById('game-lives').textContent = lives;
         
+        // Verificar si no hay asteroides (siguiente nivel)
+        if (asteroids.length === 0) {
+            level++;
+            addFloatingLine(`LEVEL ${level} COMPLETE!`, 'success');
+            setTimeout(() => {
+                // Crear nuevos asteroides
+                for (let i = 0; i < 5 + level * 2; i++) {
+                    asteroids.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * (2 + level * 0.5),
+                        vy: (Math.random() - 0.5) * (2 + level * 0.5),
+                        size: 20 + Math.random() * 20,
+                        angle: Math.random() * Math.PI * 2
+                    });
+                }
+            }, 2000);
+        }
+        
         requestAnimationFrame(gameLoop);
+    }
+    
+    // Función para crear efectos de explosión
+    function createExplosion(x, y, size) {
+        ctx.save();
+        ctx.fillStyle = '#00ff41';
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = '#00ff41';
+        
+        // Crear partículas de explosión
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const distance = Math.random() * size;
+            const px = x + Math.cos(angle) * distance;
+            const py = y + Math.sin(angle) * distance;
+            const particleSize = Math.random() * 3 + 1;
+            
+            ctx.beginPath();
+            ctx.arc(px, py, particleSize, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        ctx.restore();
     }
     
     // Iniciar el juego
