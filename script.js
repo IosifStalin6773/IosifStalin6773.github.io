@@ -605,7 +605,7 @@ function toggleFloatingTerminal() {
 }
 
 function addTerminalLine(text) {
-    const output = document.getElementById('terminal-output');
+    const output = document.getElementById('floating-terminal-output');
     if (output) {
         const line = document.createElement('div');
         line.className = 'terminal-line';
@@ -616,7 +616,7 @@ function addTerminalLine(text) {
 }
 
 function updatePipboyTime() {
-    const timeElement = document.getElementById('pipboy-time');
+    const timeElement = document.querySelector('.pipboy-floating-header span:first-child');
     if (timeElement) {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -627,16 +627,16 @@ function updatePipboyTime() {
 }
 
 function showPipboyTerminal() {
-    const terminal = document.getElementById('pipboy-terminal');
+    const terminal = document.getElementById('pipboy-floating-terminal');
     if (terminal) {
         terminal.style.display = 'block';
-        addTerminalLine('TERMINAL ACTIVATED');
-        addTerminalLine('Type "help" for available commands');
+        addFloatingLine('TERMINAL ACTIVATED');
+        addFloatingLine('Type "help" for available commands');
     }
 }
 
 function hidePipboyTerminal() {
-    const terminal = document.getElementById('pipboy-terminal');
+    const terminal = document.getElementById('pipboy-floating-terminal');
     if (terminal) {
         terminal.style.display = 'none';
     }
