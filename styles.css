@@ -1320,6 +1320,54 @@ body {
     text-transform: uppercase;
 }
 
+/* Botón flotante superior derecho para terminal */
+#terminalToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--bg-secondary);
+    border: 2px solid var(--terminal-green);
+    color: var(--terminal-green);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    animation: terminalGlow 2s ease-in-out infinite alternate;
+}
+
+#terminalToggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--crt-glow);
+}
+
+#terminalToggle:active {
+    transform: scale(0.95);
+}
+
+#terminalToggle.terminal-active {
+    background: var(--terminal-green);
+    color: var(--bg-primary);
+    animation: pulse 1s infinite;
+}
+
+/* Ocultar botón de tema cuando terminal está activa */
+.terminal-active ~ .theme-language-controls #themeToggle {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Ocultar botón flotante inferior cuando terminal está activa */
+.terminal-active ~ .theme-language-controls #pipboyFloat {
+    display: none;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav-menu {

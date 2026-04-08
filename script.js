@@ -238,6 +238,15 @@ function toggleLanguage() {
 }
 
 function toggleTheme() {
+    // Verificar si la terminal está activa
+    const terminalActive = document.body.classList.contains('terminal-active');
+    
+    if (terminalActive) {
+        // No permitir cambio de tema cuando terminal está activa
+        showTerminalMessage('CANNOT CHANGE THEME - TERMINAL ACTIVE');
+        return;
+    }
+    
     const themes = ['dark', 'light', 'fallout'];
     const currentTheme = localStorage.getItem('theme') || 'dark';
     const currentIndex = themes.indexOf(currentTheme);
@@ -271,14 +280,17 @@ function updateThemeIcon(theme) {
     switch(theme) {
         case 'light':
             themeIcon.className = 'fas fa-sun';
+            document.getElementById('terminalToggle').style.display = 'none';
             break;
         case 'fallout':
             themeIcon.className = 'fas fa-tv';
             document.getElementById('pipboyToggle').style.display = 'flex';
+            document.getElementById('terminalToggle').style.display = 'flex';
             break;
         default:
             themeIcon.className = 'fas fa-moon';
             document.getElementById('pipboyToggle').style.display = 'none';
+            document.getElementById('terminalToggle').style.display = 'none';
     }
 }
 
@@ -350,10 +362,16 @@ function initPipboyTerminal() {
     // Crear terminal flotante dinámicamente
     createFloatingTerminal();
     
-    // Event listener para botón flotante
+    // Event listeners para botones flotantes
     const floatBtn = document.getElementById('pipboyFloat');
+    const terminalToggleBtn = document.getElementById('terminalToggle');
+    
     if (floatBtn) {
         floatBtn.addEventListener('click', toggleFloatingTerminal);
+    }
+    
+    if (terminalToggleBtn) {
+        terminalToggleBtn.addEventListener('click', toggleFloatingTerminal);
     }
 }
 
@@ -529,6 +547,8 @@ function updateFloatingTime() {
 
 function toggleFloatingTerminal() {
     const terminal = document.getElementById('pipboy-floating-terminal');
+    const terminalToggleBtn = document.getElementById('terminalToggle');
+    const themeToggleBtn = document.getElementById('themeToggle');
     
     if (!terminal) {
         createFloatingTerminal();
@@ -540,17 +560,54 @@ function toggleFloatingTerminal() {
     }
     
     if (terminal.style.display === 'none' || terminal.style.display === '') {
+        // Activar terminal
         terminal.style.display = 'block';
+        document.body.classList.add('terminal-active');
+        
+        // Actualizar botones
         const floatBtn = document.getElementById('pipboyFloat');
         if (floatBtn) {
             floatBtn.style.display = 'none';
         }
+        
+        if (terminalToggleBtn) {
+            terminalToggleBtn.classList.add('terminal-active');
+            terminalToggleBtn.style.display = 'none';
+        }
+        
+        // Inhabilitar botón de tema
+        if (themeToggleBtn) {
+            themeToggleBtn.style.opacity = '0.3';
+            themeToggleBtn.style.pointerEvents = 'none';
+            themeToggleBtn.style.cursor = 'not-allowed';
+        }
+        
+        showTerminalMessage('TERMINAL ACTIVATED');
+        addFloatingLine('Type "help" for available commands');
     } else {
+        // Desactivar terminal
         terminal.style.display = 'none';
+        document.body.classList.remove('terminal-active');
+        
+        // Restaurar botones
         const floatBtn = document.getElementById('pipboyFloat');
         if (floatBtn) {
             floatBtn.style.display = 'flex';
         }
+        
+        if (terminalToggleBtn) {
+            terminalToggleBtn.classList.remove('terminal-active');
+            terminalToggleBtn.style.display = 'flex';
+        }
+        
+        // Rehabilitar botón de tema
+        if (themeToggleBtn) {
+            themeToggleBtn.style.opacity = '1';
+            themeToggleBtn.style.pointerEvents = 'auto';
+            themeToggleBtn.style.cursor = 'pointer';
+        }
+        
+        showTerminalMessage('TERMINAL DEACTIVATED');
     }
 }
 
