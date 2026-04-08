@@ -1,0 +1,43 @@
+@use 'sass:map';
+
+$breakpoints: (
+  // 0-360 = MOBILE
+  xs: 360px,
+  // 360-600 = MOBILE
+  sm: 600px,
+  // 600-960 = TABLET
+  md: 960px,
+  // 960-1280 = DESKTOP
+  lg: 1280px,
+  // 1280-1920 = DESKTOP
+  xl: 1920px,
+  // 1920-2560 = DESKTOP
+  xxl: 2560px
+);
+
+@function getBreakpoint($breakpoint-name) {
+  @if map.has-key($breakpoints, $breakpoint-name) {
+    @return map.get($breakpoints, $breakpoint-name);
+  } @else {
+    @error "Breakpoint '#{$breakpoint-name}' does not exist in \$breakpoints.";
+  }
+}
+
+// Usage Example:
+// @include media('min', 'sm') { ... } // Applies to any screen > 'sm' (600px)
+// @include media('max', 'md') { ... } // Applies to any screen < 'md' (960px)
+@mixin media($type, $breakpoint-name) {
+  $breakpoint-value: getBreakpoint($breakpoint-name);
+
+  @if $type == 'min' {
+    @media only screen and (min-width: $breakpoint-value) {
+      @content;
+    }
+  } @else if $type == 'max' {
+    @media only screen and (max-width: #{$breakpoint-value - 1}) {
+      @content;
+    }
+  } @else {
+    @error "Invalid media type: #{$type}. Use 'min' or 'max'.";
+  }
+}

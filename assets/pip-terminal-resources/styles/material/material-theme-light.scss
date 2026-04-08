@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+@use '../variables' as var;
+
+html {
+  // Light theme
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$green-palette,
+        tertiary: mat.$green-palette,
+      ),
+      typography: var.$default-font-family,
+      density: 0,
+    )
+  );
+}

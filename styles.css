@@ -140,6 +140,258 @@ body {
     transform: scale(0.95);
 }
 
+/* Pip-Boy Button Component */
+.pip-button {
+    background: linear-gradient(135deg, var(--terminal-green), var(--terminal-dark));
+    border: 2px solid var(--terminal-green);
+    color: var(--bg-primary);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.pip-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.pip-button:hover::before {
+    left: 100%;
+}
+
+.pip-button:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+    transform: translateY(-2px);
+}
+
+.pip-button:active {
+    transform: translateY(0);
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.8);
+}
+
+.pip-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+/* Pip-Boy Dialog Component */
+.pip-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-secondary);
+    border: 2px solid var(--terminal-green);
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    max-width: 90vw;
+    z-index: 10000;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+    font-family: 'Roboto Mono', monospace;
+}
+
+.pip-dialog-header {
+    border-bottom: 1px solid var(--terminal-green);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: var(--terminal-green);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pip-dialog-content {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.pip-dialog-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.pip-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+/* Vault-Tec User Card */
+.vault-tec-card {
+    background: linear-gradient(135deg, #1a472a, #0d2618);
+    border: 2px solid #00ff41;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+.vault-tec-card::before {
+    content: 'VAULT-TEC';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: var(--terminal-green);
+    opacity: 0.7;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.vault-tec-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--terminal-green);
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.vault-tec-info h3 {
+    color: var(--terminal-green);
+    font-family: 'Roboto Mono', monospace;
+    margin-bottom: 5px;
+}
+
+.vault-tec-info p {
+    color: var(--text-secondary);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+}
+
+/* Pip-Boy Loading Animation */
+.pip-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--terminal-green);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: pip-spin 1s linear infinite;
+}
+
+@keyframes pip-spin {
+    to { transform: rotate(360deg); }
+}
+
+.pip-loading-text {
+    color: var(--terminal-green);
+    font-family: 'Roboto Mono', monospace;
+    animation: pip-blink 1s ease-in-out infinite;
+}
+
+@keyframes pip-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* CRT Effect for Fallout theme */
+[data-theme="fallout"] .crt-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="fallout"] .crt-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.25) 50%
+    );
+    background-size: 100% 2px;
+    z-index: 1;
+    pointer-events: none;
+    animation: crt-scanlines 8s linear infinite;
+}
+
+@keyframes crt-scanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 10px; }
+}
+
+/* Pip-Boy Demo Section */
+.pipboy-demo {
+    padding: var(--spacing-xl) 0;
+    background: var(--bg-secondary);
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.demo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    transition: var(--transition);
+}
+
+.demo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.demo-card h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    font-family: 'Roboto Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.demo-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.pip-loading-demo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.vault-tec-card-demo {
+    max-width: 300px;
+}
+
 /* Navegación mejorada con UX optimizada */
 .navbar {
     position: fixed;

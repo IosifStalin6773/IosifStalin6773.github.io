@@ -45,6 +45,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
     
+    <!-- Pip-Boy Assets -->
+    <link rel="preload" href="/assets/fallout-assets/fonts/roboto-mono-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/assets/fallout-assets/sounds/tick.wav" as="audio" type="audio/wav">
+    
     <!-- Optimización de recursos -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -555,6 +559,61 @@
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 75%"></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Demo Pip-Boy -->
+    <section id="pipboy-demo" class="pipboy-demo">
+        <div class="container">
+            <h2 class="section-title">Pip-Boy Components Demo</h2>
+            <div class="demo-grid">
+                <!-- Demo Buttons -->
+                <div class="demo-card">
+                    <h3>Pip-Boy Buttons</h3>
+                    <div class="demo-content">
+                        <button class="pip-button" onclick="showPipDialog('demo')">Show Dialog</button>
+                        <button class="pip-button" onclick="showPipLoading()">Show Loading</button>
+                        <button class="pip-button disabled">Disabled Button</button>
+                    </div>
+                </div>
+
+                <!-- Demo Vault-Tec Card -->
+                <div class="demo-card">
+                    <h3>Vault-Tec Card</h3>
+                    <div class="demo-content">
+                        <div class="vault-tec-card-demo">
+                            <div class="vault-tec-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="vault-tec-info">
+                                <h3>Sample User</h3>
+                                <p>System Administrator</p>
+                                <div class="profile-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-number">100+</span>
+                                        <span class="stat-label">Projects</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">10+</span>
+                                        <span class="stat-label">Years</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo Loading States -->
+                <div class="demo-card">
+                    <h3>Loading States</h3>
+                    <div class="demo-content">
+                        <div class="pip-loading-demo">
+                            <div class="pip-loading"></div>
+                            <span class="pip-loading-text">SYSTEM BOOTING</span>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,77 @@
+@use '../../styles/colors' as col;
+@use '../../styles/variables' as var;
+
+:host {
+  display: block;
+  background: #000;
+  color: col.$pip-green;
+  font-family: var.$secondary-font-family;
+  border: 1px solid col.$pip-green-dark;
+  padding: 16px;
+  position: relative;
+
+  h2[mat-dialog-title],
+  h2,
+  h3,
+  p {
+    color: inherit;
+    padding: 0;
+    margin: 0;
+  }
+
+  h2[mat-dialog-title].mat-mdc-dialog-title::before {
+    height: auto;
+  }
+
+  mat-dialog-content {
+    color: col.$pip-green;
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  mat-dialog-actions {
+    justify-content: flex-start;
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  button[mat-button] {
+    color: col.$pip-green;
+    background: transparent;
+    border: 1px solid col.$pip-green-dark;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    transition:
+      transform 0.05s ease,
+      background-color 0.12s ease;
+
+    .mdc-button__label {
+      color: inherit;
+    }
+
+    &:hover {
+      background: rgba(col.$pip-green-dark, 0.1);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  button[mat-button] {
+    font-weight: bolder;
+    background: rgba(col.$pip-green-dark, 0.1);
+  }
+
+  button[disabled].mat-mdc-button-disabled {
+    color: col.$pip-green-dark;
+    background-color: rgba(col.$pip-green-dark, 0.1);
+  }
+}

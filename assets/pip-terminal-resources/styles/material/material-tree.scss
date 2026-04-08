@@ -1,0 +1,11 @@
+@use '../colors' as col;
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.tree-overrides(
+    (
+      container-background-color: col.$pip-green,
+      node-text-color: col.$gray-darkest,
+    )
+  );
+}

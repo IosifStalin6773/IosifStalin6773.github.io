@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar gestor de recursos del pip-terminal-dev
     initPipTerminalResources();
     
+    // Inicializar componentes Pip-Boy mejorados
+    initPipBoyComponents();
+    
     // Restaurar estados guardados
     restoreAllStates();
 });
@@ -2440,6 +2443,299 @@ function detectDarkMode() {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         // Aquí podrías agregar lógica para modo oscuro
         console.log('Modo oscuro detectado');
+    }
+}
+
+// Pip-Boy Dialog Component System
+class PipDialog {
+    constructor(options = {}) {
+        this.title = options.title || 'SYSTEM MESSAGE';
+        this.content = options.content || '';
+        this.actions = options.actions || [];
+        this.onClose = options.onClose || null;
+        this.overlay = null;
+        this.dialog = null;
+    }
+
+    show() {
+        // Play sound effect
+        if (window.ResourceManager) {
+            window.ResourceManager.playSound('click');
+        }
+
+        // Create overlay
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'pip-dialog-overlay';
+        this.overlay.addEventListener('click', () => this.close());
+
+        // Create dialog
+        this.dialog = document.createElement('div');
+        this.dialog.className = 'pip-dialog crt-effect';
+        this.dialog.innerHTML = `
+            <div class="pip-dialog-header">${this.title}</div>
+            <div class="pip-dialog-content">${this.content}</div>
+            <div class="pip-dialog-actions">
+                ${this.actions.map(action => 
+                    `<button class="pip-button" data-action="${action.id}">${action.text}</button>`
+                ).join('')}
+            </div>
+        `;
+
+        // Add event listeners
+        this.dialog.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const actionId = e.target.dataset.action;
+                const action = this.actions.find(a => a.id === actionId);
+                if (action && action.handler) {
+                    action.handler();
+                }
+                this.close();
+            });
+        });
+
+        // Append to body
+        document.body.appendChild(this.overlay);
+        document.body.appendChild(this.dialog);
+
+        // Animate in
+        requestAnimationFrame(() => {
+            this.overlay.style.opacity = '1';
+            this.dialog.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    }
+
+    close() {
+        if (window.ResourceManager) {
+            window.ResourceManager.playSound('click');
+        }
+
+        // Animate out
+        this.overlay.style.opacity = '0';
+        this.dialog.style.transform = 'translate(-50%, -50%) scale(0.9)';
+
+        setTimeout(() => {
+            if (this.overlay) {
+                this.overlay.remove();
+                this.overlay = null;
+            }
+            if (this.dialog) {
+                this.dialog.remove();
+                this.dialog = null;
+            }
+            if (this.onClose) {
+                this.onClose();
+            }
+        }, 300);
+    }
+}
+
+// Pip-Boy Button Factory
+class PipButton {
+    static create(options = {}) {
+        const button = document.createElement('button');
+        button.className = 'pip-button';
+        button.textContent = options.text || 'BUTTON';
+        button.disabled = options.disabled || false;
+
+        if (options.disabled) {
+            button.classList.add('disabled');
+        }
+
+        if (options.onClick) {
+            button.addEventListener('click', (e) => {
+                if (window.ResourceManager) {
+                    window.ResourceManager.playSound('click');
+                }
+                options.onClick(e);
+            });
+        }
+
+        if (options.id) {
+            button.id = options.id;
+        }
+
+        return button;
+    }
+}
+
+// Vault-Tec User Card Component
+class VaultTecCard {
+    constructor(container, userData = {}) {
+        this.container = container;
+        this.userData = {
+            name: userData.name || 'User',
+            title: userData.title || 'Developer',
+            avatar: userData.avatar || null,
+            stats: userData.stats || { projects: 0, experience: 0 }
+        };
+        this.render();
+    }
+
+    render() {
+        this.container.className = 'vault-tec-card crt-effect';
+        this.container.innerHTML = `
+            <div class="vault-tec-avatar">
+                ${this.userData.avatar ? 
+                    `<img src="${this.userData.avatar}" alt="${this.userData.name}">` : 
+                    '<i class="fas fa-user"></i>'
+                }
+            </div>
+            <div class="vault-tec-info">
+                <h3>${this.userData.name}</h3>
+                <p>${this.userData.title}</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">${this.userData.stats.projects}+</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">${this.userData.stats.experience}+</span>
+                        <span class="stat-label">Years Exp.</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Pip-Boy Loading Component
+class PipLoading {
+    static show(container, text = 'LOADING') {
+        const loadingElement = document.createElement('div');
+        loadingElement.className = 'pip-loading-container';
+        loadingElement.innerHTML = `
+            <div class="pip-loading"></div>
+            <span class="pip-loading-text">${text}</span>
+        `;
+        
+        if (typeof container === 'string') {
+            container = document.querySelector(container);
+        }
+        
+        if (container) {
+            container.appendChild(loadingElement);
+        }
+        
+        return loadingElement;
+    }
+
+    static hide(element) {
+        if (element && element.parentNode) {
+            element.parentNode.removeChild(element);
+        }
+    }
+}
+
+// Enhanced Theme System with Pip-Boy fonts
+function initEnhancedThemeSystem() {
+    // Add Roboto Mono font for Pip-Boy theme
+    const fontLink = document.createElement('link');
+    fontLink.href = '/assets/fallout-assets/fonts/roboto-mono-latin.woff2';
+    fontLink.rel = 'preload';
+    fontLink.as = 'font';
+    fontLink.type = 'font/woff2';
+    fontLink.crossOrigin = 'anonymous';
+    document.head.appendChild(fontLink);
+
+    // Enhanced theme toggle with Pip-Boy sounds
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const themes = ['light', 'dark', 'fallout'];
+            const currentIndex = themes.indexOf(currentTheme) || 0;
+            const nextTheme = themes[(currentIndex + 1) % themes.length];
+            
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('theme', nextTheme);
+            
+            // Add CRT effect to body in Fallout theme
+            if (nextTheme === 'fallout') {
+                document.body.classList.add('crt-effect');
+            } else {
+                document.body.classList.remove('crt-effect');
+            }
+            
+            // Play theme change sound
+            if (window.ResourceManager) {
+                window.ResourceManager.playSound('success');
+            }
+            
+            // Update icon
+            const icon = themeToggle.querySelector('i');
+            if (nextTheme === 'light') {
+                icon.className = 'fas fa-sun';
+            } else if (nextTheme === 'dark') {
+                icon.className = 'fas fa-moon';
+            } else {
+                icon.className = 'fas fa-tv';
+            }
+        });
+    }
+}
+
+// Initialize Pip-Boy components
+function initPipBoyComponents() {
+    // Initialize enhanced theme system
+    initEnhancedThemeSystem();
+    
+    // Convert existing buttons to Pip-Boy style in Fallout theme
+    const observer = new MutationObserver(() => {
+        const isFallout = document.documentElement.getAttribute('data-theme') === 'fallout';
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+        
+        buttons.forEach(btn => {
+            if (isFallout && !btn.classList.contains('pip-button')) {
+                btn.classList.add('pip-button');
+            } else if (!isFallout && btn.classList.contains('pip-button')) {
+                btn.classList.remove('pip-button');
+            }
+        });
+    });
+    
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+    
+    // Add Vault-Tec card to profile section
+    const profileCard = document.querySelector('.profile-card');
+    if (profileCard) {
+        new VaultTecCard(profileCard, {
+            name: 'Oscar de La Cruz',
+            title: 'Desarrollador Full Stack',
+            stats: { projects: 40, experience: 8 }
+        });
+    }
+}
+
+// Demo functions for Pip-Boy components
+function showPipDialog(type) {
+    const dialogs = {
+        demo: {
+            title: 'SYSTEM DEMO',
+            content: 'This is a Pip-Boy dialog component demonstration. These dialogs are inspired by the Fallout series Pip-Boy interface.',
+            actions: [
+                { id: 'confirm', text: 'CONFIRM', handler: () => console.log('Dialog confirmed') },
+                { id: 'cancel', text: 'CANCEL', handler: () => console.log('Dialog cancelled') }
+            ]
+        }
+    };
+
+    const config = dialogs[type] || dialogs.demo;
+    const dialog = new PipDialog(config);
+    dialog.show();
+}
+
+function showPipLoading() {
+    const demoContainer = document.querySelector('.pip-loading-demo');
+    if (demoContainer) {
+        const loading = PipLoading.show(demoContainer, 'PROCESSING...');
+        
+        // Hide loading after 3 seconds
+        setTimeout(() => {
+            PipLoading.hide(loading);
+        }, 3000);
     }
 }
 
