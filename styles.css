@@ -1381,13 +1381,12 @@ body {
     z-index: 1002;
     transition: right 0.3s ease;
     font-family: 'Courier New', monospace;
-    display: none;
+    display: flex;
     flex-direction: column;
 }
 
 .terminal-sidebar.active {
     right: 0;
-    display: flex;
 }
 
 .sidebar-header {
@@ -1500,11 +1499,6 @@ body {
     width: 0%;
     transition: width 0.1s ease;
     box-shadow: 0 0 5px var(--crt-glow);
-}
-
-/* Mostrar barra lateral solo en modo Fallout */
-[data-theme="fallout"] .terminal-sidebar {
-    display: flex;
 }
 
 /* Botón terminal en navbar */
