@@ -33,6 +33,9 @@
                 <li><a href="../index.html#proyectos" data-lang="nav.projects">Proyectos</a></li>
                 <li><a href="../index.html#habilidades" data-lang="nav.skills">Habilidades</a></li>
                 <li><a href="../index.html#contacto" data-lang="nav.contact">Contacto</a></li>
+                <li><button class="control-btn" id="terminalToggle" title="Abrir Terminal Pip-Boy" style="position: static; transform: none; margin-left: 10px;">
+                    <i class="fas fa-terminal"></i>
+                </button></li>
             </ul>
             <div class="nav-toggle">
                 <span class="bar"></span>
@@ -213,6 +216,65 @@
             </div>
         </div>
     </footer>
+
+    <!-- Radio de Fallout -->
+    <div class="fallout-radio-container" id="fallout-radio">
+        <div class="radio-header">
+            <div class="radio-title">
+                <h3>ROBCO PIPMAN 3000</h3>
+                <div class="radio-subtitle">PORTABLE AUDIO SYSTEM</div>
+            </div>
+            <button class="close-btn" id="close-radio">×</button>
+        </div>
+        
+        <div class="radio-display">
+            <div class="station-info">
+                <div class="station-name" id="station-name">--- OFF AIR ---</div>
+                <div class="station-info-text" id="station-info">NO SIGNAL</div>
+            </div>
+            <div class="frequency-display">
+                <div class="freq-label">FREQ</div>
+                <div class="freq-value" id="radio-freq">87.5</div>
+                <div class="freq-unit">MHZ</div>
+            </div>
+        </div>
+        
+        <div class="radio-controls">
+            <div class="station-buttons">
+                <button class="station-btn" data-station="DX01">1</button>
+                <button class="station-btn" data-station="DX02">2</button>
+                <button class="station-btn" data-station="DX03">3</button>
+                <button class="station-btn" data-station="MX01">4</button>
+                <button class="station-btn" data-station="MX02">5</button>
+                <button class="station-btn" data-station="MX03">6</button>
+                <button class="station-btn" data-station="MX04">7</button>
+                <button class="station-btn" data-station="MX05">8</button>
+            </div>
+            
+            <div class="volume-control">
+                <div class="volume-label">VOL</div>
+                <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+                <div class="volume-value" id="volume-value">50</div>
+            </div>
+            
+            <div class="signal-strength">
+                <div class="signal-label">SIG</div>
+                <div class="signal-bars">
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                </div>
+            </div>
+            
+            <div class="radio-power">
+                <button class="power-btn" id="radio-power">POWER</button>
+            </div>
+        </div>
+        <audio id="radio-audio" preload="none"></audio>
+        <iframe id="tunein-iframe" style="display:none; width:100%; height:100px;" scrolling="no" frameborder="no"></iframe>
+    </div>
 
     <script src="../script.js"></script>
 </body>
