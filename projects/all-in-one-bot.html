@@ -5,16 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ALL-IN-ONE-BOT - Bot multifuncional para Discord con moderación, entretenimiento y automatización.">
     <meta name="keywords" content="discord, bot, moderación, entretenimiento, javascript, node.js, gaming">
-    <meta name="author" content="IosifStalin6773">
+    <meta name="author" content="Oscar de La Cruz">
     <meta property="og:title" content="ALL-IN-ONE-BOT - Bot Discord Multifuncional">
     <meta property="og:description" content="Bot Discord completo con moderación, entretenimiento y automatización.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://iosifstalin6773.github.io/projects/all-in-one-bot.html">
-    <title>ALL-IN-ONE-BOT - IosifStalin6773 Portfolio</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <meta property="og:image" content="https://iosifstalin6773.github.io/assets/images/projects/all-in-one-bot.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ALL-IN-ONE-BOT - Bot Discord">
+    <meta name="twitter:description" content="Bot Discord completo con moderación, entretenimiento y automatización.">
+    <meta name="twitter:image" content="https://iosifstalin6773.github.io/assets/images/projects/all-in-one-bot.jpg">
+    <title>ALL-IN-ONE-BOT - Oscar de La Cruz Portfolio</title>
+    <link rel="canonical" href="https://iosifstalin6773.github.io/projects/all-in-one-bot.html">
+    
+    <!-- Preload crítico para rendimiento -->
+    <link rel="preload" href="../styles.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    
+    <!-- Optimización de carga de fuentes -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- CSS crítico inline para renderizado inicial -->
+    <style>
+        /* Critical CSS para renderizado inmediato */
+        body{margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;opacity:0;transition:opacity 0.3s ease}
+        body.loaded{opacity:1}
+        .navbar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);z-index:1000;backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1)}
+        .hero{min-height:100vh;display:flex;align-items:center;padding:2rem}
+        .container{max-width:1200px;margin:0 auto;padding:0 2rem}
+        .section-title{font-size:2.5rem;font-weight:700;text-align:center;margin-bottom:3rem;color:#fff}
+    </style>
+    
+    <!-- Carga asíncrona de CSS no crítico -->
+    <link rel="stylesheet" href="../styles.css" media="print" onload="this.media='all';this.onload=null;">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+    
+    <!-- Optimización de recursos -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <meta name="theme-color" content="#00d4ff">
+    
+    <!-- Meta tags de rendimiento -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
     <!-- Canvas de partículas -->
@@ -282,6 +319,32 @@ cd ALL-IN-ONE-BOT</code></pre>
         <iframe id="tunein-iframe" style="display:none; width:100%; height:100px;" scrolling="no" frameborder="no"></iframe>
     </div>
 
-    <script src="../script.js"></script>
+    <!-- Scripts optimizados para rendimiento -->
+    <script>
+        // Script crítico inline para renderizado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Marcar body como cargado para animación de fade-in
+            document.body.classList.add('loaded');
+            
+            // Prevenir FOUC (Flash of Unstyled Content)
+            const styles = document.createElement('style');
+            styles.textContent = 'body.loaded{opacity:1}';
+            document.head.appendChild(styles);
+        });
+    </script>
+    
+    <!-- Carga asíncrona de JavaScript principal -->
+    <script src="../script.js" defer></script>
+    
+    <!-- Service Worker para caching (opcional) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function() {
+                    // Service worker registration failed - continue without it
+                });
+            });
+        }
+    </script>
 </body>
 </html>
