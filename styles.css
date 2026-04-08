@@ -1419,6 +1419,268 @@ body {
     pointer-events: auto !important;
 }
 
+/* Radio de Fallout */
+.fallout-radio {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: var(--bg-secondary);
+    border: 3px solid var(--terminal-green);
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    color: var(--terminal-green);
+    z-index: 1003;
+    display: none;
+    box-shadow: 0 0 20px var(--crt-glow);
+}
+
+.fallout-radio.active {
+    display: block;
+}
+
+.radio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: var(--bg-primary);
+    border-bottom: 2px solid var(--terminal-green);
+    border-radius: 7px 7px 0 0;
+}
+
+.radio-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.radio-model {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.radio-close {
+    background: none;
+    border: none;
+    color: var(--terminal-green);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.radio-close:hover {
+    color: var(--bg-primary);
+    background: var(--terminal-green);
+}
+
+.radio-display {
+    padding: 15px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--terminal-green);
+}
+
+.radio-frequency {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.freq-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.freq-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--crt-glow);
+}
+
+.radio-station {
+    text-align: center;
+}
+
+.station-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.station-info {
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.radio-controls {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.radio-stations {
+    display: flex;
+    gap: 20px;
+}
+
+.station-group {
+    flex: 1;
+}
+
+.group-label {
+    display: block;
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.station-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.station-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--terminal-green);
+    color: var(--terminal-green);
+    padding: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.station-btn:hover {
+    background: var(--terminal-green);
+    color: var(--bg-primary);
+    box-shadow: 0 0 5px var(--crt-glow);
+}
+
+.station-btn.active {
+    background: var(--terminal-green);
+    color: var(--bg-primary);
+    box-shadow: 0 0 10px var(--crt-glow);
+}
+
+.radio-volume {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    min-width: 30px;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 4px;
+    background: var(--bg-primary);
+    border: 1px solid var(--terminal-green);
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--terminal-green);
+    border: 2px solid var(--bg-primary);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--crt-glow);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--terminal-green);
+    border: 2px solid var(--bg-primary);
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--crt-glow);
+}
+
+.volume-value {
+    font-size: 0.7rem;
+    min-width: 25px;
+    text-align: right;
+}
+
+.radio-status {
+    padding: 10px 15px;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--terminal-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 7px 7px;
+}
+
+.signal-strength {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.signal-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.signal-bars {
+    display: flex;
+    gap: 2px;
+}
+
+.signal-bar {
+    width: 3px;
+    height: 10px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--terminal-green);
+    transition: var(--transition);
+}
+
+.signal-bar.active {
+    background: var(--terminal-green);
+    box-shadow: 0 0 3px var(--crt-glow);
+}
+
+.power-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--terminal-green);
+    color: var(--terminal-green);
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.power-btn:hover {
+    background: var(--terminal-green);
+    color: var(--bg-primary);
+    box-shadow: 0 0 5px var(--crt-glow);
+}
+
+.power-btn.active {
+    background: var(--terminal-green);
+    color: var(--bg-primary);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav-menu {

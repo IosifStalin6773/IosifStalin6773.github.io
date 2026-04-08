@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initThemeLanguage();
     initSmartImages();
     initPipboyTerminal();
+    initFalloutRadio();
     initParticles();
     initNavigation();
     initScrollEffects();
@@ -398,37 +399,93 @@ function initFloatingTerminalEvents() {
     let commandHistory = [];
     let historyIndex = -1;
     
-    // Comandos
-    const commands = {
-        help: () => {
-            addFloatingLine('Available commands:');
-            addFloatingLine('  help - Show this help');
-            addFloatingLine('  clear - Clear terminal');
-            addFloatingLine('  status - Show system status');
-            addFloatingLine('  date - Show current date');
-            addFloatingLine('  about - About this terminal');
-        },
-        clear: () => {
-            output.innerHTML = '<div class="terminal-line">&gt;</div>';
-            commandHistory = [];
-            historyIndex = -1;
-        },
-        status: () => {
-            addFloatingLine('SYSTEM STATUS: ONLINE');
-            addFloatingLine('ROBCO INDUSTRIES TERMINAL v3.0.1');
-            addFloatingLine('All systems operational');
-        },
-        date: () => {
-            const now = new Date();
-            addFloatingLine(`Current date: ${now.toLocaleString()}`);
-        },
-        about: () => {
-            addFloatingLine('ROBCO INDUSTRIES PIP-BOY TERMINAL');
-            addFloatingLine('Version 3.0.1');
-            addFloatingLine('Copyright 2077-2281 ROBCO');
-            addFloatingLine('Type "help" for available commands');
+    function handleTerminalCommand(command) {
+        const cmd = command.toLowerCase().trim();
+        
+        // Comandos de la terminal
+        switch (cmd) {
+            case 'help':
+                addFloatingLine('Available commands:');
+                addFloatingLine('  help     - Show this help message');
+                addFloatingLine('  clear    - Clear terminal screen');
+                addFloatingLine('  about    - Show about information');
+                addFloatingLine('  projects - List projects');
+                addFloatingLine('  skills   - Show skills');
+                addFloatingLine('  contact  - Show contact information');
+                addFloatingLine('  radio    - Open Fallout Radio');
+                addFloatingLine('  time     - Show current time');
+                addFloatingLine('  status   - Show system status');
+                break;
+                
+            case 'clear':
+                const output = document.getElementById('floating-terminal-output');
+                output.innerHTML = '<div class="terminal-line">ROBCO INDUSTRIES PIP-BOY v3.0.1</div><div class="terminal-line">Type "help" for commands</div><div class="terminal-line">&gt;</div>';
+                break;
+                
+            case 'about':
+                addFloatingLine('ROBCO INDUSTRIES UNIFIED TERMINAL');
+                addFloatingLine('Version 3.0.1 - Fallout Edition');
+                addFloatingLine(' 2077 RobCo Industries');
+                addFloatingLine('All rights reserved');
+                break;
+                
+            case 'projects':
+                addFloatingLine('Installed Projects:');
+                addFloatingLine('  > All-in-One Bot [ACTIVE]');
+                addFloatingLine('  > Portfolio Website [ACTIVE]');
+                addFloatingLine('  > Terminal Interface [ACTIVE]');
+                break;
+                
+            case 'skills':
+                addFloatingLine('Technical Skills:');
+                addFloatingLine('  > JavaScript: EXPERT');
+                addFloatingLine('  > Python: ADVANCED');
+                addFloatingLine('  > Web Development: EXPERT');
+                addFloatingLine('  > System Administration: ADVANCED');
+                break;
+                
+            case 'contact':
+                addFloatingLine('Contact Information:');
+                addFloatingLine('  > Email: contact@example.com');
+                addFloatingLine('  > GitHub: @username');
+                addFloatingLine('  > LinkedIn: /in/username');
+                break;
+                
+            case 'radio':
+                addFloatingLine('Initializing Fallout Radio...');
+                addFloatingLine('ROBCO PIPMAN 3000 ONLINE');
+                if (falloutRadio) {
+                    falloutRadio.show();
+                    addFloatingLine('Radio interface loaded');
+                } else {
+                    addFloatingLine('ERROR: Radio system not available');
+                }
+                break;
+                
+            case 'time':
+                const now = new Date();
+                addFloatingLine(`Current time: ${now.toLocaleTimeString()}`);
+                addFloatingLine(`Date: ${now.toLocaleDateString()}`);
+                break;
+                
+            case 'status':
+                addFloatingLine('System Status:');
+                addFloatingLine('  > Terminal: ONLINE');
+                addFloatingLine('  > Theme: FALLOUT MODE');
+                addFloatingLine('  > Radio: STANDBY');
+                addFloatingLine('  > Connection: STABLE');
+                break;
+                
+            default:
+                addFloatingLine(`Command not recognized: ${cmd}`);
+                addFloatingLine('Type "help" for available commands');
         }
-    };
+        
+        // Agregar nueva línea de comando
+        setTimeout(() => {
+            addFloatingLine('>');
+        }, 100);
+    }
     
     // Input dinámico
     function createInput() {
@@ -448,12 +505,7 @@ function initFloatingTerminalEvents() {
                     commandHistory.push(command);
                     historyIndex = commandHistory.length;
                     
-                    if (commands[command]) {
-                        commands[command]();
-                    } else {
-                        addFloatingLine(`Command not recognized: ${command}`);
-                        addFloatingLine('Type "help" for available commands');
-                    }
+                    handleTerminalCommand(command);
                     
                     inputField.value = '';
                 }
@@ -638,6 +690,194 @@ function hidePipboyTerminal() {
     if (terminal) {
         terminal.style.display = 'none';
     }
+}
+
+// Sistema de Radio de Fallout
+class FalloutRadio {
+    constructor() {
+        this.stations = {
+            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://www.youtube.com/watch?v=Jq8B9p9z2iQ" },
+            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://www.youtube.com/watch?v=5WuH4M89Q7g" },
+            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://www.youtube.com/watch?v=2ZjmFa-2k8Q" },
+            MX01: { name: "Classical Station", freq: 90.1, url: "https://www.youtube.com/watch?v=1ZYbU82NYzU" },
+            MX02: { name: "Jazz Station", freq: 91.5, url: "https://www.youtube.com/watch?v=vmDDofXSz40" },
+            MX03: { name: "Country Station", freq: 92.3, url: "https://www.youtube.com/watch?v=kxopLiu6Lrk" },
+            MX04: { name: "Rock Station", freq: 93.7, url: "https://www.youtube.com/watch?v=lRCZx2iSjgU" },
+            MX05: { name: "Institute Radio", freq: 94.5, url: "https://www.youtube.com/watch?v=8j58fRZ0y4c" },
+            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://www.youtube.com/watch?v=YjK6Z6x9QgU" },
+            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://www.youtube.com/watch?v=9gXZ2VgOH4c" },
+            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://www.youtube.com/watch?v=8j58fRZ0y4c" }
+        };
+        
+        this.currentStation = null;
+        this.isPlaying = false;
+        this.volume = 50;
+        this.audioElement = null;
+        this.powerOn = false;
+        
+        this.init();
+    }
+    
+    init() {
+        this.audioElement = document.getElementById('radio-audio');
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        // Botones de estaciones
+        document.querySelectorAll('.station-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const station = btn.dataset.station;
+                this.selectStation(station);
+            });
+        });
+        
+        // Control de volumen
+        const volumeSlider = document.getElementById('volume-slider');
+        volumeSlider.addEventListener('input', (e) => {
+            this.setVolume(e.target.value);
+        });
+        
+        // Botón de power
+        document.getElementById('radio-power').addEventListener('click', () => {
+            this.togglePower();
+        });
+        
+        // Botón de cerrar
+        document.getElementById('radio-close').addEventListener('click', () => {
+            this.hide();
+        });
+        
+        // Eventos del audio
+        this.audioElement.addEventListener('loadstart', () => {
+            this.updateSignalStrength(1);
+        });
+        
+        this.audioElement.addEventListener('canplay', () => {
+            this.updateSignalStrength(5);
+        });
+        
+        this.audioElement.addEventListener('error', () => {
+            this.updateSignalStrength(0);
+            this.showStationInfo("SIGNAL LOST", "NO CONNECTION");
+        });
+    }
+    
+    togglePower() {
+        this.powerOn = !this.powerOn;
+        const powerBtn = document.getElementById('radio-power');
+        
+        if (this.powerOn) {
+            powerBtn.classList.add('active');
+            this.showStationInfo("RADIO ONLINE", "SELECT STATION");
+            playTerminalSound();
+        } else {
+            powerBtn.classList.remove('active');
+            this.stopRadio();
+            this.showStationInfo("--- OFF AIR ---", "NO SIGNAL");
+            this.updateSignalStrength(0);
+        }
+    }
+    
+    selectStation(stationId) {
+        if (!this.powerOn) {
+            this.togglePower();
+        }
+        
+        const station = this.stations[stationId];
+        if (!station) return;
+        
+        // Actualizar UI
+        document.querySelectorAll('.station-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-station="${stationId}"]`).classList.add('active');
+        
+        // Actualizar display
+        document.getElementById('radio-freq').textContent = station.freq.toFixed(1);
+        this.showStationInfo(station.name, "TUNING...");
+        
+        // Reproducir estación
+        this.playStation(station);
+    }
+    
+    async playStation(station) {
+        this.stopRadio();
+        
+        try {
+            // Para demostración, usaremos un audio local o simulación
+            // En producción, aquí iría la URL real del streaming
+            this.currentStation = station;
+            this.isPlaying = true;
+            
+            // Simular que está reproduciendo
+            setTimeout(() => {
+                this.showStationInfo(station.name, "PLAYING");
+                this.updateSignalStrength(4);
+            }, 1000);
+            
+            // Aquí podrías cargar un audio real:
+            // this.audioElement.src = station.url;
+            // this.audioElement.play();
+            
+        } catch (error) {
+            console.error('Error playing station:', error);
+            this.showStationInfo(station.name, "ERROR");
+            this.updateSignalStrength(0);
+        }
+    }
+    
+    stopRadio() {
+        if (this.audioElement) {
+            this.audioElement.pause();
+            this.audioElement.src = '';
+        }
+        this.isPlaying = false;
+        this.currentStation = null;
+    }
+    
+    setVolume(value) {
+        this.volume = value;
+        document.getElementById('volume-value').textContent = value;
+        if (this.audioElement) {
+            this.audioElement.volume = value / 100;
+        }
+    }
+    
+    showStationInfo(name, info) {
+        document.getElementById('station-name').textContent = name;
+        document.getElementById('station-info').textContent = info;
+    }
+    
+    updateSignalStrength(bars) {
+        const signalBars = document.querySelectorAll('.signal-bar');
+        signalBars.forEach((bar, index) => {
+            if (index < bars) {
+                bar.classList.add('active');
+            } else {
+                bar.classList.remove('active');
+            }
+        });
+    }
+    
+    show() {
+        document.getElementById('fallout-radio').classList.add('active');
+        if (this.powerOn) {
+            this.showStationInfo(this.currentStation?.name || "--- OFF AIR ---", 
+                              this.isPlaying ? "PLAYING" : "SELECT STATION");
+        }
+    }
+    
+    hide() {
+        document.getElementById('fallout-radio').classList.remove('active');
+    }
+}
+
+// Inicializar radio
+let falloutRadio;
+
+function initFalloutRadio() {
+    falloutRadio = new FalloutRadio();
 }
 
 // Sistema de partículas interactivas

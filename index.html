@@ -8,6 +8,71 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Radio de Fallout -->
+    <div id="fallout-radio" class="fallout-radio">
+        <div class="radio-header">
+            <span class="radio-title">ROBCO INDUSTRIES</span>
+            <span class="radio-model">PIPMAN 3000</span>
+            <button class="radio-close" id="radio-close">×</button>
+        </div>
+        <div class="radio-display">
+            <div class="radio-frequency">
+                <span class="freq-label">FREQ</span>
+                <span class="freq-value" id="radio-freq">87.5</span>
+            </div>
+            <div class="radio-station">
+                <span class="station-name" id="station-name">--- OFF AIR ---</span>
+                <span class="station-info" id="station-info">NO SIGNAL</span>
+            </div>
+        </div>
+        <div class="radio-controls">
+            <div class="radio-stations">
+                <div class="station-group">
+                    <span class="group-label">DX</span>
+                    <div class="station-buttons">
+                        <button class="station-btn" data-station="DX01">1</button>
+                        <button class="station-btn" data-station="DX02">2</button>
+                        <button class="station-btn" data-station="DX03">3</button>
+                    </div>
+                </div>
+                <div class="station-group">
+                    <span class="group-label">MX</span>
+                    <div class="station-buttons">
+                        <button class="station-btn" data-station="MX01">1</button>
+                        <button class="station-btn" data-station="MX02">2</button>
+                        <button class="station-btn" data-station="MX03">3</button>
+                        <button class="station-btn" data-station="MX04">4</button>
+                        <button class="station-btn" data-station="MX05">5</button>
+                        <button class="station-btn" data-station="MX06">6</button>
+                        <button class="station-btn" data-station="MX07">7</button>
+                        <button class="station-btn" data-station="MX08">8</button>
+                    </div>
+                </div>
+            </div>
+            <div class="radio-volume">
+                <span class="volume-label">VOL</span>
+                <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+                <span class="volume-value" id="volume-value">50</span>
+            </div>
+        </div>
+        <div class="radio-status">
+            <div class="signal-strength">
+                <span class="signal-label">SIGNAL</span>
+                <div class="signal-bars">
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                </div>
+            </div>
+            <div class="radio-power">
+                <button class="power-btn" id="radio-power">POWER</button>
+            </div>
+        </div>
+        <audio id="radio-audio" preload="none"></audio>
+    </div>
+
     <!-- Canvas de partículas -->
     <canvas id="particles-canvas"></canvas>
     
