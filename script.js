@@ -1785,9 +1785,10 @@ function initFalloutRadio() {
 
 // Restaurar estados guardados al cargar la página
 function restoreAllStates() {
-    // Restaurar tema Fallout primero
+    // Restaurar tema Fallout primero con mejor sincronización
     const wasFalloutTheme = stateManager.loadThemeState();
     if (wasFalloutTheme) {
+        // Aplicar tema Fallout inmediatamente
         document.documentElement.setAttribute('data-theme', 'fallout');
         localStorage.setItem('theme', 'fallout');
         document.body.classList.add('terminal-active');
@@ -1835,13 +1836,13 @@ function restoreAllStates() {
                     floatBtn.style.display = 'none';
                 }
             }
-        }, 500); // Aumentado el tiempo para mejor sincronización
+        }, 800); // Aumentado el tiempo para mejor sincronización
     }
     
-    // Restaurar contenido de la terminal
+    // Restaurar contenido de la terminal con más tiempo
     setTimeout(() => {
         restoreTerminalState();
-    }, 1000); // Más tiempo para asegurar que el terminal esté completamente cargado
+    }, 1200); // Más tiempo para asegurar que el terminal esté completamente cargado
 }
 
 // Sistema de partículas interactivas
