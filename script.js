@@ -696,23 +696,24 @@ function hidePipboyTerminal() {
 class FalloutRadio {
     constructor() {
         this.stations = {
-            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://stream.zeno.fm/3q4stz8wz8zuv" },
-            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://stream.zeno.fm/8s9p5t4q6z8uv" },
-            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://stream.zeno.fm/2s7r6t5w4z8uv" },
-            MX01: { name: "Classical Station", freq: 90.1, url: "https://stream.zeno.fm/9s8q7r6t3z8uv" },
-            MX02: { name: "Jazz Station", freq: 91.5, url: "https://stream.zeno.fm/1s9p8t7q2z8uv" },
-            MX03: { name: "Country Station", freq: 92.3, url: "https://stream.zeno.fm/7s6r9t8p1z8uv" },
-            MX04: { name: "Rock Station", freq: 93.7, url: "https://stream.zeno.fm/4s8p7r6t9z8uv" },
-            MX05: { name: "Institute Radio", freq: 94.5, url: "https://stream.zeno.fm/5s9r8t7p3z8uv" },
-            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://stream.zeno.fm/6s7p9r8t4z8uv" },
-            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://stream.zeno.fm/8s9p7r6t5z8uv" },
-            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://stream.zeno.fm/3s7r9t8p6z8uv" }
+            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://tunein.com/embed/player/s311352/" },
+            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://tunein.com/embed/player/s248473/" },
+            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://tunein.com/embed/player/s250643/" },
+            MX01: { name: "Classical Station", freq: 90.1, url: "https://tunein.com/embed/player/s180754/" },
+            MX02: { name: "Jazz Station", freq: 91.5, url: "https://tunein.com/embed/player/s25470/" },
+            MX03: { name: "Country Station", freq: 92.3, url: "https://tunein.com/embed/player/s250696/" },
+            MX04: { name: "Rock Station", freq: 93.7, url: "https://tunein.com/embed/player/s24939/" },
+            MX05: { name: "Institute Radio", freq: 94.5, url: "https://tunein.com/embed/player/s250643/" },
+            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://tunein.com/embed/player/s311352/" },
+            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://tunein.com/embed/player/s248473/" },
+            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://tunein.com/embed/player/s25470/" }
         };
         
         this.currentStation = null;
         this.isPlaying = false;
         this.volume = 50;
         this.audioElement = null;
+        this.iframeElement = null;
         this.powerOn = false;
         
         this.init();
@@ -720,6 +721,7 @@ class FalloutRadio {
     
     init() {
         this.audioElement = document.getElementById('radio-audio');
+        this.iframeElement = document.getElementById('tunein-iframe');
         this.setupEventListeners();
     }
     
@@ -809,47 +811,23 @@ class FalloutRadio {
             this.showStationInfo(station.name, "LOADING...");
             this.updateSignalStrength(2);
             
-            // Configurar el audio
-            this.audioElement.src = station.url;
-            this.audioElement.crossOrigin = "anonymous";
-            this.audioElement.volume = this.volume / 100;
+            // Configurar el iframe de TuneIn
+            this.iframeElement.src = station.url;
+            this.iframeElement.style.display = 'block';
             
-            // Intentar reproducir
-            await this.audioElement.play();
-            
-            this.currentStation = station;
-            this.isPlaying = true;
-            
-            // Actualizar UI cuando comience a reproducir
-            this.showStationInfo(station.name, "PLAYING");
-            this.updateSignalStrength(5);
-            
-            // Manejar eventos de audio
-            this.audioElement.addEventListener('playing', () => {
+            // Simular que está cargando
+            setTimeout(() => {
+                this.currentStation = station;
+                this.isPlaying = true;
                 this.showStationInfo(station.name, "PLAYING");
                 this.updateSignalStrength(5);
-            });
-            
-            this.audioElement.addEventListener('waiting', () => {
-                this.showStationInfo(station.name, "BUFFERING...");
-                this.updateSignalStrength(3);
-            });
-            
-            this.audioElement.addEventListener('error', (e) => {
-                console.error('Audio error:', e);
-                this.showStationInfo(station.name, "CONNECTION ERROR");
-                this.updateSignalStrength(0);
-                this.isPlaying = false;
-            });
+            }, 2000);
             
         } catch (error) {
             console.error('Error playing station:', error);
             this.showStationInfo(station.name, "FAILED TO LOAD");
             this.updateSignalStrength(0);
             this.isPlaying = false;
-            
-            // Intentar con una estación de respaldo
-            this.tryFallbackStation(station);
         }
     }
     
@@ -885,6 +863,10 @@ class FalloutRadio {
         if (this.audioElement) {
             this.audioElement.pause();
             this.audioElement.src = '';
+        }
+        if (this.iframeElement) {
+            this.iframeElement.src = '';
+            this.iframeElement.style.display = 'none';
         }
         this.isPlaying = false;
         this.currentStation = null;
