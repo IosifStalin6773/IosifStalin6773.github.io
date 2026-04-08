@@ -1396,6 +1396,29 @@ body {
     box-shadow: 0 0 10px var(--crt-glow);
 }
 
+/* Asegurar scroll funcional en modo terminal */
+[data-theme="fallout"] {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+}
+
+[data-theme="fallout"] body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+}
+
+/* Terminal flotante no debe bloquear el scroll */
+.pipboy-floating-terminal {
+    pointer-events: auto !important;
+}
+
+/* Evitar que la terminal capture eventos de scroll del body */
+.pipboy-floating-terminal * {
+    pointer-events: auto !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav-menu {
