@@ -696,17 +696,17 @@ function hidePipboyTerminal() {
 class FalloutRadio {
     constructor() {
         this.stations = {
-            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://tunein.com/embed/player/s311352/" },
-            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://tunein.com/embed/player/s248473/" },
-            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://tunein.com/embed/player/s250643/" },
-            MX01: { name: "Classical Station", freq: 90.1, url: "https://tunein.com/embed/player/s180754/" },
-            MX02: { name: "Jazz Station", freq: 91.5, url: "https://tunein.com/embed/player/s25470/" },
-            MX03: { name: "Country Station", freq: 92.3, url: "https://tunein.com/embed/player/s250696/" },
-            MX04: { name: "Rock Station", freq: 93.7, url: "https://tunein.com/embed/player/s24939/" },
-            MX05: { name: "Institute Radio", freq: 94.5, url: "https://tunein.com/embed/player/s250643/" },
-            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://tunein.com/embed/player/s311352/" },
-            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://tunein.com/embed/player/s248473/" },
-            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://tunein.com/embed/player/s25470/" }
+            DX01: { name: "Galaxy News Radio", freq: 87.5, url: "https://stations.fallout.radio/listen/fallout_3_-_galaxy_news_radio/radio.mp3" },
+            DX02: { name: "Enclave Radio", freq: 88.7, url: "https://stations.fallout.radio/listen/fallout_3_-_enclave_radio/radio.mp3" },
+            DX03: { name: "Agatha's Station", freq: 89.3, url: "https://stations.fallout.radio/listen/fallout_3_-_agathas_station/radio.mp3" },
+            MX01: { name: "Vault 101 PA System", freq: 90.1, url: "https://stations.fallout.radio/listen/fallout_3_-_vault_101_pa_system/radio.mp3" },
+            MX02: { name: "Mojave Music Radio", freq: 91.5, url: "https://stations.fallout.radio/listen/fallout_new_vegas_-_mojave_music_radio/radio.mp3" },
+            MX03: { name: "Radio New Vegas", freq: 92.3, url: "https://stations.fallout.radio/listen/fallout_new_vegas_-_radio_new_vegas/radio.mp3" },
+            MX04: { name: "Black Mountain Radio", freq: 93.7, url: "https://stations.fallout.radio/listen/fallout_new_vegas_-_black_mountain_radio/radio.mp3" },
+            MX05: { name: "Mysterious Broadcast", freq: 94.5, url: "https://stations.fallout.radio/listen/fallout_new_vegas_-_mysterious_broadcast/radio.mp3" },
+            MX06: { name: "Diamond City Radio", freq: 95.3, url: "https://stations.fallout.radio/listen/fallout_4_-_diamond_city_radio/radio.mp3" },
+            MX07: { name: "Classical Radio", freq: 96.1, url: "https://stations.fallout.radio/listen/fallout_4_-_classical_radio/radio.mp3" },
+            MX08: { name: "Vault 101 Emergency", freq: 97.9, url: "https://stations.fallout.radio/listen/fallout_3_-_vault_101_pa_system/radio.mp3" }
         };
         
         this.currentStation = null;
@@ -811,17 +811,38 @@ class FalloutRadio {
             this.showStationInfo(station.name, "LOADING...");
             this.updateSignalStrength(2);
             
-            // Configurar el iframe de TuneIn
-            this.iframeElement.src = station.url;
-            this.iframeElement.style.display = 'block';
+            // Configurar el audio con el stream real de Fallout
+            this.audioElement.src = station.url;
+            this.audioElement.crossOrigin = "anonymous";
+            this.audioElement.volume = this.volume / 100;
             
-            // Simular que está cargando
-            setTimeout(() => {
-                this.currentStation = station;
-                this.isPlaying = true;
+            // Intentar reproducir
+            await this.audioElement.play();
+            
+            this.currentStation = station;
+            this.isPlaying = true;
+            
+            // Actualizar UI cuando comience a reproducir
+            this.showStationInfo(station.name, "PLAYING");
+            this.updateSignalStrength(5);
+            
+            // Manejar eventos de audio
+            this.audioElement.addEventListener('playing', () => {
                 this.showStationInfo(station.name, "PLAYING");
                 this.updateSignalStrength(5);
-            }, 2000);
+            });
+            
+            this.audioElement.addEventListener('waiting', () => {
+                this.showStationInfo(station.name, "BUFFERING...");
+                this.updateSignalStrength(3);
+            });
+            
+            this.audioElement.addEventListener('error', (e) => {
+                console.error('Audio error:', e);
+                this.showStationInfo(station.name, "CONNECTION ERROR");
+                this.updateSignalStrength(0);
+                this.isPlaying = false;
+            });
             
         } catch (error) {
             console.error('Error playing station:', error);
@@ -863,10 +884,6 @@ class FalloutRadio {
         if (this.audioElement) {
             this.audioElement.pause();
             this.audioElement.src = '';
-        }
-        if (this.iframeElement) {
-            this.iframeElement.src = '';
-            this.iframeElement.style.display = 'none';
         }
         this.isPlaying = false;
         this.currentStation = null;
