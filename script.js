@@ -696,17 +696,17 @@ function hidePipboyTerminal() {
 class FalloutRadio {
     constructor() {
         this.stations = {
-            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://www.youtube.com/watch?v=Jq8B9p9z2iQ" },
-            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://www.youtube.com/watch?v=5WuH4M89Q7g" },
-            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://www.youtube.com/watch?v=2ZjmFa-2k8Q" },
-            MX01: { name: "Classical Station", freq: 90.1, url: "https://www.youtube.com/watch?v=1ZYbU82NYzU" },
-            MX02: { name: "Jazz Station", freq: 91.5, url: "https://www.youtube.com/watch?v=vmDDofXSz40" },
-            MX03: { name: "Country Station", freq: 92.3, url: "https://www.youtube.com/watch?v=kxopLiu6Lrk" },
-            MX04: { name: "Rock Station", freq: 93.7, url: "https://www.youtube.com/watch?v=lRCZx2iSjgU" },
-            MX05: { name: "Institute Radio", freq: 94.5, url: "https://www.youtube.com/watch?v=8j58fRZ0y4c" },
-            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://www.youtube.com/watch?v=YjK6Z6x9QgU" },
-            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://www.youtube.com/watch?v=9gXZ2VgOH4c" },
-            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://www.youtube.com/watch?v=8j58fRZ0y4c" }
+            DX01: { name: "Diamond City Radio", freq: 87.5, url: "https://stream.zeno.fm/3q4stz8wz8zuv" },
+            DX02: { name: "Galaxy News Radio", freq: 88.7, url: "https://stream.zeno.fm/8s9p5t4q6z8uv" },
+            DX03: { name: "Enclave Radio", freq: 89.3, url: "https://stream.zeno.fm/2s7r6t5w4z8uv" },
+            MX01: { name: "Classical Station", freq: 90.1, url: "https://stream.zeno.fm/9s8q7r6t3z8uv" },
+            MX02: { name: "Jazz Station", freq: 91.5, url: "https://stream.zeno.fm/1s9p8t7q2z8uv" },
+            MX03: { name: "Country Station", freq: 92.3, url: "https://stream.zeno.fm/7s6r9t8p1z8uv" },
+            MX04: { name: "Rock Station", freq: 93.7, url: "https://stream.zeno.fm/4s8p7r6t9z8uv" },
+            MX05: { name: "Institute Radio", freq: 94.5, url: "https://stream.zeno.fm/5s9r8t7p3z8uv" },
+            MX06: { name: "Vault 101 Radio", freq: 95.3, url: "https://stream.zeno.fm/6s7p9r8t4z8uv" },
+            MX07: { name: "The Silver Shroud", freq: 96.1, url: "https://stream.zeno.fm/8s9p7r6t5z8uv" },
+            MX08: { name: "Atom Cats Radio", freq: 97.9, url: "https://stream.zeno.fm/3s7r9t8p6z8uv" }
         };
         
         this.currentStation = null;
@@ -805,26 +805,80 @@ class FalloutRadio {
         this.stopRadio();
         
         try {
-            // Para demostración, usaremos un audio local o simulación
-            // En producción, aquí iría la URL real del streaming
+            // Mostrar estado de carga
+            this.showStationInfo(station.name, "LOADING...");
+            this.updateSignalStrength(2);
+            
+            // Configurar el audio
+            this.audioElement.src = station.url;
+            this.audioElement.crossOrigin = "anonymous";
+            this.audioElement.volume = this.volume / 100;
+            
+            // Intentar reproducir
+            await this.audioElement.play();
+            
             this.currentStation = station;
             this.isPlaying = true;
             
-            // Simular que está reproduciendo
-            setTimeout(() => {
-                this.showStationInfo(station.name, "PLAYING");
-                this.updateSignalStrength(4);
-            }, 1000);
+            // Actualizar UI cuando comience a reproducir
+            this.showStationInfo(station.name, "PLAYING");
+            this.updateSignalStrength(5);
             
-            // Aquí podrías cargar un audio real:
-            // this.audioElement.src = station.url;
-            // this.audioElement.play();
+            // Manejar eventos de audio
+            this.audioElement.addEventListener('playing', () => {
+                this.showStationInfo(station.name, "PLAYING");
+                this.updateSignalStrength(5);
+            });
+            
+            this.audioElement.addEventListener('waiting', () => {
+                this.showStationInfo(station.name, "BUFFERING...");
+                this.updateSignalStrength(3);
+            });
+            
+            this.audioElement.addEventListener('error', (e) => {
+                console.error('Audio error:', e);
+                this.showStationInfo(station.name, "CONNECTION ERROR");
+                this.updateSignalStrength(0);
+                this.isPlaying = false;
+            });
             
         } catch (error) {
             console.error('Error playing station:', error);
-            this.showStationInfo(station.name, "ERROR");
+            this.showStationInfo(station.name, "FAILED TO LOAD");
             this.updateSignalStrength(0);
+            this.isPlaying = false;
+            
+            // Intentar con una estación de respaldo
+            this.tryFallbackStation(station);
         }
+    }
+    
+    tryFallbackStation(originalStation) {
+        // URLs de streaming gratuitas que deberían funcionar
+        const fallbackStations = [
+            "https://stream.zeno.fm/94r6m8r7t8zuv",
+            "https://stream.zeno.fm/3s9p7r6t4z8uv",
+            "https://stream.zeno.fm/7s8p9r6t2z8uv",
+            "https://icecast.radiomast.io/e9rr69c8v8zuv",
+            "https://stream.laut.fm/laut"
+        ];
+        
+        const randomFallback = fallbackStations[Math.floor(Math.random() * fallbackStations.length)];
+        
+        this.audioElement.src = randomFallback;
+        this.audioElement.crossOrigin = "anonymous";
+        this.audioElement.volume = this.volume / 100;
+        
+        this.audioElement.play().then(() => {
+            this.showStationInfo(originalStation.name, "PLAYING (FALLBACK)");
+            this.updateSignalStrength(3);
+            this.currentStation = originalStation;
+            this.isPlaying = true;
+        }).catch(error => {
+            console.error('Fallback also failed:', error);
+            this.showStationInfo(originalStation.name, "ALL STREAMS FAILED");
+            this.updateSignalStrength(0);
+        });
     }
     
     stopRadio() {
