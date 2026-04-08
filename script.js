@@ -394,6 +394,113 @@ function createFloatingTerminal() {
     setInterval(updateFloatingTime, 1000);
 }
 
+// Variables globales para la terminal
+let commandHistory = [];
+let historyIndex = -1;
+
+// Función global para manejar comandos de terminal
+function handleTerminalCommand(command) {
+    const cmd = command.toLowerCase().trim();
+    
+    // Comandos de la terminal
+    switch (cmd) {
+        case 'help':
+            addFloatingLineWithTyping('Available commands:', 'info', () => {
+                addFloatingLine('  help     - Show this help message', 'info');
+                addFloatingLine('  clear    - Clear terminal screen', 'info');
+                addFloatingLine('  about    - Show about information', 'info');
+                addFloatingLine('  projects - List projects', 'info');
+                addFloatingLine('  skills   - Show skills', 'info');
+                addFloatingLine('  contact  - Show contact information', 'info');
+                addFloatingLine('  radio    - Open Fallout Radio', 'info');
+                addFloatingLine('  time     - Show current time', 'info');
+                addFloatingLine('  status   - Show system status', 'info');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'clear':
+            const output = document.getElementById('floating-terminal-output');
+            output.innerHTML = '<div class="terminal-line">ROBCO INDUSTRIES PIP-BOY v3.0.1</div><div class="terminal-line">Type "help" for commands</div><div class="terminal-line">&gt;</div>';
+            saveTerminalState();
+            break;
+            
+        case 'about':
+            addFloatingLineWithTyping('ROBCO INDUSTRIES UNIFIED TERMINAL', 'success', () => {
+                addFloatingLine('Version 3.0.1 - Fallout Edition', 'success');
+                addFloatingLine('© 2077 RobCo Industries', 'success');
+                addFloatingLine('All rights reserved', 'success');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'projects':
+            addFloatingLineWithTyping('Installed Projects:', 'info', () => {
+                addFloatingLine('  > All-in-One Bot [ACTIVE]', 'success');
+                addFloatingLine('  > Portfolio Website [ACTIVE]', 'success');
+                addFloatingLine('  > Terminal Interface [ACTIVE]', 'success');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'skills':
+            addFloatingLineWithTyping('Technical Skills:', 'info', () => {
+                addFloatingLine('  > JavaScript: EXPERT', 'success');
+                addFloatingLine('  > Python: ADVANCED', 'success');
+                addFloatingLine('  > Web Development: EXPERT', 'success');
+                addFloatingLine('  > System Administration: ADVANCED', 'success');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'contact':
+            addFloatingLineWithTyping('Contact Information:', 'info', () => {
+                addFloatingLine('  > Email: contact@example.com', 'info');
+                addFloatingLine('  > GitHub: @username', 'info');
+                addFloatingLine('  > LinkedIn: /in/username', 'info');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'radio':
+            addFloatingLineWithTyping('Initializing Fallout Radio...', 'info', () => {
+                addFloatingLine('ROBCO PIPMAN 3000 ONLINE', 'success');
+                if (falloutRadio) {
+                    falloutRadio.show();
+                    addFloatingLine('Radio interface loaded', 'success');
+                } else {
+                    addFloatingLine('ERROR: Radio system not available', 'error');
+                }
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'time':
+            const now = new Date();
+            addFloatingLineWithTyping(`Current time: ${now.toLocaleTimeString()}`, 'info', () => {
+                addFloatingLine(`Date: ${now.toLocaleDateString()}`, 'info');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'status':
+            addFloatingLineWithTyping('System Status:', 'info', () => {
+                addFloatingLine('  > Terminal: ONLINE', 'success');
+                addFloatingLine('  > Theme: FALLOUT MODE', 'success');
+                addFloatingLine('  > Radio: STANDBY', 'warning');
+                addFloatingLine('  > Connection: STABLE', 'success');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        default:
+            addFloatingLineWithTyping(`Command not recognized: ${cmd}`, 'error', () => {
+                addFloatingLine('Type "help" for available commands', 'warning');
+                setTimeout(() => addFloatingLine('>'), 100);
+            });
+    }
+}
+
 function initFloatingTerminalEvents() {
     const terminal = document.getElementById('pipboy-floating-terminal');
     const minimizeBtn = document.getElementById('minimize-terminal');
@@ -405,114 +512,6 @@ function initFloatingTerminalEvents() {
     if (!terminal) return;
     
     let isMinimized = false;
-    let commandHistory = [];
-    let historyIndex = -1;
-    
-    function handleTerminalCommand(command) {
-        const cmd = command.toLowerCase().trim();
-        
-        // Comandos de la terminal
-        switch (cmd) {
-            case 'help':
-                addFloatingLineWithTyping('Available commands:', 'info', () => {
-                    addFloatingLine('  help     - Show this help message', 'info');
-                    addFloatingLine('  clear    - Clear terminal screen', 'info');
-                    addFloatingLine('  about    - Show about information', 'info');
-                    addFloatingLine('  projects - List projects', 'info');
-                    addFloatingLine('  skills   - Show skills', 'info');
-                    addFloatingLine('  contact  - Show contact information', 'info');
-                    addFloatingLine('  radio    - Open Fallout Radio', 'info');
-                    addFloatingLine('  time     - Show current time', 'info');
-                    addFloatingLine('  status   - Show system status', 'info');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'clear':
-                const output = document.getElementById('floating-terminal-output');
-                output.innerHTML = '<div class="terminal-line">ROBCO INDUSTRIES PIP-BOY v3.0.1</div><div class="terminal-line">Type "help" for commands</div><div class="terminal-line">&gt;</div>';
-                break;
-                
-            case 'about':
-                addFloatingLineWithTyping('ROBCO INDUSTRIES UNIFIED TERMINAL', 'success', () => {
-                    addFloatingLine('Version 3.0.1 - Fallout Edition', 'success');
-                    addFloatingLine(' 2077 RobCo Industries', 'success');
-                    addFloatingLine('All rights reserved', 'success');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'projects':
-                addFloatingLineWithTyping('Installed Projects:', 'info', () => {
-                    addFloatingLine('  > All-in-One Bot [ACTIVE]', 'success');
-                    addFloatingLine('  > Portfolio Website [ACTIVE]', 'success');
-                    addFloatingLine('  > Terminal Interface [ACTIVE]', 'success');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'skills':
-                addFloatingLineWithTyping('Technical Skills:', 'info', () => {
-                    addFloatingLine('  > JavaScript: EXPERT', 'success');
-                    addFloatingLine('  > Python: ADVANCED', 'success');
-                    addFloatingLine('  > Web Development: EXPERT', 'success');
-                    addFloatingLine('  > System Administration: ADVANCED', 'success');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'contact':
-                addFloatingLineWithTyping('Contact Information:', 'info', () => {
-                    addFloatingLine('  > Email: contact@example.com', 'info');
-                    addFloatingLine('  > GitHub: @username', 'info');
-                    addFloatingLine('  > LinkedIn: /in/username', 'info');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'radio':
-                addFloatingLineWithTyping('Initializing Fallout Radio...', 'info', () => {
-                    addFloatingLine('ROBCO PIPMAN 3000 ONLINE', 'success');
-                    if (falloutRadio) {
-                        falloutRadio.show();
-                        addFloatingLine('Radio interface loaded', 'success');
-                    } else {
-                        addFloatingLine('ERROR: Radio system not available', 'error');
-                    }
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'time':
-                const now = new Date();
-                addFloatingLineWithTyping(`Current time: ${now.toLocaleTimeString()}`, 'info', () => {
-                    addFloatingLine(`Date: ${now.toLocaleDateString()}`, 'info');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            case 'status':
-                addFloatingLineWithTyping('System Status:', 'info', () => {
-                    addFloatingLine('  > Terminal: ONLINE', 'success');
-                    addFloatingLine('  > Theme: FALLOUT MODE', 'success');
-                    addFloatingLine('  > Radio: STANDBY', 'warning');
-                    addFloatingLine('  > Connection: STABLE', 'success');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-                break;
-                
-            default:
-                addFloatingLineWithTyping(`Command not recognized: ${cmd}`, 'error', () => {
-                    addFloatingLine('Type "help" for available commands', 'warning');
-                    setTimeout(() => addFloatingLine('>'), 100);
-                });
-        }
-        
-        // Agregar nueva línea de comando
-        setTimeout(() => {
-            addFloatingLine('>');
-        }, 100);
-    }
     
     // Configurar el input fijo
     function setupFixedInput() {
