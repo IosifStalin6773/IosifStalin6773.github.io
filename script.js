@@ -237,8 +237,11 @@ function toggleLanguage() {
 }
 
 function toggleTheme() {
+    const themes = ['dark', 'light', 'fallout'];
     const currentTheme = localStorage.getItem('theme') || 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const currentIndex = themes.indexOf(currentTheme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[nextIndex];
     
     // Aplicar nuevo tema
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -251,16 +254,90 @@ function toggleTheme() {
     
     // Animación de transición
     document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    
+    // Efecto de cambio de tema
+    if (newTheme === 'fallout') {
+        playTerminalSound();
+        showTerminalMessage('SYSTEM MODE: FALLOUT');
+    }
 }
 
 function updateThemeIcon(theme) {
     const themeIcon = document.querySelector('#themeToggle i');
-    if (theme === 'light') {
-        themeIcon.className = 'fas fa-sun';
-    } else {
-        themeIcon.className = 'fas fa-moon';
+    switch(theme) {
+        case 'light':
+            themeIcon.className = 'fas fa-sun';
+            break;
+        case 'fallout':
+            themeIcon.className = 'fas fa-tv';
+            break;
+        default:
+            themeIcon.className = 'fas fa-moon';
     }
 }
+
+// Efectos de sonido para tema Fallout
+function playTerminalSound() {
+    // Crear sonido de terminal (simulado)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800;
+    oscillator.type = 'square';
+    gainNode.gain.value = 0.1;
+    
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.1);
+}
+
+// Mensaje de terminal
+function showTerminalMessage(message) {
+    const terminalMsg = document.createElement('div');
+    terminalMsg.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--bg-secondary);
+        color: var(--terminal-green);
+        padding: 20px;
+        border: 2px solid var(--terminal-green);
+        font-family: 'Courier New', monospace;
+        z-index: 10000;
+        animation: terminalFade 2s ease-out forwards;
+    `;
+    terminalMsg.textContent = message;
+    
+    document.body.appendChild(terminalMsg);
+    
+    setTimeout(() => {
+        terminalMsg.remove();
+    }, 2000);
+}
+
+// Animación de terminal
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes terminalFade {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+    }
+`;
+document.head.appendChild(style);
 
 // Sistema de partículas interactivas
 function initParticles() {
