@@ -22,25 +22,29 @@ function initSmartImages() {
 
 function loadProfileImage() {
     const profileElements = document.querySelectorAll('.profile-placeholder, .profile-image');
-    const imageFormats = ['jpg', 'jpeg', 'png', 'webp'];
+    const imageFormats = ['png', 'jpg', 'jpeg', 'webp'];
     
     profileElements.forEach(element => {
         // Intentar cargar imagen de perfil
+        let imageLoaded = false;
+        
         for (const format of imageFormats) {
             const img = new Image();
             img.onload = function() {
-                element.innerHTML = '';
-                element.className = 'profile-image';
-                element.appendChild(img);
+                if (!imageLoaded) {
+                    imageLoaded = true;
+                    element.innerHTML = '';
+                    element.className = 'profile-image';
+                    element.appendChild(img);
+                    console.log(`Profile image loaded: profile.${format}`);
+                }
             };
             img.onerror = function() {
-                if (format === imageFormats[imageFormats.length - 1]) {
-                    // Último intento, mantener placeholder
+                if (format === imageFormats[imageFormats.length - 1] && !imageLoaded) {
                     console.log('Profile image not found, keeping placeholder');
                 }
             };
             img.src = `assets/images/profile/profile.${format}`;
-            break;
         }
     });
 }
