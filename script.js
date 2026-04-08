@@ -830,6 +830,560 @@ function initPortAHackGame() {
     createGrid();
 }
 
+// Función para crear el juego de RobCo Hack
+function createRobCoHackGame() {
+    // Crear ventana modal del juego
+    const hackModal = document.createElement('div');
+    hackModal.className = 'robcohack-game-modal';
+    hackModal.innerHTML = `
+        <div class="robcohack-game-container">
+            <div class="robcohack-game-header">
+                <h3>🔐 ROBCO TERMINAL HACKER</h3>
+                <button class="close-hack-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="robcohack-game-screen">
+                <div class="hack-display">
+                    <div class="hack-grid" id="robcohack-grid"></div>
+                    <div class="hack-info">
+                        <div class="hack-attempts">ATTEMPTS: <span id="robcohack-attempts">4</span></div>
+                        <div class="hack-timer">TIME: <span id="robcohack-timer">120</span>s</div>
+                        <div class="hack-similarity">SIMILARITY: <span id="robcohack-similarity">--</span></div>
+                        <div class="hack-status">STATUS: <span id="robcohack-status">SCANNING</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="robcohack-game-controls">
+                <div class="control-info">
+                    <p>↑↓←→ NAVIGATE | ENTER: SELECT | FIND PASSWORD!</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Añadir estilos CSS para el juego
+    const hackStyles = document.createElement('style');
+    hackStyles.textContent = `
+        .robcohack-game-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            z-index: 10000;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            animation: crtGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .robcohack-game-container {
+            width: 640px;
+            height: 480px;
+            position: relative;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        .robcohack-game-header {
+            background: #1a1a1a;
+            padding: 8px 12px;
+            border-bottom: 1px solid #00ff00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .robcohack-game-header h3 {
+            margin: 0;
+            color: #00ff00;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .close-hack-btn {
+            background: none;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .close-hack-btn:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+        }
+        
+        .robcohack-game-screen {
+            background: #000;
+            border: 2px solid #00ff00;
+            margin: 10px;
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hack-display {
+            display: flex;
+            height: 100%;
+        }
+        
+        .robcohack-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 2px;
+            padding: 12px;
+            background: #0a0f0a;
+            position: relative;
+        }
+        
+        .robcohack-grid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 2px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .robcohack-word {
+            background: #1a1a1a;
+            border: 1px solid #00ff00;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.7rem;
+            font-weight: bold;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .robcohack-word:hover {
+            background: #00ff00;
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+        }
+        
+        .robcohack-word.selected {
+            background: #00ff00;
+            color: #000;
+            animation: wordPulse 1s ease-in-out infinite;
+        }
+        
+        .robcohack-word.correct {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 255, 0, 1);
+        }
+        
+        .robcohack-word.hint {
+            color: #ffff00;
+            border-color: #ffff00;
+            opacity: 0.8;
+        }
+        
+        .robcohack-word.dud {
+            color: #ff0000;
+            border-color: #ff0000;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .hack-info {
+            width: 180px;
+            background: #1a1a1a;
+            padding: 12px;
+            border-left: 1px solid #00ff00;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .hack-attempts, .hack-timer, .hack-similarity, .hack-status {
+            font-size: 0.65rem;
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .robcohack-game-controls {
+            background: #1a1a1a;
+            padding: 8px 12px;
+            border-top: 1px solid #00ff00;
+            text-align: center;
+        }
+        
+        .control-info p {
+            margin: 0;
+            color: #00ff00;
+            font-size: 0.7rem;
+            opacity: 0.9;
+            text-shadow: 0 0 3px rgba(0, 255, 0, 0.3);
+        }
+        
+        @keyframes crtGlow {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
+            100% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.4); }
+        }
+        
+        @keyframes wordPulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+        
+        .robcohack-grid::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 255, 0, 0.05) 50%,
+                transparent 50%
+            );
+            animation: scanlines 8s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+    `;
+    
+    document.head.appendChild(hackStyles);
+    document.body.appendChild(hackModal);
+    
+    // Inicializar el juego
+    initRobCoHackGame();
+}
+
+// Función para inicializar el juego de RobCo Hack
+function initRobCoHackGame() {
+    const hackGrid = document.getElementById('robcohack-grid');
+    const attemptsElement = document.getElementById('robcohack-attempts');
+    const timerElement = document.getElementById('robcohack-timer');
+    const similarityElement = document.getElementById('robcohack-similarity');
+    const statusElement = document.getElementById('robcohack-status');
+    
+    if (!hackGrid) return;
+    
+    let attempts = 4;
+    let timeLeft = 120;
+    let gameActive = true;
+    let cursorPosition = 0;
+    let selectedWord = null;
+    
+    // Palabras posibles para el hackeo (15 palabras de 5 letras)
+    const words = [
+        'ROBCO', 'VAULT', 'TERMINAL', 'SYSTEM', 'SECURITY', 'NETWORK', 'DATABASE', 'FIREWALL',
+        'ENCRYPT', 'ACCESS', 'AUTHENTIC', 'PROTOCOL', 'INTERFACE', 'CONNECTION', 'SERVER', 'ROUTER'
+    ];
+    
+    // Seleccionar contraseña aleatoria
+    const password = words[Math.floor(Math.random() * words.length)];
+    const displayWords = [];
+    const dudWords = [];
+    
+    // Generar palabras para mostrar
+    for (let i = 0; i < 8; i++) {
+        let word;
+        do {
+            word = words[Math.floor(Math.random() * words.length)];
+        } while (displayWords.includes(word) || word === password);
+        
+        displayWords.push(word);
+    }
+    
+    // Añadir palabras con trucos (Duds)
+    for (let i = 0; i < 7; i++) {
+        let dudWord;
+        do {
+            dudWord = generateDudWord();
+        } while (displayWords.includes(dudWord) || dudWords.includes(dudWord));
+        
+        dudWords.push(dudWord);
+    }
+    
+    // Mezclar palabras reales y Duds
+    const allWords = [...displayWords, ...dudWords];
+    for (let i = allWords.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allWords[i], allWords[j]] = [allWords[j], allWords[i]];
+    }
+    
+    function generateDudWord() {
+        const patterns = [
+            'ADMIN[]', '(PASS)', 'SYS#', 'NET$', 'FIRE#', 'LOCK*',
+            'ACCESS!', 'ROOT@', 'TEMP%', 'DATA#', 'CTRL+ALT'
+        ];
+        return patterns[Math.floor(Math.random() * patterns.length)];
+    }
+    
+    // Crear grid de palabras
+    function createGrid() {
+        hackGrid.innerHTML = '';
+        allWords.forEach((word, index) => {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'robcohack-word';
+            wordElement.textContent = word;
+            wordElement.dataset.index = index;
+            
+            if (index === cursorPosition) {
+                wordElement.classList.add('selected');
+            }
+            
+            if (dudWords.includes(word)) {
+                wordElement.classList.add('dud');
+            }
+            
+            if (word === password) {
+                wordElement.classList.add('correct');
+            }
+            
+            wordElement.addEventListener('click', () => selectWord(index));
+            hackGrid.appendChild(wordElement);
+        });
+    }
+    
+    function selectWord(index) {
+        if (!gameActive || attempts <= 0) return;
+        
+        cursorPosition = index;
+        selectedWord = allWords[index];
+        createGrid();
+    }
+    
+    function checkWord() {
+        if (!gameActive || !selectedWord || attempts <= 0) return;
+        
+        attempts--;
+        attemptsElement.textContent = attempts;
+        
+        if (selectedWord === password) {
+            // Éxito
+            statusElement.textContent = 'ACCESS GRANTED';
+            statusElement.style.color = '#00ff00';
+            similarityElement.textContent = '100%';
+            gameActive = false;
+            
+            // Marcar palabra correcta
+            const wordElements = hackGrid.querySelectorAll('.robcohack-word');
+            wordElements.forEach(el => {
+                if (el.textContent === password) {
+                    el.classList.add('correct');
+                }
+            });
+            
+            setTimeout(() => {
+                addFloatingLineWithTyping('🎉 PASSWORD ACCEPTED! SYSTEM BREACHED! 🎉', 'success', () => {
+                    addFloatingLine('🔓 MAINFRAME ACCESS ACHIEVED! 🔓', 'success', () => {
+                        addFloatingLine('🚀 BONUS CONTENT UNLOCKED! 🚀', 'success', () => {
+                            // Cerrar ventana de hackeo
+                            document.querySelector('.robcohack-game-modal').remove();
+                            
+                            // Abrir Asteroids
+                            setTimeout(() => {
+                                addFloatingLine('Launching Asteroids...', 'info');
+                                createAsteroidsGame();
+                            }, 1000);
+                        });
+                    });
+                });
+            }, 1500);
+            
+        } else if (dudWords.includes(selectedWord)) {
+            // Truco detectado - eliminar palabra Dud
+            statusElement.textContent = 'DUD DETECTED';
+            statusElement.style.color = '#ffff00';
+            
+            // Eliminar palabra Dud
+            const wordElements = hackGrid.querySelectorAll('.robcohack-word');
+            wordElements.forEach(el => {
+                if (el.textContent === selectedWord) {
+                    el.classList.add('dud');
+                    setTimeout(() => {
+                        el.style.opacity = '0';
+                        setTimeout(() => {
+                            const index = parseInt(el.dataset.index);
+                            allWords.splice(index, 1);
+                            createGrid();
+                        }, 300);
+                    }, 500);
+                }
+            });
+            
+            setTimeout(() => {
+                statusElement.textContent = 'SCANNING';
+                statusElement.style.color = '#00ff00';
+            }, 1000);
+            
+        } else {
+            // Fallo - mostrar nivel de semejanza
+            const similarity = calculateSimilarity(selectedWord, password);
+            similarityElement.textContent = similarity + '%';
+            
+            if (similarity >= 60) {
+                similarityElement.style.color = '#00ff00';
+            } else if (similarity >= 40) {
+                similarityElement.style.color = '#ffff00';
+            } else {
+                similarityElement.style.color = '#ff0000';
+            }
+            
+            statusElement.textContent = 'ACCESS DENIED';
+            statusElement.style.color = '#ff0000';
+            
+            if (attempts <= 0) {
+                gameActive = false;
+                timerElement.textContent = '0';
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('❌ SYSTEM LOCKDOWN! TERMINAL BLOCKED! ❌', 'error', () => {
+                        addFloatingLine('🚫 SECURITY PROTOCOL ACTIVATED! 🚫', 'error', () => {
+                            addFloatingLine('Terminal locked for 60 seconds...', 'warning');
+                            
+                            // Cerrar ventana de hackeo
+                            document.querySelector('.robcohack-game-modal').remove();
+                            
+                            // Desactivar terminal durante 60 segundos
+                            disableTerminalTemporarily(60);
+                        });
+                    });
+                }, 1500);
+            } else {
+                setTimeout(() => {
+                    statusElement.textContent = 'SCANNING';
+                    statusElement.style.color = '#00ff00';
+                    selectedWord = null;
+                    cursorPosition = 0;
+                    createGrid();
+                }, 1000);
+            }
+        }
+    }
+    
+    function calculateSimilarity(word1, word2) {
+        if (word1.length !== word2.length) return 0;
+        
+        let matches = 0;
+        for (let i = 0; i < word1.length; i++) {
+            if (word1[i] === word2[i]) matches++;
+        }
+        
+        return Math.round((matches / word1.length) * 100);
+    }
+    
+    function disableTerminalTemporarily(seconds) {
+        const terminal = document.getElementById('pipboy-floating-terminal');
+        const terminalToggle = document.getElementById('terminalToggle');
+        
+        if (terminal) {
+            terminal.style.display = 'none';
+            terminalToggle.classList.remove('terminal-active');
+            terminalToggle.style.opacity = '0.3';
+            terminalToggle.style.pointerEvents = 'none';
+            terminalToggle.style.cursor = 'not-allowed';
+            terminalToggle.title = `Terminal bloqueado por seguridad (${seconds}s)`;
+        }
+        
+        // Reactivar terminal después del tiempo especificado
+        setTimeout(() => {
+            if (terminal) {
+                terminal.style.display = 'block';
+                terminalToggle.classList.add('terminal-active');
+                terminalToggle.style.opacity = '1';
+                terminalToggle.style.pointerEvents = 'auto';
+                terminalToggle.style.cursor = 'pointer';
+                terminalToggle.title = 'Abrir Terminal Pip-Boy';
+                
+                addFloatingLineWithTyping('🔓 TERMINAL ACCESS RESTORED! 🔓', 'success', () => {
+                    addFloatingLine('Security protocol deactivated.', 'info');
+                    setTimeout(() => addFloatingLine('>'), 500);
+                });
+            }
+        }, seconds * 1000);
+    }
+    
+    // Controles
+    const keys = {};
+    document.addEventListener('keydown', (e) => {
+        keys[e.key] = true;
+        
+        if (e.key === 'ArrowUp') {
+            cursorPosition = Math.max(0, cursorPosition - 2);
+            createGrid();
+        } else if (e.key === 'ArrowDown') {
+            cursorPosition = Math.min(allWords.length - 1, cursorPosition + 2);
+            createGrid();
+        } else if (e.key === 'ArrowLeft') {
+            cursorPosition = Math.max(0, cursorPosition - 1);
+            createGrid();
+        } else if (e.key === 'ArrowRight') {
+            cursorPosition = Math.min(allWords.length - 1, cursorPosition + 1);
+            createGrid();
+        } else if (e.key === 'Enter') {
+            checkWord();
+        }
+    });
+    
+    document.addEventListener('keyup', (e) => keys[e.key] = false);
+    
+    // Timer
+    const timerInterval = setInterval(() => {
+        if (!gameActive) {
+            clearInterval(timerInterval);
+            return;
+        }
+        
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            gameActive = false;
+            timerElement.textContent = '0';
+            statusElement.textContent = 'TIMEOUT';
+            statusElement.style.color = '#ff0000';
+            
+            setTimeout(() => {
+                addFloatingLineWithTyping('⏰ HACKING TIMEOUT! SYSTEM LOCKED! ⏰', 'error', () => {
+                    document.querySelector('.robcohack-game-modal').remove();
+                    disableTerminalTemporarily(60);
+                });
+            }, 1000);
+        }
+    }, 1000);
+    
+    // Inicializar
+    createGrid();
+}
+
 // Función para crear el juego de Asteroids
 function createAsteroidsGame() {
     // Crear ventana modal del juego
@@ -1535,6 +2089,51 @@ function handleTerminalCommand(command) {
                         }, 1500);
                     });
                 }, 2000);
+            });
+            break;
+            
+        case 'robcohack':
+            addFloatingLineWithTyping('INITIALIZING ROBCO TERMINAL HACKING SYSTEM...', 'info', () => {
+                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════╗', 'success');
+                addFloatingLine('║ ROBCO INDUSTRIES - UNIFIED OPERATING SYSTEM              ║', 'success');
+                addFloatingLine('║ VERSION: 3.0.1 - TERMINAL INTERFACE PROTOCOL           ║', 'success');
+                addFloatingLine('║ STATUS: SCANNING FOR AVAILABLE TERMINALS...              ║', 'warning');
+                addFloatingLine('╚═════════════════════════════════════════════════════════════════════════╝', 'success');
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('TERMINALS DETECTED: 3 SYSTEMS ONLINE', 'success', () => {
+                        addFloatingLine('╔═════════════════════════════════════════════════════════════════╗', 'success');
+                        addFloatingLine('║ TARGET: VAULT-TEC MAINFRAME - LEVEL 3 SECURITY          ║', 'warning');
+                        addFloatingLine('║ ENCRYPTION: ROBCO AES-256 BIT PROTOCOL              ║', 'info');
+                        addFloatingLine('║ FIREWALL: ACTIVE - INTRUSION DETECTION ENABLED       ║', 'error');
+                        addFloatingLine('║ ACCESS: REQUIRE TERMINAL HACKING SEQUENCE                   ║', 'info');
+                        addFloatingLine('╚═══════════════════════════════════════════════════════════════╝', 'success');
+                        
+                        setTimeout(() => {
+                            addFloatingLineWithTyping('INITIALIZING HACKING INTERFACE...', 'info', () => {
+                                addFloatingLine('╔═════════════════════════════════════════════════════════════╗', 'success');
+                                addFloatingLine('║ ROBCO HACKING SUITE v3.0.1                           ║', 'success');
+                                addFloatingLine('║ MODE: WORD GUESSING - BRUTE FORCE PROTECTION           ║', 'warning');
+                                addFloatingLine('║ DIFFICULTY: LEVEL 3 - QUANTUM ENCRYPTION             ║', 'error');
+                                addFloatingLine('║ ATTEMPTS: 4 REMAINING | TIME: 120s                 ║', 'info');
+                                addFloatingLine('║ FIND PASSWORD OR FACE SYSTEM LOCKDOWN                      ║', 'warning');
+                                addFloatingLine('╚═══════════════════════════════════════════════════════════════╝', 'success');
+                                
+                                setTimeout(() => {
+                                    addFloatingLineWithTyping('ROBCO HACKING INTERFACE ACTIVATED', 'success', () => {
+                                        addFloatingLine(' QUANTUM DECRYPTION MODULE ONLINE ', 'success');
+                                        addFloatingLine(' SCANNING FOR PASSWORD PATTERNS...', 'info');
+                                        
+                                        // Crear ventana de hackeo RobCo
+                                        createRobCoHackGame();
+                                        
+                                        setTimeout(() => addFloatingLine('>'), 500);
+                                    });
+                                }, 1500);
+                            });
+                        }, 2000);
+                    });
+                }, 2500);
             });
             break;
             
