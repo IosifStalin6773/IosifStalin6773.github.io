@@ -1211,7 +1211,7 @@ function restoreAllStates() {
             terminalToggleBtn.classList.add('terminal-active');
         }
         
-        updateThemeIcon('dark');
+        // NO llamar a updateThemeIcon para mantener el tema Fallout
     }
     
     // Restaurar visibilidad de la terminal con mejor timing
