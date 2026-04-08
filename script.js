@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initFormHandler();
     initAnimations();
     initSkillBars();
+    
+    // Restaurar estados guardados
+    restoreAllStates();
 });
 
 // Sistema de imágenes inteligente
@@ -583,6 +586,9 @@ function addFloatingLine(text, type = 'default') {
         output.appendChild(line);
         output.scrollTop = output.scrollHeight;
         
+        // Guardar estado de la terminal
+        saveTerminalState();
+        
         // Añadir efecto de glitch aleatorio
         if (Math.random() < 0.1) {
             setTimeout(() => {
@@ -592,6 +598,31 @@ function addFloatingLine(text, type = 'default') {
                 }, 300);
             }, Math.random() * 2000);
         }
+    }
+}
+
+function saveTerminalState() {
+    const output = document.getElementById('floating-terminal-output');
+    if (output) {
+        const content = output.innerHTML;
+        stateManager.saveTerminalState(content, commandHistory);
+    }
+}
+
+function restoreTerminalState() {
+    const savedState = stateManager.loadTerminalState();
+    if (savedState.content) {
+        const output = document.getElementById('floating-terminal-output');
+        if (output) {
+            output.innerHTML = savedState.content;
+            output.scrollTop = output.scrollHeight;
+        }
+    }
+    
+    // Restaurar historial
+    if (savedState.history.length > 0) {
+        commandHistory = savedState.history;
+        historyIndex = commandHistory.length;
     }
 }
 
@@ -654,6 +685,7 @@ function toggleFloatingTerminal() {
         // Activar tema Fallout
         document.documentElement.setAttribute('data-theme', 'fallout');
         localStorage.setItem('theme', 'fallout');
+        stateManager.saveThemeState(true);
         
         // Actualizar botones
         const floatBtn = document.getElementById('pipboyFloat');
@@ -672,6 +704,9 @@ function toggleFloatingTerminal() {
             themeToggleBtn.style.cursor = 'not-allowed';
         }
         
+        // Guardar visibilidad de terminal
+        stateManager.saveTerminalVisible(true);
+        
         // Efectos de sonido y mensaje
         playTerminalSound();
         showTerminalMessage('SYSTEM MODE: FALLOUT - TERMINAL ACTIVATED');
@@ -685,6 +720,7 @@ function toggleFloatingTerminal() {
         // Volver al tema dark por defecto
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
+        stateManager.saveThemeState(false);
         
         // Actualizar icono de tema
         updateThemeIcon('dark');
@@ -705,6 +741,9 @@ function toggleFloatingTerminal() {
             themeToggleBtn.style.pointerEvents = 'auto';
             themeToggleBtn.style.cursor = 'pointer';
         }
+        
+        // Guardar visibilidad de terminal
+        stateManager.saveTerminalVisible(false);
         
         showTerminalMessage('TERMINAL DEACTIVATED - RETURNING TO NORMAL MODE');
     }
@@ -748,6 +787,114 @@ function hidePipboyTerminal() {
     }
 }
 
+// Sistema de persistencia de estado
+class StateManager {
+    constructor() {
+        this.keys = {
+            terminalContent: 'pipboy_terminal_content',
+            terminalHistory: 'pipboy_terminal_history',
+            radioStation: 'pipboy_radio_station',
+            radioVolume: 'pipboy_radio_volume',
+            radioPower: 'pipboy_radio_power',
+            radioPlaying: 'pipboy_radio_playing',
+            falloutTheme: 'pipboy_fallout_theme',
+            terminalVisible: 'pipboy_terminal_visible'
+        };
+    }
+
+    saveTerminalState(content, history) {
+        try {
+            localStorage.setItem(this.keys.terminalContent, content);
+            localStorage.setItem(this.keys.terminalHistory, JSON.stringify(history));
+        } catch (error) {
+            console.warn('Error saving terminal state:', error);
+        }
+    }
+
+    loadTerminalState() {
+        try {
+            const content = localStorage.getItem(this.keys.terminalContent);
+            const history = JSON.parse(localStorage.getItem(this.keys.terminalHistory) || '[]');
+            return { content, history };
+        } catch (error) {
+            console.warn('Error loading terminal state:', error);
+            return { content: null, history: [] };
+        }
+    }
+
+    saveRadioState(station, volume, power, playing) {
+        try {
+            localStorage.setItem(this.keys.radioStation, station || '');
+            localStorage.setItem(this.keys.radioVolume, volume.toString());
+            localStorage.setItem(this.keys.radioPower, power.toString());
+            localStorage.setItem(this.keys.radioPlaying, playing.toString());
+        } catch (error) {
+            console.warn('Error saving radio state:', error);
+        }
+    }
+
+    loadRadioState() {
+        try {
+            return {
+                station: localStorage.getItem(this.keys.radioStation),
+                volume: parseInt(localStorage.getItem(this.keys.radioVolume) || '50'),
+                power: localStorage.getItem(this.keys.radioPower) === 'true',
+                playing: localStorage.getItem(this.keys.radioPlaying) === 'true'
+            };
+        } catch (error) {
+            console.warn('Error loading radio state:', error);
+            return { station: null, volume: 50, power: false, playing: false };
+        }
+    }
+
+    saveThemeState(isFallout) {
+        try {
+            localStorage.setItem(this.keys.falloutTheme, isFallout.toString());
+        } catch (error) {
+            console.warn('Error saving theme state:', error);
+        }
+    }
+
+    loadThemeState() {
+        try {
+            return localStorage.getItem(this.keys.falloutTheme) === 'true';
+        } catch (error) {
+            console.warn('Error loading theme state:', error);
+            return false;
+        }
+    }
+
+    saveTerminalVisible(visible) {
+        try {
+            localStorage.setItem(this.keys.terminalVisible, visible.toString());
+        } catch (error) {
+            console.warn('Error saving terminal visibility:', error);
+        }
+    }
+
+    loadTerminalVisible() {
+        try {
+            return localStorage.getItem(this.keys.terminalVisible) === 'true';
+        } catch (error) {
+            console.warn('Error loading terminal visibility:', error);
+            return false;
+        }
+    }
+
+    clearAll() {
+        try {
+            Object.values(this.keys).forEach(key => {
+                localStorage.removeItem(key);
+            });
+        } catch (error) {
+            console.warn('Error clearing state:', error);
+        }
+    }
+}
+
+// Instancia global del gestor de estado
+const stateManager = new StateManager();
+
 // Sistema de Radio de Fallout
 class FalloutRadio {
     constructor() {
@@ -779,6 +926,48 @@ class FalloutRadio {
         this.audioElement = document.getElementById('radio-audio');
         this.iframeElement = document.getElementById('tunein-iframe');
         this.setupEventListeners();
+        
+        // Restaurar estado guardado
+        this.restoreState();
+    }
+    
+    restoreState() {
+        const savedState = stateManager.loadRadioState();
+        
+        if (savedState.power) {
+            this.powerOn = savedState.power;
+            this.volume = savedState.volume;
+            
+            // Actualizar UI
+            const powerBtn = document.getElementById('radio-power');
+            if (powerBtn) {
+                powerBtn.classList.add('active');
+            }
+            
+            // Restaurar volumen
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeValue = document.getElementById('volume-value');
+            if (volumeSlider && volumeValue) {
+                volumeSlider.value = this.volume;
+                volumeValue.textContent = this.volume;
+            }
+            
+            // Si había una estación guardada, restaurarla
+            if (savedState.station && this.stations[savedState.station]) {
+                setTimeout(() => {
+                    this.selectStation(savedState.station);
+                }, 1000);
+            }
+        }
+    }
+    
+    saveState() {
+        stateManager.saveRadioState(
+            this.currentStation ? Object.keys(this.stations).find(key => this.stations[key] === this.currentStation) : null,
+            this.volume,
+            this.powerOn,
+            this.isPlaying
+        );
     }
     
     setupEventListeners() {
@@ -835,6 +1024,9 @@ class FalloutRadio {
             this.showStationInfo("--- OFF AIR ---", "NO SIGNAL");
             this.updateSignalStrength(0);
         }
+        
+        // Guardar estado
+        this.saveState();
     }
     
     selectStation(stationId) {
@@ -857,6 +1049,9 @@ class FalloutRadio {
         
         // Reproducir estación
         this.playStation(station);
+        
+        // Guardar estado
+        this.saveState();
     }
     
     async playStation(station) {
@@ -881,6 +1076,9 @@ class FalloutRadio {
             // Actualizar UI cuando comience a reproducir
             this.showStationInfo(station.name, "PLAYING");
             this.updateSignalStrength(5);
+            
+            // Guardar estado
+            this.saveState();
             
             // Manejar eventos de audio
             this.audioElement.addEventListener('playing', () => {
@@ -951,6 +1149,9 @@ class FalloutRadio {
         if (this.audioElement) {
             this.audioElement.volume = value / 100;
         }
+        
+        // Guardar estado
+        this.saveState();
     }
     
     showStationInfo(name, info) {
@@ -987,6 +1188,45 @@ let falloutRadio;
 
 function initFalloutRadio() {
     falloutRadio = new FalloutRadio();
+}
+
+// Restaurar estados guardados al cargar la página
+function restoreAllStates() {
+    // Restaurar tema Fallout
+    const wasFalloutTheme = stateManager.loadThemeState();
+    if (wasFalloutTheme) {
+        document.documentElement.setAttribute('data-theme', 'fallout');
+        localStorage.setItem('theme', 'fallout');
+        document.body.classList.add('terminal-active');
+        
+        // Actualizar botones
+        const themeToggleBtn = document.getElementById('themeToggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.style.opacity = '0.3';
+            themeToggleBtn.style.pointerEvents = 'none';
+            themeToggleBtn.style.cursor = 'not-allowed';
+        }
+        
+        const terminalToggleBtn = document.getElementById('terminalToggle');
+        if (terminalToggleBtn) {
+            terminalToggleBtn.classList.add('terminal-active');
+        }
+        
+        updateThemeIcon('dark');
+    }
+    
+    // Restaurar visibilidad de la terminal
+    const terminalWasVisible = stateManager.loadTerminalVisible();
+    if (terminalWasVisible) {
+        setTimeout(() => {
+            toggleFloatingTerminal();
+        }, 100);
+    }
+    
+    // Restaurar contenido de la terminal
+    setTimeout(() => {
+        restoreTerminalState();
+    }, 200);
 }
 
 // Sistema de partículas interactivas
