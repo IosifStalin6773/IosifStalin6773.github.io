@@ -447,8 +447,8 @@ function createPortAHackGame() {
         }
         
         .portahack-game-container {
-            width: 700px;
-            height: 550px;
+            width: 560px;
+            height: 440px;
             position: relative;
         }
         
@@ -504,19 +504,19 @@ function createPortAHackGame() {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 10px;
-            padding: 20px;
+            gap: 6px;
+            padding: 12px;
             background: #0a0f0a;
         }
         
         .hack-word {
             background: var(--bg-secondary);
             border: 1px solid var(--terminal-green);
-            padding: 15px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             position: relative;
         }
         
@@ -544,17 +544,17 @@ function createPortAHackGame() {
         }
         
         .hack-info {
-            width: 200px;
+            width: 160px;
             background: var(--bg-primary);
-            padding: 20px;
+            padding: 12px;
             border-left: 1px solid var(--terminal-green);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
         }
         
         .hack-attempts, .hack-timer, .hack-status {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--terminal-green);
             text-shadow: 0 0 5px var(--crt-glow);
         }
