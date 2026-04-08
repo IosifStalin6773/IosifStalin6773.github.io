@@ -960,9 +960,61 @@ function handleTerminalCommand(command) {
                 addFloatingLine('  skills   - Show skills', 'info');
                 addFloatingLine('  contact  - Show contact information', 'info');
                 addFloatingLine('  radio    - Open Fallout Radio', 'info');
+                addFloatingLine('  play     - Entertainment system', 'info');
                 addFloatingLine('  time     - Show current time', 'info');
                 addFloatingLine('  status   - Show system status', 'info');
                 setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'play':
+            addFloatingLineWithTyping('Launching entertainment system...', 'info', () => {
+                addFloatingLine('ROBCO INDUSTRIES - ENTERTAINMENT MODULE', 'success');
+                addFloatingLine('VERSION: 1.0.1 - ARCADE GAMES', 'success');
+                addFloatingLine('STATUS: INITIALIZING...', 'warning');
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('ENTERTAINMENT SYSTEM READY', 'success', () => {
+                        addFloatingLine('AVAILABLE GAMES:', 'info');
+                        addFloatingLine('  asteroids - Classic arcade game', 'info');
+                        addFloatingLine('  Coming soon: More games...', 'info');
+                        addFloatingLine('SELECT GAME TO PLAY:', 'info');
+                        addFloatingLine('> Type "play asteroids" to start', 'info');
+                        setTimeout(() => addFloatingLine('>'), 100);
+                    });
+                }, 2000);
+            });
+            break;
+            
+        case 'play asteroids':
+            addFloatingLineWithTyping('Initializing ASTEROIDS game...', 'info', () => {
+                addFloatingLine('ROBCO INDUSTRIES - PIP-BOY 3000 GAME SYSTEM', 'success');
+                addFloatingLine('VERSION: 1.0.1 - ASTEROIDS CLONE', 'success');
+                addFloatingLine('STATUS: LOADING...', 'warning');
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('GAME LOADED SUCCESSFULLY!', 'success', () => {
+                        addFloatingLine('CONTROLS:', 'info');
+                        addFloatingLine('  LEFT KNOB: TURN LEFT', 'info');
+                        addFloatingLine('  RIGHT KNOB: TURN RIGHT', 'info');
+                        addFloatingLine('  FIRE BUTTON: SHOOT', 'info');
+                        addFloatingLine('  POWER BUTTON: EXIT GAME', 'info');
+                        addFloatingLine('SCORE: 0 | HIGH SCORE: 10000', 'warning');
+                        
+                        setTimeout(() => {
+                            addFloatingLineWithTyping('STARTING GAME...', 'info', () => {
+                                addFloatingLine('ASTEROIDS GAME ACTIVATED!', 'success');
+                                addFloatingLine('Use arrow keys to move, SPACE to shoot!', 'info');
+                                addFloatingLine('Good luck, Vault Dweller!', 'success');
+                                
+                                // Crear ventana de juego
+                                createAsteroidsGame();
+                                
+                                setTimeout(() => addFloatingLine('>'), 500);
+                            });
+                        }, 1500);
+                    });
+                }, 2000);
             });
             break;
             
