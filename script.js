@@ -280,17 +280,15 @@ function updateThemeIcon(theme) {
     switch(theme) {
         case 'light':
             themeIcon.className = 'fas fa-sun';
-            document.getElementById('terminalToggle').style.display = 'none';
+            // El botón terminal siempre visible
             break;
         case 'fallout':
             themeIcon.className = 'fas fa-tv';
             document.getElementById('pipboyToggle').style.display = 'flex';
-            document.getElementById('terminalToggle').style.display = 'flex';
             break;
         default:
             themeIcon.className = 'fas fa-moon';
             document.getElementById('pipboyToggle').style.display = 'none';
-            document.getElementById('terminalToggle').style.display = 'none';
     }
 }
 

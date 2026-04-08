@@ -1339,6 +1339,7 @@ body {
     box-shadow: var(--shadow-lg);
     transition: var(--transition);
     animation: terminalGlow 2s ease-in-out infinite alternate;
+    display: flex !important;
 }
 
 #terminalToggle:hover {
