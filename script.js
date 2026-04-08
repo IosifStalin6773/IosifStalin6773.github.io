@@ -400,6 +400,304 @@ function createFloatingTerminal() {
 let commandHistory = [];
 let historyIndex = -1;
 
+// Función para crear el juego de Asteroids
+function createAsteroidsGame() {
+    // Crear ventana modal del juego
+    const gameModal = document.createElement('div');
+    gameModal.className = 'asteroids-game-modal';
+    gameModal.innerHTML = `
+        <div class="asteroids-game-container">
+            <div class="asteroids-game-header">
+                <h3>🚀 ASTEROIDS</h3>
+                <button class="close-game-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="asteroids-game-screen">
+                <canvas id="asteroids-canvas" width="600" height="400"></canvas>
+                <div class="game-overlay">
+                    <div class="game-score">SCORE: <span id="game-score">0</span></div>
+                    <div class="game-lives">LIVES: <span id="game-lives">3</span></div>
+                </div>
+            </div>
+            <div class="asteroids-game-controls">
+                <div class="control-info">
+                    <p>← → MOVE | SPACE: SHOOT | P: PAUSE</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Añadir estilos CSS para el juego
+    const gameStyles = document.createElement('style');
+    gameStyles.textContent = `
+        .asteroids-game-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            border: 2px solid var(--terminal-green);
+            border-radius: var(--border-radius-md);
+            z-index: 10000;
+            box-shadow: 0 0 30px var(--crt-glow);
+            font-family: 'Courier New', monospace;
+            color: var(--terminal-green);
+        }
+        
+        .asteroids-game-container {
+            width: 650px;
+            height: 500px;
+            position: relative;
+        }
+        
+        .asteroids-game-header {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-bottom: 1px solid var(--terminal-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .asteroids-game-header h3 {
+            margin: 0;
+            color: var(--terminal-green);
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--crt-glow);
+        }
+        
+        .close-game-btn {
+            background: none;
+            border: 1px solid var(--terminal-green);
+            color: var(--terminal-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .close-game-btn:hover {
+            background: var(--terminal-green);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px var(--crt-glow);
+        }
+        
+        .asteroids-game-screen {
+            position: relative;
+            background: #000;
+            border: 2px solid var(--terminal-green);
+            margin: 10px;
+            border-radius: var(--border-radius-sm);
+        }
+        
+        #asteroids-canvas {
+            display: block;
+            background: #000;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        .game-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--terminal-green);
+            text-shadow: 0 0 5px var(--crt-glow);
+        }
+        
+        .asteroids-game-controls {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-top: 1px solid var(--terminal-green);
+            text-align: center;
+        }
+        
+        .control-info p {
+            margin: 0;
+            color: var(--terminal-green);
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        @keyframes gameGlow {
+            0% { box-shadow: 0 0 20px var(--crt-glow); }
+            100% { box-shadow: 0 0 30px var(--crt-glow); }
+        }
+        
+        .asteroids-game-modal {
+            animation: gameGlow 2s ease-in-out infinite alternate;
+        }
+    `;
+    
+    document.head.appendChild(gameStyles);
+    document.body.appendChild(gameModal);
+    
+    // Inicializar el juego
+    initAsteroidsGame();
+}
+
+// Función para inicializar el juego de Asteroids
+function initAsteroidsGame() {
+    const canvas = document.getElementById('asteroids-canvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let gameRunning = true;
+    let score = 0;
+    let lives = 3;
+    let level = 1;
+    
+    // Nave del jugador
+    const ship = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        angle: 0,
+        vx: 0,
+        vy: 0,
+        size: 10
+    };
+    
+    // Asteroides
+    let asteroids = [];
+    for (let i = 0; i < 5; i++) {
+        asteroids.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2,
+            size: 20 + Math.random() * 20,
+            angle: Math.random() * Math.PI * 2
+        });
+    }
+    
+    // Balas
+    let bullets = [];
+    
+    // Controles
+    const keys = {};
+    document.addEventListener('keydown', (e) => keys[e.key] = true);
+    document.addEventListener('keyup', (e) => keys[e.key] = false);
+    
+    // Bucle del juego
+    function gameLoop() {
+        if (!gameRunning) return;
+        
+        // Limpiar canvas
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Actualizar nave
+        if (keys['ArrowLeft']) ship.angle -= 0.1;
+        if (keys['ArrowRight']) ship.angle += 0.1;
+        if (keys['ArrowUp']) {
+            ship.vx += Math.cos(ship.angle) * 0.5;
+            ship.vy += Math.sin(ship.angle) * 0.5;
+        }
+        
+        // Aplicar fricción
+        ship.vx *= 0.98;
+        ship.vy *= 0.98;
+        ship.x += ship.vx;
+        ship.y += ship.vy;
+        
+        // Mantener nave en pantalla
+        if (ship.x < 0) ship.x = canvas.width;
+        if (ship.x > canvas.width) ship.x = 0;
+        if (ship.y < 0) ship.y = canvas.height;
+        if (ship.y > canvas.height) ship.y = 0;
+        
+        // Dibujar nave
+        ctx.save();
+        ctx.translate(ship.x, ship.y);
+        ctx.rotate(ship.angle);
+        ctx.strokeStyle = '#00ff41';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, -ship.size);
+        ctx.lineTo(0, ship.size);
+        ctx.stroke();
+        
+        // Cañón de la nave
+        ctx.beginPath();
+        ctx.moveTo(0, ship.size);
+        ctx.lineTo(ship.size * 0.5, ship.size);
+        ctx.stroke();
+        ctx.restore();
+        
+        // Actualizar y dibujar asteroides
+        asteroids.forEach(asteroid => {
+            asteroid.x += asteroid.vx;
+            asteroid.y += asteroid.vy;
+            
+            // Mantener asteroides en pantalla
+            if (asteroid.x < 0) asteroid.x = canvas.width;
+            if (asteroid.x > canvas.width) asteroid.x = 0;
+            if (asteroid.y < 0) asteroid.y = canvas.height;
+            if (asteroid.y > canvas.height) asteroid.y = 0;
+            
+            // Dibujar asteroide
+            ctx.save();
+            ctx.translate(asteroid.x, asteroid.y);
+            ctx.rotate(asteroid.angle);
+            ctx.strokeStyle = '#00ff41';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x = Math.cos(angle) * asteroid.size;
+                const y = Math.sin(angle) * asteroid.size;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+        });
+        
+        // Actualizar y dibujar balas
+        bullets = bullets.filter(bullet => {
+            bullet.x += bullet.vx;
+            bullet.y += bullet.vy;
+            
+            // Eliminar balas fuera de pantalla
+            if (bullet.x < 0 || bullet.x > canvas.width || 
+                bullet.y < 0 || bullet.y > canvas.height) {
+                return false;
+            }
+            
+            // Dibujar bala
+            ctx.fillStyle = '#00ff41';
+            ctx.fillRect(bullet.x - 1, bullet.y - 1, 2, 2);
+            return true;
+        });
+        
+        // Disparar balas
+        if (keys[' ']) {
+            keys[' '] = false;
+            bullets.push({
+                x: ship.x + Math.cos(ship.angle) * ship.size,
+                y: ship.y + Math.sin(ship.angle) * ship.size,
+                vx: Math.cos(ship.angle) * 10,
+                vy: Math.sin(ship.angle) * 10,
+                life: 30
+            });
+        }
+        
+        // Actualizar UI
+        document.getElementById('game-score').textContent = score;
+        document.getElementById('game-lives').textContent = lives;
+        
+        requestAnimationFrame(gameLoop);
+    }
+    
+    // Iniciar el juego
+    gameLoop();
+}
+
 // Función global para manejar comandos de terminal
 function handleTerminalCommand(command) {
     const cmd = command.toLowerCase().trim();
@@ -492,6 +790,43 @@ function handleTerminalCommand(command) {
                 addFloatingLine('  > Radio: STANDBY', 'warning');
                 addFloatingLine('  > Connection: STABLE', 'success');
                 setTimeout(() => addFloatingLine('>'), 100);
+            });
+            break;
+            
+        case 'asteroids':
+            addFloatingLineWithTyping('INITIALIZING ASTEROIDS GAME...', 'info', () => {
+                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════════════════════════╗', 'success');
+                addFloatingLine('║ ROBCO INDUSTRIES - PIP-BOY 3000 GAME SYSTEM                     ║', 'success');
+                addFloatingLine('║ VERSION: 1.0.1 - ASTEROIDS CLONE                          ║', 'success');
+                addFloatingLine('║ STATUS: LOADING...                                      ║', 'warning');
+                addFloatingLine('╚═════════════════════════════════════════════════════════════════════════════╝', 'success');
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('GAME LOADED SUCCESSFULLY!', 'success', () => {
+                        addFloatingLine('╔═══════════════════════════════════════════════════════════════╗', 'success');
+                        addFloatingLine('║ CONTROLS:                                              ║', 'info');
+                        addFloatingLine('║ • LEFT KNOB: TURN LEFT                                 ║', 'info');
+                        addFloatingLine('║ • RIGHT KNOB: TURN RIGHT                                ║', 'info');
+                        addFloatingLine('║ • FIRE BUTTON: SHOOT                                     ║', 'info');
+                        addFloatingLine('║ • POWER BUTTON: EXIT GAME                                 ║', 'info');
+                        addFloatingLine('║                                                          ║', 'info');
+                        addFloatingLine('║ SCORE: 0 | HIGH SCORE: 10000                            ║', 'warning');
+                        addFloatingLine('╚═════════════════════════════════════════════════════════════════╝', 'success');
+                        
+                        setTimeout(() => {
+                            addFloatingLineWithTyping('STARTING GAME...', 'info', () => {
+                                addFloatingLine(' ASTEROIDS GAME ACTIVATED! ', 'success');
+                                addFloatingLine('Use arrow keys to move, SPACE to shoot!', 'info');
+                                addFloatingLine('Good luck, Vault Dweller!', 'success');
+                                
+                                // Crear ventana de juego
+                                createAsteroidsGame();
+                                
+                                setTimeout(() => addFloatingLine('>'), 500);
+                            });
+                        }, 1500);
+                    });
+                }, 2000);
             });
             break;
             
