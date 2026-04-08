@@ -405,16 +405,18 @@ function initFloatingTerminalEvents() {
         // Comandos de la terminal
         switch (cmd) {
             case 'help':
-                addFloatingLine('Available commands:');
-                addFloatingLine('  help     - Show this help message');
-                addFloatingLine('  clear    - Clear terminal screen');
-                addFloatingLine('  about    - Show about information');
-                addFloatingLine('  projects - List projects');
-                addFloatingLine('  skills   - Show skills');
-                addFloatingLine('  contact  - Show contact information');
-                addFloatingLine('  radio    - Open Fallout Radio');
-                addFloatingLine('  time     - Show current time');
-                addFloatingLine('  status   - Show system status');
+                addFloatingLineWithTyping('Available commands:', 'info', () => {
+                    addFloatingLine('  help     - Show this help message', 'info');
+                    addFloatingLine('  clear    - Clear terminal screen', 'info');
+                    addFloatingLine('  about    - Show about information', 'info');
+                    addFloatingLine('  projects - List projects', 'info');
+                    addFloatingLine('  skills   - Show skills', 'info');
+                    addFloatingLine('  contact  - Show contact information', 'info');
+                    addFloatingLine('  radio    - Open Fallout Radio', 'info');
+                    addFloatingLine('  time     - Show current time', 'info');
+                    addFloatingLine('  status   - Show system status', 'info');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'clear':
@@ -423,62 +425,78 @@ function initFloatingTerminalEvents() {
                 break;
                 
             case 'about':
-                addFloatingLine('ROBCO INDUSTRIES UNIFIED TERMINAL');
-                addFloatingLine('Version 3.0.1 - Fallout Edition');
-                addFloatingLine(' 2077 RobCo Industries');
-                addFloatingLine('All rights reserved');
+                addFloatingLineWithTyping('ROBCO INDUSTRIES UNIFIED TERMINAL', 'success', () => {
+                    addFloatingLine('Version 3.0.1 - Fallout Edition', 'success');
+                    addFloatingLine(' 2077 RobCo Industries', 'success');
+                    addFloatingLine('All rights reserved', 'success');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'projects':
-                addFloatingLine('Installed Projects:');
-                addFloatingLine('  > All-in-One Bot [ACTIVE]');
-                addFloatingLine('  > Portfolio Website [ACTIVE]');
-                addFloatingLine('  > Terminal Interface [ACTIVE]');
+                addFloatingLineWithTyping('Installed Projects:', 'info', () => {
+                    addFloatingLine('  > All-in-One Bot [ACTIVE]', 'success');
+                    addFloatingLine('  > Portfolio Website [ACTIVE]', 'success');
+                    addFloatingLine('  > Terminal Interface [ACTIVE]', 'success');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'skills':
-                addFloatingLine('Technical Skills:');
-                addFloatingLine('  > JavaScript: EXPERT');
-                addFloatingLine('  > Python: ADVANCED');
-                addFloatingLine('  > Web Development: EXPERT');
-                addFloatingLine('  > System Administration: ADVANCED');
+                addFloatingLineWithTyping('Technical Skills:', 'info', () => {
+                    addFloatingLine('  > JavaScript: EXPERT', 'success');
+                    addFloatingLine('  > Python: ADVANCED', 'success');
+                    addFloatingLine('  > Web Development: EXPERT', 'success');
+                    addFloatingLine('  > System Administration: ADVANCED', 'success');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'contact':
-                addFloatingLine('Contact Information:');
-                addFloatingLine('  > Email: contact@example.com');
-                addFloatingLine('  > GitHub: @username');
-                addFloatingLine('  > LinkedIn: /in/username');
+                addFloatingLineWithTyping('Contact Information:', 'info', () => {
+                    addFloatingLine('  > Email: contact@example.com', 'info');
+                    addFloatingLine('  > GitHub: @username', 'info');
+                    addFloatingLine('  > LinkedIn: /in/username', 'info');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'radio':
-                addFloatingLine('Initializing Fallout Radio...');
-                addFloatingLine('ROBCO PIPMAN 3000 ONLINE');
-                if (falloutRadio) {
-                    falloutRadio.show();
-                    addFloatingLine('Radio interface loaded');
-                } else {
-                    addFloatingLine('ERROR: Radio system not available');
-                }
+                addFloatingLineWithTyping('Initializing Fallout Radio...', 'info', () => {
+                    addFloatingLine('ROBCO PIPMAN 3000 ONLINE', 'success');
+                    if (falloutRadio) {
+                        falloutRadio.show();
+                        addFloatingLine('Radio interface loaded', 'success');
+                    } else {
+                        addFloatingLine('ERROR: Radio system not available', 'error');
+                    }
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'time':
                 const now = new Date();
-                addFloatingLine(`Current time: ${now.toLocaleTimeString()}`);
-                addFloatingLine(`Date: ${now.toLocaleDateString()}`);
+                addFloatingLineWithTyping(`Current time: ${now.toLocaleTimeString()}`, 'info', () => {
+                    addFloatingLine(`Date: ${now.toLocaleDateString()}`, 'info');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             case 'status':
-                addFloatingLine('System Status:');
-                addFloatingLine('  > Terminal: ONLINE');
-                addFloatingLine('  > Theme: FALLOUT MODE');
-                addFloatingLine('  > Radio: STANDBY');
-                addFloatingLine('  > Connection: STABLE');
+                addFloatingLineWithTyping('System Status:', 'info', () => {
+                    addFloatingLine('  > Terminal: ONLINE', 'success');
+                    addFloatingLine('  > Theme: FALLOUT MODE', 'success');
+                    addFloatingLine('  > Radio: STANDBY', 'warning');
+                    addFloatingLine('  > Connection: STABLE', 'success');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
                 break;
                 
             default:
-                addFloatingLine(`Command not recognized: ${cmd}`);
-                addFloatingLine('Type "help" for available commands');
+                addFloatingLineWithTyping(`Command not recognized: ${cmd}`, 'error', () => {
+                    addFloatingLine('Type "help" for available commands', 'warning');
+                    setTimeout(() => addFloatingLine('>'), 100);
+                });
         }
         
         // Agregar nueva línea de comando
@@ -554,14 +572,50 @@ function initFloatingTerminalEvents() {
     });
 }
 
-function addFloatingLine(text) {
+function addFloatingLine(text, type = 'default') {
     const output = document.getElementById('floating-terminal-output');
     if (output) {
         const line = document.createElement('div');
-        line.className = 'terminal-line';
+        line.className = `terminal-line ${type}`;
         line.textContent = text;
         output.appendChild(line);
         output.scrollTop = output.scrollHeight;
+        
+        // Añadir efecto de glitch aleatorio
+        if (Math.random() < 0.1) {
+            setTimeout(() => {
+                line.classList.add('glitch-effect');
+                setTimeout(() => {
+                    line.classList.remove('glitch-effect');
+                }, 300);
+            }, Math.random() * 2000);
+        }
+    }
+}
+
+function addFloatingLineWithTyping(text, type = 'default', callback) {
+    const output = document.getElementById('floating-terminal-output');
+    if (output) {
+        const line = document.createElement('div');
+        line.className = `terminal-line ${type} typing-effect`;
+        output.appendChild(line);
+        
+        let index = 0;
+        const typingSpeed = 30;
+        
+        function typeChar() {
+            if (index < text.length) {
+                line.textContent = text.substring(0, index + 1);
+                index++;
+                output.scrollTop = output.scrollHeight;
+                setTimeout(typeChar, typingSpeed);
+            } else {
+                line.classList.remove('typing-effect');
+                if (callback) callback();
+            }
+        }
+        
+        typeChar();
     }
 }
 
