@@ -1,6 +1,7 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las funcionalidades
+    initThemeLanguage();
     initParticles();
     initNavigation();
     initScrollEffects();
@@ -8,6 +9,113 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initSkillBars();
 });
+
+// Sistema de tema e idioma
+function initThemeLanguage() {
+    // Cargar preferencias guardadas
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedLang = localStorage.getItem('language') || 'es';
+    
+    // Aplicar tema inicial
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        updateThemeIcon('light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeIcon('dark');
+    }
+    
+    // Aplicar idioma inicial
+    setLanguage(savedLang);
+    
+    // Event listeners
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+}
+
+// Sistema de traducciones
+const translations = {
+    es: {
+        'nav.home': 'Inicio',
+        'nav.experience': 'Experiencia',
+        'nav.projects': 'Proyectos',
+        'nav.skills': 'Habilidades',
+        'nav.contact': 'Contacto',
+        'hero.title': 'Hola, Soy IosifStalin6773',
+        'hero.subtitle': 'Desarrollador Full Stack & Gaming Enthusiast',
+        'hero.description': 'Desarrollador apasionado con experiencia en creación de bots, scripts para gaming, aplicaciones web y herramientas personalizadas. Especializado en automatización, desarrollo de servidores de juego y temas personalizados.',
+        'hero.btnExperience': 'Ver Experiencia',
+        'hero.btnContact': 'Contactarme',
+        'experience.title': 'Experiencia Profesional',
+        'projects.title': 'Proyectos Destacados',
+        'skills.title': 'Habilidades Técnicas',
+        'contact.title': 'Contacto'
+    },
+    en: {
+        'nav.home': 'Home',
+        'nav.experience': 'Experience',
+        'nav.projects': 'Projects',
+        'nav.skills': 'Skills',
+        'nav.contact': 'Contact',
+        'hero.title': 'Hi, I\'m IosifStalin6773',
+        'hero.subtitle': 'Full Stack Developer & Gaming Enthusiast',
+        'hero.description': 'Passionate developer with experience in creating bots, gaming scripts, web applications and custom tools. Specialized in automation, game server development and custom themes.',
+        'hero.btnExperience': 'View Experience',
+        'hero.btnContact': 'Contact Me',
+        'experience.title': 'Professional Experience',
+        'projects.title': 'Featured Projects',
+        'skills.title': 'Technical Skills',
+        'contact.title': 'Contact'
+    }
+};
+
+function setLanguage(lang) {
+    // Actualizar atributo lang
+    document.documentElement.setAttribute('lang', lang);
+    
+    // Traducir todos los elementos con data-lang
+    document.querySelectorAll('[data-lang]').forEach(element => {
+        const key = element.getAttribute('data-lang');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    
+    // Guardar preferencia
+    localStorage.setItem('language', lang);
+}
+
+function toggleLanguage() {
+    const currentLang = localStorage.getItem('language') || 'es';
+    const newLang = currentLang === 'es' ? 'en' : 'es';
+    setLanguage(newLang);
+}
+
+function toggleTheme() {
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    // Aplicar nuevo tema
+    document.documentElement.setAttribute('data-theme', newTheme);
+    
+    // Actualizar icono
+    updateThemeIcon(newTheme);
+    
+    // Guardar preferencia
+    localStorage.setItem('theme', newTheme);
+    
+    // Animación de transición
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.querySelector('#themeToggle i');
+    if (theme === 'light') {
+        themeIcon.className = 'fas fa-sun';
+    } else {
+        themeIcon.className = 'fas fa-moon';
+    }
+}
 
 // Sistema de partículas interactivas
 function initParticles() {

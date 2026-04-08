@@ -11,6 +11,16 @@
     <!-- Canvas de partículas -->
     <canvas id="particles-canvas"></canvas>
     
+    <!-- Controles de tema e idioma -->
+    <div class="theme-language-controls">
+        <button class="control-btn" id="themeToggle" title="Cambiar tema">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="control-btn" id="langToggle" title="Change language / Cambiar idioma">
+            <i class="fas fa-globe"></i>
+        </button>
+    </div>
+    
     <!-- Navegación -->
     <nav class="navbar">
         <div class="nav-container">
@@ -18,11 +28,11 @@
                 <h3>Portfolio</h3>
             </div>
             <ul class="nav-menu">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#experiencia">Experiencia</a></li>
-                <li><a href="#proyectos">Proyectos</a></li>
-                <li><a href="#habilidades">Habilidades</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#inicio" data-lang="nav.home">Inicio</a></li>
+                <li><a href="#experiencia" data-lang="nav.experience">Experiencia</a></li>
+                <li><a href="#proyectos" data-lang="nav.projects">Proyectos</a></li>
+                <li><a href="#habilidades" data-lang="nav.skills">Habilidades</a></li>
+                <li><a href="#contacto" data-lang="nav.contact">Contacto</a></li>
             </ul>
             <div class="nav-toggle">
                 <span class="bar"></span>
@@ -36,16 +46,16 @@
     <section id="inicio" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Hola, Soy IosifStalin6773</h1>
-                <p class="hero-subtitle">Desarrollador Full Stack & Gaming Enthusiast</p>
-                <p class="hero-description">
+                <h1 class="hero-title" data-lang="hero.title">Hola, Soy IosifStalin6773</h1>
+                <p class="hero-subtitle" data-lang="hero.subtitle">Desarrollador Full Stack & Gaming Enthusiast</p>
+                <p class="hero-description" data-lang="hero.description">
                     Desarrollador apasionado con experiencia en creación de bots, scripts para gaming, 
                     aplicaciones web y herramientas personalizadas. Especializado en automatización, 
                     desarrollo de servidores de juego y temas personalizados.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#experiencia" class="btn btn-primary">Ver Experiencia</a>
-                    <a href="#contacto" class="btn btn-secondary">Contactarme</a>
+                    <a href="#experiencia" class="btn btn-primary" data-lang="hero.btnExperience">Ver Experiencia</a>
+                    <a href="#contacto" class="btn btn-secondary" data-lang="hero.btnContact">Contactarme</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -59,7 +69,7 @@
     <!-- Sección Experiencia -->
     <section id="experiencia" class="experience">
         <div class="container">
-            <h2 class="section-title">Experiencia Profesional</h2>
+            <h2 class="section-title" data-lang="experience.title">Experiencia Profesional</h2>
             <div class="timeline">
                 <!-- Experiencia 1 -->
                 <div class="timeline-item">
@@ -118,7 +128,7 @@
     <!-- Sección Proyectos -->
     <section id="proyectos" class="projects">
         <div class="container">
-            <h2 class="section-title">Proyectos Destacados</h2>
+            <h2 class="section-title" data-lang="projects.title">Proyectos Destacados</h2>
             <div class="projects-grid">
                 <!-- Proyecto 1 -->
                 <div class="project-card">
@@ -234,7 +244,7 @@
     <!-- Sección Habilidades -->
     <section id="habilidades" class="skills">
         <div class="container">
-            <h2 class="section-title">Habilidades Técnicas</h2>
+            <h2 class="section-title" data-lang="skills.title">Habilidades Técnicas</h2>
             <div class="skills-grid">
                 <div class="skill-category">
                     <h3><i class="fas fa-code"></i> Desarrollo Web</h3>
@@ -368,7 +378,7 @@
     <!-- Sección Contacto -->
     <section id="contacto" class="contact">
         <div class="container">
-            <h2 class="section-title">Contacto</h2>
+            <h2 class="section-title" data-lang="contact.title">Contacto</h2>
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Conectemos</h3>
