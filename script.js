@@ -400,6 +400,436 @@ function createFloatingTerminal() {
 let commandHistory = [];
 let historyIndex = -1;
 
+// Función para crear el juego de Port-A-Hack
+function createPortAHackGame() {
+    // Crear ventana modal del juego
+    const hackModal = document.createElement('div');
+    hackModal.className = 'portahack-game-modal';
+    hackModal.innerHTML = `
+        <div class="portahack-game-container">
+            <div class="portahack-game-header">
+                <h3>🔐 PORT-A-HACK</h3>
+                <button class="close-hack-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="portahack-game-screen">
+                <div class="hack-display">
+                    <div class="hack-grid" id="hack-grid"></div>
+                    <div class="hack-info">
+                        <div class="hack-attempts">ATTEMPTS: <span id="hack-attempts">4</span></div>
+                        <div class="hack-timer">TIME: <span id="hack-timer">60</span>s</div>
+                        <div class="hack-status">STATUS: <span id="hack-status">ACTIVE</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="portahack-game-controls">
+                <div class="control-info">
+                    <p>↑↓←→ MOVE | ENTER: SELECT | FIND PASSWORD!</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Añadir estilos CSS para el juego
+    const hackStyles = document.createElement('style');
+    hackStyles.textContent = `
+        .portahack-game-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            border: 2px solid var(--terminal-green);
+            border-radius: var(--border-radius-md);
+            z-index: 10000;
+            box-shadow: 0 0 30px var(--crt-glow);
+            font-family: 'Courier New', monospace;
+            color: var(--terminal-green);
+        }
+        
+        .portahack-game-container {
+            width: 700px;
+            height: 550px;
+            position: relative;
+        }
+        
+        .portahack-game-header {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-bottom: 1px solid var(--terminal-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .portahack-game-header h3 {
+            margin: 0;
+            color: var(--terminal-green);
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--crt-glow);
+        }
+        
+        .close-hack-btn {
+            background: none;
+            border: 1px solid var(--terminal-green);
+            color: var(--terminal-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .close-hack-btn:hover {
+            background: var(--terminal-green);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px var(--crt-glow);
+        }
+        
+        .portahack-game-screen {
+            background: #000;
+            border: 2px solid var(--terminal-green);
+            margin: 10px;
+            border-radius: var(--border-radius-sm);
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .hack-display {
+            display: flex;
+            height: 100%;
+        }
+        
+        .hack-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+            background: #0a0f0a;
+        }
+        
+        .hack-word {
+            background: var(--bg-secondary);
+            border: 1px solid var(--terminal-green);
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        
+        .hack-word:hover {
+            background: var(--terminal-green);
+            color: var(--bg-primary);
+            box-shadow: 0 0 10px var(--crt-glow);
+        }
+        
+        .hack-word.selected {
+            background: var(--terminal-green);
+            color: var(--bg-primary);
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+        
+        .hack-word.correct {
+            background: #00ff41;
+            color: #000;
+            box-shadow: 0 0 15px #00ff41;
+        }
+        
+        .hack-word.hint {
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+        
+        .hack-info {
+            width: 200px;
+            background: var(--bg-primary);
+            padding: 20px;
+            border-left: 1px solid var(--terminal-green);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .hack-attempts, .hack-timer, .hack-status {
+            font-size: 0.8rem;
+            color: var(--terminal-green);
+            text-shadow: 0 0 5px var(--crt-glow);
+        }
+        
+        .portahack-game-controls {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-top: 1px solid var(--terminal-green);
+            text-align: center;
+        }
+        
+        .control-info p {
+            margin: 0;
+            color: var(--terminal-green);
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        @keyframes hackGlow {
+            0% { box-shadow: 0 0 20px var(--crt-glow); }
+            100% { box-shadow: 0 0 30px var(--crt-glow); }
+        }
+        
+        .portahack-game-modal {
+            animation: hackGlow 2s ease-in-out infinite alternate;
+        }
+    `;
+    
+    document.head.appendChild(hackStyles);
+    document.body.appendChild(hackModal);
+    
+    // Inicializar el juego
+    initPortAHackGame();
+}
+
+// Función para inicializar el juego de Port-A-Hack
+function initPortAHackGame() {
+    const hackGrid = document.getElementById('hack-grid');
+    const attemptsElement = document.getElementById('hack-attempts');
+    const timerElement = document.getElementById('hack-timer');
+    const statusElement = document.getElementById('hack-status');
+    
+    if (!hackGrid) return;
+    
+    let attempts = 4;
+    let timeLeft = 60;
+    let gameActive = true;
+    let cursorPosition = 0;
+    let selectedWord = null;
+    
+    // Palabras posibles para el hackeo
+    const words = [
+        'ADMIN', 'ACCESS', 'SYSTEM', 'SECURE', 'VAULT', 'ROBCO', 'TERMINAL', 'NETWORK', 'FIREWALL', 'ENCRYPT',
+        'PASSWORD', 'MAINFRAME', 'DATABASE', 'SERVER', 'ROUTER', 'PROTOCOL', 'INTERFACE', 'CONNECTION', 'AUTHENTIC'
+    ];
+    
+    // Seleccionar contraseña aleatoria
+    const password = words[Math.floor(Math.random() * words.length)];
+    const displayWords = [];
+    
+    // Generar palabras para mostrar
+    for (let i = 0; i < 8; i++) {
+        let word;
+        do {
+            word = words[Math.floor(Math.random() * words.length)];
+        } while (displayWords.includes(word) || word === password);
+        
+        displayWords.push(word);
+    }
+    
+    // Añadir una palabra que no esté en la lista (pista)
+    const hintWords = ['FALL', 'OUT', 'LOCK', 'DENIED'];
+    const hintWord = hintWords[Math.floor(Math.random() * hintWords.length)];
+    displayWords[Math.floor(Math.random() * displayWords.length)] = hintWord;
+    
+    // Crear grid de palabras
+    function createGrid() {
+        hackGrid.innerHTML = '';
+        displayWords.forEach((word, index) => {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'hack-word';
+            wordElement.textContent = word;
+            wordElement.dataset.index = index;
+            
+            if (index === cursorPosition) {
+                wordElement.classList.add('selected');
+            }
+            
+            if (word === hintWord) {
+                wordElement.classList.add('hint');
+            }
+            
+            wordElement.addEventListener('click', () => selectWord(index));
+            hackGrid.appendChild(wordElement);
+        });
+    }
+    
+    function selectWord(index) {
+        if (!gameActive || attempts <= 0) return;
+        
+        cursorPosition = index;
+        selectedWord = displayWords[index];
+        createGrid();
+    }
+    
+    function checkWord() {
+        if (!gameActive || !selectedWord || attempts <= 0) return;
+        
+        attempts--;
+        attemptsElement.textContent = attempts;
+        
+        if (selectedWord === password) {
+            // Éxito - abrir Asteroids
+            statusElement.textContent = 'SUCCESS';
+            statusElement.style.color = '#00ff41';
+            gameActive = false;
+            
+            // Marcar palabra correcta
+            const wordElements = hackGrid.querySelectorAll('.hack-word');
+            wordElements.forEach(el => {
+                if (el.textContent === password) {
+                    el.classList.add('correct');
+                }
+            });
+            
+            setTimeout(() => {
+                addFloatingLineWithTyping('🎉 PASSWORD CORRECT! ACCESS GRANTED! 🎉', 'success', () => {
+                    addFloatingLine('🔓 UNLOCKING BONUS CONTENT...', 'info', () => {
+                        addFloatingLine('🚀 ASTEROIDS GAME UNLOCKED! 🚀', 'success', () => {
+                            // Cerrar ventana de hackeo
+                            document.querySelector('.portahack-game-modal').remove();
+                            
+                            // Abrir Asteroids
+                            setTimeout(() => {
+                                addFloatingLine('Launching Asteroids...', 'info');
+                                createAsteroidsGame();
+                            }, 1000);
+                        });
+                    });
+                });
+            }, 1500);
+            
+        } else {
+            // Fallo - penalización
+            statusElement.textContent = 'FAILED';
+            statusElement.style.color = '#ff6b35';
+            
+            // Marcar palabra incorrecta
+            const wordElements = hackGrid.querySelectorAll('.hack-word');
+            wordElements.forEach(el => {
+                if (el.textContent === selectedWord) {
+                    el.style.borderColor = '#ff6b35';
+                    el.style.color = '#ff6b35';
+                }
+            });
+            
+            if (attempts <= 0) {
+                gameActive = false;
+                timerElement.textContent = '0';
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('❌ HACKING FAILED! SYSTEM LOCKED! ❌', 'error', () => {
+                        addFloatingLine('🚫 TERMINAL MODE DISABLED FOR 10 SECONDS! 🚫', 'error', () => {
+                            addFloatingLine('Security protocol activated...', 'warning');
+                            
+                            // Cerrar ventana de hackeo
+                            document.querySelector('.portahack-game-modal').remove();
+                            
+                            // Desactivar terminal durante 10 segundos
+                            disableTerminalTemporarily();
+                        });
+                    });
+                }, 1500);
+            } else {
+                setTimeout(() => {
+                    statusElement.textContent = 'ACTIVE';
+                    statusElement.style.color = 'var(--terminal-green)';
+                    selectedWord = null;
+                    cursorPosition = 0;
+                    createGrid();
+                }, 1000);
+            }
+        }
+    }
+    
+    function disableTerminalTemporarily() {
+        const terminal = document.getElementById('pipboy-floating-terminal');
+        const terminalToggle = document.getElementById('terminalToggle');
+        
+        if (terminal) {
+            terminal.style.display = 'none';
+            terminalToggle.classList.remove('terminal-active');
+            terminalToggle.style.opacity = '0.3';
+            terminalToggle.style.pointerEvents = 'none';
+            terminalToggle.style.cursor = 'not-allowed';
+            terminalToggle.title = 'Terminal desactivado por seguridad (10s)';
+        }
+        
+        // Reactivar terminal después de 10 segundos
+        setTimeout(() => {
+            if (terminal) {
+                terminal.style.display = 'block';
+                terminalToggle.classList.add('terminal-active');
+                terminalToggle.style.opacity = '1';
+                terminalToggle.style.pointerEvents = 'auto';
+                terminalToggle.style.cursor = 'pointer';
+                terminalToggle.title = 'Abrir Terminal Pip-Boy';
+                
+                addFloatingLineWithTyping('🔓 TERMINAL ACCESS RESTORED! 🔓', 'success', () => {
+                    addFloatingLine('Security protocol deactivated.', 'info');
+                    setTimeout(() => addFloatingLine('>'), 500);
+                });
+            }
+        }, 10000);
+    }
+    
+    // Controles
+    const keys = {};
+    document.addEventListener('keydown', (e) => {
+        keys[e.key] = true;
+        
+        if (e.key === 'ArrowUp') {
+            cursorPosition = Math.max(0, cursorPosition - 2);
+            createGrid();
+        } else if (e.key === 'ArrowDown') {
+            cursorPosition = Math.min(displayWords.length - 1, cursorPosition + 2);
+            createGrid();
+        } else if (e.key === 'ArrowLeft') {
+            cursorPosition = Math.max(0, cursorPosition - 1);
+            createGrid();
+        } else if (e.key === 'ArrowRight') {
+            cursorPosition = Math.min(displayWords.length - 1, cursorPosition + 1);
+            createGrid();
+        } else if (e.key === 'Enter') {
+            checkWord();
+        }
+    });
+    
+    document.addEventListener('keyup', (e) => keys[e.key] = false);
+    
+    // Timer
+    const timerInterval = setInterval(() => {
+        if (!gameActive) {
+            clearInterval(timerInterval);
+            return;
+        }
+        
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            gameActive = false;
+            timerElement.textContent = '0';
+            statusElement.textContent = 'TIMEOUT';
+            statusElement.style.color = '#ff6b35';
+            
+            setTimeout(() => {
+                addFloatingLineWithTyping('⏰ HACKING TIMEOUT! SYSTEM LOCKED! ⏰', 'error', () => {
+                    document.querySelector('.portahack-game-modal').remove();
+                    disableTerminalTemporarily();
+                });
+            }, 1000);
+        }
+    }, 1000);
+    
+    // Inicializar
+    createGrid();
+}
+
 // Función para crear el juego de Asteroids
 function createAsteroidsGame() {
     // Crear ventana modal del juego
@@ -1068,6 +1498,40 @@ function handleTerminalCommand(command) {
                                 
                                 // Crear ventana de juego
                                 createAsteroidsGame();
+                                
+                                setTimeout(() => addFloatingLine('>'), 500);
+                            });
+                        }, 1500);
+                    });
+                }, 2000);
+            });
+            break;
+            
+        case 'portahack':
+            addFloatingLineWithTyping('INITIALIZING PORT-A-HACK PROTOCOL...', 'info', () => {
+                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════════════╗', 'success');
+                addFloatingLine('║ ROBCO INDUSTRIES - TERMINAL HACKING SYSTEM                 ║', 'success');
+                addFloatingLine('║ VERSION: 2.0.1 - PORT-A-HACK SIMULATOR                  ║', 'success');
+                addFloatingLine('║ STATUS: ESTABLISHING CONNECTION...                        ║', 'warning');
+                addFloatingLine('╚═══════════════════════════════════════════════════════════════════════════════╝', 'success');
+                
+                setTimeout(() => {
+                    addFloatingLineWithTyping('CONNECTION ESTABLISHED', 'success', () => {
+                        addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════╗', 'success');
+                        addFloatingLine('║ HACKING PROTOCOL: PORT-A-HACK                           ║', 'info');
+                        addFloatingLine('║ TARGET: VAULT-TEC MAINFRAME                             ║', 'warning');
+                        addFloatingLine('║ ATTEMPTS REMAINING: 4                                   ║', 'warning');
+                        addFloatingLine('║ FIND PASSWORD TO GAIN ACCESS                             ║', 'info');
+                        addFloatingLine('╚═════════════════════════════════════════════════════════════════════════╝', 'success');
+                        
+                        setTimeout(() => {
+                            addFloatingLineWithTyping('LOADING HACKING INTERFACE...', 'info', () => {
+                                addFloatingLine(' PORT-A-HACK ACTIVATED! ', 'success');
+                                addFloatingLine('Use arrow keys to navigate, ENTER to select', 'info');
+                                addFloatingLine('Find the password in 4 attempts or face consequences!', 'warning');
+                                
+                                // Crear ventana de hackeo
+                                createPortAHackGame();
                                 
                                 setTimeout(() => addFloatingLine('>'), 500);
                             });
