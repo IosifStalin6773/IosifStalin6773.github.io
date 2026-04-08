@@ -1,12 +1,148 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las funcionalidades
+    initParticles();
     initNavigation();
     initScrollEffects();
     initFormHandler();
     initAnimations();
     initSkillBars();
 });
+
+// Sistema de partículas interactivas
+function initParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    if (!canvas) return;
+    
+    // Configurar canvas
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Configuración de partículas
+    const particles = [];
+    const particleCount = 100;
+    const connectionDistance = 150;
+    const mouseRadius = 200;
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    // Clase de partícula
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.5 + 0.3;
+            this.color = Math.random() > 0.5 ? '#00d4ff' : '#ff006e';
+        }
+        
+        update() {
+            // Movimiento básico
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // Rebote en bordes
+            if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+            if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+            
+            // Interacción con mouse
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < mouseRadius) {
+                const force = (mouseRadius - distance) / mouseRadius;
+                const angle = Math.atan2(dy, dx);
+                this.vx -= Math.cos(angle) * force * 0.5;
+                this.vy -= Math.sin(angle) * force * 0.5;
+            }
+            
+            // Limitar velocidad
+            const maxSpeed = 2;
+            const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (speed > maxSpeed) {
+                this.vx = (this.vx / speed) * maxSpeed;
+                this.vy = (this.vy / speed) * maxSpeed;
+            }
+        }
+        
+        draw() {
+            ctx.globalAlpha = this.opacity;
+            ctx.fillStyle = this.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+    
+    // Crear partículas
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+    
+    // Mouse move listener
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    // Touch support
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+        }
+    });
+    
+    // Animación
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Actualizar y dibujar partículas
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        
+        // Dibujar conexiones
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < connectionDistance) {
+                    const opacity = (1 - distance / connectionDistance) * 0.3;
+                    ctx.globalAlpha = opacity;
+                    ctx.strokeStyle = particles[i].color;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
 
 // Navegación móvil
 function initNavigation() {
