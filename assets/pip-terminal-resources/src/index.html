@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pip-Boy Terminal Resources</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="resource-manager">
+        <h2 class="resource-title">Pip-Boy Terminal Resources</h2>
+        
+        <div class="controls">
+            <button class="control-btn" onclick="loadImage('crtEffect')">Load CRT Effect</button>
+            <button class="control-btn" onclick="loadImage('staticNoise')">Load Static Noise</button>
+            <button class="control-btn" onclick="playSound('boot')">Play Boot Sound</button>
+            <button class="control-btn" onclick="playSound('click')">Play Click Sound</button>
+        </div>
+        
+        <div class="resource-list">
+            <h3>Images</h3>
+            <div id="image-list"></div>
+            
+            <h3>Audio</h3>
+            <div id="audio-list"></div>
+            
+            <h3>Radio Stations</h3>
+            <div id="radio-list"></div>
+        </div>
+        
+        <div class="status" id="status">
+            <p>Ready to load resources...</p>
+        </div>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>
