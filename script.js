@@ -692,7 +692,7 @@ function initPortAHackGame() {
                             // Cerrar ventana de hackeo
                             document.querySelector('.portahack-game-modal').remove();
                             
-                            // Abrir Asteroids
+                            // Abrir Asteroids directamente
                             setTimeout(() => {
                                 addFloatingLine('Launching Asteroids...', 'info');
                                 createAsteroidsGame();
@@ -1471,33 +1471,30 @@ function handleTerminalCommand(command) {
             break;
             
         case 'asteroids':
-            addFloatingLineWithTyping('INITIALIZING ASTEROIDS GAME...', 'info', () => {
-                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════════════════════════╗', 'success');
-                addFloatingLine('║ ROBCO INDUSTRIES - PIP-BOY 3000 GAME SYSTEM                     ║', 'success');
-                addFloatingLine('║ VERSION: 1.0.1 - ASTEROIDS CLONE                          ║', 'success');
-                addFloatingLine('║ STATUS: LOADING...                                      ║', 'warning');
-                addFloatingLine('╚═════════════════════════════════════════════════════════════════════════════╝', 'success');
+            addFloatingLineWithTyping('INITIALIZING ASTEROIDS ACCESS PROTOCOL...', 'info', () => {
+                addFloatingLine('╔═══════════════════════════════════════════════════════════════════════════╗', 'success');
+                addFloatingLine('║ ROBCO INDUSTRIES - GAME ACCESS SYSTEM                      ║', 'success');
+                addFloatingLine('║ VERSION: 2.0.1 - ASTEROIDS ACCESS PROTOCOL              ║', 'success');
+                addFloatingLine('║ STATUS: INITIALIZING HACKING INTERFACE...                 ║', 'warning');
+                addFloatingLine('╚═════════════════════════════════════════════════════════════════════════╝', 'success');
                 
                 setTimeout(() => {
-                    addFloatingLineWithTyping('GAME LOADED SUCCESSFULLY!', 'success', () => {
+                    addFloatingLineWithTyping('HACKING INTERFACE READY', 'success', () => {
                         addFloatingLine('╔═══════════════════════════════════════════════════════════════╗', 'success');
-                        addFloatingLine('║ CONTROLS:                                              ║', 'info');
-                        addFloatingLine('║ • LEFT KNOB: TURN LEFT                                 ║', 'info');
-                        addFloatingLine('║ • RIGHT KNOB: TURN RIGHT                                ║', 'info');
-                        addFloatingLine('║ • FIRE BUTTON: SHOOT                                     ║', 'info');
-                        addFloatingLine('║ • POWER BUTTON: EXIT GAME                                 ║', 'info');
-                        addFloatingLine('║                                                          ║', 'info');
-                        addFloatingLine('║ SCORE: 0 | HIGH SCORE: 10000                            ║', 'warning');
-                        addFloatingLine('╚═════════════════════════════════════════════════════════════════╝', 'success');
+                        addFloatingLine('║ HACKING PROTOCOL: PORT-A-HACK                         ║', 'info');
+                        addFloatingLine('║ TARGET: ASTEROIDS GAME SYSTEM                           ║', 'warning');
+                        addFloatingLine('║ REQUIREMENT: COMPLETE HACKING CHALLENGE                   ║', 'info');
+                        addFloatingLine('║ REWARD: UNLOCK ASTEROIDS GAME                           ║', 'success');
+                        addFloatingLine('╚═════════════════════════════════════════════════════════════╝', 'success');
                         
                         setTimeout(() => {
-                            addFloatingLineWithTyping('STARTING GAME...', 'info', () => {
-                                addFloatingLine(' ASTEROIDS GAME ACTIVATED! ', 'success');
-                                addFloatingLine('Use arrow keys to move, SPACE to shoot!', 'info');
-                                addFloatingLine('Good luck, Vault Dweller!', 'success');
+                            addFloatingLineWithTyping('LAUNCHING HACKING INTERFACE...', 'info', () => {
+                                addFloatingLine(' PORT-A-HACK INITIATED! ', 'success');
+                                addFloatingLine('Complete the hacking challenge to unlock Asteroids!', 'info');
+                                addFloatingLine('Use arrow keys to navigate, ENTER to select', 'warning');
                                 
-                                // Crear ventana de juego
-                                createAsteroidsGame();
+                                // Crear ventana de hackeo
+                                createPortAHackGame();
                                 
                                 setTimeout(() => addFloatingLine('>'), 500);
                             });
