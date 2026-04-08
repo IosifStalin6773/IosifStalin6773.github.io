@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape From Tarkov Helix Framework - IosifStalin6773 Portfolio</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Canvas de partículas -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Controles de tema e idioma -->
+    <div class="theme-language-controls">
+        <button class="control-btn" id="themeToggle" title="Cambiar tema">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="control-btn" id="langToggle" title="Change language / Cambiar idioma">
+            <i class="fas fa-globe"></i>
+        </button>
+    </div>
+    
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h3><a href="../index.html" style="color: inherit; text-decoration: none;">Portfolio</a></h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html" data-lang="nav.home">Inicio</a></li>
+                <li><a href="../index.html#experiencia" data-lang="nav.experience">Experiencia</a></li>
+                <li><a href="../index.html#proyectos" data-lang="nav.projects">Proyectos</a></li>
+                <li><a href="../index.html#habilidades" data-lang="nav.skills">Habilidades</a></li>
+                <li><a href="../index.html#contacto" data-lang="nav.contact">Contacto</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero del Proyecto -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Escape From Tarkov Helix Framework</h1>
+                <p class="hero-subtitle">Sistema de Inventario Avanzado</p>
+                <p class="hero-description">
+                    Sistema de inventario inspirado en EFT implementado en el framework Helix para Garry's Mod. 
+                    Recrea la mecánica de gestión de objetos e inventario de EFT con cuadrícula avanzada, 
+                    interfaz visual intuitiva y compatibilidad total con el ecosistema Helix.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://github.com/IosifStalin6773/ix_tarkov" class="btn btn-primary">Ver en GitHub</a>
+                    <a href="../index.html#proyectos" class="btn btn-secondary">Volver a Proyectos</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="project-placeholder">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detalles del Proyecto -->
+    <section class="experience">
+        <div class="container">
+            <h2 class="section-title">Detalles del Proyecto</h2>
+            
+            <div class="project-details">
+                <div class="detail-card">
+                    <h3><i class="fas fa-cogs"></i> Características Principales</h3>
+                    <ul>
+                        <li>Sistema de inventario con cuadrícula al estilo EFT</li>
+                        <li>Gestión avanzada de objetos y pesos</li>
+                        <li>Interfaz visual intuitiva inspirada en Escape From Tarkov</li>
+                        <li>Integración completa con Helix Framework</li>
+                        <li>Soporte para objetos personalizables</li>
+                        <li>Compatibilidad con armas, equipamiento y consumibles</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3><i class="fas fa-code"></i> Tecnologías Utilizadas</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fas fa-code"></i>
+                            <span>Lua Scripting</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-cube"></i>
+                            <span>Helix Framework</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Garry's Mod</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-palette"></i>
+                            <span>UI Design</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-database"></i>
+                            <span>MySQL</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Networking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3><i class="fas fa-boxes"></i> Sistema de Inventario</h3>
+                    <ul>
+                        <li>Cuadrícula de inventario configurable (6x8, 8x10, etc.)</li>
+                        <li>Sistema de peso y espacio realista</li>
+                        <li>Apilamiento automático de objetos compatibles</li>
+                        <li>Categorización inteligente de items</li>
+                        <li>Búsqueda y filtrado rápido de objetos</li>
+                        <li>Drag & drop intuitivo para gestión</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3><i class="fas fa-shield-alt"></i> Características de Seguridad</h3>
+                    <ul>
+                        <li>Validación de objetos en servidor</li>
+                        <li>Protección contra exploits de inventario</li>
+                        <li>Sistema de logs completo</li>
+                        <li>Integración con sistema de permisos Helix</li>
+                        <li>Anti-cheat integrado</li>
+                        <li>Rollback automático en caso de errores</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instalación y Configuración -->
+    <section class="projects">
+        <div class="container">
+            <h2 class="section-title">Instalación y Configuración</h2>
+            
+            <div class="install-guide">
+                <div class="install-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Requisitos Previos</h3>
+                        <pre><code>- Garry's Mod Server
+- Helix Framework instalado
+- Acceso administrativo al servidor
+- MySQL para base de datos</code></pre>
+                    </div>
+                </div>
+
+                <div class="install-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Instalación del Mod</h3>
+                        <pre><code>1. Clonar el repositorio
+2. Copiar archivos a garrysmod/addons
+3. Reiniciar el servidor
+4. Configurar en panel de admin</code></pre>
+                    </div>
+                </div>
+
+                <div class="install-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Configuración Base</h3>
+                        <pre><code>-- Configurar tamaño de inventario
+-- Definir objetos personalizados
+-- Ajustar pesos y valores
+-- Establecer permisos de acceso</code></pre>
+                    </div>
+                </div>
+
+                <div class="install-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Personalización</h3>
+                        <pre><code>-- Modificar UI según preferencias
+-- Añadir objetos personalizados
+-- Configurar reglas del servidor
+-- Integrar con otros mods</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 IosifStalin6773. Todos los derechos reservados.</p>
+                <div class="social-links">
+                    <a href="https://github.com/IosifStalin6773" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
