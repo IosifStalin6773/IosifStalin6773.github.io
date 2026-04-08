@@ -247,11 +247,9 @@ function toggleTheme() {
         return;
     }
     
-    const themes = ['dark', 'light', 'fallout'];
+    // Solo ciclar entre dark y light
     const currentTheme = localStorage.getItem('theme') || 'dark';
-    const currentIndex = themes.indexOf(currentTheme);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    const newTheme = themes[nextIndex];
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     // Aplicar nuevo tema
     document.documentElement.setAttribute('data-theme', newTheme);
@@ -264,31 +262,14 @@ function toggleTheme() {
     
     // Animación de transición
     document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-    
-    // Efecto de cambio de tema
-    if (newTheme === 'fallout') {
-        playTerminalSound();
-        showTerminalMessage('SYSTEM MODE: FALLOUT');
-        showPipboyTerminal();
-    } else {
-        hidePipboyTerminal();
-    }
 }
 
 function updateThemeIcon(theme) {
     const themeIcon = document.querySelector('#themeToggle i');
-    switch(theme) {
-        case 'light':
-            themeIcon.className = 'fas fa-sun';
-            // El botón terminal siempre visible
-            break;
-        case 'fallout':
-            themeIcon.className = 'fas fa-tv';
-            document.getElementById('pipboyToggle').style.display = 'flex';
-            break;
-        default:
-            themeIcon.className = 'fas fa-moon';
-            document.getElementById('pipboyToggle').style.display = 'none';
+    if (theme === 'light') {
+        themeIcon.className = 'fas fa-sun';
+    } else {
+        themeIcon.className = 'fas fa-moon';
     }
 }
 
@@ -558,9 +539,13 @@ function toggleFloatingTerminal() {
     }
     
     if (terminal.style.display === 'none' || terminal.style.display === '') {
-        // Activar terminal
+        // Activar terminal y tema Fallout
         terminal.style.display = 'block';
         document.body.classList.add('terminal-active');
+        
+        // Activar tema Fallout
+        document.documentElement.setAttribute('data-theme', 'fallout');
+        localStorage.setItem('theme', 'fallout');
         
         // Actualizar botones
         const floatBtn = document.getElementById('pipboyFloat');
@@ -580,12 +565,22 @@ function toggleFloatingTerminal() {
             themeToggleBtn.style.cursor = 'not-allowed';
         }
         
-        showTerminalMessage('TERMINAL ACTIVATED');
+        // Efectos de sonido y mensaje
+        playTerminalSound();
+        showTerminalMessage('SYSTEM MODE: FALLOUT - TERMINAL ACTIVATED');
         addFloatingLine('Type "help" for available commands');
+        
     } else {
-        // Desactivar terminal
+        // Desactivar terminal y volver al tema anterior
         terminal.style.display = 'none';
         document.body.classList.remove('terminal-active');
+        
+        // Volver al tema dark por defecto
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        
+        // Actualizar icono de tema
+        updateThemeIcon('dark');
         
         // Restaurar botones
         const floatBtn = document.getElementById('pipboyFloat');
@@ -605,7 +600,7 @@ function toggleFloatingTerminal() {
             themeToggleBtn.style.cursor = 'pointer';
         }
         
-        showTerminalMessage('TERMINAL DEACTIVATED');
+        showTerminalMessage('TERMINAL DEACTIVATED - RETURNING TO NORMAL MODE');
     }
 }
 
