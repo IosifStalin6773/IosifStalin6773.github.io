@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initThemeLanguage();
     initSmartImages();
     initPipboyTerminal();
-    initSidebar();
     initParticles();
     initNavigation();
     initScrollEffects();
@@ -529,7 +528,6 @@ function toggleFloatingTerminal() {
     const terminal = document.getElementById('pipboy-floating-terminal');
     const terminalToggleBtn = document.getElementById('terminalToggle');
     const themeToggleBtn = document.getElementById('themeToggle');
-    const sidebar = document.getElementById('terminal-sidebar');
     
     if (!terminal) {
         createFloatingTerminal();
@@ -548,14 +546,6 @@ function toggleFloatingTerminal() {
         // Activar tema Fallout
         document.documentElement.setAttribute('data-theme', 'fallout');
         localStorage.setItem('theme', 'fallout');
-        
-        // Mostrar barra lateral
-        if (sidebar) {
-            sidebar.classList.add('active');
-        }
-        
-        // Inicializar scroll tracking
-        initScrollTracking();
         
         // Actualizar botones
         const floatBtn = document.getElementById('pipboyFloat');
@@ -583,11 +573,6 @@ function toggleFloatingTerminal() {
         // Desactivar terminal y volver al tema anterior
         terminal.style.display = 'none';
         document.body.classList.remove('terminal-active');
-        
-        // Ocultar barra lateral
-        if (sidebar) {
-            sidebar.classList.remove('active');
-        }
         
         // Volver al tema dark por defecto
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -652,84 +637,6 @@ function hidePipboyTerminal() {
     const terminal = document.getElementById('pipboy-floating-terminal');
     if (terminal) {
         terminal.style.display = 'none';
-    }
-}
-
-// Sistema de scroll tracking para barra lateral
-function initScrollTracking() {
-    const scrollProgress = document.getElementById('scroll-progress');
-    const scrollPosition = document.querySelector('.scroll-position');
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    
-    if (!scrollProgress || !scrollPosition) return;
-    
-    // Actualizar scroll progress
-    function updateScrollProgress() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = Math.round((scrollTop / scrollHeight) * 100);
-        
-        scrollProgress.style.width = scrollPercent + '%';
-        scrollPosition.textContent = scrollPercent + '%';
-        
-        // Actualizar enlace activo
-        updateActiveLink();
-    }
-    
-    // Actualizar enlace activo según sección visible
-    function updateActiveLink() {
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                sidebarLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + sectionId) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-    
-    // Event listener para scroll
-    window.addEventListener('scroll', updateScrollProgress);
-    
-    // Event listeners para enlaces de navegación
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Inicializar
-    updateScrollProgress();
-}
-
-// Inicializar barra lateral
-function initSidebar() {
-    const sidebarClose = document.getElementById('sidebar-close');
-    const sidebar = document.getElementById('terminal-sidebar');
-    
-    if (sidebarClose && sidebar) {
-        sidebarClose.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-        });
     }
 }
 
