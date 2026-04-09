@@ -333,9 +333,27 @@ function initThemeLanguage() {
     // Aplicar idioma inicial
     setLanguage(savedLang);
     
-    // Event listeners
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+    // Event listeners with error handling
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const langToggleBtn = document.getElementById('langToggle');
+    
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function() {
+            console.log('Theme toggle button clicked');
+            toggleTheme();
+        });
+    } else {
+        console.error('Theme toggle button not found');
+    }
+    
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', function() {
+            console.log('Language toggle button clicked');
+            toggleLanguage();
+        });
+    } else {
+        console.error('Language toggle button not found');
+    }
 }
 
 // Sistema de traducciones
@@ -509,7 +527,12 @@ function initPipboyTerminal() {
     }
     
     if (terminalToggleBtn) {
-        terminalToggleBtn.addEventListener('click', toggleFloatingTerminal);
+        terminalToggleBtn.addEventListener('click', function() {
+            console.log('Terminal toggle button clicked');
+            toggleFloatingTerminal();
+        });
+    } else {
+        console.error('Terminal toggle button not found');
     }
 }
 
