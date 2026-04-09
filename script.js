@@ -409,15 +409,6 @@ function toggleLanguage() {
 }
 
 function toggleTheme() {
-    // Verificar si la terminal está activa
-    const terminalActive = document.body.classList.contains('terminal-active');
-    
-    if (terminalActive) {
-        // No permitir cambio de tema cuando terminal está activa
-        showTerminalMessage('CANNOT CHANGE THEME - TERMINAL ACTIVE');
-        return;
-    }
-    
     // Solo ciclar entre dark y light
     const currentTheme = localStorage.getItem('theme') || 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
