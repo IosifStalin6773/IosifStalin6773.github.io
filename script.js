@@ -339,20 +339,14 @@ function initThemeLanguage() {
     
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', function() {
-            console.log('Theme toggle button clicked');
             toggleTheme();
         });
-    } else {
-        console.error('Theme toggle button not found');
     }
     
     if (langToggleBtn) {
         langToggleBtn.addEventListener('click', function() {
-            console.log('Language toggle button clicked');
             toggleLanguage();
         });
-    } else {
-        console.error('Language toggle button not found');
     }
 }
 
@@ -528,11 +522,8 @@ function initPipboyTerminal() {
     
     if (terminalToggleBtn) {
         terminalToggleBtn.addEventListener('click', function() {
-            console.log('Terminal toggle button clicked');
             toggleFloatingTerminal();
         });
-    } else {
-        console.error('Terminal toggle button not found');
     }
 }
 
@@ -2842,7 +2833,6 @@ const ADMIN_PASSWORD = 'admin123'; // Cambiar esto por una contraseña segura
 
 // Show admin login modal
 function showAdminLogin() {
-    console.log('Admin button clicked');
     const modal = document.getElementById('adminLoginModal');
     if (modal) {
         modal.style.display = 'block';
@@ -2851,7 +2841,6 @@ function showAdminLogin() {
             passwordInput.focus();
         }
     } else {
-        console.error('Admin login modal not found');
         alert('Error: No se encontró el modal de administración');
     }
 }
