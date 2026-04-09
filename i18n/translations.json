@@ -1,0 +1,884 @@
+{
+  "es": {
+    "meta": {
+      "title": "Oscar de La Cruz - Portfolio Profesional | Desarrollador Full Stack",
+      "description": "Portfolio profesional de Oscar de La Cruz - Desarrollador Full Stack especializado en automatización, bots, gaming y desarrollo web.",
+      "keywords": "Oscar de La Cruz, desarrollador, full stack, programador, bots, gaming, automatización, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Inicio",
+      "about": "Sobre Mí",
+      "experience": "Experiencia",
+      "projects": "Proyectos",
+      "skills": "Habilidades",
+      "contact": "Contacto"
+    },
+    "hero": {
+      "title": "Hola, Soy Oscar de La Cruz",
+      "subtitle": "Desarrollador Full Stack & Gaming Enthusiast",
+      "description": "Desarrollador apasionado con experiencia en creación de bots, scripts para gaming, aplicaciones web y herramientas personalizadas. Especializado en automatización, desarrollo de servidores de juego y temas personalizados.",
+      "btnExperience": "Ver Experiencia",
+      "btnContact": "Contactarme",
+      "btnProjects": "Ver Proyectos"
+    },
+    "about": {
+      "title": "Sobre Mí",
+      "description": "Soy un desarrollador full stack con más de 5 años de experiencia en el desarrollo de aplicaciones web modernas y soluciones de automatización. Mi pasión por la tecnología me lleva a explorar constantemente nuevas tecnologías y metodologías.",
+      "highlights": {
+        "automation": {
+          "title": "Automatización",
+          "description": "Creación de bots y scripts para automatizar tareas repetitivas"
+        },
+        "gaming": {
+          "title": "Gaming Development",
+          "description": "Desarrollo de servidores de juego y herramientas para gaming"
+        },
+        "web": {
+          "title": "Desarrollo Web",
+          "description": "Aplicaciones web modernas con las últimas tecnologías"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ años",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Experiencia Profesional",
+      "items": [
+        {
+          "position": "Full Stack Developer",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Presente",
+          "description": "Desarrollo de aplicaciones web escalables usando React, Node.js y MongoDB. Implementación de microservicios y optimización de rendimiento."
+        },
+        {
+          "position": "Frontend Developer",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Creación de interfaces de usuario responsivas y accesibles. Trabajo con Vue.js, TypeScript y metodologías ágiles."
+        },
+        {
+          "position": "Junior Developer",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Desarrollo de funcionalidades frontend y backend. Mantenimiento de aplicaciones existentes y optimización de código."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Proyectos Destacados",
+      "items": [
+        {
+          "title": "E-Commerce Platform",
+          "description": "Plataforma de comercio electrónico completa con carrito de compras, pasarela de pago y panel de administración.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Task Automation Bot",
+          "description": "Bot para automatizar tareas repetitivas en redes sociales y plataformas de marketing.",
+          "technologies": ["Python", "Selenium", "API REST"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gaming Server Manager",
+          "description": "Sistema de gestión para servidores de juego con monitorización en tiempo real y configuración remota.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Habilidades Técnicas",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Herramientas",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Contacto",
+      "description": "¿Interesado en colaborar o tienes algún proyecto en mente? ¡Hablemos!",
+      "form": {
+        "name": "Nombre",
+        "email": "Email",
+        "message": "Mensaje",
+        "submit": "Enviar Mensaje"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, España"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. Todos los derechos reservados.",
+      "madeWith": "Hecho con <i class='fas fa-heart'></i> y mucho café"
+    }
+  },
+  "en": {
+    "meta": {
+      "title": "Oscar de La Cruz - Professional Portfolio | Full Stack Developer",
+      "description": "Professional portfolio of Oscar de La Cruz - Full Stack Developer specializing in automation, bots, gaming and web development.",
+      "keywords": "Oscar de La Cruz, developer, full stack, programmer, bots, gaming, automation, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Hello, I'm Oscar de La Cruz",
+      "subtitle": "Full Stack Developer & Gaming Enthusiast",
+      "description": "Passionate developer with experience in creating bots, gaming scripts, web applications and custom tools. Specialized in automation, game server development and custom themes.",
+      "btnExperience": "View Experience",
+      "btnContact": "Contact Me",
+      "btnProjects": "View Projects"
+    },
+    "about": {
+      "title": "About Me",
+      "description": "I'm a full stack developer with over 5 years of experience in modern web application development and automation solutions. My passion for technology drives me to constantly explore new technologies and methodologies.",
+      "highlights": {
+        "automation": {
+          "title": "Automation",
+          "description": "Creating bots and scripts to automate repetitive tasks"
+        },
+        "gaming": {
+          "title": "Gaming Development",
+          "description": "Game server development and gaming tools"
+        },
+        "web": {
+          "title": "Web Development",
+          "description": "Modern web applications with latest technologies"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ years",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "items": [
+        {
+          "position": "Full Stack Developer",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Present",
+          "description": "Development of scalable web applications using React, Node.js and MongoDB. Implementation of microservices and performance optimization."
+        },
+        {
+          "position": "Frontend Developer",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Creation of responsive and accessible user interfaces. Work with Vue.js, TypeScript and agile methodologies."
+        },
+        {
+          "position": "Junior Developer",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Frontend and backend functionality development. Maintenance of existing applications and code optimization."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "items": [
+        {
+          "title": "E-Commerce Platform",
+          "description": "Complete e-commerce platform with shopping cart, payment gateway and admin panel.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Task Automation Bot",
+          "description": "Bot for automating repetitive tasks on social media and marketing platforms.",
+          "technologies": ["Python", "Selenium", "REST API"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gaming Server Manager",
+          "description": "Game server management system with real-time monitoring and remote configuration.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Technical Skills",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Tools",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Interested in collaborating or have a project in mind? Let's talk!",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Send Message"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, Spain"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. All rights reserved.",
+      "madeWith": "Made with <i class='fas fa-heart'></i> and lots of coffee"
+    }
+  },
+  "fr": {
+    "meta": {
+      "title": "Oscar de La Cruz - Portfolio Professionnel | Développeur Full Stack",
+      "description": "Portfolio professionnel d'Oscar de La Cruz - Développeur Full Stack spécialisé en automatisation, bots, gaming et développement web.",
+      "keywords": "Oscar de La Cruz, développeur, full stack, programmeur, bots, gaming, automatisation, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Accueil",
+      "about": "À propos",
+      "experience": "Expérience",
+      "projects": "Projets",
+      "skills": "Compétences",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Bonjour, je suis Oscar de La Cruz",
+      "subtitle": "Développeur Full Stack & Passionné de Gaming",
+      "description": "Développeur passionné avec une expérience dans la création de bots, scripts de gaming, applications web et outils personnalisés. Spécialisé en automatisation, développement de serveurs de jeu et thèmes personnalisés.",
+      "btnExperience": "Voir l'Expérience",
+      "btnContact": "Me Contacter",
+      "btnProjects": "Voir les Projets"
+    },
+    "about": {
+      "title": "À propos de moi",
+      "description": "Je suis un développeur full stack avec plus de 5 ans d'expérience dans le développement d'applications web modernes et solutions d'automatisation. Ma passion pour la technologie me pousse à explorer constamment de nouvelles technologies et méthodologies.",
+      "highlights": {
+        "automation": {
+          "title": "Automatisation",
+          "description": "Création de bots et scripts pour automatiser les tâches répétitives"
+        },
+        "gaming": {
+          "title": "Développement Gaming",
+          "description": "Développement de serveurs de jeu et outils pour gaming"
+        },
+        "web": {
+          "title": "Développement Web",
+          "description": "Applications web modernes avec les dernières technologies"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ ans",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Expérience Professionnelle",
+      "items": [
+        {
+          "position": "Développeur Full Stack",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Présent",
+          "description": "Développement d'applications web évolutives utilisant React, Node.js et MongoDB. Implémentation de microservices et optimisation des performances."
+        },
+        {
+          "position": "Développeur Frontend",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Création d'interfaces utilisateur responsives et accessibles. Travail avec Vue.js, TypeScript et méthodologies agiles."
+        },
+        {
+          "position": "Développeur Junior",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Développement de fonctionnalités frontend et backend. Maintenance d'applications existantes et optimisation du code."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Projets Vedettes",
+      "items": [
+        {
+          "title": "Plateforme E-Commerce",
+          "description": "Plateforme e-commerce complète avec panier d'achat, passerelle de paiement et panneau d'administration.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Bot d'Automatisation de Tâches",
+          "description": "Bot pour automatiser les tâches répétitives sur les réseaux sociaux et plateformes de marketing.",
+          "technologies": ["Python", "Selenium", "API REST"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gestionnaire de Serveur Gaming",
+          "description": "Système de gestion pour serveurs de jeu avec monitoring en temps réel et configuration à distance.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Compétences Techniques",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Outils",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Intéressé par une collaboration ou avez-vous un projet en tête? Parlons-en!",
+      "form": {
+        "name": "Nom",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Envoyer le Message"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, Espagne"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. Tous droits réservés.",
+      "madeWith": "Fait avec <i class='fas fa-heart'></i> et beaucoup de café"
+    }
+  },
+  "de": {
+    "meta": {
+      "title": "Oscar de La Cruz - Professionelles Portfolio | Full Stack Entwickler",
+      "description": "Professionelles Portfolio von Oscar de La Cruz - Full Stack Entwickler spezialisiert auf Automatisierung, Bots, Gaming und Webentwicklung.",
+      "keywords": "Oscar de La Cruz, Entwickler, full stack, Programmierer, bots, gaming, Automatisierung, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Startseite",
+      "about": "Über Mich",
+      "experience": "Erfahrung",
+      "projects": "Projekte",
+      "skills": "Fähigkeiten",
+      "contact": "Kontakt"
+    },
+    "hero": {
+      "title": "Hallo, ich bin Oscar de La Cruz",
+      "subtitle": "Full Stack Entwickler & Gaming Enthusiast",
+      "description": "Leidenschaftlicher Entwickler mit Erfahrung in der Erstellung von Bots, Gaming-Scripts, Webanwendungen und benutzerdefinierten Tools. Spezialisiert auf Automatisierung, Gaming-Server-Entwicklung und benutzerdefinierte Themes.",
+      "btnExperience": "Erfahrung Ansehen",
+      "btnContact": "Kontaktieren",
+      "btnProjects": "Projekte Ansehen"
+    },
+    "about": {
+      "title": "Über Mich",
+      "description": "Ich bin ein Full Stack Entwickler mit über 5 Jahren Erfahrung in der Entwicklung moderner Webanwendungen und Automatisierungslösungen. Meine Leidenschaft für Technologie treibt mich an, ständig neue Technologien und Methodologien zu erkunden.",
+      "highlights": {
+        "automation": {
+          "title": "Automatisierung",
+          "description": "Erstellung von Bots und Scripts zur Automatisierung sich wiederholender Aufgaben"
+        },
+        "gaming": {
+          "title": "Gaming Entwicklung",
+          "description": "Gaming-Server-Entwicklung und Gaming-Tools"
+        },
+        "web": {
+          "title": "Web Entwicklung",
+          "description": "Moderne Webanwendungen mit den neuesten Technologien"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ Jahre",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Berufserfahrung",
+      "items": [
+        {
+          "position": "Full Stack Entwickler",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Heute",
+          "description": "Entwicklung skalierbarer Webanwendungen mit React, Node.js und MongoDB. Implementierung von Microservices und Performance-Optimierung."
+        },
+        {
+          "position": "Frontend Entwickler",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Erstellung responsiver und barrierefreier Benutzeroberflächen. Arbeit mit Vue.js, TypeScript und agilen Methodologien."
+        },
+        {
+          "position": "Junior Entwickler",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Frontend- und Backend-Funktionalitätsentwicklung. Wartung bestehender Anwendungen und Code-Optimierung."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Hervorgehobene Projekte",
+      "items": [
+        {
+          "title": "E-Commerce Plattform",
+          "description": "Vollständige E-Commerce-Plattform mit Warenkorb, Zahlungs-Gateway und Admin-Panel.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Task Automatisierungs-Bot",
+          "description": "Bot zur Automatisierung sich wiederholender Aufgaben auf sozialen Medien und Marketing-Plattformen.",
+          "technologies": ["Python", "Selenium", "REST API"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gaming Server Manager",
+          "description": "Gaming-Server-Management-System mit Echtzeit-Monitoring und Fernkonfiguration.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Technische Fähigkeiten",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Werkzeuge",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Interessiert an Zusammenarbeit oder haben Sie ein Projekt im Sinn? Lassen Sie uns sprechen!",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Nachricht",
+        "submit": "Nachricht Senden"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, Spanien"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. Alle Rechte vorbehalten.",
+      "madeWith": "Gemacht mit <i class='fas fa-heart'></i> und viel Kaffee"
+    }
+  },
+  "zh": {
+    "meta": {
+      "title": "Oscar de La Cruz -  professional Portfolio | Full Stack Developer",
+      "description": "Oscar de La Cruz  professional portfolio - Full Stack Developer specializing in automation, bots, gaming and web development.",
+      "keywords": "Oscar de La Cruz, developer, full stack, programmer, bots, gaming, automation, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Hello, I'm Oscar de La Cruz",
+      "subtitle": "Full Stack Developer & Gaming Enthusiast",
+      "description": "Passionate developer with experience in creating bots, gaming scripts, web applications and custom tools. Specialized in automation, game server development and custom themes.",
+      "btnExperience": "View Experience",
+      "btnContact": "Contact Me",
+      "btnProjects": "View Projects"
+    },
+    "about": {
+      "title": "About Me",
+      "description": "I'm a full stack developer with over 5 years of experience in modern web application development and automation solutions. My passion for technology drives me to constantly explore new technologies and methodologies.",
+      "highlights": {
+        "automation": {
+          "title": "Automation",
+          "description": "Creating bots and scripts to automate repetitive tasks"
+        },
+        "gaming": {
+          "title": "Gaming Development",
+          "description": "Game server development and gaming tools"
+        },
+        "web": {
+          "title": "Web Development",
+          "description": "Modern web applications with latest technologies"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ years",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "items": [
+        {
+          "position": "Full Stack Developer",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Present",
+          "description": "Development of scalable web applications using React, Node.js and MongoDB. Implementation of microservices and performance optimization."
+        },
+        {
+          "position": "Frontend Developer",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Creation of responsive and accessible user interfaces. Work with Vue.js, TypeScript and agile methodologies."
+        },
+        {
+          "position": "Junior Developer",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Frontend and backend functionality development. Maintenance of existing applications and code optimization."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "items": [
+        {
+          "title": "E-Commerce Platform",
+          "description": "Complete e-commerce platform with shopping cart, payment gateway and admin panel.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Task Automation Bot",
+          "description": "Bot for automating repetitive tasks on social media and marketing platforms.",
+          "technologies": ["Python", "Selenium", "REST API"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gaming Server Manager",
+          "description": "Game server management system with real-time monitoring and remote configuration.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Technical Skills",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Tools",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Interested in collaborating or have a project in mind? Let's talk!",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Send Message"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, Spain"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. All rights reserved.",
+      "madeWith": "Made with <i class='fas fa-heart'></i> and lots of coffee"
+    }
+  },
+  "ja": {
+    "meta": {
+      "title": "Oscar de La Cruz - Professional Portfolio | Full Stack Developer",
+      "description": "Professional portfolio of Oscar de La Cruz - Full Stack Developer specializing in automation, bots, gaming and web development.",
+      "keywords": "Oscar de La Cruz, developer, full stack, programmer, bots, gaming, automation, javascript, python, web, portfolio"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
+    "hero": {
+      "title": "Hello, I'm Oscar de La Cruz",
+      "subtitle": "Full Stack Developer & Gaming Enthusiast",
+      "description": "Passionate developer with experience in creating bots, gaming scripts, web applications and custom tools. Specialized in automation, game server development and custom themes.",
+      "btnExperience": "View Experience",
+      "btnContact": "Contact Me",
+      "btnProjects": "View Projects"
+    },
+    "about": {
+      "title": "About Me",
+      "description": "I'm a full stack developer with over 5 years of experience in modern web application development and automation solutions. My passion for technology drives me to constantly explore new technologies and methodologies.",
+      "highlights": {
+        "automation": {
+          "title": "Automation",
+          "description": "Creating bots and scripts to automate repetitive tasks"
+        },
+        "gaming": {
+          "title": "Gaming Development",
+          "description": "Game server development and gaming tools"
+        },
+        "web": {
+          "title": "Web Development",
+          "description": "Modern web applications with latest technologies"
+        }
+      },
+      "stats": {
+        "projects": "50+",
+        "clients": "30+",
+        "experience": "5+ years",
+        "technologies": "15+"
+      }
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "items": [
+        {
+          "position": "Full Stack Developer",
+          "company": "Tech Solutions Inc.",
+          "period": "2022 - Present",
+          "description": "Development of scalable web applications using React, Node.js and MongoDB. Implementation of microservices and performance optimization."
+        },
+        {
+          "position": "Frontend Developer",
+          "company": "Digital Agency Pro",
+          "period": "2020 - 2022",
+          "description": "Creation of responsive and accessible user interfaces. Work with Vue.js, TypeScript and agile methodologies."
+        },
+        {
+          "position": "Junior Developer",
+          "company": "StartUp Tech",
+          "period": "2019 - 2020",
+          "description": "Frontend and backend functionality development. Maintenance of existing applications and code optimization."
+        }
+      ]
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "items": [
+        {
+          "title": "E-Commerce Platform",
+          "description": "Complete e-commerce platform with shopping cart, payment gateway and admin panel.",
+          "technologies": ["React", "Node.js", "MongoDB", "Stripe"],
+          "github": "https://github.com/user/ecommerce",
+          "demo": "https://demo.ecommerce.com"
+        },
+        {
+          "title": "Task Automation Bot",
+          "description": "Bot for automating repetitive tasks on social media and marketing platforms.",
+          "technologies": ["Python", "Selenium", "REST API"],
+          "github": "https://github.com/user/automation-bot",
+          "demo": "https://demo.bot.com"
+        },
+        {
+          "title": "Gaming Server Manager",
+          "description": "Game server management system with real-time monitoring and remote configuration.",
+          "technologies": ["Node.js", "Socket.io", "Docker"],
+          "github": "https://github.com/user/gaming-server",
+          "demo": "https://demo.gaming-server.com"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Technical Skills",
+      "categories": {
+        "frontend": {
+          "title": "Frontend",
+          "skills": [
+            { "name": "HTML5/CSS3", "level": 95 },
+            { "name": "JavaScript/TypeScript", "level": 90 },
+            { "name": "React/Vue.js", "level": 85 },
+            { "name": "Tailwind CSS", "level": 80 }
+          ]
+        },
+        "backend": {
+          "title": "Backend",
+          "skills": [
+            { "name": "Node.js", "level": 85 },
+            { "name": "Python", "level": 80 },
+            { "name": "MongoDB", "level": 75 },
+            { "name": "PostgreSQL", "level": 70 }
+          ]
+        },
+        "tools": {
+          "title": "Tools",
+          "skills": [
+            { "name": "Git/GitHub", "level": 90 },
+            { "name": "Docker", "level": 75 },
+            { "name": "CI/CD", "level": 70 },
+            { "name": "AWS", "level": 65 }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Interested in collaborating or have a project in mind? Let's talk!",
+      "form": {
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Send Message"
+      },
+      "info": {
+        "email": "oscar@example.com",
+        "phone": "+34 600 000 000",
+        "location": "Madrid, Spain"
+      }
+    },
+    "footer": {
+      "copyright": "© 2024 Oscar de La Cruz. All rights reserved.",
+      "madeWith": "Made with <i class='fas fa-heart'></i> and lots of coffee"
+    }
+  }
+}
