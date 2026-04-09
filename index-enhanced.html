@@ -709,6 +709,27 @@
     <canvas id="particles-canvas"></canvas>
     
     <!-- Scripts -->
+    <script>
+        // Hide loading screen when page is ready
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    document.body.classList.add('loaded');
+                }
+            }, 500);
+        });
+
+        // Fallback in case load event doesn't fire
+        setTimeout(function() {
+            const loader = document.getElementById('loader');
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.classList.add('hidden');
+                document.body.classList.add('loaded');
+            }
+        }, 3000);
+    </script>
     <script src="js/performance-optimizer.js" defer></script>
     <script src="js/i18n.js" defer></script>
     <script src="js/content-manager.js" defer></script>
