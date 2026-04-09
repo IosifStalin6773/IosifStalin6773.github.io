@@ -2819,8 +2819,18 @@ const ADMIN_PASSWORD = 'admin123'; // Cambiar esto por una contraseña segura
 
 // Show admin login modal
 function showAdminLogin() {
-    document.getElementById('adminLoginModal').style.display = 'block';
-    document.getElementById('adminPassword').focus();
+    console.log('Admin button clicked');
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'block';
+        const passwordInput = document.getElementById('adminPassword');
+        if (passwordInput) {
+            passwordInput.focus();
+        }
+    } else {
+        console.error('Admin login modal not found');
+        alert('Error: No se encontró el modal de administración');
+    }
 }
 
 // Close admin login modal
