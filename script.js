@@ -1995,6 +1995,30 @@ function restoreAllStates() {
         terminalToggleBtn.classList.remove('terminal-active');
     }
     
+    // Limpiar estilos de Fallout de la tarjeta de perfil
+    const profileCard = document.querySelector('.profile-card');
+    if (profileCard) {
+        // Remover clases de Fallout
+        profileCard.classList.remove('vault-tec-card', 'crt-effect');
+        
+        // Remover contenido de VAULT-TEC si existe
+        const vaultTecLabel = profileCard.querySelector('::before');
+        if (vaultTecLabel) {
+            profileCard.style.removeProperty('--vault-tec-label');
+        }
+        
+        // Restaurar estilos normales
+        profileCard.style.border = '';
+        profileCard.style.background = '';
+        profileCard.style.boxShadow = '';
+        
+        // Remover elementos de Vault-Tec si fueron añadidos
+        const vaultTecElements = profileCard.querySelectorAll('.vault-tec-avatar, .vault-tec-info');
+        vaultTecElements.forEach(el => {
+            el.classList.remove('vault-tec-avatar', 'vault-tec-info');
+        });
+    }
+    
     // Restaurar visibilidad de la terminal con mejor timing
     const terminalWasVisible = stateManager.loadTerminalVisible();
     if (terminalWasVisible) {
@@ -2732,15 +2756,15 @@ function initPipBoyComponents() {
         attributeFilter: ['data-theme']
     });
     
-    // Add Vault-Tec card to profile section
-    const profileCard = document.querySelector('.profile-card');
-    if (profileCard) {
-        new VaultTecCard(profileCard, {
-            name: 'Oscar de La Cruz',
-            title: 'Desarrollador Full Stack',
-            stats: { projects: 40, experience: 8 }
-        });
-    }
+    // DESACTIVADO: Add Vault-Tec card to profile section
+    // const profileCard = document.querySelector('.profile-card');
+    // if (profileCard) {
+    //     new VaultTecCard(profileCard, {
+    //         name: 'Oscar de La Cruz',
+    //         title: 'Desarrollador Full Stack',
+    //         stats: { projects: 40, experience: 8 }
+    //     });
+    // }
 }
 
 // Demo functions for Pip-Boy components
