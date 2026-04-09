@@ -700,46 +700,6 @@ body {
     }
 }
 
-.hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-
-.hero-content h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.hero-content .hero-subtitle {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
-
-.hero-content .hero-description {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-    max-width: 600px;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
 
 .btn {
     padding: 1rem 2rem;
@@ -1039,113 +999,6 @@ body {
     transition: var(--transition);
 }
 
-/* Sección Hero */
-.hero {
-    padding: 120px 0 80px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
-    z-index: -1;
-}
-
-.hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        linear-gradient(45deg, transparent 24%, rgba(0, 212, 255, 0.03) 25%, rgba(0, 212, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 212, 255, 0.03) 75%, rgba(0, 212, 255, 0.03) 76%, transparent 77%, transparent),
-        linear-gradient(-45deg, transparent 24%, rgba(255, 0, 110, 0.03) 25%, rgba(255, 0, 110, 0.03) 26%, transparent 27%, transparent 74%, rgba(255, 0, 110, 0.03) 75%, rgba(255, 0, 110, 0.03) 76%, transparent 77%, transparent);
-    background-size: 50px 50px;
-    z-index: -1;
-    animation: gridMove 20s linear infinite;
-}
-
-@keyframes gridMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 50px 50px; }
-}
-
-.hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-}
-
-.hero-title {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3)); }
-    to { filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.6)); }
-}
-
-.hero-subtitle {
-    font-size: 1.8rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    position: relative;
-}
-
-.hero-subtitle::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100px;
-    height: 2px;
-    background: linear-gradient(90deg, var(--primary-color), transparent);
-}
-
-.hero-description {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    line-height: 1.8;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
 
 .btn {
     padding: 12px 24px;
@@ -1226,11 +1079,6 @@ body {
     transform: translateY(-2px);
 }
 
-.hero-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .profile-placeholder {
     width: 350px;
@@ -2592,20 +2440,7 @@ body {
         display: flex;
     }
 
-    .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
+    
     .timeline::before {
         left: 30px;
     }
@@ -2653,13 +2488,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.2rem;
-    }
 
     .section-title {
         font-size: 2rem;
