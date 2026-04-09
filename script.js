@@ -312,10 +312,16 @@ window.addSmartImage = function(container, imagePath, className = 'smart-image')
 // Sistema de tema e idioma
 function initThemeLanguage() {
     // Cargar preferencias guardadas
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    let savedTheme = localStorage.getItem('theme') || 'dark';
     const savedLang = localStorage.getItem('language') || 'es';
     
-    // Aplicar tema inicial
+    // Si el tema guardado es 'fallout', cambiarlo a 'dark'
+    if (savedTheme === 'fallout') {
+        savedTheme = 'dark';
+        localStorage.setItem('theme', 'dark');
+    }
+    
+    // Aplicar tema inicial (solo dark o light)
     if (savedTheme === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
         updateThemeIcon('light');
@@ -1937,28 +1943,56 @@ function initFalloutRadio() {
 
 // Restaurar estados guardados al cargar la página
 function restoreAllStates() {
-    // Restaurar tema Fallout primero con mejor sincronización
-    const wasFalloutTheme = stateManager.loadThemeState();
-    if (wasFalloutTheme) {
-        // Aplicar tema Fallout inmediatamente
-        document.documentElement.setAttribute('data-theme', 'fallout');
-        localStorage.setItem('theme', 'fallout');
-        document.body.classList.add('terminal-active');
-        
-        // Actualizar botones
-        const themeToggleBtn = document.getElementById('themeToggle');
-        if (themeToggleBtn) {
-            themeToggleBtn.style.opacity = '0.3';
-            themeToggleBtn.style.pointerEvents = 'none';
-            themeToggleBtn.style.cursor = 'not-allowed';
-        }
-        
-        const terminalToggleBtn = document.getElementById('terminalToggle');
-        if (terminalToggleBtn) {
-            terminalToggleBtn.classList.add('terminal-active');
-        }
-        
-        // NO llamar a updateThemeIcon para mantener el tema Fallout
+    // DESACTIVADO: Restaurar tema Fallout primero con mejor sincronización
+    // const wasFalloutTheme = stateManager.loadThemeState();
+    // if (wasFalloutTheme) {
+    //     // Aplicar tema Fallout inmediatamente
+    //     document.documentElement.setAttribute('data-theme', 'fallout');
+    //     localStorage.setItem('theme', 'fallout');
+    //     document.body.classList.add('terminal-active');
+    //     
+    //     // Actualizar botones
+    //     const themeToggleBtn = document.getElementById('themeToggle');
+    //     if (themeToggleBtn) {
+    //         themeToggleBtn.style.opacity = '0.3';
+    //         themeToggleBtn.style.pointerEvents = 'none';
+    //         themeToggleBtn.style.cursor = 'not-allowed';
+    //     }
+    //     
+    //     const terminalToggleBtn = document.getElementById('terminalToggle');
+    //     if (terminalToggleBtn) {
+    //         terminalToggleBtn.classList.add('terminal-active');
+    //     }
+    //     
+    //     // NO llamar a updateThemeIcon para mantener el tema Fallout
+    // }
+    
+    // Limpiar estado de tema Fallout guardado
+    try {
+        localStorage.removeItem('pipboy_fallout_theme');
+        localStorage.removeItem('pipboy_terminal_visible');
+        localStorage.removeItem('pipboy_radio_power');
+        localStorage.removeItem('pipboy_radio_playing');
+        localStorage.removeItem('pipboy_radio_volume');
+        localStorage.removeItem('pipboy_radio_frequency');
+    } catch (error) {
+        console.warn('Error clearing Fallout theme state:', error);
+    }
+    
+    // Asegurar que el cuerpo no tenga clases de Fallout
+    document.body.classList.remove('terminal-active');
+    
+    // Asegurar que los botones de tema funcionen normalmente
+    const themeToggleBtn = document.getElementById('themeToggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.style.opacity = '1';
+        themeToggleBtn.style.pointerEvents = 'auto';
+        themeToggleBtn.style.cursor = 'pointer';
+    }
+    
+    const terminalToggleBtn = document.getElementById('terminalToggle');
+    if (terminalToggleBtn) {
+        terminalToggleBtn.classList.remove('terminal-active');
     }
     
     // Restaurar visibilidad de la terminal con mejor timing
