@@ -10,24 +10,29 @@
 /* Tema claro optimizado */
 [data-theme=light]{--primary-color:#0066cc;--secondary-color:#0052a3;--accent-color:#ff0066;--text-primary:#1a1a1a;--text-secondary:#4a4a4a;--bg-primary:#fff;--bg-secondary:#f5f5f5;--bg-card:rgba(0,0,0,.05);--border-color:rgba(0,0,0,.1);--shadow-sm:0 2px 4px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12)}
 
-/* Tema Fallout/Pip-Boy */
+/* Tema Fallout/Pip-Boy - Enhanced with authentic colors from pip-terminal-dev */
 [data-theme="fallout"] {
-    --primary-color: #00ff41;
-    --secondary-color: #00cc33;
+    --primary-color: #00ff00;
+    --secondary-color: #00cc00;
     --accent-color: #ff6b35;
-    --text-primary: #00ff41;
-    --text-secondary: #00cc33;
-    --bg-primary: #0a0f0a;
-    --bg-secondary: #0d1a0d;
-    --bg-card: rgba(13, 26, 13, 0.95);
-    --border-color: #00ff41;
-    --shadow-sm: 0 0 5px rgba(0, 255, 65, 0.3);
-    --shadow-md: 0 0 10px rgba(0, 255, 65, 0.5);
-    --shadow-lg: 0 0 20px rgba(0, 255, 65, 0.7);
-    --shadow-neon: 0 0 20px rgba(0, 255, 65, 0.8);
-    --terminal-green: #00ff41;
-    --terminal-dark: #00cc33;
-    --crt-glow: rgba(0, 255, 65, 0.5);
+    --text-primary: #00ff00;
+    --text-secondary: #00cc00;
+    --bg-primary: #001100;
+    --bg-secondary: #0c120e;
+    --bg-card: rgba(0, 255, 0, 0.05);
+    --border-color: #00ff00;
+    --shadow-sm: 0 0 5px rgba(0, 255, 0, 0.3);
+    --shadow-md: 0 0 10px rgba(0, 255, 0, 0.5);
+    --shadow-lg: 0 0 20px rgba(0, 255, 0, 0.7);
+    --shadow-neon: 0 0 20px rgba(0, 255, 0, 0.8);
+    --terminal-green: #00ff00;
+    --terminal-dark: #00cc00;
+    --terminal-light: #98ffa1;
+    --crt-glow: rgba(0, 255, 0, 0.5);
+    --pip-green: #00ff00;
+    --pip-green-light: #00cc00;
+    --pip-green-dark: #006600;
+    --pip-green-darkest: #003300;
 }
 
 /* Base styles */
@@ -140,22 +145,30 @@ body {
     transform: scale(0.95);
 }
 
-/* Pip-Boy Button Component */
+/* Pip-Boy Button Styles - Enhanced from pip-terminal-dev */
 .pip-button {
-    background: linear-gradient(135deg, var(--terminal-green), var(--terminal-dark));
-    border: 2px solid var(--terminal-green);
-    color: var(--bg-primary);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    background-color: #00ff00;
+    border-radius: 0.25rem;
+    border: none;
+    box-sizing: border-box;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s, color 0.2s;
+    color: #000;
+    font-weight: bolder;
+    font-size: 1rem;
+    height: 36px;
+    max-height: 34px;
+    padding: 0.5rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
 }
 
 .pip-button::before {
@@ -174,7 +187,8 @@ body {
 }
 
 .pip-button:hover {
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+    background-color: #00cc00;
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
     transform: translateY(-2px);
 }
 
@@ -183,10 +197,17 @@ body {
     box-shadow: 0 0 5px rgba(0, 255, 65, 0.8);
 }
 
+.pip-button:disabled,
 .pip-button.disabled {
-    opacity: 0.5;
+    background-color: #003300;
+    color: #111111;
     cursor: not-allowed;
-    filter: grayscale(0.5);
+    opacity: 0.6;
+}
+
+.pip-button:focus {
+    outline: 2px solid #00ff00;
+    outline-offset: 2px;
 }
 
 /* Pip-Boy Dialog Component */
@@ -284,21 +305,102 @@ body {
     font-size: 0.9rem;
 }
 
-/* Pip-Boy Loading Animation */
+/* Pip-Boy Loading Component - Enhanced from pip-terminal-dev */
 .pip-loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--terminal-green);
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: pip-spin 1s linear infinite;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
 }
 
-@keyframes pip-spin {
+.pip-loading .loader {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    display: grid;
+    place-items: center;
+}
+
+.pip-loading .ring {
+    background: black;
+    z-index: 3;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 4px solid rgba(0, 255, 65, 0.25);
+    border-top-color: rgba(0, 255, 65, 0.8);
+    box-shadow: inset 0 0 12px rgba(0, 255, 65, 0.25);
+    animation: spin 2s linear infinite;
+}
+
+.pip-loading .wing {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    height: 4px;
+    width: 20px;
+    margin-top: -2px;
+    background: #00ff00;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.45));
+    box-shadow: 0 -12px 0 0 currentColor, 0 12px 0 0 currentColor;
+    animation: wingsPulse 1s ease-in-out infinite;
+}
+
+.pip-loading .wing::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 4px;
+    width: 28px;
+    background: currentColor;
+}
+
+.pip-loading .wing-left {
+    right: calc(100% - 1px);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.pip-loading .wing-left::after {
+    left: -20px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.pip-loading .wing-right {
+    left: calc(100% - 1px);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.pip-loading .wing-right::after {
+    right: -20px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.pip-loading p {
+    margin-top: 1rem;
+    opacity: 0.5;
+    color: #00ff41;
+}
+
+@keyframes spin {
     to { transform: rotate(360deg); }
 }
 
+@keyframes wingsPulse {
+    0%, 100% {
+        opacity: 0.6;
+        filter: drop-shadow(0 0 2px rgba(0, 255, 65, 0.25));
+    }
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 6px rgba(0, 255, 65, 0.5));
+    }
+}
+
+/* Pip-Boy Loading Animation */
 .pip-loading-text {
     color: var(--terminal-green);
     font-family: 'Roboto Mono', monospace;
@@ -576,15 +678,16 @@ body {
 }
 
 .profile-card {
-    background: var(--bg-card);
-    border-radius: var(--border-radius-lg);
+    background: rgba(0, 255, 0, 0.05);
+    border-radius: 4px;
     padding: var(--spacing-xl);
     text-align: center;
-    border: 2px solid var(--border-color);
+    border: 1px solid #00ff41;
     position: relative;
     overflow: hidden;
     max-width: 350px;
     width: 100%;
+    transition: all 0.2s ease;
 }
 
 .profile-card::before {
@@ -594,8 +697,28 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(90deg, #00ff41, #00cc33);
     animation: shimmer 2s infinite;
+}
+
+.profile-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 255, 0, 0.15) 49%,
+        rgba(0, 255, 0, 0.05) 51%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 2;
+    animation: scanlines 1s linear infinite;
+}
+
+.profile-card:hover {
+    box-shadow: 0 0 10px #00ff41;
+    transform: scale(1.03);
 }
 
 @keyframes shimmer {
@@ -603,35 +726,48 @@ body {
     100% { transform: translateX(100%); }
 }
 
+@keyframes scanlines {
+    0% { background-position-y: 0; }
+    100% { background-position-y: 4px; }
+}
+
 .profile-image {
     width: 120px;
     height: 120px;
-    background: var(--bg-secondary);
+    background: rgba(0, 17, 0, 0.8);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto var(--spacing-lg);
-    border: 3px solid var(--primary-color);
+    border: 4px solid rgba(0, 255, 65, 0.25);
     position: relative;
+    box-shadow: inset 0 0 12px rgba(0, 255, 65, 0.25);
+    z-index: 3;
 }
 
 .profile-image i {
     font-size: 3rem;
-    color: var(--primary-color);
+    color: #00ff41;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 65, 0.45));
 }
 
 .profile-info h3 {
-    color: var(--text-primary);
+    color: #00ff41;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: var(--spacing-sm);
+    text-shadow: 0 0 1px #98ffa1, 0 0 1px #98ffa1;
+    position: relative;
+    z-index: 3;
 }
 
 .profile-info p {
-    color: var(--text-secondary);
+    color: #00ff41;
     font-size: 1.1rem;
     margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 3;
 }
 
 .profile-stats {
@@ -648,15 +784,20 @@ body {
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #00ff41;
     margin-bottom: var(--spacing-xs);
+    text-shadow: 0 0 1px #98ffa1, 0 0 1px #98ffa1;
+    position: relative;
+    z-index: 3;
 }
 
 .stat-label {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #00ff41;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    position: relative;
+    z-index: 3;
 }
 
 /* Responsividad para About */
