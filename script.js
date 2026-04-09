@@ -315,20 +315,9 @@ function initThemeLanguage() {
     let savedTheme = localStorage.getItem('theme') || 'dark';
     const savedLang = localStorage.getItem('language') || 'es';
     
-    // Si el tema guardado es 'fallout', cambiarlo a 'dark'
-    if (savedTheme === 'fallout') {
-        savedTheme = 'dark';
-        localStorage.setItem('theme', 'dark');
-    }
-    
-    // Aplicar tema inicial (solo dark o light)
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        updateThemeIcon('light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        updateThemeIcon('dark');
-    }
+    // Aplicar tema inicial (incluyendo fallout)
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
     
     // Aplicar idioma inicial
     setLanguage(savedLang);
@@ -425,10 +414,14 @@ function toggleTheme() {
 
 function updateThemeIcon(theme) {
     const themeIcon = document.querySelector('#themeToggle i');
-    if (theme === 'light') {
-        themeIcon.className = 'fas fa-sun';
-    } else {
-        themeIcon.className = 'fas fa-moon';
+    if (themeIcon) {
+        if (theme === 'light') {
+            themeIcon.className = 'fas fa-sun';
+        } else if (theme === 'fallout') {
+            themeIcon.className = 'fas fa-terminal';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+        }
     }
 }
 
