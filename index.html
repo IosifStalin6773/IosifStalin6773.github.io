@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio profesional de Oscar de La Cruz - Desarrollador Full Stack especializado en automatización, bots, gaming y desarrollo web.">
-    <meta name="keywords" content="Oscar de La Cruz, desarrollador, full stack, programador, bots, gaming, automatización, javascript, python, web, portfolio">
+    <meta name="description" content="Portfolio profesional de Oscar de La Cruz - Desarrollador Full Stack especializado en automatización, bots, gaming y desarrollo web con más de 8 años de experiencia en proyectos innovadores.">
+    <meta name="keywords" content="Oscar de La Cruz, desarrollador full stack, programador senior, bots Discord, FiveM, Arma 3, automatización, JavaScript, Node.js, Python, gaming development, portfolio, Madrid, España">
     <meta name="author" content="Oscar de La Cruz">
+    <meta name="language" content="es">
+    <meta name="revisit-after" content="7 days">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
     <meta property="og:title" content="Oscar de La Cruz - Portfolio Profesional">
     <meta property="og:description" content="Desarrollador Full Stack especializado en automatización, bots y desarrollo web.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://iosifstalin6773.github.io">
     <meta property="og:image" content="https://iosifstalin6773.github.io/assets/images/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Oscar de La Cruz - Portfolio">
+    <meta name="twitter:creator" content="@IosifStalin6773">
     <meta name="twitter:description" content="Desarrollador Full Stack especializado en automatización y bots.">
     <meta name="twitter:image" content="https://iosifstalin6773.github.io/assets/images/og-image.jpg">
-    <title>Oscar de La Cruz - Portfolio Profesional | Desarrollador Full Stack</title>
+    <title>Oscar de La Cruz - Desarrollador Full Stack Senior | Gaming & Automation Expert</title>
     <link rel="canonical" href="https://iosifstalin6773.github.io">
     
     <!-- Preload crítico para rendimiento -->
@@ -133,38 +137,73 @@
     
     
     <!-- Controles de tema e idioma -->
-    <div class="theme-language-controls">
-        <button class="control-btn" id="themeToggle" title="Cambiar tema">
-            <i class="fas fa-moon"></i>
+    <div class="theme-language-controls" role="toolbar" aria-label="Controles de tema e idioma">
+        <button class="control-btn" id="themeToggle" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">
+            <i class="fas fa-moon" aria-hidden="true"></i>
         </button>
-        <button class="control-btn" id="langToggle" title="Change language / Cambiar idioma">
-            <i class="fas fa-globe"></i>
+        <button class="control-btn" id="langToggle" title="Change language / Cambiar idioma" aria-label="Cambiar idioma">
+            <i class="fas fa-globe" aria-hidden="true"></i>
         </button>
     </div>
     
     <!-- Navegación -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
         <div class="nav-container">
             <div class="nav-logo">
-                <h3>Portfolio</h3>
+                <h3><a href="#home" aria-label="Inicio">Portfolio</a></h3>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#sobre-mi" data-lang="nav.home">Inicio</a></li>
-                <li><a href="#experiencia" data-lang="nav.experience">Experiencia</a></li>
-                <li><a href="#proyectos" data-lang="nav.projects">Proyectos</a></li>
-                <li><a href="#habilidades" data-lang="nav.skills">Habilidades</a></li>
-                <li><a href="#contacto" data-lang="nav.contact">Contacto</a></li>
-                <li><button class="control-btn" id="terminalToggle" title="Abrir Terminal Pip-Boy" style="position: static; transform: none; margin-left: 10px;">
-                    <i class="fas fa-terminal"></i>
-                </button></li>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#sobre-mi" data-lang="nav.home" role="menuitem">Inicio</a></li>
+                <li role="none"><a href="#experiencia" data-lang="nav.experience" role="menuitem">Experiencia</a></li>
+                <li role="none"><a href="#proyectos" data-lang="nav.projects" role="menuitem">Proyectos</a></li>
+                <li role="none"><a href="#habilidades" data-lang="nav.skills" role="menuitem">Habilidades</a></li>
+                <li role="none"><a href="#contacto" data-lang="nav.contact" role="menuitem">Contacto</a></li>
+                <li role="none">
+                    <button class="control-btn" id="terminalToggle" title="Abrir Terminal Pip-Boy" aria-label="Abrir Terminal Pip-Boy" style="position: static; transform: none; margin-left: 10px;" role="menuitem">
+                        <i class="fas fa-terminal" aria-hidden="true"></i>
+                    </button>
+                </li>
             </ul>
-            <div class="nav-toggle">
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title text-gradient">Oscar de La Cruz</h1>
+                <p class="hero-subtitle">Desarrollador Full Stack Senior & Gaming Expert</p>
+                <p class="hero-description">
+                    Especializado en automatización, bots para gaming, desarrollo de servidores y soluciones personalizadas. 
+                    Más de 8 años de experiencia creando herramientas innovadoras para comunidades gaming.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#experiencia" class="btn">Ver Experiencia</a>
+                    <a href="#proyectos" class="btn">Ver Proyectos</a>
+                    <a href="#contacto" class="btn btn-secondary">Contactar</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Proyectos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Años Exp.</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-label">Clientes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Sección Sobre Mí -->
     <section id="sobre-mi" class="about">
@@ -173,26 +212,31 @@
                 <div class="about-text">
                     <h2 class="section-title">Sobre Mí</h2>
                     <p class="about-description">
-                        Soy un desarrollador apasionado con especialización en crear soluciones tecnológicas 
+                        Soy un desarrollador Full Stack senior con especialización en crear soluciones tecnológicas 
                         innovadoras para el gaming y automatización. Mi enfoque se centra en desarrollar 
                         herramientas robustas que resuelvan problemas reales y mejoren la experiencia 
                         del usuario en entornos digitales complejos.
                     </p>
                     <div class="about-highlights">
-                        <div class="highlight-item">
+                        <div class="highlight-item card">
                             <i class="fas fa-code"></i>
                             <h4>Desarrollo Full Stack</h4>
-                            <p>Frontend, Backend y DevOps con tecnologías modernas</p>
+                            <p>Frontend, Backend y DevOps con tecnologías modernas como React, Node.js y Cloud Services</p>
                         </div>
-                        <div class="highlight-item">
+                        <div class="highlight-item card">
                             <i class="fas fa-gamepad"></i>
                             <h4>Especialización Gaming</h4>
-                            <p>Bots, scripts y mods para plataformas populares</p>
+                            <p>Bots, scripts y mods para FiveM, Arma 3, Discord y plataformas populares</p>
                         </div>
-                        <div class="highlight-item">
+                        <div class="highlight-item card">
                             <i class="fas fa-rocket"></i>
                             <h4>Automatización</h4>
-                            <p>Soluciones que ahorran tiempo y recursos</p>
+                            <p>Soluciones que ahorran tiempo y recursos con IA y scripting avanzado</p>
+                        </div>
+                        <div class="highlight-item card">
+                            <i class="fas fa-server"></i>
+                            <h4>Server Management</h4>
+                            <p>Administración de servidores de juego con AMP, FASTER y herramientas personalizadas</p>
                         </div>
                     </div>
                 </div>
@@ -409,16 +453,73 @@
         </div>
     </section>
 
+    <!-- Sección Servicios -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2 class="section-title">Servicios</h2>
+            <div class="services-grid">
+                <div class="service-item card">
+                    <div class="service-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3>Bot Development</h3>
+                    <p>Bots personalizados para Discord, Telegram y otras plataformas con IA y automatización avanzada</p>
+                    <ul class="service-features">
+                        <li>Bots de moderación</li>
+                        <li>Bots de música y entretenimiento</li>
+                        <li>Bots de utilidad y gestión</li>
+                    </ul>
+                </div>
+                <div class="service-item card">
+                    <div class="service-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Gaming Development</h3>
+                    <p>Desarrollo de servidores de juego, scripts personalizados y mods para las plataformas más populares</p>
+                    <ul class="service-features">
+                        <li>Servidores FiveM/Arma 3</li>
+                        <li>Scripts y frameworks</li>
+                        <li>Systems personalizados</li>
+                    </ul>
+                </div>
+                <div class="service-item card">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>Aplicaciones web modernas, APIs RESTful y soluciones full stack con las últimas tecnologías</p>
+                    <ul class="service-features">
+                        <li>React/Vue/Angular</li>
+                        <li>Node.js/Python</li>
+                        <li>Bases de datos SQL/NoSQL</li>
+                    </ul>
+                </div>
+                <div class="service-item card">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Automatización</h3>
+                    <p>Soluciones de automatización para optimizar procesos y reducir trabajo manual repetitivo</p>
+                    <ul class="service-features">
+                        <li>Scripts personalizados</li>
+                        <li>Integración de APIs</li>
+                        <li>Procesos automatizados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Sección Habilidades -->
     <section id="habilidades" class="skills">
         <div class="container">
             <h2 class="section-title" data-lang="skills.title">Habilidades Técnicas</h2>
             <div class="skills-grid">
-                <div class="skill-category">
+                <div class="skill-category card">
                     <h3><i class="fas fa-code"></i> Desarrollo Web</h3>
                     <div class="skill-list">
                         <div class="skill-item">
-                            <span>HTML5 / CSS3</span>
+                            <span>HTML5 / CSS3 / SASS</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 95%"></div>
                             </div>
@@ -426,19 +527,25 @@
                         <div class="skill-item">
                             <span>JavaScript / TypeScript</span>
                             <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>React / Vue / Angular</span>
+                            <div class="skill-bar">
                                 <div class="skill-progress" style="width: 85%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
                             <span>Node.js / Express</span>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
+                                <div class="skill-progress" style="width: 88%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="skill-category">
+                <div class="skill-category card">
                     <h3><i class="fas fa-gamepad"></i> Gaming Development</h3>
                     <div class="skill-list">
                         <div class="skill-item">
@@ -450,83 +557,107 @@
                         <div class="skill-item">
                             <span>FiveM Development</span>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
+                                <div class="skill-progress" style="width: 92%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
                             <span>Helix Framework</span>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Bot Development</span>
-                            <div class="skill-bar">
                                 <div class="skill-progress" style="width: 88%"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Bases de Datos & Lenguajes</h3>
-                    <div class="skill-list">
                         <div class="skill-item">
-                            <span>SQL / MySQL</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>SQF (Arma 3 Scripting)</span>
+                            <span>Discord.js / Bots</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 90%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span>C# / .NET Core</span>
+                            <span>SQF (Arma 3)</span>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
+                                <div class="skill-progress" style="width: 85%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="skill-category">
-                    <h3><i class="fas fa-server"></i> Server Management</h3>
+                <div class="skill-category card">
+                    <h3><i class="fas fa-database"></i> Bases de Datos & Backend</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span>SQL / MySQL / PostgreSQL</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>MongoDB / NoSQL</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Python / Django</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>PHP / Laravel</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 78%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category card">
+                    <h3><i class="fas fa-server"></i> DevOps & Server Management</h3>
                     <div class="skill-list">
                         <div class="skill-item">
                             <span>AMP (CubeCoders)</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 94%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>FASTER (Arma 3)</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Docker / Kubernetes</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>CI/CD / GitHub Actions</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 86%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>AWS / Cloud Services</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 78%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category card">
+                    <h3><i class="fas fa-tools"></i> Herramientas & Otros</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span>Git / GitHub / GitLab</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 92%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span>FASTER (Arma 3 Tool)</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>SteamCMD Automation</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Herramientas</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <span>Git / GitHub</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Discord.js</span>
+                            <span>Linux / Bash Scripting</span>
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 85%"></div>
                             </div>
@@ -534,7 +665,19 @@
                         <div class="skill-item">
                             <span>UI/UX Design</span>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 75%"></div>
+                                <div class="skill-progress" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>API Development</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Testing / QA</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
                             </div>
                         </div>
                     </div>
@@ -557,20 +700,20 @@
                     
                     <div class="contact-methods">
                         <div class="contact-method">
-                            <i class="fas fa-envelope"></i>
-                            <span>tu.email@ejemplo.com</span>
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <a href="mailto:contacto@oscardelacruz.dev" aria-label="Enviar correo electrónico">contacto@oscardelacruz.dev</a>
                         </div>
                         <div class="contact-method">
-                            <i class="fab fa-linkedin"></i>
-                            <span>linkedin.com/in/tuperfil</span>
+                            <i class="fab fa-linkedin" aria-hidden="true"></i>
+                            <a href="https://linkedin.com/in/oscardelacruz" target="_blank" rel="noopener" aria-label="Perfil de LinkedIn">linkedin.com/in/oscardelacruz</a>
                         </div>
                         <div class="contact-method">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/IosifStalin6773</span>
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                            <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener" aria-label="Perfil de GitHub">github.com/IosifStalin6773</a>
                         </div>
                         <div class="contact-method">
-                            <i class="fas fa-phone"></i>
-                            <span>+34 600 000 000</span>
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <a href="tel:+34600000000" aria-label="Llamar por teléfono">+34 600 000 000</a>
                         </div>
                     </div>
                 </div>
@@ -602,14 +745,14 @@
             <div class="footer-content">
                 <p>&copy; 2024 Oscar de La Cruz. Todos los derechos reservados.</p>
                 <div class="social-links">
-                    <a href="https://github.com/IosifStalin6773" aria-label="GitHub">
-                        <i class="fab fa-github"></i>
+                    <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github" aria-hidden="true"></i>
                     </a>
-                    <a href="#" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
+                    <a href="https://linkedin.com/in/oscardelacruz" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin" aria-hidden="true"></i>
                     </a>
-                    <a href="#" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://twitter.com/IosifStalin6773" target="_blank" rel="noopener" aria-label="Twitter">
+                        <i class="fab fa-twitter" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>

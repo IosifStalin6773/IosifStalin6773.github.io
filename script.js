@@ -1,26 +1,297 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las funcionalidades
-    initThemeLanguage();
-    initSmartImages();
-    initPipboyTerminal();
-    initFalloutRadio();
-    initParticles();
-    initNavigation();
-    initScrollEffects();
-    initFormHandler();
-    initAnimations();
-    initSkillBars();
-    
-    // Inicializar gestor de recursos del pip-terminal-dev
-    initPipTerminalResources();
-    
-    // Inicializar componentes Pip-Boy mejorados
-    initPipBoyComponents();
-    
-    // Restaurar estados guardados
-    restoreAllStates();
+    initializeApp();
 });
+
+// Función principal de inicialización
+async function initializeApp() {
+    try {
+        // Mostrar indicador de carga
+        showLoadingIndicator();
+        
+        // Inicializar componentes principales
+        await Promise.all([
+            initThemeLanguage(),
+            initSmartImages(),
+            initPipboyTerminal(),
+            initFalloutRadio(),
+            initParticles(),
+            initNavigation(),
+            initScrollEffects(),
+            initFormHandler(),
+            initAnimations(),
+            initSkillBars()
+        ]);
+        
+        // Inicializar gestor de recursos del pip-terminal-dev
+        initPipTerminalResources();
+        
+        // Inicializar componentes Pip-Boy mejorados
+        initPipBoyComponents();
+        
+        // Restaurar estados guardados
+        restoreAllStates();
+        
+        // Inicializar nuevas funcionalidades
+        initPerformanceMonitoring();
+        initAccessibilityFeatures();
+        initKeyboardShortcuts();
+        initTooltips();
+        initLazyLoading();
+        
+        // Ocultar indicador de carga
+        hideLoadingIndicator();
+        
+        console.log('✅ Aplicación inicializada correctamente');
+    } catch (error) {
+        console.error('❌ Error al inicializar la aplicación:', error);
+        showErrorMessage('Ha ocurrido un error al cargar la aplicación');
+    }
+}
+
+// Indicadores de carga
+function showLoadingIndicator() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.remove('hidden');
+    }
+}
+
+function hideLoadingIndicator() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+        }, 500);
+    }
+}
+
+// Manejo de errores
+function showErrorMessage(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--accent-color);
+        color: white;
+        padding: 1rem;
+        border-radius: var(--border-radius-sm);
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
+
+// Monitor de rendimiento
+function initPerformanceMonitoring() {
+    if ('PerformanceObserver' in window) {
+        const observer = new PerformanceObserver((list) => {
+            list.getEntries().forEach((entry) => {
+                if (entry.entryType === 'navigation') {
+                    console.log('⏱️ Tiempo de carga:', entry.loadEventEnd - entry.loadEventStart, 'ms');
+                }
+            });
+        });
+        observer.observe({ entryTypes: ['navigation'] });
+    }
+    
+    // Core Web Vitals
+    if ('web-vitals' in window) {
+        import('https://unpkg.com/web-vitals@3/dist/web-vitals.js').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+            getCLS(console.log);
+            getFID(console.log);
+            getFCP(console.log);
+            getLCP(console.log);
+            getTTFB(console.log);
+        });
+    }
+}
+
+// Características de accesibilidad
+function initAccessibilityFeatures() {
+    // Saltar a contenido principal
+    const skipLink = document.createElement('a');
+    skipLink.href = '#main-content';
+    skipLink.textContent = 'Saltar al contenido principal';
+    skipLink.className = 'skip-link';
+    skipLink.style.cssText = `
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--primary-color);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 10000;
+        transition: top 0.3s;
+    `;
+    
+    skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+    });
+    
+    skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+    });
+    
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // Detectar preferencias de movimiento reducido
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) {
+        document.body.classList.add('reduced-motion');
+    }
+    
+    prefersReducedMotion.addEventListener('change', (e) => {
+        if (e.matches) {
+            document.body.classList.add('reduced-motion');
+        } else {
+            document.body.classList.remove('reduced-motion');
+        }
+    });
+}
+
+// Atajos de teclado
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + K para búsqueda (futuro)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            // TODO: Implementar búsqueda
+            console.log('Búsqueda activada');
+        }
+        
+        // Ctrl/Cmd + / para mostrar ayuda
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+            e.preventDefault();
+            showKeyboardShortcuts();
+        }
+        
+        // Escape para cerrar modales
+        if (e.key === 'Escape') {
+            closeAllModals();
+        }
+        
+        // Navegación con números
+        if (e.altKey && e.key >= '1' && e.key <= '5') {
+            e.preventDefault();
+            const sections = ['#sobre-mi', '#experiencia', '#proyectos', '#habilidades', '#contacto'];
+            const index = parseInt(e.key) - 1;
+            if (sections[index]) {
+                document.querySelector(sections[index])?.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+}
+
+function showKeyboardShortcuts() {
+    const shortcuts = [
+        { key: 'Ctrl/Cmd + K', description: 'Búsqueda' },
+        { key: 'Ctrl/Cmd + /', description: 'Mostrar atajos' },
+        { key: 'Escape', description: 'Cerrar modales' },
+        { key: 'Alt + 1-5', description: 'Navegación rápida' },
+        { key: 'Tab', description: 'Navegación por elementos' },
+        { key: 'Shift + Tab', description: 'Navegación hacia atrás' }
+    ];
+    
+    const modal = document.createElement('div');
+    modal.className = 'keyboard-shortcuts-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Atajos de Teclado</h3>
+            <ul>
+                ${shortcuts.map(s => `<li><kbd>${s.key}</kbd> - ${s.description}</li>`).join('')}
+            </ul>
+            <button class="btn" onclick="this.closest('.keyboard-shortcuts-modal').remove()">Cerrar</button>
+        </div>
+    `;
+    
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+    
+    const modalContent = modal.querySelector('.modal-content');
+    modalContent.style.cssText = `
+        background: var(--bg-card);
+        padding: 2rem;
+        border-radius: var(--border-radius-lg);
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function closeAllModals() {
+    document.querySelectorAll('.keyboard-shortcuts-modal, .asteroids-game-modal').forEach(modal => {
+        modal.remove();
+    });
+}
+
+// Tooltips
+function initTooltips() {
+    document.querySelectorAll('[data-tooltip]').forEach(element => {
+        element.classList.add('tooltip');
+    });
+}
+
+// Lazy Loading mejorado
+function initLazyLoading() {
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.classList.add('loaded');
+                        imageObserver.unobserve(img);
+                    }
+                }
+            });
+        });
+        
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+        
+        // Lazy loading para secciones
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('section').forEach(section => {
+            sectionObserver.observe(section);
+        });
+    }
+}
 
 // Gestor de recursos del Pip-Boy Terminal
 function initPipTerminalResources() {
