@@ -338,59 +338,6 @@ body {
     100% { background-position: 0 10px; }
 }
 
-/* Pip-Boy Demo Section */
-.pipboy-demo {
-    padding: var(--spacing-xl) 0;
-    background: var(--bg-secondary);
-}
-
-.demo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
-}
-
-.demo-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-lg);
-    transition: var(--transition);
-}
-
-.demo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-}
-
-.demo-card h3 {
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-md);
-    font-family: 'Roboto Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.demo-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-}
-
-.pip-loading-demo {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
-    background: var(--bg-primary);
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-}
-
-.vault-tec-card-demo {
-    max-width: 300px;
-}
 
 /* Navegación mejorada con UX optimizada */
 .navbar {

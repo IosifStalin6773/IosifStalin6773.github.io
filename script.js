@@ -2767,35 +2767,6 @@ function initPipBoyComponents() {
     // }
 }
 
-// Demo functions for Pip-Boy components
-function showPipDialog(type) {
-    const dialogs = {
-        demo: {
-            title: 'SYSTEM DEMO',
-            content: 'This is a Pip-Boy dialog component demonstration. These dialogs are inspired by the Fallout series Pip-Boy interface.',
-            actions: [
-                { id: 'confirm', text: 'CONFIRM', handler: () => console.log('Dialog confirmed') },
-                { id: 'cancel', text: 'CANCEL', handler: () => console.log('Dialog cancelled') }
-            ]
-        }
-    };
-
-    const config = dialogs[type] || dialogs.demo;
-    const dialog = new PipDialog(config);
-    dialog.show();
-}
-
-function showPipLoading() {
-    const demoContainer = document.querySelector('.pip-loading-demo');
-    if (demoContainer) {
-        const loading = PipLoading.show(demoContainer, 'PROCESSING...');
-        
-        // Hide loading after 3 seconds
-        setTimeout(() => {
-            PipLoading.hide(loading);
-        }, 3000);
-    }
-}
 
 // Performance optimization - Debounce
 function debounce(func, wait) {
