@@ -1016,3 +1016,267 @@ section {
         left: -100%;
     }
 }
+
+/* Sistema de Edición en Tiempo Real */
+.edit-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 350px;
+}
+
+.edit-panel {
+    background: var(--bg-card);
+    border: 2px solid var(--border-accent);
+    box-shadow: var(--shadow-lg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.edit-header {
+    background: var(--bg-secondary);
+    padding: 15px 20px;
+    border-bottom: 2px solid var(--border-accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-header h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.btn-close-edit {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-close-edit:hover {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+    border-color: var(--accent-color);
+}
+
+.edit-tools {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-save {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-accent);
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-save:hover {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+}
+
+.btn-reset {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-reset:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-accent);
+}
+
+.edit-status {
+    padding: 10px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    text-align: center;
+}
+
+#edit-status {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.edit-instructions {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.edit-instructions h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edit-instructions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.edit-instructions li {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.edit-instructions li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.btn-enable-edit {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-enable-edit:hover {
+    transform: scale(1.1);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.btn-enable-edit.active {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+    }
+}
+
+/* Estilos para elementos editables */
+.editable {
+    transition: var(--transition);
+    position: relative;
+}
+
+.editable:hover {
+    outline: 2px dashed var(--accent-color);
+    outline-offset: 2px;
+}
+
+.editable:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.editing-mode .editable {
+    cursor: text;
+}
+
+.editing-mode .editable:hover {
+    background: rgba(255, 0, 0, 0.05);
+}
+
+/* Indicador de edición activa */
+.editing-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--text-primary));
+    z-index: 10001;
+    animation: slideGradient 3s ease-in-out infinite;
+}
+
+@keyframes slideGradient {
+    0%, 100% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive para controles de edición */
+@media (max-width: 768px) {
+    .edit-controls {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .btn-enable-edit {
+        bottom: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    .edit-panel {
+        border-radius: 0;
+    }
+}

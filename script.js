@@ -304,6 +304,321 @@ function lazyLoadImages() {
 // Inicializar lazy loading
 lazyLoadImages();
 
+// Sistema de Edición en Tiempo Real
+class RealTimeEditor {
+    constructor() {
+        this.isEditMode = false;
+        this.originalContent = {};
+        this.editableElements = [];
+        this.saveTimeout = null;
+        this.indicator = null;
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupElements();
+        this.setupEventListeners();
+        this.loadSavedContent();
+    }
+    
+    setupElements() {
+        this.editControls = document.getElementById('edit-controls');
+        this.enableEditBtn = document.getElementById('enable-edit');
+        this.closeEditBtn = document.getElementById('close-edit');
+        this.saveBtn = document.getElementById('save-changes');
+        this.resetBtn = document.getElementById('reset-changes');
+        this.editStatus = document.getElementById('edit-status');
+        
+        this.editableElements = document.querySelectorAll('.editable');
+    }
+    
+    setupEventListeners() {
+        // Botón de activar edición
+        this.enableEditBtn.addEventListener('click', () => this.toggleEditMode());
+        
+        // Botón de cerrar edición
+        this.closeEditBtn.addEventListener('click', () => this.exitEditMode());
+        
+        // Botón de guardar
+        this.saveBtn.addEventListener('click', () => this.saveChanges());
+        
+        // Botón de resetear
+        this.resetBtn.addEventListener('click', () => this.resetChanges());
+        
+        // Eventos en elementos editables
+        this.editableElements.forEach(element => {
+            element.addEventListener('click', (e) => this.handleElementClick(e));
+            element.addEventListener('blur', (e) => this.handleElementBlur(e));
+            element.addEventListener('input', (e) => this.handleElementInput(e));
+            element.addEventListener('keydown', (e) => this.handleKeyDown(e));
+        });
+        
+        // Tecla ESC para salir del modo edición
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isEditMode) {
+                this.exitEditMode();
+            }
+        });
+    }
+    
+    toggleEditMode() {
+        if (this.isEditMode) {
+            this.exitEditMode();
+        } else {
+            this.enterEditMode();
+        }
+    }
+    
+    enterEditMode() {
+        this.isEditMode = true;
+        this.saveOriginalContent();
+        
+        // Mostrar controles de edición
+        this.editControls.style.display = 'block';
+        this.enableEditBtn.classList.add('active');
+        
+        // Añadir clase al body
+        document.body.classList.add('editing-mode');
+        
+        // Crear indicador de edición
+        this.createEditingIndicator();
+        
+        // Hacer elementos editables
+        this.editableElements.forEach(element => {
+            element.contentEditable = true;
+        });
+        
+        this.updateStatus('Modo edición activado');
+        this.showNotification('Modo edición activado', 'info');
+    }
+    
+    exitEditMode() {
+        this.isEditMode = false;
+        
+        // Ocultar controles de edición
+        this.editControls.style.display = 'none';
+        this.enableEditBtn.classList.remove('active');
+        
+        // Remover clase del body
+        document.body.classList.remove('editing-mode');
+        
+        // Remover indicador
+        this.removeEditingIndicator();
+        
+        // Quitar contenteditable
+        this.editableElements.forEach(element => {
+            element.contentEditable = false;
+        });
+        
+        this.updateStatus('Modo edición desactivado');
+        this.showNotification('Modo edición desactivado', 'info');
+    }
+    
+    saveOriginalContent() {
+        this.originalContent = {};
+        this.editableElements.forEach(element => {
+            const field = element.dataset.field;
+            if (field) {
+                this.originalContent[field] = element.innerHTML;
+            }
+        });
+    }
+    
+    handleElementClick(e) {
+        if (!this.isEditMode) return;
+        
+        e.preventDefault();
+        const element = e.target;
+        
+        // Seleccionar todo el texto
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        this.updateStatus('Editando: ' + (element.dataset.field || 'elemento'));
+    }
+    
+    handleElementBlur(e) {
+        if (!this.isEditMode) return;
+        
+        // Auto-guardar después de perder el foco
+        this.autoSave();
+    }
+    
+    handleElementInput(e) {
+        if (!this.isEditMode) return;
+        
+        // Actualizar estado
+        this.updateStatus('Escribiendo...');
+        
+        // Auto-guardar con delay
+        clearTimeout(this.saveTimeout);
+        this.saveTimeout = setTimeout(() => this.autoSave(), 2000);
+    }
+    
+    handleKeyDown(e) {
+        if (!this.isEditMode) return;
+        
+        // Prevenir edición de ciertos elementos si es necesario
+        if (e.target.tagName === 'H1' && e.key === 'Enter') {
+            e.preventDefault();
+        }
+    }
+    
+    autoSave() {
+        this.saveChanges(true);
+    }
+    
+    saveChanges(isAuto = false) {
+        const content = {};
+        
+        this.editableElements.forEach(element => {
+            const field = element.dataset.field;
+            if (field) {
+                content[field] = element.innerHTML;
+            }
+        });
+        
+        // Guardar en localStorage
+        localStorage.setItem('portfolio-content', JSON.stringify(content));
+        
+        this.updateStatus(isAuto ? 'Guardado automáticamente' : 'Cambios guardados');
+        
+        if (!isAuto) {
+            this.showNotification('Cambios guardados exitosamente', 'success');
+        }
+        
+        // Actualizar timestamp
+        localStorage.setItem('portfolio-last-save', new Date().toISOString());
+    }
+    
+    loadSavedContent() {
+        const savedContent = localStorage.getItem('portfolio-content');
+        
+        if (savedContent) {
+            try {
+                const content = JSON.parse(savedContent);
+                
+                this.editableElements.forEach(element => {
+                    const field = element.dataset.field;
+                    if (field && content[field]) {
+                        element.innerHTML = content[field];
+                    }
+                });
+                
+                const lastSave = localStorage.getItem('portfolio-last-save');
+                if (lastSave) {
+                    const saveDate = new Date(lastSave);
+                    this.showNotification(`Contenido cargado (guardado: ${saveDate.toLocaleString()})`, 'info');
+                }
+            } catch (error) {
+                console.error('Error al cargar contenido guardado:', error);
+            }
+        }
+    }
+    
+    resetChanges() {
+        if (confirm('¿Estás seguro de que quieres resetear todos los cambios?')) {
+            // Restaurar contenido original
+            this.editableElements.forEach(element => {
+                const field = element.dataset.field;
+                if (field && this.originalContent[field]) {
+                    element.innerHTML = this.originalContent[field];
+                }
+            });
+            
+            // Limpiar localStorage
+            localStorage.removeItem('portfolio-content');
+            localStorage.removeItem('portfolio-last-save');
+            
+            this.updateStatus('Cambios reseteados');
+            this.showNotification('Todos los cambios han sido reseteados', 'warning');
+        }
+    }
+    
+    createEditingIndicator() {
+        if (this.indicator) return;
+        
+        this.indicator = document.createElement('div');
+        this.indicator.className = 'editing-indicator';
+        document.body.appendChild(this.indicator);
+    }
+    
+    removeEditingIndicator() {
+        if (this.indicator) {
+            this.indicator.remove();
+            this.indicator = null;
+        }
+    }
+    
+    updateStatus(message) {
+        if (this.editStatus) {
+            this.editStatus.textContent = message;
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        // Crear notificación
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        // Estilos para la notificación
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 10002;
+            transform: translateX(-50%) translateY(-100px);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `;
+        
+        // Colores según el tipo
+        switch(type) {
+            case 'success':
+                notification.style.background = 'linear-gradient(135deg, #00c851, #00ff00)';
+                break;
+            case 'warning':
+                notification.style.background = 'linear-gradient(135deg, #ff6b00, #ff9800)';
+                break;
+            case 'error':
+                notification.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
+                break;
+            default:
+                notification.style.background = 'linear-gradient(135deg, var(--accent-color), var(--text-primary))';
+        }
+        
+        // Añadir al DOM
+        document.body.appendChild(notification);
+        
+        // Animación de entrada
+        setTimeout(() => {
+            notification.style.transform = 'translateX(-50%) translateY(0)';
+        }, 100);
+        
+        // Eliminar después de 3 segundos
+        setTimeout(() => {
+            notification.style.transform = 'translateX(-50%) translateY(-100px)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+}
+
 // Detectar dispositivo móvil
 function isMobile() {
     return window.innerWidth <= 768;
@@ -314,3 +629,8 @@ if (isMobile()) {
     // Reducir animaciones en móviles para mejor rendimiento
     document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
 }
+
+// Inicializar el editor cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    window.portfolioEditor = new RealTimeEditor();
+});
