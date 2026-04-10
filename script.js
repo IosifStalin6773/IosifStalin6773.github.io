@@ -47,15 +47,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Cambiar estilo de navegación al hacer scroll
+// Mantener estilo de navegación militarizado al hacer scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        navbar.style.background = 'var(--bg-secondary)';
+        navbar.style.boxShadow = 'var(--shadow-lg)';
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 1px 3px rgba(0,0,0,0.12)';
+        navbar.style.background = 'var(--bg-secondary)';
+        navbar.style.boxShadow = 'var(--shadow-lg)';
     }
 });
 
