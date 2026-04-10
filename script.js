@@ -59,45 +59,156 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Formulario de contacto
+// Security Functions
+function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+}
+
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validateName(name) {
+    // Only allow letters, spaces, and certain special characters
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s'-]{2,50}$/;
+    return nameRegex.test(name.trim());
+}
+
+function validateMessage(message) {
+    // Allow most characters but limit length
+    return message.trim().length >= 10 && message.trim().length <= 1000;
+}
+
+// Rate Limiting
+const rateLimiter = {
+    attempts: 0,
+    lastAttempt: 0,
+    maxAttempts: 3,
+    cooldownPeriod: 60000, // 1 minute
+    
+    canSubmit() {
+        const now = Date.now();
+        if (now - this.lastAttempt > this.cooldownPeriod) {
+            this.attempts = 0;
+        }
+        
+        if (this.attempts >= this.maxAttempts) {
+            const remainingTime = Math.ceil((this.cooldownPeriod - (now - this.lastAttempt)) / 1000);
+            return { allowed: false, remainingTime };
+        }
+        
+        return { allowed: true };
+    },
+    
+    recordAttempt() {
+        this.attempts++;
+        this.lastAttempt = Date.now();
+    },
+    
+    reset() {
+        this.attempts = 0;
+        this.lastAttempt = 0;
+    }
+};
+
+// XSS Protection for dynamic content
+function secureContent(content) {
+    const temp = document.createElement('div');
+    temp.textContent = content;
+    return temp.innerHTML;
+}
+
+// Enhanced Contact Form with Security
 const contactForm = document.querySelector('.contact-form');
 
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Obtener datos del formulario
-    const formData = new FormData(this);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-    
-    // Validación básica
-    if (!name || !email || !subject || !message) {
-        showNotification('Por favor, completa todos los campos', 'error');
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        showNotification('Por favor, introduce un email válido', 'error');
-        return;
-    }
-    
-    // Simular envío del formulario
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    
-    submitButton.textContent = 'Enviando...';
-    submitButton.disabled = true;
-    
-    // Simular delay de envío
-    setTimeout(() => {
-        showNotification('Mensaje enviado correctamente. Te contactaré pronto.', 'success');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Rate limiting check
+        const rateLimitCheck = rateLimiter.canSubmit();
+        if (!rateLimitCheck.allowed) {
+            showNotification(`Demasiados intentos. Espera ${rateLimitCheck.remainingTime} segundos`, 'error');
+            return;
+        }
+        
+        // Get and sanitize form data
+        const nameInput = this.querySelector('#name');
+        const emailInput = this.querySelector('#email');
+        const messageInput = this.querySelector('#message');
+        
+        const name = sanitizeInput(nameInput.value);
+        const email = sanitizeInput(emailInput.value);
+        const message = sanitizeInput(messageInput.value);
+        
+        // Enhanced validation
+        if (!name || !email || !message) {
+            showNotification('Por favor completa todos los campos', 'error');
+            rateLimiter.recordAttempt();
+            return;
+        }
+        
+        if (!validateName(name)) {
+            showNotification('Nombre inválido. Usa solo letras y caracteres válidos', 'error');
+            rateLimiter.recordAttempt();
+            return;
+        }
+        
+        if (!validateEmail(email)) {
+            showNotification('Por favor ingresa un email válido', 'error');
+            rateLimiter.recordAttempt();
+            return;
+        }
+        
+        if (!validateMessage(message)) {
+            showNotification('El mensaje debe tener entre 10 y 1000 caracteres', 'error');
+            rateLimiter.recordAttempt();
+            return;
+        }
+        
+        // Additional XSS checks
+        const xssPatterns = [
+            /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+            /javascript:/gi,
+            /on\w+\s*=/gi,
+            /<iframe\b[^>]*>/gi,
+            /<object\b[^>]*>/gi,
+            /<embed\b[^>]*>/gi
+        ];
+        
+        const combinedInput = name + email + message;
+        const hasXSS = xssPatterns.some(pattern => pattern.test(combinedInput));
+        
+        if (hasXSS) {
+            showNotification('Contenido no permitido detectado', 'error');
+            rateLimiter.recordAttempt();
+            return;
+        }
+        
+        // Simulate secure form submission
+        showNotification('Mensaje enviado correctamente', 'success');
         this.reset();
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }, 2000);
-});
+        rateLimiter.reset(); // Reset on successful submission
+    });
+    
+    // Add input event listeners for real-time validation
+    const inputs = contactForm.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            // Remove any potentially dangerous content on paste
+            this.value = sanitizeInput(this.value);
+        });
+        
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            this.value = sanitizeInput(pastedText);
+        });
+    });
+}
 
 // Validación de email
 function isValidEmail(email) {
