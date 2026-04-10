@@ -578,9 +578,74 @@
                 <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
                 <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
             </p>
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Sistema de acceso secreto
+        const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let secretIndex = 0;
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === secretCode[secretIndex]) {
+                secretIndex++;
+                
+                if (secretIndex === secretCode.length) {
+                    activateSecretAccess();
+                    secretIndex = 0;
+                }
+            } else {
+                secretIndex = 0;
+            }
+        });
+        
+        function activateSecretAccess() {
+            // Efecto visual
+            document.body.style.animation = 'flash 0.5s ease-in-out';
+            
+            // Mostrar notificación
+            showNotification('Acceso secreto activado', 'success');
+            
+            // Redirigir después de un delay
+            setTimeout(() => {
+                window.location.href = 'secret.html';
+            }, 1500);
+        }
+        
+        // Acceso por clic en el footer (triple clic)
+        let clickCount = 0;
+        let clickTimer;
+        
+        document.querySelector('.footer').addEventListener('click', () => {
+            clickCount++;
+            
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 1000);
+            
+            if (clickCount === 3) {
+                activateSecretAccess();
+                clickCount = 0;
+            }
+        });
+        
+        // Acceso por texto secreto en la consola
+        console.log('%cPista: Intenta la combinación clásica...', 'color: #ff0000; font-size: 12px;');
+        console.log('%cO prueba hacer triple clic en el footer...', 'color: #00ff00; font-size: 12px;');
+        
+        // Añadir animación flash
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes flash {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.3; background: rgba(255, 0, 0, 0.1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
