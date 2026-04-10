@@ -617,6 +617,64 @@
         
         // Acceso por clic en el footer (triple clic)
         let clickCount = 0;
+        const footer = document.querySelector('.footer');
+        
+        footer.addEventListener('click', (e) => {
+            clickCount++;
+            if (clickCount === 3) {
+                activateSecretAccess();
+                clickCount = 0;
+            }
+            setTimeout(() => { clickCount = 0; }, 2000);
+        });
+        
+        // Acceso por palabra secreta en el título
+        let titleClicks = 0;
+        const navLogo = document.querySelector('.nav-logo h3');
+        
+        navLogo.addEventListener('click', () => {
+            titleClicks++;
+            if (titleClicks === 5) {
+                activateSecretAccess();
+                titleClicks = 0;
+            }
+            setTimeout(() => { titleClicks = 0; }, 3000);
+        });
+        
+        // Acceso por combinación de teclas (Ctrl + Shift + S)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                activateSecretAccess();
+            }
+        });
+        
+        // Acceso por scroll específico
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (window.scrollY > window.innerHeight * 2.5) {
+                    activateSecretAccess();
+                }
+            }, 1000);
+        });
+        
+        // Acceso por hover en skills por 3 segundos
+        let hoverTimer;
+        const skillsSection = document.querySelector('#skills');
+        
+        if (skillsSection) {
+            skillsSection.addEventListener('mouseenter', () => {
+                hoverTimer = setTimeout(() => {
+                    activateSecretAccess();
+                }, 3000);
+            });
+            
+            skillsSection.addEventListener('mouseleave', () => {
+                clearTimeout(hoverTimer);
+            });
+        }
         let clickTimer;
         
         document.querySelector('.footer').addEventListener('click', () => {
