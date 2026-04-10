@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Técnicas avanzadas para optimizar scripts de Lua en entornos de gaming y servidores">
+    <meta name="keywords" content="Lua, optimización, rendimiento, gaming, servidores, programación">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Optimización de Rendimiento en Lua | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">15 Mar 2026</span>
+                    <span class="blog-category">Desarrollo</span>
+                    <span class="blog-reading-time">15 min lectura</span>
+                </div>
+                <h1 class="blog-title">Optimización de Rendimiento en Lua</h1>
+                <div class="blog-tags">
+                    <span class="tag">Lua</span>
+                    <span class="tag">Performance</span>
+                    <span class="tag">Gaming</span>
+                    <span class="tag">Optimización</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        Lua es un lenguaje de scripting ligero y rápido, pero en entornos de gaming 
+                        y servidores donde el rendimiento es crítico, cada microsegundo cuenta. 
+                        En este artículo exploraremos técnicas avanzadas para optimizar scripts Lua 
+                        y maximizar el rendimiento en aplicaciones de tiempo real.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>¿Por qué optimizar en gaming?</h2>
+                    <p>
+                        Los entornos de gaming presentan desafíos únicos que requieren optimización 
+                        exhaustiva:
+                    </p>
+                    <ul>
+                        <li>Los game loops se ejecutan 60+ veces por segundo</li>
+                        <li>Múltiples jugadores simultáneos</li>
+                        <li>Recursos limitados del servidor</li>
+                        <li>Latencia crítica en tiempo real</li>
+                    </ul>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Gestión de Memoria</h2>
+                    <p>
+                        La gestión eficiente de memoria es fundamental en Lua. El garbage collector 
+                        automático puede causar lag si no se maneja correctamente.
+                    </p>
+                    
+                    <h3>Evitar creación de objetos innecesarios</h3>
+                    <div class="code-example">
+                        <h4>MAL:</h4>
+                        <pre><code>function updatePlayer(player)
+    local pos = Vector3(player.x, player.y, player.z)  -- Nuevo objeto cada frame
+    player.position = pos
+end</code></pre>
+                        
+                        <h4>BIEN:</h4>
+                        <pre><code>function updatePlayer(player)
+    -- Reutilizar el mismo objeto si existe
+    if not player.tempPos then
+        player.tempPos = Vector3(0, 0, 0)
+    end
+    player.tempPos.x = player.x
+    player.tempPos.y = player.y
+    player.tempPos.z = player.z
+    player.position = player.tempPos
+end</code></pre>
+                    </div>
+
+                    <h3>Pool de Objetos</h3>
+                    <p>
+                        Implementar un pool de objetos permite reutilizar instancias en lugar de 
+                        crear nuevas constantemente:
+                    </p>
+                    <pre><code>local objectPool = {}
+local poolSize = 100
+
+function getObject()
+    if #objectPool > 0 then
+        return table.remove(objectPool)
+    else
+        return createNewObject()
+    end
+end
+
+function releaseObject(obj)
+    if #objectPool < poolSize then
+        resetObject(obj)
+        table.insert(objectPool, obj)
+    end
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Optimización de Bucles</h2>
+                    <p>
+                        Los bucles son donde más tiempo de CPU se consume en gaming. Optimizarlos 
+                        puede marcar una diferencia significativa.
+                    </p>
+
+                    <h3>Evitar calcular table.length en cada iteración</h3>
+                    <div class="code-example">
+                        <h4>MAL:</h4>
+                        <pre><code>for i = 1, #players do
+    processPlayer(players[i])
+end</code></pre>
+                        
+                        <h4>BIEN:</h4>
+                        <pre><code>local playerCount = #players
+for i = 1, playerCount do
+    processPlayer(players[i])
+end</code></pre>
+                    </div>
+
+                    <h3>ipairs vs pairs</h3>
+                    <p>
+                        <code>ipairs</code> es más rápido para arrays secuenciales, mientras que 
+                        <code>pairs</code> es necesario para tablas con claves no numéricas:
+                    </p>
+                    <pre><code>-- ipairs para arrays secuenciales
+for i, player in ipairs(players) do
+    processPlayer(player)
+end
+
+-- pairs para tablas hash
+for id, player in pairs(players) do
+    processPlayer(player)
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Estructuras de Datos Eficientes</h2>
+                    <p>
+                        La elección de la estructura de datos correcta puede mejorar drásticamente 
+                        el rendimiento.
+                    </p>
+
+                    <h3>Arrays vs Tablas Hash</h3>
+                    <p>
+                        Usar arrays en lugar de tablas hash cuando sea posible:
+                    </p>
+                    <pre><code>-- MAL (para lista secuencial):
+local players = {}
+players[1001] = player1
+players[1002] = player2
+
+-- BIEN:
+local players = {}
+players[1] = player1
+players[2] = player2</code></pre>
+
+                    <h3>Cache de Resultados</h3>
+                    <pre><code>local cache = {}
+local cacheSize = 1000
+
+function expensiveCalculation(input)
+    if cache[input] then
+        return cache[input]
+    end
+    
+    local result = -- cálculo costoso
+    cache[input] = result
+    
+    -- Limitar tamaño del cache
+    if table.getn(cache) > cacheSize then
+        cache = {}  -- Simple: limpiar todo
+    end
+    
+    return result
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Strings y Concatenación</h2>
+                    <p>
+                        La concatenación de strings en Lua puede ser costosa, especialmente en bucles.
+                    </p>
+
+                    <h3>Evitar concatenación excesiva</h3>
+                    <div class="code-example">
+                        <h4>MAL:</h4>
+                        <pre><code>local result = ""
+for i = 1, 1000 do
+    result = result .. tostring(i) .. ","
+end</code></pre>
+                        
+                        <h4>BIEN:</h4>
+                        <pre><code>local parts = {}
+for i = 1, 1000 do
+    parts[i] = tostring(i)
+end
+local result = table.concat(parts, ",")</code></pre>
+                    </div>
+
+                    <h3>String Formateo Eficiente</h3>
+                    <pre><code>-- MAL:
+local message = "Player " .. name .. " has " .. health .. " health"
+
+-- BIEN:
+local message = string.format("Player %s has %d health", name, health)</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Herramientas de Profiling</h2>
+                    <p>
+                        Para optimizar efectivamente, necesitas medir el rendimiento:
+                    </p>
+
+                    <h3>Medición de Tiempo</h3>
+                    <pre><code>local startTime = os.clock()
+-- código a medir
+local endTime = os.clock()
+local duration = endTime - startTime
+print("Execution time: " .. duration .. " seconds")</code></pre>
+
+                    <h3>Memory Profiling</h3>
+                    <pre><code>function getMemoryUsage()
+    collectgarbage("collect")  -- Forzar GC
+    return collectgarbage("count")  -- KB de memoria usada
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Casos de Uso en Gaming</h2>
+                    
+                    <h3>Sistema de Inventario Optimizado</h3>
+                    <pre><code>function Inventory:addItem(item, count)
+    -- Buscar slot existente primero
+    for slot, slotItem in pairs(self.slots) do
+        if slotItem.id == item.id and slotItem.count < item.maxStack then
+            local space = item.maxStack - slotItem.count
+            local addAmount = math.min(count, space)
+            slotItem.count = slotItem.count + addAmount
+            count = count - addAmount
+            
+            if count == 0 then
+                self.dirty = true
+                return true
+            end
+        end
+    end
+    
+    -- Buscar slot vacío
+    for i = 1, self.size do
+        if not self.slots[i] then
+            self.slots[i] = {
+                id = item.id,
+                count = math.min(count, item.maxStack),
+                data = item.data
+            }
+            self.dirty = true
+            return true
+        end
+    end
+    
+    return false
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        La optimización en Lua requiere un equilibrio entre rendimiento y 
+                        mantenibilidad. Las técnicas presentadas pueden mejorar significativamente 
+                        el rendimiento en entornos críticos como gaming.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>Mide antes de optimizar</li>
+                            <li>Optimiza los cuellos de botella reales</li>
+                            <li>Mantén el código legible</li>
+                            <li>Prueba exhaustivamente después de optimizar</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="../index.html#blog" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Volver al Blog
+                        </a>
+                        <a href="seguridad-servers.html" class="nav-link">
+                            Siguiente Artículo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

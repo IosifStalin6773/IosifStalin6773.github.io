@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cuándo usar cada uno y cómo combinarlos para layouts complejos y responsive">
+    <meta name="keywords" content="CSS, Grid, Flexbox, layout, responsive, diseño web">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>CSS Grid vs Flexbox | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">15 Feb 2026</span>
+                    <span class="blog-category">Diseño</span>
+                    <span class="blog-reading-time">14 min lectura</span>
+                </div>
+                <h1 class="blog-title">CSS Grid vs Flexbox</h1>
+                <div class="blog-tags">
+                    <span class="tag">CSS</span>
+                    <span class="tag">Grid</span>
+                    <span class="tag">Flexbox</span>
+                    <span class="tag">Layout</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        CSS Grid y Flexbox son dos de las herramientas más poderosas para crear layouts 
+                        modernos. Aunque ambos sirven para organizar elementos, cada uno tiene sus 
+                        fortalezas específicas. En esta guía exploraremos cuándo usar cada uno y cómo 
+                        combinarlos para crear diseños complejos y responsive.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Introducción a CSS Grid</h2>
+                    <p>
+                        CSS Grid es un sistema de layout bidimensional diseñado para crear layouts 
+                        complejos tanto en filas como columnas. Es ideal para el diseño general de 
+                        la página y layouts complejos.
+                    </p>
+                    
+                    <div class="grid-overview">
+                        <h3>Características Principales de Grid</h3>
+                        <ul>
+                            <li>Diseño bidimensional (filas y columnas)</li>
+                            <li>Control preciso sobre el layout</li>
+                            <li>Sistema de tracks (grid lines)</li>
+                            <li>Areas nombradas</li>
+                            <li>Auto-placement automático</li>
+                            <li>Gap para espaciado consistente</li>
+                        </ul>
+                        
+                        <h3>Cuándo Usar Grid</h3>
+                        <ul>
+                            <li>Layout general de la página</li>
+                            <li>Diseños complejos bidimensionales</li>
+                            <li>Dashboard y grids de contenido</li>
+                            <li>Layouts con áreas específicas</li>
+                            <li>Diseños que necesitan alineación precisa</li>
+                        </ul>
+                    </div>
+
+                    <h3>Ejemplo Básico de Grid</h3>
+                    <div class="code-example">
+                        <pre><code>/* Contenedor Grid */
+.container {
+    display: grid;
+    
+    /* Definir columnas y filas */
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    
+    /* Definir áreas */
+    grid-template-areas:
+        "header header header"
+        "sidebar main aside"
+        "footer footer footer";
+    
+    /* Espaciado */
+    gap: 20px;
+    
+    /* Alto mínimo del contenedor */
+    min-height: 100vh;
+}
+
+/* Elementos del layout */
+.header {
+    grid-area: header;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+}
+
+.main {
+    grid-area: main;
+    background: #ecf0f1;
+    padding: 20px;
+}
+
+.aside {
+    grid-area: aside;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+}
+
+.footer {
+    grid-area: footer;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Introducción a Flexbox</h2>
+                    <p>
+                        Flexbox es un sistema de layout unidimensional diseñado para organizar elementos 
+                        en una sola dirección (fila o columna). Es perfecto para componentes específicos 
+                        y alineación de elementos.
+                    </p>
+                    
+                    <div class="flexbox-overview">
+                        <h3>Características Principales de Flexbox</h3>
+                        <ul>
+                            <li>Diseño unidimensional (fila o columna)</li>
+                            <li>Flexibilidad automática de elementos</li>
+                            <li>Alineación y distribución potente</li>
+                            <li>Ordering de elementos</li>
+                            <li>Wrapping automático</li>
+                            <li>Flex grow/shrink control</li>
+                        </ul>
+                        
+                        <h3>Cuándo Usar Flexbox</h3>
+                        <ul>
+                            <li>Componentes de navegación</li>
+                            <li>Centrado de elementos</li>
+                            <li>Barras de herramientas</li>
+                            <li>Card layouts</li>
+                            <li>Formularios y botones</li>
+                            <li>Menus y listas</li>
+                        </ul>
+                    </div>
+
+                    <h3>Ejemplo Básico de Flexbox</h3>
+                    <div class="code-example">
+                        <pre><code>/* Contenedor Flex */
+.navbar {
+    display: flex;
+    
+    /* Dirección del flex */
+    flex-direction: row;
+    
+    /* Alineación principal */
+    justify-content: space-between;
+    
+    /* Alineación secundaria */
+    align-items: center;
+    
+    /* Permitir wrapping */
+    flex-wrap: wrap;
+    
+    /* Espaciado */
+    gap: 10px;
+    
+    background: #34495e;
+    padding: 10px 20px;
+}
+
+/* Logo */
+.logo {
+    flex: 0 0 auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Menu de navegación */
+.nav-menu {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    flex: 0 0 auto;
+}
+
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor de botones */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Comparación Directa</h2>
+                    
+                    <div class="comparison-table">
+                        <h3>Grid vs Flexbox - Características</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th>CSS Grid</th>
+                                    <th>Flexbox</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dimensiones</td>
+                                    <td>2D (filas y columnas)</td>
+                                    <td>1D (fila o columna)</td>
+                                </tr>
+                                <tr>
+                                    <td>Uso Principal</td>
+                                    <td>Layout de página</td>
+                                    <td>Componentes</td>
+                                </tr>
+                                <tr>
+                                    <td>Complejidad</td>
+                                    <td>Layouts complejos</td>
+                                    <td>Layouts simples</td>
+                                </tr>
+                                <tr>
+                                    <td>Control</td>
+                                    <td>Preciso y explícito</td>
+                                    <td>Flexible y automático</td>
+                                </tr>
+                                <tr>
+                                    <td>Browser Support</td>
+                                    <td>Moderno (IE11+)</td>
+                                    <td>Excelente (IE10+)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Cuándo Elegir Cada Uno</h3>
+                    <div class="decision-guide">
+                        <h4>Usa CSS Grid cuando:</h4>
+                        <ul>
+                            <li>Necesitas controlar layout en 2 dimensiones</li>
+                            <li>Estás diseñando el layout general de la página</li>
+                            <li>Necesitas alinear elementos en filas y columnas</li>
+                            <li>Quieres crear un grid de contenido</li>
+                            <li>El layout es complejo y necesita áreas específicas</li>
+                        </ul>
+
+                        <h4>Usa Flexbox cuando:</h4>
+                        <ul>
+                            <li>Estás diseñando componentes específicos</li>
+                            <li>Necesitas alinear elementos en 1 dimensión</li>
+                            <li>Quieres centrar contenido</li>
+                            <li>Estás trabajando con navegación o botones</li>
+                            <li>Necesitas distribuir espacio equitativamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Combinando Grid y Flexbox</h2>
+                    <p>
+                        La mejor práctica es usar ambos sistemas juntos: Grid para el layout general 
+                        y Flexbox para los componentes internos.
+                    </p>
+
+                    <h3>Ejemplo: Dashboard Completo</h3>
+                    <div class="code-example">
+                        <pre><code>/* Layout general con Grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    grid-template-rows: 60px 1fr 40px;
+    grid-template-areas:
+        "header header header"
+        "sidebar main widgets"
+        "footer footer footer";
+    gap: 20px;
+    min-height: 100vh;
+}
+
+/* Header con Flexbox */
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: white;
+    padding: 0 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Sidebar con Flexbox */
+.sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Main content con Grid interno */
+.main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background: #ecf0f1;
+}
+
+/* Cards con Flexbox */
+.card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card-content {
+    flex: 1;
+    padding: 15px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Widgets con Flexbox */
+.widgets {
+    grid-area: widgets;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #34495e;
+    color: white;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.widget-content {
+    flex: 1;
+}
+
+.widget-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Footer con Flexbox */
+.footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: white;
+    padding: 0 20px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Patterns Comunes</h2>
+                    
+                    <h3>1. Holy Grail Layout</h3>
+                    <div class="code-example">
+                        <pre><code>.holy-grail {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header"
+        "nav main aside"
+        "footer footer footer";
+    gap: 20px;
+    min-height: 100vh;
+}
+
+.header { grid-area: header; }
+.nav { grid-area: nav; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .holy-grail {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "aside"
+            "footer";
+    }
+}</code></pre>
+                    </div>
+
+                    <h3>2. Card Grid</h3>
+                    <pre><code>.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-content {
+    flex: 1;
+    padding: 15px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-top: 1px solid #eee;
+}</code></pre>
+
+                    <h3>3. Navigation Bar</h3>
+                    <pre><code>.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #333;
+    color: white;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Técnicas Avanzadas</h2>
+                    
+                    <h3>Grid Auto-Fit y Auto-Fill</h3>
+                    <div class="code-example">
+                        <pre><code>/* Auto-fit - ajusta número de columnas */
+.auto-fit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Auto-fill - mantiene espacio vacío */
+.auto-fill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Grid con densidad */
+.dense-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    grid-auto-flow: dense; /* Llena espacios vacíos */
+}
+
+/* Subgrid (navegador moderno) */
+.subgrid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.subgrid-item {
+    display: grid;
+    grid-template-columns: subgrid; /* Hereda del padre */
+    grid-column: span 2;
+}</code></pre>
+                    </div>
+
+                    <h3>Flexbox Avanzado</h3>
+                    <pre><code>/* Flexbox con ratios */
+.flex-ratios {
+    display: flex;
+}
+
+.flex-ratios > :first-child {
+    flex: 2; /* 2/5 del espacio */
+}
+
+.flex-ratios > :nth-child(2) {
+    flex: 3; /* 3/5 del espacio */
+}
+
+/* Flexbox con base y grow */
+.flex-base-grow {
+    display: flex;
+}
+
+.flex-base-grow > :first-child {
+    flex: 0 0 200px; /* Base fija de 200px */
+}
+
+.flex-base-grow > :nth-child(2) {
+    flex: 1; /* Crece para ocupar resto */
+}
+
+/* Flexbox con orden */
+.flex-order {
+    display: flex;
+}
+
+.flex-order > :first-child {
+    order: 2; /* Segundo elemento */
+}
+
+.flex-order > :nth-child(2) {
+    order: 1; /* Primer elemento */
+}
+
+/* Flexbox con alineación */
+.flex-align {
+    display: flex;
+    align-items: stretch; /* Todos los elementos misma altura */
+}
+
+.flex-align > div {
+    display: flex;
+    flex-direction: column;
+}</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Responsive Design</h2>
+                    
+                    <h3>Estrategias Responsive</h3>
+                    <div class="code-example">
+                        <pre><code>/* Mobile-first approach */
+.responsive-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .responsive-layout {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 1024px) {
+    .responsive-layout {
+        display: grid;
+        grid-template-columns: 200px 1fr 300px;
+        gap: 30px;
+    }
+}
+
+/* Container queries (navegadores modernos) */
+.card-container {
+    container-type: inline-size;
+}
+
+@container (min-width: 400px) {
+    .card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+/* CSS Functions para layouts dinámicos */
+.dynamic-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        var(--columns, 3),
+        1fr
+    );
+    gap: var(--gap, 20px);
+}
+
+/* Variables CSS para layouts */
+.layout-variables {
+    --columns: 2;
+    --gap: 15px;
+    --min-width: 250px;
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 1fr));
+    gap: var(--gap);
+}</code></pre>
+                    </div>
+
+                    <h3>Breakpoints Comunes</h3>
+                    <pre><code>/* Breakpoints estándar */
+:root {
+    --mobile: 480px;
+    --tablet: 768px;
+    --desktop: 1024px;
+    --wide: 1200px;
+}
+
+/* Mobile styles */
+@media (max-width: 479px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 480px) and (max-width: 767px) {
+    .layout {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+    .layout {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Wide desktop */
+@media (min-width: 1200px) {
+    .layout {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Performance y Optimización</h2>
+                    
+                    <h3>Best Practices</h3>
+                    <div class="code-example">
+                        <pre><code>/* Evitar layouts complejos innecesarios */
+.simple-layout {
+    display: flex; /* Más simple que grid para 1D */
+    gap: 20px;
+}
+
+/* Usar transform en lugar de cambiar layout properties */
+.animated-item {
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+.animated-item:hover {
+    transform: translateX(10px);
+}
+
+/* Optimizar reflows */
+.optimized-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr; /* Fijo, mejor performance */
+    gap: 20px;
+}
+
+/* Usar contain para mejorar performance */
+.performance-layout {
+    display: grid;
+    contain: layout style paint; /* Aislar cambios */
+}
+
+/* Evitar overflow en layouts */
+.no-overflow {
+    display: flex;
+    min-width: 0; /* Permite shrinking */
+    overflow: hidden;
+}
+
+/* Usar will-change para animaciones */
+.animated-element {
+    will-change: transform;
+    transition: transform 0.3s ease;
+}</code></pre>
+                    </div>
+
+                    <h3>Debugging Tools</h3>
+                    <pre><code>/* Grid debugging */
+.debug-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.debug-grid > * {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+}
+
+/* Flexbox debugging */
+.debug-flex {
+    display: flex;
+    gap: 20px;
+}
+
+.debug-flex > * {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid green;
+}
+
+/* CSS Grid overlay en Chrome DevTools */
+/* Habilitar: Settings > Experiments > CSS Grid overlay */</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        CSS Grid y Flexbox no son competidores, sino herramientas complementarias. 
+                        Dominar ambos te permitirá crear layouts modernos, responsive y eficientes. 
+                        La clave es entender cuándo usar cada uno y cómo combinarlos efectivamente.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>Usa Grid para layouts bidimensionales y Flexbox para componentes</li>
+                            <li>Combina ambos sistemas para layouts complejos</li>
+                            <li>Optimiza para mobile-first responsive design</li>
+                            <li>Usa auto-fit/auto-fill para grids responsivos</li>
+                            <li>Mantén layouts simples cuando sea posible</li>
+                            <li>Usa herramientas de debugging para resolver problemas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="github-actions.html" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Artículo Anterior
+                        </a>
+                        <a href="../index.html#blog" class="nav-link">
+                            Volver al Blog <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

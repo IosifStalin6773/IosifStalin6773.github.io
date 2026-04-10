@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mejores prácticas para proteger tus servidores de gaming contra ataques y vulnerabilidades">
+    <meta name="keywords" content="seguridad, servidores gaming, protección, ataques, vulnerabilidades, ciberseguridad">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Seguridad en Servidores Gaming | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">10 Mar 2026</span>
+                    <span class="blog-category">Seguridad</span>
+                    <span class="blog-reading-time">12 min lectura</span>
+                </div>
+                <h1 class="blog-title">Seguridad en Servidores Gaming</h1>
+                <div class="blog-tags">
+                    <span class="tag">Seguridad</span>
+                    <span class="tag">Servers</span>
+                    <span class="tag">GMod</span>
+                    <span class="tag">Ciberseguridad</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        Los servidores de gaming son objetivos frecuentes de ataques maliciosos. 
+                        Desde DDoS hasta exploits de scripts, las amenazas son diversas y constantes. 
+                        En este artículo exploraremos las mejores prácticas para proteger tus servidores 
+                        y mantener una experiencia de juego segura para todos los usuarios.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Tipos Comunes de Ataques</h2>
+                    <p>
+                        Antes de proteger tu servidor, es crucial entender contra qué te estás defendiendo:
+                    </p>
+                    
+                    <div class="attack-types">
+                        <h3>1. Ataques DDoS (Distributed Denial of Service)</h3>
+                        <p>
+                            Sobrecarga del servidor con tráfico masivo para causar lag o caídas. 
+                            Es el ataque más común en servidores gaming.
+                        </p>
+                        
+                        <h3>2. Exploits de Scripts</h3>
+                        <p>
+                            Aprovechamiento de vulnerabilidades en el código del servidor o plugins 
+                            para ejecutar comandos no autorizados.
+                        </p>
+                        
+                        <h3>3. Inyección SQL</h3>
+                        <p>
+                            Manipulación de bases de datos a través de entradas no validadas, 
+                            común en servidores con sistemas de cuentas.
+                        </p>
+                        
+                        <h3>4. RCE (Remote Code Execution)</h3>
+                        <p>
+                            Ejecución remota de código en el servidor, el ataque más peligroso 
+                            que puede dar control total al atacante.
+                        </p>
+                        
+                        <h3>5. Brute Force</h3>
+                        <p>
+                            Intentos repetidos de acceso mediante fuerza bruta a cuentas administrativas 
+                            o de usuarios.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Configuración Básica de Seguridad</h2>
+                    
+                    <h3>1. Firewall y Puertos</h3>
+                    <div class="code-example">
+                        <h4>Configuración de Firewall (iptables):</h4>
+                        <pre><code># Permitir solo puertos esenciales
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # SSH
+iptables -A INPUT -p tcp --dport 27015 -j ACCEPT  # Game Server
+iptables -A INPUT -p udp --dport 27015 -j ACCEPT  # Game Server UDP
+
+# Limitar conexiones por IP
+iptables -A INPUT -p tcp --dport 27015 -m connlimit --connlimit-above 10 -j REJECT
+
+# Protección contra ping floods
+iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP</code></pre>
+                    </div>
+
+                    <h3>2. Rate Limiting</h3>
+                    <pre><code>-- Lua - Rate limiting para conexiones
+local connectionLimiter = {}
+local maxConnections = 5
+local connectionWindow = 60 -- segundos
+
+function canConnect(ip)
+    local now = os.time()
+    
+    if not connectionLimiter[ip] then
+        connectionLimiter[ip] = {count = 1, firstTime = now}
+        return true
+    end
+    
+    local data = connectionLimiter[ip]
+    
+    if now - data.firstTime > connectionWindow then
+        data.count = 1
+        data.firstTime = now
+        return true
+    end
+    
+    if data.count >= maxConnections then
+        return false
+    end
+    
+    data.count = data.count + 1
+    return true
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Validación de Entradas</h2>
+                    <p>
+                        La mayoría de los exploits provienen de entradas no validadas. 
+                        Implementa validación estricta en todos los puntos de entrada.
+                    </p>
+
+                    <h3>Sanitización de Strings</h3>
+                    <pre><code>-- Lua - Función de sanitización robusta
+local function sanitizeInput(input, inputType)
+    if not input or type(input) ~= "string" then
+        return nil
+    end
+    
+    -- Eliminar caracteres peligrosos
+    local sanitized = string.gsub(input, "[<>\"'&%c]", "")
+    
+    -- Limitar longitud
+    local maxLength = 255
+    if inputType == "chat" then
+        maxLength = 128
+    elseif inputType == "name" then
+        maxLength = 32
+    elseif inputType == "command" then
+        maxLength = 64
+    end
+    
+    if #sanitized > maxLength then
+        sanitized = string.sub(sanitized, 1, maxLength)
+    end
+    
+    -- Validación específica por tipo
+    if inputType == "number" then
+        local num = tonumber(sanitized)
+        return num and num >= 0 and num <= 1000000 and num or nil
+    elseif inputType == "name" then
+        -- Solo permitir caracteres alfanuméricos y espacios
+        if not string.match(sanitized, "^[%w%s]+$") then
+            return nil
+        end
+    end
+    
+    return sanitized
+end
+
+-- Uso en comandos
+function handleCommand(player, command, args)
+    local sanitizedCmd = sanitizeInput(command, "command")
+    if not sanitizedCmd then
+        player:ChatPrint("Comando inválido")
+        return
+    end
+    
+    -- Procesar comando seguro
+    processSafeCommand(player, sanitizedCmd, args)
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Protección contra DDoS</h2>
+                    
+                    <h3>1. Configuración de Rate Limiting Avanzado</h3>
+                    <pre><code>-- Sistema anti-DDoS multicapa
+local DDoSProtection = {
+    ipConnections = {},
+    packetLimits = {},
+    blacklistedIPs = {},
+    
+    -- Configuración
+    maxConnectionsPerIP = 3,
+    connectionTimeout = 30,
+    maxPacketsPerSecond = 100,
+    blacklistDuration = 3600
+}
+
+function DDoSProtection:checkConnection(ip)
+    local now = os.time()
+    
+    -- Verificar blacklist
+    if self.blacklistedIPs[ip] and self.blacklistedIPs[ip] > now then
+        return false, "IP blacklisted"
+    end
+    
+    -- Limpiar conexiones expiradas
+    self:cleanupExpiredConnections()
+    
+    -- Verificar límite de conexiones
+    local connections = self.ipConnections[ip] or {}
+    local activeConnections = 0
+    
+    for _, conn in pairs(connections) do
+        if conn.expires > now then
+            activeConnections = activeConnections + 1
+        end
+    end
+    
+    if activeConnections >= self.maxConnectionsPerIP then
+        self:blacklistIP(ip, "Too many connections")
+        return false, "Connection limit exceeded"
+    end
+    
+    -- Registrar nueva conexión
+    table.insert(connections, {
+        expires = now + self.connectionTimeout,
+        id = #connections + 1
+    })
+    self.ipConnections[ip] = connections
+    
+    return true, "Connection allowed"
+end
+
+function DDoSProtection:blacklistIP(ip, reason)
+    self.blacklistedIPs[ip] = os.time() + self.blacklistDuration
+    print(string.format("IP %s blacklisted: %s", ip, reason))
+end</code></pre>
+
+                    <h3>2. Cloudflare y CDN</h3>
+                    <p>
+                        Utilizar servicios como Cloudflare puede mitigar ataques DDoS antes de 
+                        que lleguen a tu servidor:
+                    </p>
+                    <ul>
+                        <li>Activar "I'm Under Attack" mode durante ataques</li>
+                        <li>Configurar reglas de firewall a nivel de CDN</li>
+                        <li>Utilizar rate limiting a nivel de edge</li>
+                        <li>Ocultar IP real del servidor</li>
+                    </ul>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Seguridad de Base de Datos</h2>
+                    
+                    <h3>1. Consultas Parametrizadas</h3>
+                    <pre><code>-- MAL - Vulnerable a SQL Injection
+local query = "SELECT * FROM players WHERE name = '" .. playerName .. "'"
+
+-- BIEN - Consulta parametrizada
+local function getPlayerByName(name)
+    local stmt = db:prepare("SELECT * FROM players WHERE name = ?")
+    stmt:bind_values(name)
+    local result = stmt:step()
+    stmt:finalize()
+    return result
+end</code></pre>
+
+                    <h3>2. Cifrado de Datos Sensibles</h3>
+                    <pre><code>-- Cifrado de contraseñas
+local bcrypt = require("bcrypt")
+
+function hashPassword(password)
+    return bcrypt.digest(password, 12) -- 12 rounds
+end
+
+function verifyPassword(password, hash)
+    return bcrypt.verify(password, hash)
+end
+
+-- Cifrado de datos sensibles en la base de datos
+local function encryptSensitiveData(data, key)
+    -- Implementar cifrado AES-256
+    return aes256.encrypt(key, data)
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Monitoreo y Logs</h2>
+                    
+                    <h3>1. Sistema de Logging</h3>
+                    <pre><code>-- Sistema de logging seguro
+local Logger = {
+    logFile = "server_security.log",
+    maxFileSize = 10 * 1024 * 1024, -- 10MB
+    logLevels = {
+        DEBUG = 1,
+        INFO = 2,
+        WARN = 3,
+        ERROR = 4,
+        CRITICAL = 5
+    }
+}
+
+function Logger:log(level, message, ip, playerId)
+    if self.logLevels[level] < self.logLevels.INFO then
+        return -- Solo loggear INFO y superior
+    end
+    
+    local timestamp = os.date("%Y-%m-%d %H:%M:%S")
+    local logEntry = string.format("[%s] %s - IP: %s - Player: %s - %s\n", 
+                                   timestamp, level, ip or "unknown", 
+                                   playerId or "unknown", message)
+    
+    -- Escribir al archivo
+    local file = io.open(self.logFile, "a")
+    if file then
+        file:write(logEntry)
+        file:close()
+    end
+    
+    -- Alertas para eventos críticos
+    if level == "CRITICAL" then
+        self:sendAlert(message, ip)
+    end
+end
+
+function Logger:sendAlert(message, ip)
+    -- Enviar alerta a administradores
+    for _, admin in ipairs(getAdmins()) do
+        admin:ChatPrint("[SECURITY ALERT] " .. message .. " (IP: " .. ip .. ")")
+    end
+    
+    -- Opcional: enviar a webhook/email
+    self:sendWebhookAlert(message, ip)
+end</code></pre>
+
+                    <h3>2. Detección de Anomalías</h3>
+                    <pre><code>-- Sistema de detección de anomalías
+local AnomalyDetector = {
+    playerStats = {},
+    thresholds = {
+        maxCommandsPerSecond = 10,
+        maxChatMessagesPerMinute = 30,
+        maxMovementSpeed = 500,
+        suspiciousPatterns = {"admin", "ban", "kick", "exploit"}
+    }
+}
+
+function AnomalyDetector:analyzePlayerAction(player, actionType, data)
+    local steamId = player:SteamID()
+    local now = os.time()
+    
+    if not self.playerStats[steamId] then
+        self.playerStats[steamId] = {
+            commands = {},
+            chatMessages = {},
+            lastPosition = player:GetPos(),
+            suspiciousActions = 0
+        }
+    end
+    
+    local stats = self.playerStats[steamId]
+    
+    if actionType == "command" then
+        self:checkCommandFrequency(player, data, now, stats)
+    elseif actionType == "chat" then
+        self:checkChatFrequency(player, data, now, stats)
+    elseif actionType == "movement" then
+        self:checkMovementAnomalies(player, data, stats)
+    end
+end
+
+function AnomalyDetector:checkCommandFrequency(player, command, now, stats)
+    -- Limpiar comandos antiguos (más de 1 segundo)
+    local recentCommands = {}
+    for timestamp, cmd in pairs(stats.commands) do
+        if now - timestamp <= 1 then
+            recentCommands[timestamp] = cmd
+        end
+    end
+    stats.commands = recentCommands
+    
+    -- Contar comandos en el último segundo
+    local commandCount = 0
+    for _ in pairs(stats.commands) do
+        commandCount = commandCount + 1
+    end
+    
+    if commandCount > self.thresholds.maxCommandsPerSecond then
+        Logger:log("WARN", "Excessive command usage: " .. commandCount .. "/s", 
+                  player:IPAddress(), player:SteamID())
+        
+        stats.suspiciousActions = stats.suspiciousActions + 1
+        
+        if stats.suspiciousActions > 5 then
+            self:handleSuspiciousPlayer(player, "Excessive command usage")
+        end
+    end
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Hardening del Servidor</h2>
+                    
+                    <h3>1. Configuración de Sistema Operativo</h3>
+                    <pre><code># /etc/sysctl.conf - Optimizaciones de seguridad
+# Protección contra SYN floods
+net.ipv4.tcp_syncookies = 1
+
+# Ignorar pings
+net.ipv4.icmp_echo_ignore_all = 1
+
+# Limitar conexiones concurrentes
+net.ipv4.tcp_max_syn_backlog = 2048
+
+# Protección contra IP spoofing
+net.ipv4.conf.all.rp_filter = 1
+
+# Deshabilitar redirects ICMP
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.send_redirects = 0</code></pre>
+
+                    <h3>2. Configuración de Game Server</h3>
+                    <pre><code>-- server.cfg - Configuración segura
+hostname "Secure Gaming Server"
+sv_password "your_secure_password"
+rcon_password "your_rcon_password"
+sv_pure 1
+sv_pure_kick_clients 1
+
+-- Limitar tasa de actualización
+sv_maxupdaterate 67
+sv_minupdaterate 33
+
+-- Protección contra cheats
+sv_cheats 0
+sv_allowupload 0
+sv_allowdownload 0
+
+-- Logging extendido
+log on
+sv_log_onefile 0
+sv_logfile 1
+sv_logbans 1
+sv_logecho 1</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Respuesta a Incidentes</h2>
+                    
+                    <h3>Plan de Respuesta</h3>
+                    <ol>
+                        <li><strong>Detección:</strong> Monitoreo continuo y alertas automáticas</li>
+                        <li><strong>Contención:</strong> Aislar sistemas afectados</li>
+                        <li><strong>Análisis:</strong> Investigar el alcance del ataque</li>
+                        <li><strong>Erradicación:</strong> Eliminar amenazas y vulnerabilidades</li>
+                        <li><strong>Recuperación:</strong> Restaurar sistemas desde backups</li>
+                        <li><strong>Prevención:</strong> Implementar medidas preventivas</li>
+                    </ol>
+
+                    <h3>Comandos de Emergencia</h3>
+                    <pre><code>-- Script de emergencia para GMod
+local EmergencyCommands = {}
+
+function EmergencyCommands:lockdown()
+    -- Bloquear nuevas conexiones
+    game.ConsoleCommand("sv_password lockdown_temp_" .. os.time())
+    
+    -- Kickear todos los jugadores excepto admins
+    for _, ply in ipairs(player.GetAll()) do
+        if not ply:IsAdmin() then
+            ply:Kick("Server lockdown - Try again later")
+        end
+    end
+    
+    Logger:log("CRITICAL", "Server lockdown activated", "SYSTEM")
+end
+
+function EmergencyCommands:backup()
+    -- Crear backup de datos críticos
+    local backupName = "emergency_backup_" .. os.date("%Y%m%d_%H%M%S")
+    
+    -- Backup base de datos
+    os.execute("mysqldump -u root -p gaming_db > backups/" .. backupName .. ".sql")
+    
+    -- Backup archivos de configuración
+    os.execute("tar -czf backups/" .. backupName .. "_config.tar.gz server.cfg addons/")
+    
+    Logger:log("INFO", "Emergency backup created: " .. backupName, "SYSTEM")
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Mejores Prácticas Resumidas</h2>
+                    
+                    <div class="best-practices">
+                        <h3>Configuración</h3>
+                        <ul>
+                            <li>Mantener software actualizado</li>
+                            <li>Usar contraseñas fuertes y únicas</li>
+                            <li>Configurar firewall correctamente</li>
+                            <li>Limitar acceso administrativo</li>
+                        </ul>
+
+                        <h3>Monitoreo</h3>
+                        <ul>
+                            <li>Logs detallados de todas las actividades</li>
+                            <li>Alertas para eventos sospechosos</li>
+                            <li>Monitoreo de rendimiento y recursos</li>
+                            <li>Análisis de patrones de comportamiento</li>
+                        </ul>
+
+                        <h3>Prevención</h3>
+                        <ul>
+                            <li>Validación estricta de todas las entradas</li>
+                            <li>Rate limiting en todos los endpoints</li>
+                            <li>Principio de mínimo privilegio</li>
+                            <li>Backups regulares y probados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        La seguridad de servidores gaming es un proceso continuo que requiere 
+                        vigilancia constante y actualización de medidas. No existe una solución 
+                        mágica, pero implementando estas prácticas reducirás significativamente 
+                        el riesgo de ataques y protegerás tanto tu servidor como tus jugadores.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>La seguridad es capas, no una solución única</li>
+                            <li>Monitorea todo lo que sea posible</li>
+                            <li>Responde rápidamente a las amenazas</li>
+                            <li>Educa a tu equipo sobre buenas prácticas</li>
+                            <li>Mantén backups actualizados y accesibles</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="optimizacion-lua.html" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Artículo Anterior
+                        </a>
+                        <a href="git-guide.html" class="nav-link">
+                            Siguiente Artículo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

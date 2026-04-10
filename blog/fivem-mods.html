@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creación de mods personalizados para FiveM con ESX y frameworks populares">
+    <meta name="keywords" content="FiveM, mods, ESX, Lua, gaming, desarrollo, GTA V">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Desarrollo de Mods para FiveM | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">28 Feb 2026</span>
+                    <span class="blog-category">Gaming</span>
+                    <span class="blog-reading-time">20 min lectura</span>
+                </div>
+                <h1 class="blog-title">Desarrollo de Mods para FiveM</h1>
+                <div class="blog-tags">
+                    <span class="tag">FiveM</span>
+                    <span class="tag">ESX</span>
+                    <span class="tag">Lua</span>
+                    <span class="tag">Gaming</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        FiveM es una de las plataformas más populares para crear servidores personalizados 
+                        de GTA V. En esta guía completa exploraremos cómo desarrollar mods desde cero, 
+                        utilizando frameworks como ESX y creando sistemas personalizados que mejorarán 
+                        la experiencia de juego en tu servidor.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Introducción a FiveM</h2>
+                    <p>
+                        FiveM es una modificación multijugador para GTA V que permite crear servidores 
+                        personalizados con scripts y recursos personalizados. A diferencia de GTA Online, 
+                        FiveM da control total sobre el servidor y permite implementar sistemas 
+                        completamente personalizados.
+                    </p>
+                    
+                    <div class="fivem-overview">
+                        <h3>Características Principales</h3>
+                        <ul>
+                            <li>Soporte nativo para Lua y JavaScript</li>
+                            <li>API completa para interactuar con el juego</li>
+                            <li>Framework de recursos modular</li>
+                            <li>Soporte para bases de datos MySQL</li>
+                            <li>Comunidad activa y documentación extensiva</li>
+                            <li>Compatibilidad con mods personalizados</li>
+                        </ul>
+                        
+                        <h3>Arquitectura de Recursos</h3>
+                        <p>
+                            Cada mod en FiveM se llama "recurso" y tiene una estructura específica:
+                        </p>
+                        <pre><code>mi-recurso/
+    fxmanifest.lua     # Configuración del recurso
+    client.lua         # Scripts del cliente
+    server.lua         # Scripts del servidor
+    shared.lua         # Scripts compartidos
+    html/              # Interfaz web (NUI)
+    css/               # Estilos para NUI
+    js/                # JavaScript para NUI
+    images/            # Imágenes y assets</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Configuración del Entorno</h2>
+                    
+                    <h3>Requisitos Previos</h3>
+                    <div class="code-example">
+                        <pre><code># Software necesario:
+- FiveM Server (última versión)
+- Visual Studio Code o editor preferido
+- MySQL Server (para bases de datos)
+- Git (para control de versiones)
+
+# Extensiones recomendadas para VS Code:
+- Lua Language Server
+- FiveM Resource Development
+- ESLint (para JavaScript)
+- Prettier (formateo de código)</code></pre>
+                    </div>
+
+                    <h3>Estructura del Servidor</h3>
+                    <pre><code>servidor-fivem/
+    resources/           # Todos los recursos
+        [essential]/     # Recursos esenciales
+        [frameworks]/    # Frameworks (ESX, QBCore)
+        [standalone]/    # Recursos independientes
+        [custom]/        # Tus recursos personalizados
+    
+    server.cfg           # Configuración del servidor
+    start.bat            # Script de inicio
+    citizen.ini          # Configuración de CitizenFX</code></pre>
+
+                    <h3>Configuración Básica</h3>
+                    <pre><code># server.cfg - Configuración esencial
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+
+# Información del servidor
+sv_hostname "Mi Servidor FiveM"
+sv_maxclients 32
+sv_endpointprivacy true
+
+# Configuración de OneSync
+set onesync on
+
+# Licencia (obtener de https://keymaster.fivem.net/)
+sv_license "tu-licencia-aqui"
+
+# Scripts de inicio
+start mapmanager
+start chat
+start spawnmanager
+start hardcap
+
+# Frameworks
+start es_extended
+start esx_identity
+start esx_menu_default
+start esx_menu_list
+start esx_menu_dialog</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Frameworks Populares</h2>
+                    
+                    <h3>ESX Framework</h3>
+                    <p>
+                        ESX (EssentialMode Extended) es uno de los frameworks más populares para FiveM. 
+                        Proporciona sistemas base para roleplay, economía, inventario y más.
+                    </p>
+                    
+                    <div class="framework-features">
+                        <h4>Características de ESX:</h4>
+                        <ul>
+                            <li>Sistema de economía completo</li>
+                            <li>Inventario y armamento</li>
+                            <li>Sistema de trabajos y roles</li>
+                            <li>Base de datos MySQL integrada</li>
+                            <li>API extensible para plugins</li>
+                            <li>Comunidad grande con muchos recursos</li>
+                        </ul>
+                    </div>
+
+                    <h3>QBCore Framework</h3>
+                    <p>
+                        QBCore es una alternativa moderna a ESX con mejor rendimiento y más 
+                        características integradas.
+                    </p>
+                    
+                    <div class="code-example">
+                        <h4>Instalación de ESX:</h4>
+                        <pre><code># Clonar ESX desde GitHub
+git clone https://github.com/ESX-Org/es_extended.git [esx]/es_extended
+
+# Clonar recursos esenciales
+git clone https://github.com/ESX-Org/esx_menu_default.git [esx]/esx_menu_default
+git clone https://github.com/ESX-Org/esx_menu_list.git [esx]/esx_menu_list
+git clone https://github.com/ESX-Org/esx_identity.git [esx]/esx_identity
+
+# Configurar base de datos MySQL
+CREATE DATABASE `essentialmode`;
+# Importar es_extended/sql/essentialmode.sql</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Creando tu Primer Recurso</h2>
+                    
+                    <h3>Estructura Básica</h3>
+                    <div class="code-example">
+                        <pre><code># fxmanifest.lua - Configuración del recurso
+fx_version 'cerulean'
+game 'gta5'
+
+author 'Tu Nombre'
+description 'Mi primer recurso FiveM'
+version '1.0.0'
+
+-- Scripts
+client_scripts {
+    'client.lua'
+}
+
+server_scripts {
+    'server.lua'
+}
+
+shared_scripts {
+    'config.lua'
+}
+
+-- Dependencias
+dependencies {
+    'es_extended'
+}</code></pre>
+                    </div>
+
+                    <h3>Configuración Compartida</h3>
+                    <pre><code>-- config.lua - Configuración compartida
+Config = {}
+
+-- Configuración del sistema
+Config.EnableDebug = false
+Config.Locale = 'es'
+
+-- Configuración de economía
+Config.Prices = {
+    item1 = 100,
+    item2 = 250,
+    item3 = 500
+}
+
+-- Configuración de permisos
+Config.AdminGroups = {
+    'god',
+    'admin'
+}
+
+-- Configuración de NPCs
+Config.NPCs = {
+    {
+        model = 's_m_m_highsec_01',
+        coords = vector4(428.0, -984.0, 30.7, 180.0),
+        animation = 'mini@strip_club@idles@bouncer@base'
+    }
+}</code></pre>
+
+                    <h3>Script del Servidor</h3>
+                    <pre><code>-- server.lua - Lógica del servidor
+local ESX = exports['es_extended']:getSharedObject()
+
+-- Evento de inicio del recurso
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then
+        return
+    end
+    
+    print('[MiRecurso] Recurso iniciado')
+    
+    -- Cargar configuración
+    LoadConfig()
+end)
+
+-- Comando para administradores
+ESX.RegisterCommand('mirecurso', function(source, args, user)
+    local source = source
+    
+    if not ESX.IsPlayerInGroup(source, 'admin') then
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {255, 0, 0},
+            multiline = true,
+            args = {"[Sistema]", "No tienes permisos para usar este comando"}
+        })
+        return
+    end
+    
+    -- Lógica del comando administrativo
+    local action = args[1]
+    
+    if action == 'reload' then
+        LoadConfig()
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {0, 255, 0},
+            multiline = true,
+            args = {"[Sistema]", "Configuración recargada"}
+        })
+    elseif action == 'status' then
+        local status = GetSystemStatus()
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {0, 255, 255},
+            multiline = true,
+            args = {"[Sistema]", "Estado: " .. status}
+        })
+    end
+end, false, {help = 'Comando para administrar el recurso', validate = true, arguments = {
+    {name = 'action', help = 'Acción a realizar', type = 'string'}
+}})
+
+-- Función para cargar configuración
+function LoadConfig()
+    -- Lógica de carga de configuración
+    print('[MiRecurso] Configuración cargada')
+end
+
+-- Función para obtener estado del sistema
+function GetSystemStatus()
+    return 'Operativo'
+end</code></pre>
+
+                    <h3>Script del Cliente</h3>
+                    <pre><code>-- client.lua - Lógica del cliente
+local ESX = exports['es_extended']:getSharedObject()
+
+-- Variables locales
+local isMenuOpen = false
+local currentNPCs = {}
+
+-- Evento de inicio del recurso
+AddEventHandler('onResourceStart', function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then
+        return
+    end
+    
+    -- Inicializar sistema
+    InitializeSystem()
+end)
+
+-- Evento de carga del jugador
+AddEventHandler('esx:playerLoaded', function()
+    -- Configurar cuando el jugador carga
+    ESX.TriggerServerCallback('mirecurso:getPlayerData', function(data)
+        -- Procesar datos del jugador
+        ProcessPlayerData(data)
+    end)
+end)
+
+-- Crear NPCs
+function CreateNPCs()
+    for _, npc in ipairs(Config.NPCs) do
+        -- Crear NPC
+        local ped = CreatePed(4, npc.model, npc.coords.x, npc.coords.y, npc.coords.z, npc.coords.w, false, false)
+        
+        -- Configurar NPC
+        SetEntityInvincible(ped, true)
+        FreezeEntityPosition(ped, true)
+        SetBlockingOfNonTemporaryEvents(ped, true)
+        
+        -- Animación si está configurada
+        if npc.animation then
+            RequestAnimDict(npc.animation)
+            while not HasAnimDictLoaded(npc.animation) do
+                Wait(0)
+            end
+            TaskPlayAnim(ped, npc.animation, "base", 8.0, -8.0, -1, 1, 0, false, false, false)
+        end
+        
+        -- Agregar a lista de NPCs
+        table.insert(currentNPCs, {
+            ped = ped,
+            coords = npc.coords
+        })
+    end
+end
+
+-- Interacción con NPCs
+Citizen.CreateThread(function()
+    while true do
+        local sleep = 1000
+        
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        
+        -- Verificar cercanía con NPCs
+        for _, npc in ipairs(currentNPCs) do
+            local distance = #(playerCoords - npc.coords)
+            
+            if distance <= 2.0 then
+                sleep = 0
+                
+                -- Mostrar ayuda
+                if not isMenuOpen then
+                    ESX.ShowHelpNotification('Presiona ~INPUT_CONTEXT~ para interactuar')
+                end
+                
+                -- Detectar interacción
+                if IsControlJustReleased(0, 38) then -- E key
+                    OpenNPCMenu(npc)
+                end
+            end
+        end
+        
+        Wait(sleep)
+    end
+end)
+
+-- Menú de interacción con NPC
+function OpenNPCMenu(npc)
+    if isMenuOpen then
+        return
+    end
+    
+    isMenuOpen = true
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'npc_menu', {
+        title = 'Menú de Interacción',
+        align = 'bottom-right',
+        elements = {
+            {label = 'Comprar Item', value = 'buy'},
+            {label = 'Vender Item', value = 'sell'},
+            {label = 'Información', value = 'info'},
+            {label = 'Cancelar', value = 'cancel'}
+        }
+    }, function(data, menu)
+        local action = data.current.value
+        
+        if action == 'buy' then
+            OpenBuyMenu()
+        elseif action == 'sell' then
+            OpenSellMenu()
+        elseif action == 'info' then
+            ShowInfoDialog()
+        elseif action == 'cancel' then
+            menu.close()
+        end
+    end, function(data, menu)
+        menu.close()
+        isMenuOpen = false
+    end)
+end
+
+-- Menú de compra
+function OpenBuyMenu()
+    local elements = {}
+    
+    for item, price in pairs(Config.Prices) do
+        table.insert(elements, {
+            label = item .. ' - $' .. price,
+            value = item,
+            price = price
+        })
+    end
+    
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'buy_menu', {
+        title = 'Comprar Items',
+        align = 'bottom-right',
+        elements = elements
+    }, function(data, menu)
+        local item = data.current.value
+        local price = data.current.price
+        
+        -- Confirmar compra
+        ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'confirm_buy', {
+            title = 'Confirmar Compra',
+            align = 'bottom-right',
+            elements = {
+                {label = 'Sí, comprar ' .. item, value = 'yes'},
+                {label = 'No, cancelar', value = 'no'}
+            }
+        }, function(confirmData, confirmMenu)
+            if confirmData.current.value == 'yes' then
+                -- Procesar compra
+                TriggerServerEvent('mirecurso:buyItem', item, price)
+            end
+            confirmMenu.close()
+        end, function(confirmData, confirmMenu)
+            confirmMenu.close()
+        end)
+    end, function(data, menu)
+        menu.close()
+    end)
+end
+
+-- Eventos del servidor
+RegisterNetEvent('mirecurso:notification')
+AddEventHandler('mirecurso:notification', function(type, message)
+    if type == 'success' then
+        ESX.ShowNotification('~g~' .. message)
+    elseif type == 'error' then
+        ESX.ShowNotification('~r~' .. message)
+    elseif type == 'info' then
+        ESX.ShowNotification('~b~' .. message)
+    end
+end)
+
+RegisterNetEvent('mirecurso:updatePlayerData')
+AddEventHandler('mirecurso:updatePlayerData', function(data)
+    -- Actualizar datos del jugador
+    ProcessPlayerData(data)
+end)
+
+-- Funciones auxiliares
+function InitializeSystem()
+    CreateNPCs()
+    print('[MiRecurso] Sistema inicializado')
+end
+
+function ProcessPlayerData(data)
+    -- Procesar datos recibidos del servidor
+    if data.money then
+        -- Actualizar dinero del jugador
+    end
+end
+
+function ShowInfoDialog()
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'info_dialog', {
+        title = 'Información',
+        align = 'bottom-right',
+        elements = {
+            {label = 'Bienvenido a nuestro sistema', value = 'welcome'},
+            {label = 'Precios actualizados diariamente', value = 'prices'},
+            {label = 'Soporte 24/7 disponible', value = 'support'}
+        }
+    }, function(data, menu)
+        -- Mostrar información detallada
+        ESX.ShowNotification(data.current.label)
+    end, function(data, menu)
+        menu.close()
+    end)
+end</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Sistemas Avanzados</h2>
+                    
+                    <h3>Sistema de Inventario Personalizado</h3>
+                    <div class="code-example">
+                        <pre><code>-- shared/inventory_config.lua
+Config.Inventory = {
+    maxWeight = 50.0,  -- kg
+    maxSlots = 30,
+    
+    items = {
+        ['bread'] = {
+            label = 'Pan',
+            weight = 0.5,
+            stackable = true,
+            description = 'Un trozo de pan fresco'
+        },
+        ['water'] = {
+            label = 'Agua',
+            weight = 0.3,
+            stackable = true,
+            description = 'Botella de agua purificada'
+        },
+        ['phone'] = {
+            label = 'Teléfono',
+            weight = 0.2,
+            stackable = false,
+            description = 'Teléfono inteligente'
+        }
+    }
+}
+
+-- server/inventory.lua
+local ESX = exports['es_extended']:getSharedObject()
+
+-- Obtener inventario del jugador
+ESX.RegisterServerCallback('inventory:getPlayerInventory', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local inventory = xPlayer.getInventory()
+    
+    local items = {}
+    local totalWeight = 0.0
+    
+    for k, v in pairs(inventory) do
+        if v.count > 0 then
+            local item = Config.Inventory.items[v.name]
+            if item then
+                totalWeight = totalWeight + (item.weight * v.count)
+                
+                table.insert(items, {
+                    name = v.name,
+                    label = item.label,
+                    count = v.count,
+                    weight = item.weight,
+                    description = item.description,
+                    stackable = item.stackable
+                })
+            end
+        end
+    end
+    
+    cb({
+        items = items,
+        totalWeight = totalWeight,
+        maxWeight = Config.Inventory.maxWeight,
+        maxSlots = Config.Inventory.maxSlots
+    })
+end)
+
+-- Añadir item al inventario
+RegisterServerEvent('inventory:addItem')
+AddEventHandler('inventory:addItem', function(source, itemName, count)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local item = Config.Inventory.items[itemName]
+    
+    if not item then
+        TriggerClientEvent('inventory:notification', source, 'error', 'Item no válido')
+        return
+    end
+    
+    -- Verificar peso máximo
+    ESX.TriggerServerCallback('inventory:getPlayerInventory', source, function(inventory)
+        local newWeight = inventory.totalWeight + (item.weight * count)
+        
+        if newWeight > inventory.maxWeight then
+            TriggerClientEvent('inventory:notification', source, 'error', 'Inventario lleno')
+            return
+        end
+        
+        -- Verificar slots disponibles
+        if not item.stackable and #inventory.items >= inventory.maxSlots then
+            TriggerClientEvent('inventory:notification', source, 'error', 'Sin slots disponibles')
+            return
+        end
+        
+        -- Añadir item
+        xPlayer.addInventoryItem(itemName, count)
+        TriggerClientEvent('inventory:notification', source, 'success', 'Item añadido')
+        TriggerClientEvent('inventory:updateInventory', source)
+    end)
+end)
+
+-- client/inventory.lua
+local ESX = exports['es_extended']:getSharedObject()
+local isInventoryOpen = false
+local currentInventory = {}
+
+-- Abrir inventario
+RegisterCommand('inventory', function()
+    if not isInventoryOpen then
+        OpenInventory()
+    end
+end, false)
+
+function OpenInventory()
+    if isInventoryOpen then
+        return
+    end
+    
+    isInventoryOpen = true
+    
+    -- Obtener datos del inventario
+    ESX.TriggerServerCallback('inventory:getPlayerInventory', function(inventory)
+        currentInventory = inventory
+        RenderInventory()
+    end)
+end
+
+function RenderInventory()
+    local elements = {}
+    
+    -- Información del inventario
+    table.insert(elements, {
+        label = 'Peso: ' .. string.format("%.1f", currentInventory.totalWeight) .. '/' .. currentInventory.maxWeight .. ' kg',
+        value = 'info'
+    })
+    
+    table.insert(elements, {
+        label = 'Slots: ' .. #currentInventory.items .. '/' .. currentInventory.maxSlots,
+        value = 'info'
+    })
+    
+    table.insert(elements, {label = '---', value = 'separator'})
+    
+    -- Items del inventario
+    for _, item in ipairs(currentInventory.items) do
+        local label = item.label
+        
+        if item.count > 1 then
+            label = label .. ' x' .. item.count
+        end
+        
+        label = label .. ' (' .. string.format("%.1f", item.weight * item.count) .. ' kg)'
+        
+        table.insert(elements, {
+            label = label,
+            value = item.name,
+            item = item
+        })
+    end
+    
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'inventory_menu', {
+        title = 'Inventario',
+        align = 'bottom-right',
+        elements = elements
+    }, function(data, menu)
+        local action = data.current.value
+        
+        if action == 'info' then
+            -- Mostrar información
+            return
+        end
+        
+        -- Menú de acciones para el item
+        OpenItemActions(data.current.item)
+    end, function(data, menu)
+        menu.close()
+        isInventoryOpen = false
+    end)
+end
+
+function OpenItemActions(item)
+    local elements = {}
+    
+    -- Usar item
+    table.insert(elements, {
+        label = 'Usar',
+        value = 'use'
+    })
+    
+    -- Soltar item
+    table.insert(elements, {
+        label = 'Soltar',
+        value = 'drop'
+    })
+    
+    -- Si es stackable, permitir soltar cantidad
+    if item.stackable and item.count > 1 then
+        table.insert(elements, {
+            label = 'Soltar cantidad',
+            value = 'drop_amount'
+        })
+    end
+    
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'item_actions', {
+        title = item.label,
+        align = 'bottom-right',
+        elements = elements
+    }, function(data, menu)
+        local action = data.current.value
+        
+        if action == 'use' then
+            TriggerServerEvent('inventory:useItem', item.name)
+        elseif action == 'drop' then
+            TriggerServerEvent('inventory:dropItem', item.name, 1)
+        elseif action == 'drop_amount' then
+            -- Diálogo para cantidad
+            ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'drop_amount_dialog', {
+                title = 'Cantidad a soltar'
+            }, function(data2, menu2)
+                local amount = tonumber(data2.value)
+                
+                if amount and amount > 0 and amount <= item.count then
+                    TriggerServerEvent('inventory:dropItem', item.name, amount)
+                    menu2.close()
+                    menu.close()
+                else
+                    ESX.ShowNotification('Cantidad inválida')
+                end
+            end, function(data2, menu2)
+                menu2.close()
+            end)
+        end
+    end, function(data, menu)
+        menu.close()
+    end)
+end
+
+-- Eventos del servidor
+RegisterNetEvent('inventory:updateInventory')
+AddEventHandler('inventory:updateInventory', function()
+    if isInventoryOpen then
+        ESX.TriggerServerCallback('inventory:getPlayerInventory', function(inventory)
+            currentInventory = inventory
+            -- Actualizar menú abierto
+            ESX.UI.Menu.CloseAll()
+            RenderInventory()
+        end)
+    end
+end)</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Interfaz de Usuario (NUI)</h2>
+                    
+                    <h3>HTML para Interfaz</h3>
+                    <div class="code-example">
+                        <pre><code>&lt;!-- html/index.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Mi Interfaz FiveM&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/style.css"&gt;
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="app" class="hidden"&gt;
+        &lt;div class="container"&gt;
+            &lt;div class="header"&gt;
+                &lt;h2&gt;Mi Sistema&lt;/h2&gt;
+                &lt;button id="closeBtn" class="close-btn"&gt;
+                    &lt;i class="fas fa-times"&gt;&lt;/i&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="content"&gt;
+                &lt;div class="tabs"&gt;
+                    &lt;button class="tab-btn active" data-tab="main"&gt;Principal&lt;/button&gt;
+                    &lt;button class="tab-btn" data-tab="inventory"&gt;Inventario&lt;/button&gt;
+                    &lt;button class="tab-btn" data-tab="stats"&gt;Estadísticas&lt;/button&gt;
+                &lt;/div&gt;
+                
+                &lt;div class="tab-content"&gt;
+                    &lt;div id="main" class="tab-pane active"&gt;
+                        &lt;div class="stats-grid"&gt;
+                            &lt;div class="stat-card"&gt;
+                                &lt;i class="fas fa-coins"&gt;&lt;/i&gt;
+                                &lt;h3&gt;$&lt;span id="money"&gt;0&lt;/span&gt;&lt;/h3&gt;
+                                &lt;p&gt;Dinero&lt;/p&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-card"&gt;
+                                &lt;i class="fas fa-bank"&gt;&lt;/i&gt;
+                                &lt;h3&gt;$&lt;span id="bank"&gt;0&lt;/span&gt;&lt;/h3&gt;
+                                &lt;p&gt;Banco&lt;/p&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-card"&gt;
+                                &lt;i class="fas fa-box"&gt;&lt;/i&gt;
+                                &lt;h3&gt;&lt;span id="items"&gt;0&lt;/span&gt;&lt;/h3&gt;
+                                &lt;p&gt;Items&lt;/p&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="actions"&gt;
+                            &lt;button class="action-btn" id="withdrawBtn"&gt;
+                                &lt;i class="fas fa-money-bill-wave"&gt;&lt;/i&gt;
+                                Retirar
+                            &lt;/button&gt;
+                            &lt;button class="action-btn" id="depositBtn"&gt;
+                                &lt;i class="fas fa-piggy-bank"&gt;&lt;/i&gt;
+                                Depositar
+                            &lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div id="inventory" class="tab-pane"&gt;
+                        &lt;div class="inventory-grid" id="inventoryGrid"&gt;
+                            &lt;!-- Items dinámicamente --&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    
+                    &lt;div id="stats" class="tab-pane"&gt;
+                        &lt;div class="stats-list"&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;span&gt;Tiempo jugado&lt;/span&gt;
+                                &lt;span id="playTime"&gt;0h&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;span&gt;Misiones completadas&lt;/span&gt;
+                                &lt;span id="missions"&gt;0&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class="stat-item"&gt;
+                                &lt;span&gt;Nivel&lt;/span&gt;
+                                &lt;span id="level"&gt;1&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+
+                    <h3>Estilos CSS</h3>
+                    <pre><code>/* css/style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: transparent;
+    overflow: hidden;
+}
+
+#app {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-height: 80vh;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    overflow: hidden;
+}
+
+#app.hidden {
+    display: none;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #444;
+}
+
+.header h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: #fff;
+    border-bottom-color: #4CAF50;
+}
+
+.tab-btn:hover {
+    color: #fff;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.stat-card h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border: none;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.action-btn i {
+    font-size: 1rem;
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.inventory-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.inventory-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.inventory-item i {
+    font-size: 1.5rem;
+    color: #4CAF50;
+    margin-bottom: 8px;
+}
+
+.inventory-item .item-name {
+    color: #fff;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+}
+
+.inventory-item .item-count {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 15px 20px;
+}
+
+.stat-item span:first-child {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.stat-item span:last-child {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}</code></pre>
+                    </div>
+
+                    <h3>JavaScript para Interfaz</h3>
+                    <pre><code>// js/app.js
+class FiveMInterface {
+    constructor() {
+        this.isVisible = false;
+        this.currentTab = 'main';
+        this.playerData = {};
+        
+        this.init();
+    }
+    
+    init() {
+        // Escuchar mensajes del juego
+        window.addEventListener('message', (event) => {
+            this.handleMessage(event.data);
+        });
+        
+        // Configurar event listeners
+        this.setupEventListeners();
+        
+        // Ocultar interfaz inicialmente
+        this.hide();
+    }
+    
+    setupEventListeners() {
+        // Botón cerrar
+        document.getElementById('closeBtn').addEventListener('click', () => {
+            this.hide();
+            this.sendMessage('closeInterface');
+        });
+        
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.switchTab(e.target.dataset.tab);
+            });
+        });
+        
+        // Acciones
+        document.getElementById('withdrawBtn').addEventListener('click', () => {
+            this.openAmountDialog('withdraw');
+        });
+        
+        document.getElementById('depositBtn').addEventListener('click', () => {
+            this.openAmountDialog('deposit');
+        });
+        
+        // Tecla ESC para cerrar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isVisible) {
+                this.hide();
+                this.sendMessage('closeInterface');
+            }
+        });
+    }
+    
+    handleMessage(data) {
+        switch (data.action) {
+            case 'showInterface':
+                this.show();
+                if (data.playerData) {
+                    this.updatePlayerData(data.playerData);
+                }
+                break;
+                
+            case 'hideInterface':
+                this.hide();
+                break;
+                
+            case 'updatePlayerData':
+                this.updatePlayerData(data.playerData);
+                break;
+                
+            case 'updateInventory':
+                this.updateInventory(data.inventory);
+                break;
+                
+            case 'showNotification':
+                this.showNotification(data.type, data.message);
+                break;
+        }
+    }
+    
+    show() {
+        document.getElementById('app').classList.remove('hidden');
+        this.isVisible = true;
+        this.sendMessage('interfaceShown');
+    }
+    
+    hide() {
+        document.getElementById('app').classList.add('hidden');
+        this.isVisible = false;
+    }
+    
+    switchTab(tabName) {
+        // Actualizar botones
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        
+        // Actualizar contenido
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('active');
+        });
+        document.getElementById(tabName).classList.add('active');
+        
+        this.currentTab = tabName;
+    }
+    
+    updatePlayerData(data) {
+        this.playerData = data;
+        
+        // Actualizar estadísticas principales
+        document.getElementById('money').textContent = this.formatMoney(data.money || 0);
+        document.getElementById('bank').textContent = this.formatMoney(data.bank || 0);
+        document.getElementById('items').textContent = data.inventory ? data.inventory.length : 0;
+        
+        // Actualizar estadísticas detalladas
+        document.getElementById('playTime').textContent = this.formatTime(data.playTime || 0);
+        document.getElementById('missions').textContent = data.missions || 0;
+        document.getElementById('level').textContent = data.level || 1;
+        
+        // Actualizar inventario
+        if (data.inventory) {
+            this.updateInventory(data.inventory);
+        }
+    }
+    
+    updateInventory(inventory) {
+        const grid = document.getElementById('inventoryGrid');
+        grid.innerHTML = '';
+        
+        inventory.forEach(item => {
+            const itemElement = this.createInventoryItem(item);
+            grid.appendChild(itemElement);
+        });
+    }
+    
+    createInventoryItem(item) {
+        const div = document.createElement('div');
+        div.className = 'inventory-item';
+        
+        const icon = this.getItemIcon(item.name);
+        const label = item.label || item.name;
+        const count = item.count || 1;
+        
+        div.innerHTML = `
+            <i class="${icon}"></i>
+            <div class="item-name">${label}</div>
+            <div class="item-count">x${count}</div>
+        `;
+        
+        div.addEventListener('click', () => {
+            this.selectItem(item);
+        });
+        
+        return div;
+    }
+    
+    getItemIcon(itemName) {
+        const icons = {
+            'bread': 'fas fa-bread-slice',
+            'water': 'fas fa-tint',
+            'phone': 'fas fa-mobile-alt',
+            'money': 'fas fa-money-bill',
+            'weapon': 'fas fa-gun'
+        };
+        
+        return icons[itemName] || 'fas fa-box';
+    }
+    
+    selectItem(item) {
+        this.sendMessage('itemSelected', {
+            name: item.name,
+            label: item.label,
+            count: item.count
+        });
+    }
+    
+    openAmountDialog(type) {
+        const amount = prompt(`Cantidad para ${type === 'withdraw' ? 'retirar' : 'depositar'}:`);
+        
+        if (amount && !isNaN(amount) && amount > 0) {
+            this.sendMessage(type, {
+                amount: parseInt(amount)
+            });
+        }
+    }
+    
+    showNotification(type, message) {
+        // Crear elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        // Estilos
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '8px',
+            color: '#fff',
+            fontWeight: '500',
+            zIndex: '10000',
+            transform: 'translateX(100%)',
+            transition: 'transform 0.3s ease'
+        });
+        
+        // Color según tipo
+        const colors = {
+            success: '#4CAF50',
+            error: '#f44336',
+            info: '#2196F3',
+            warning: '#ff9800'
+        };
+        
+        notification.style.background = colors[type] || colors.info;
+        
+        document.body.appendChild(notification);
+        
+        // Animar entrada
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remover después de 3 segundos
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    formatMoney(amount) {
+        return new Intl.NumberFormat('es-ES', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        }).format(amount);
+    }
+    
+    formatTime(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        
+        if (hours > 0) {
+            return `${hours}h ${mins}m`;
+        }
+        
+        return `${mins}m`;
+    }
+    
+    sendMessage(action, data = {}) {
+        fetch(`https://${GetParentResourceName()}/${action}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: JSON.stringify(data)
+        });
+    }
+}
+
+// Inicializar interfaz
+const interface = new FiveMInterface();</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Mejores Prácticas</h2>
+                    
+                    <div class="best-practices">
+                        <h3>Optimización de Rendimiento</h3>
+                        <ul>
+                            <li>Usar Citizen.Wait() en bucles para no bloquear el juego</li>
+                            <li>Limitar actualizaciones de NUI a lo necesario</li>
+                            <li>Cache de datos frecuentemente accedidos</li>
+                            <li>Usar callbacks en lugar de polling constante</li>
+                        </ul>
+
+                        <h3>Seguridad</h3>
+                        <ul>
+                            <li>Validar todas las entradas del cliente en el servidor</li>
+                            <li>Usar permisos y roles para controlar acceso</li>
+                            <li>No confiar en datos del cliente para operaciones críticas</li>
+                            <li>Implementar rate limiting para comandos</li>
+                        </ul>
+
+                        <h3>Código Limpio</h3>
+                        <ul>
+                            <li>Separar lógica de cliente y servidor</li>
+                            <li>Usar nombres descriptivos para variables y funciones</li>
+                            <li>Comentar código complejo</li>
+                            <li>Usar configuración externa para valores ajustables</li>
+                        </ul>
+
+                        <h3>Testing</h3>
+                        <ul>
+                            <li>Probar recursos con múltiples jugadores</li>
+                            <li>Verificar rendimiento bajo carga</li>
+                            <li>Testear edge cases y errores</li>
+                            <li>Documentar instalación y configuración</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        El desarrollo de mods para FiveM es un campo fascinante que combina 
+                        creatividad con habilidades técnicas. Con esta guía tienes las bases 
+                        para crear sistemas complejos y mejorar la experiencia de juego en 
+                        tu servidor.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>Comienza con recursos simples y ve aumentando complejidad</li>
+                            <li>Usa frameworks establecidos como ESX o QBCore</li>
+                            <li>Optimiza siempre el rendimiento y la seguridad</li>
+                            <li>Documenta tu código para facilitar mantenimiento</li>
+                            <li>Participa en la comunidad para aprender y compartir</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="git-guide.html" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Artículo Anterior
+                        </a>
+                        <a href="github-actions.html" class="nav-link">
+                            Siguiente Artículo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

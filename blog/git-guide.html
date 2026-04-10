@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aprende a usar Git como profesional con comandos avanzados y flujos de trabajo eficientes">
+    <meta name="keywords" content="Git, version control, workflow, desarrollo, programación, comandos Git">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Guía de Git para Desarrolladores | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">5 Mar 2026</span>
+                    <span class="blog-category">Tutoriales</span>
+                    <span class="blog-reading-time">18 min lectura</span>
+                </div>
+                <h1 class="blog-title">Guía de Git para Desarrolladores</h1>
+                <div class="blog-tags">
+                    <span class="tag">Git</span>
+                    <span class="tag">Version Control</span>
+                    <span class="tag">Workflow</span>
+                    <span class="tag">DevOps</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        Git es la herramienta de control de versiones más utilizada en el desarrollo 
+                        de software moderno. Dominar Git no solo significa conocer los comandos básicos, 
+                        sino entender flujos de trabajo eficientes y técnicas avanzadas que mejorarán 
+                        tu productividad y la calidad de tu código.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Fundamentos de Git</h2>
+                    <p>
+                        Antes de entrar en comandos avanzados, asegurémonos de entender los conceptos 
+                        fundamentales:
+                    </p>
+                    
+                    <div class="git-concepts">
+                        <h3>Repository (Repositorio)</h3>
+                        <p>
+                            Un repositorio Git contiene todos los archivos de tu proyecto junto con 
+                            el historial completo de cambios. Cada repositorio tiene una carpeta 
+                            <code>.git</code> que almacena toda la información.
+                        </p>
+                        
+                        <h3>Working Directory, Staging Area, Repository</h3>
+                        <p>
+                            Git tiene tres áreas principales:
+                        </p>
+                        <ul>
+                            <li><strong>Working Directory:</strong> Donde modificas tus archivos</li>
+                            <li><strong>Staging Area:</strong> Área donde preparas cambios para el siguiente commit</li>
+                            <li><strong>Repository:</strong> Donde Git guarda permanentemente tus commits</li>
+                        </ul>
+                        
+                        <h3>Commit</h3>
+                        <p>
+                            Un commit es una instantánea de tu proyecto en un momento específico. 
+                            Cada commit tiene un ID único (hash) y contiene los cambios, autor, 
+                            fecha y mensaje.
+                        </p>
+                        
+                        <h3>Branch (Rama)</h3>
+                        <p>
+                            Las ramas permiten trabajar en diferentes versiones del proyecto 
+                            simultáneamente. La rama principal suele llamarse <code>main</code> o <code>master</code>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Configuración Inicial</h2>
+                    
+                    <h3>Configurar Identidad</h3>
+                    <div class="code-example">
+                        <pre><code># Configurar nombre y email (obligatorio)
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+
+# Configurar editor por defecto
+git config --global core.editor "code --wait"  # VS Code
+git config --global core.editor "nano"         # Nano
+git config --global core.editor "vim"          # Vim
+
+# Configurar herramienta de diferencias
+git config --global diff.tool "vscode"
+
+# Configurar alias útiles
+git config --global alias.st "status"
+git config --global alias.co "checkout"
+git config --global alias.br "branch"
+git config --global alias.cm "commit -m"
+git config --global alias.unstage "reset HEAD --"
+git config --global alias.last "log -1 HEAD"
+git config --global alias.visual "!gitk"
+
+# Ver configuración actual
+git config --list</code></pre>
+                    </div>
+
+                    <h3>Configuración de Seguridad</h3>
+                    <pre><code># Configurar SSH keys para GitHub
+ssh-keygen -t ed25519 -C "tu@email.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# Copiar clave pública para GitHub
+cat ~/.ssh/id_ed25519.pub
+
+# Configurar GPG para firmar commits
+gpg --full-generate-key --default-key-new "rsa4096"
+git config --global user.signingkey TU_GPG_KEY_ID
+git config --global commit.gpgsign true
+git config --global tag.gpgsign true</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Comandos Esenciales</h2>
+                    
+                    <h3>Operaciones Básicas</h3>
+                    <div class="code-example">
+                        <pre><code># Inicializar repositorio
+git init
+
+# Clonar repositorio
+git clone https://github.com/user/repo.git
+git clone git@github.com:user/repo.git  # SSH
+
+# Ver estado
+git status
+git status --short          # Vista compacta
+git status --branch         # Mostrar rama actual
+
+# Añadir archivos
+git add archivo.txt
+git add .                    # Todos los archivos
+git add *.js                 # Por patrón
+git add -A                   # Todos los cambios (incluyendo eliminados)
+
+# Hacer commit
+git commit -m "Mensaje descriptivo"
+git commit -am "Mensaje"     # Añadir y commit (solo archivos existentes)
+git commit --amend          # Modificar último commit
+
+# Ver historial
+git log
+git log --oneline           # Compacto
+git log --graph --oneline   # Con gráfico
+git log --author="Tu Nombre"
+git log --since="2024-01-01"
+git log --grep="fix"        # Buscar en mensajes
+
+# Ver cambios
+git diff                    # Cambios no preparados
+git diff --staged          # Cambios preparados
+git diff HEAD~1            # Comparar con commit anterior</code></pre>
+                    </div>
+
+                    <h3>Trabajo con Ramas</h3>
+                    <pre><code># Crear y cambiar rama
+git branch feature-nueva-funcionalidad
+git checkout feature-nueva-funcionalidad
+git checkout -b feature-nueva-funcionalidad  # Crear y cambiar
+
+# Listar ramas
+git branch
+git branch -r              # Ramas remotas
+git branch -a              # Todas las ramas
+
+# Fusionar ramas
+git checkout main
+git merge feature-nueva-funcionalidad
+
+# Eliminar ramas
+git branch -d feature-nueva-funcionalidad  # Después de fusionar
+git branch -D feature-nueva-funcionalidad  # Forzar eliminación
+
+# Renombrar rama
+git branch -m viejo-nombre nuevo-nombre
+
+# Comparar ramas
+git diff main..feature
+git log main..feature
+git log --left-right main..feature</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Trabajo con Remotos</h2>
+                    
+                    <h3>Gestión de Remotos</h3>
+                    <div class="code-example">
+                        <pre><code># Ver remotos
+git remote -v
+
+# Añadir remoto
+git remote add origin https://github.com/user/repo.git
+git remote add upstream https://github.com/original/repo.git
+
+# Cambiar URL de remoto
+git remote set-url origin git@github.com:user/repo.git
+
+# Eliminar remoto
+git remote remove origin
+
+# Renombrar remoto
+git remote rename origin upstream
+
+# Ver información de remoto
+git remote show origin</code></pre>
+                    </div>
+
+                    <h3>Sincronización</h3>
+                    <pre><code># Obtener cambios (sin fusionar)
+git fetch origin
+git fetch --all             # Todos los remotos
+git fetch --prune          # Eliminar ramas remotas eliminadas
+
+# Descargar y fusionar cambios
+git pull origin main
+git pull --rebase origin main
+
+# Subir cambios
+git push origin main
+git push -u origin feature-branch  # Configurar upstream
+git push --all               # Todas las ramas
+git push --tags             # Incluir tags
+
+# Forzar push (usar con cuidado)
+git push --force-with-lease origin main
+git push --force origin main  # Último recurso</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Técnicas Avanzadas</h2>
+                    
+                    <h3>Rebase Interactivo</h3>
+                    <div class="code-example">
+                        <pre><code># Rebase interactivo de últimos 3 commits
+git rebase -i HEAD~3
+
+# Comandos disponibles en rebase interactivo:
+# pick: mantener el commit como está
+# reword: cambiar mensaje del commit
+# edit: modificar el commit
+# squash: combinar con commit anterior
+# fixup: combinar con commit anterior (descartando mensaje)
+# drop: eliminar el commit
+
+# Ejemplo de rebase interactivo:
+pick 1234567 Implementar función A
+reword 2345678 Fix bug en función B
+squash 3456789 Agregar tests para función B
+drop 4567890 Commit temporal</code></pre>
+                    </div>
+
+                    <h3>Stashing</h3>
+                    <pre><code># Guardar cambios temporalmente
+git stash
+git stash save "Trabajo en progreso"
+
+# Listar stashes
+git stash list
+
+# Aplicar stash
+git stash apply
+git stash pop            # Aplicar y eliminar
+
+# Aplicar stash específico
+git stash apply stash@{2}
+
+# Crear rama desde stash
+git stash branch nueva-rama stash@{1}
+
+# Limpiar stashes
+git stash clear
+git stash drop stash@{0}</code></pre>
+
+                    <h3>Cherry-pick</h3>
+                    <pre><code># Aplicar commit específico
+git cherry-pick 1234567
+
+# Aplicar múltiples commits
+git cherry-pick 1234567..2345678
+
+# Aplicar sin crear commit
+git cherry-pick --no-commit 1234567
+
+# Editar mensaje al aplicar
+git cherry-pick --edit 1234567</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Resolución de Conflictos</h2>
+                    
+                    <h3>Identificar Conflictos</h3>
+                    <div class="code-example">
+                        <pre><code># Ver archivos con conflictos
+git status
+
+# Marcadores de conflicto:
+<<<<<<< HEAD
+tu código
+=======
+código del otro
+>>>>>>> branch-name</code></pre>
+                    </div>
+
+                    <h3>Herramientas de Resolución</h3>
+                    <pre><code># Ver diferencias en conflicto
+git diff --name-only --diff-filter=U
+
+# Usar herramienta de merge
+git mergetool
+
+# Marcar conflicto como resuelto
+git add archivo-en-conflicto.txt
+
+# Abortar merge/rebase
+git merge --abort
+git rebase --abort
+
+# Continuar después de resolver conflictos
+git merge --continue
+git rebase --continue</code></pre>
+
+                    <h3>Estrategias de Resolución</h3>
+                    <pre><code># Aceptar cambios de una rama
+git checkout --theirs archivo.txt
+git checkout --ours archivo.txt
+
+# Usar versión específica
+git show branch:path/to/file > archivo.txt
+
+# Merge de 3 vías manual
+git merge-file archivo.txt base.txt their.txt our.txt</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Flujos de Trabajo</h2>
+                    
+                    <h3>Git Flow</h3>
+                    <div class="code-example">
+                        <pre><code># Ramas principales:
+# main: código de producción
+# develop: desarrollo integrado
+# feature/*: nuevas funcionalidades
+# release/*: preparación de lanzamiento
+# hotfix/*: correcciones urgentes
+
+# Iniciar nueva funcionalidad
+git checkout develop
+git pull origin develop
+git checkout -b feature/nueva-funcionalidad
+
+# Finalizar funcionalidad
+git checkout develop
+git merge --no-ff feature/nueva-funcionalidad
+git branch -d feature/nueva-funcionalidad
+git push origin develop
+
+# Iniciar release
+git checkout develop
+git checkout -b release/v1.2.0
+
+# Finalizar release
+git checkout main
+git merge --no-ff release/v1.2.0
+git tag -a v1.2.0 -m "Versión 1.2.0"
+git checkout develop
+git merge --no-ff release/v1.2.0
+git branch -d release/v1.2.0</code></pre>
+                    </div>
+
+                    <h3>GitHub Flow</h3>
+                    <pre><code># Flujo simplificado
+# 1. Crear rama desde main
+git checkout main
+git checkout -b feature/nueva-funcionalidad
+
+# 2. Hacer cambios y commits
+git add .
+git commit -m "Implementar nueva funcionalidad"
+
+# 3. Push y Pull Request
+git push origin feature/nueva-funcionalidad
+# Crear PR en GitHub
+
+# 4. Revisión y merge
+# Después del merge en GitHub:
+git checkout main
+git pull origin main
+git branch -d feature/nueva-funcionalidad</code></pre>
+
+                    <h3>Trunk-Based Development</h3>
+                    <pre><code># Trabajar directamente en main/trunk
+# Commits pequeños y frecuentes
+# Feature flags para funcionalidades no completadas
+# CI/CD automatizado en cada commit
+
+# Ejemplo con feature flag:
+if (featureEnabled("nueva-funcionalidad")) {
+    // nueva funcionalidad
+} else {
+    // comportamiento actual
+}</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Optimización y Mantenimiento</h2>
+                    
+                    <h3>Limpieza de Repositorio</h3>
+                    <div class="code-example">
+                        <pre><code># Limpiar archivos no rastreados
+git clean -fd              # Eliminar archivos y directorios
+git clean -n               # Simular limpieza
+
+# Recolectar basura
+git gc                     # Garbage collection
+git gc --aggressive        # Más agresivo
+
+# Empaquetar referencias sueltas
+git prune
+
+# Eliminar referencias inalcanzables
+git prune --expire now
+
+# Ver tamaño del repositorio
+git count-objects -vH
+du -sh .git</code></pre>
+                    </div>
+
+                    <h3>Reescritura de Historial</h3>
+                    <pre><code># ¡ADVERTENCIA! No reescribir historial compartido
+
+# Filtrar historial (remover archivos grandes)
+git filter-branch --tree-filter 'rm -rf archivo_grande.zip' --prune-empty HEAD
+
+# Reescribir autor de commits
+git filter-branch --env-filter '
+    if [ "$GIT_AUTHOR_NAME" = "Nombre Viejo" ]; then
+        export GIT_AUTHOR_NAME="Nombre Nuevo"
+        export GIT_AUTHOR_EMAIL="nuevo@email.com"
+    fi
+    if [ "$GIT_COMMITTER_NAME" = "Nombre Viejo" ]; then
+        export GIT_COMMITTER_NAME="Nombre Nuevo"
+        export GIT_COMMITTER_EMAIL="nuevo@email.com"
+    fi
+' --tag-name-filter cat -- --branches --tags</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Herramientas y Plugins</h2>
+                    
+                    <h3>Git Hooks</h3>
+                    <div class="code-example">
+                        <pre><code># Pre-commit hook para linting
+#!/bin/sh
+# .git/hooks/pre-commit
+
+# Ejecutar linter
+npm run lint
+if [ $? -ne 0 ]; then
+    echo "Linting failed. Commit abortado."
+    exit 1
+fi
+
+# Pre-push hook para tests
+#!/bin/sh
+# .git/hooks/pre-push
+
+# Ejecutar tests
+npm test
+if [ $? -ne 0 ]; then
+    echo "Tests failed. Push abortado."
+    exit 1
+fi</code></pre>
+                    </div>
+
+                    <h3>Aliases Útiles</h3>
+                    <pre><code># Configurar aliases avanzados
+git config --global alias.tree "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
+git config --global alias.unpushed "log --branches --not --remotes --oneline"
+
+git config --global alias.amend "commit --amend --no-edit"
+
+git config --global alias.count "!git rev-list --all --count"
+
+git config --global alias.alias "!git config --get-regexp '^alias\.' | sed -e 's/^alias\.//' -e 's/ /\t=/'"</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Best Practices</h2>
+                    
+                    <div class="best-practices">
+                        <h3>Commits</h3>
+                        <ul>
+                            <li>Hacer commits atómicos y pequeños</li>
+                            <li>Mensajes descriptivos y consistentes</li>
+                            <li>Usar presente imperativo: "Fix bug" no "Fixed bug"</li>
+                            <li>Incluir issue numbers cuando corresponda</li>
+                        </ul>
+
+                        <h3>Ramas</h3>
+                        <ul>
+                            <li>Mantener main siempre estable</li>
+                            <li>Usar nombres descriptivos para ramas</li>
+                            <li>Eliminar ramas después de fusionar</li>
+                            <li>Sincronizar regularmente con upstream</li>
+                        </ul>
+
+                        <h3>Colaboración</h3>
+                        <ul>
+                            <li>Hacer pull requests pequeños y enfocados</li>
+                            <li>Incluir descripción clara de cambios</li>
+                            <li>Responder a feedback rápidamente</li>
+                            <li>Mantener conversación en el PR</li>
+                        </ul>
+
+                        <h3>Seguridad</h3>
+                        <ul>
+                            <li>Nunca incluir secrets en el repositorio</li>
+                            <li>Usar SSH keys en lugar de HTTPS</li>
+                            <li>Firmar commits importantes</li>
+                            <li>Revisar permisos de archivos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Troubleshooting Común</h2>
+                    
+                    <h3>Problemas Frecuentes</h3>
+                    <div class="code-example">
+                        <pre><code># Deshacer último commit (mantener cambios)
+git reset --soft HEAD~1
+
+# Deshacer último commit (descartar cambios)
+git reset --hard HEAD~1
+
+# Recuperar archivo eliminado
+git checkout HEAD~1 -- archivo.txt
+
+# Encontrar commit perdido
+git reflog
+git checkout HEAD@{2}
+
+# Resolver "detached HEAD"
+git checkout main
+git branch temp-branch HEAD@{1}
+git checkout main
+git merge temp-branch
+git branch -d temp-branch
+
+# Limpiar cambios locales
+git reset --hard HEAD
+git clean -fd
+git fetch --all
+git reset --hard origin/main</code></pre>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        Dominar Git es un proceso continuo que va más allá de conocer comandos. 
+                        La clave está en entender los conceptos subyacentes y aplicar los flujos 
+                        de trabajo adecuados para cada situación.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>Practica comandos básicos hasta que sean automáticos</li>
+                            <li>Elige un workflow y síguelo consistentemente</li>
+                            <li>Haz commits pequeños y descriptivos</li>
+                            <li>Usa herramientas de visualización para entender mejor</li>
+                            <li>Mantén tu repositorio limpio y organizado</li>
+                            <li>Aprende a resolver conflictos con confianza</li>
+                            <li>Automatiza tareas repetitivas con hooks y aliases</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="seguridad-servers.html" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Artículo Anterior
+                        </a>
+                        <a href="fivem-mods.html" class="nav-link">
+                            Siguiente Artículo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>

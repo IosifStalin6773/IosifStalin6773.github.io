@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Configura pipelines CI/CD automáticos para tus proyectos usando GitHub Actions">
+    <meta name="keywords" content="GitHub Actions, CI/CD, automatización, DevOps, pipelines, deployment">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Automatización con GitHub Actions | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <!-- Logo eliminado -->
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../index.html#contact" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Section -->
+    <section class="blog-post">
+        <div class="container">
+            <div class="blog-header">
+                <div class="blog-meta">
+                    <span class="blog-date">20 Feb 2026</span>
+                    <span class="blog-category">DevOps</span>
+                    <span class="blog-reading-time">16 min lectura</span>
+                </div>
+                <h1 class="blog-title">Automatización con GitHub Actions</h1>
+                <div class="blog-tags">
+                    <span class="tag">GitHub</span>
+                    <span class="tag">CI/CD</span>
+                    <span class="tag">Automation</span>
+                    <span class="tag">DevOps</span>
+                </div>
+            </div>
+
+            <div class="blog-content">
+                <div class="blog-intro">
+                    <p>
+                        GitHub Actions es la plataforma de CI/CD integrada de GitHub que permite 
+                        automatizar workflows de desarrollo, testing y deployment. En esta guía 
+                        completa exploraremos cómo configurar pipelines eficientes para tus proyectos, 
+                        desde pruebas automatizadas hasta despliegues automáticos.
+                    </p>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Introducción a GitHub Actions</h2>
+                    <p>
+                        GitHub Actions te permite construir flujos de trabajo personalizados directamente 
+                        en tu repositorio. Cada workflow se compone de jobs que ejecutan steps, y puedes 
+                        activarlos por eventos como pushes, pull requests, o schedule.
+                    </p>
+                    
+                    <div class="github-actions-overview">
+                        <h3>Conceptos Fundamentales</h3>
+                        <ul>
+                            <li><strong>Workflow:</strong> Proceso automatizado completo</li>
+                            <li><strong>Job:</strong> Conjunto de steps que se ejecutan en un runner</li>
+                            <li><strong>Step:</strong> Acción individual dentro de un job</li>
+                            <li><strong>Runner:</strong> Máquina que ejecuta los jobs</li>
+                            <li><strong>Action:</strong> Script reutilizable para tareas comunes</li>
+                            <li><strong>Trigger:</strong> Evento que inicia el workflow</li>
+                        </ul>
+                        
+                        <h3>Tipos de Runners</h3>
+                        <ul>
+                            <li><strong>GitHub-hosted:</strong> Linux, Windows, macOS proporcionados por GitHub</li>
+                            <li><strong>Self-hosted:</strong> Tus propias máquinas con más control</li>
+                            <li><strong>Larger runners:</strong> Más recursos para proyectos grandes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Estructura de Workflows</h2>
+                    
+                    <h3>Archivo de Workflow</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/main.yml
+name: CI/CD Pipeline
+
+# Trigger - Cuándo se ejecuta
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *'  # Todos los días a las 2 AM
+
+# Variables de entorno
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+# Jobs - Tareas a ejecutar
+jobs:
+  # Job de testing
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Run tests
+        run: npm run test:coverage
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}</code></pre>
+                    </div>
+
+                    <h3>Workflow Multi-OS</h3>
+                    <pre><code># .github/workflows/cross-platform.yml
+name: Cross Platform Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11']
+        exclude:
+          - os: windows-latest
+            python-version: '3.9'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run tests
+        run: python -m pytest</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Actions Comunes</h2>
+                    
+                    <h3>Checkout</h3>
+                    <div class="code-example">
+                        <pre><code>- name: Checkout repository
+  uses: actions/checkout@v4
+  with:
+    # Opciones comunes
+    fetch-depth: 0           # Clonar todo el historial
+    token: ${{ secrets.PAT }}  # Token personalizado
+    path: 'subdirectory'     # Clonar en subdirectorio</code></pre>
+                    </div>
+
+                    <h3>Setup de Lenguajes</h3>
+                    <pre><code># Node.js
+- name: Setup Node.js
+  uses: actions/setup-node@v4
+  with:
+    node-version: '18'
+    cache: 'npm'
+    cache-dependency-path: '**/package-lock.json'
+
+# Python
+- name: Setup Python
+  uses: actions/setup-python@v4
+  with:
+    python-version: '3.11'
+    cache: 'pip'
+
+# Go
+- name: Setup Go
+  uses: actions/setup-go@v4
+  with:
+    go-version: '1.21'
+
+# Java
+- name: Setup Java
+  uses: actions/setup-java@v3
+  with:
+    distribution: 'temurin'
+    java-version: '17'</code></pre>
+
+                    <h3>Cache</h3>
+                    <pre><code>- name: Cache dependencies
+  uses: actions/cache@v3
+  with:
+    path: |
+      ~/.npm
+      ~/.cache/pip
+      target/
+    key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json') }}
+    restore-keys: |
+      ${{ runner.os }}-deps-</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Testing Automatizado</h2>
+                    
+                    <h3>Testing para JavaScript</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/test-js.yml
+name: JavaScript Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: Run Prettier
+        run: npm run format:check
+      
+      - name: Run unit tests
+        run: npm run test:unit
+      
+      - name: Run integration tests
+        run: npm run test:integration
+      
+      - name: Generate coverage report
+        run: npm run test:coverage
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+      
+      - name: Run E2E tests
+        run: npm run test:e2e
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results
+          path: |
+            coverage/
+            test-results/</code></pre>
+                    </div>
+
+                    <h3>Testing para Python</h3>
+                    <pre><code># .github/workflows/test-python.yml
+name: Python Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      
+      - name: Run flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      
+      - name: Run black
+        run: black --check .
+      
+      - name: Run isort
+        run: isort --check-only .
+      
+      - name: Run mypy
+        run: mypy .
+      
+      - name: Run pytest
+        run: |
+          pytest --cov=./ --cov-report=xml --cov-report=html
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Build y Deploy</h2>
+                    
+                    <h3>Build de Aplicación Web</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/deploy.yml
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm run test
+      
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_APP_VERSION: ${{ github.sha }}
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: dist/
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: './dist'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}</code></pre>
+                    </div>
+
+                    <h3>Deploy Docker</h3>
+                    <pre><code># .github/workflows/docker.yml
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: username/appname
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Deploy to Kubernetes
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+          export KUBECONFIG=kubeconfig
+          kubectl set image deployment/appname appname=${{ steps.meta.outputs.tags }}</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Security y Secrets</h2>
+                    
+                    <h3>Gestión de Secrets</h3>
+                    <div class="code-example">
+                        <pre><code># Usar secrets en workflows
+- name: Deploy with secrets
+  run: |
+    curl -X POST \
+      -H "Authorization: Bearer ${{ secrets.API_TOKEN }}" \
+      -H "Content-Type: application/json" \
+      -d '{"key":"value"}' \
+      https://api.example.com/deploy
+
+# Secrets disponibles por defecto:
+# GITHUB_TOKEN: Token del repositorio
+# GITHUB_REPOSITORY: owner/repo
+# GITHUB_REF: branch/tag
+# GITHUB_SHA: commit hash
+# GITHUB_WORKFLOW: workflow name
+# GITHUB_ACTION: action name
+# GITHUB_ACTOR: usuario que inició</code></pre>
+                    </div>
+
+                    <h3>Security Scanning</h3>
+                    <pre><code># .github/workflows/security.yml
+name: Security Scan
+
+on: [push, pull_request]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+      
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: javascript, python
+      
+      - name: Run npm audit
+        run: npm audit --audit-level high
+      
+      - name: Run safety check (Python)
+        run: |
+          pip install safety
+          safety check --json --output safety-report.json || true
+      
+      - name: Upload safety results
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: |
+            trivy-results.sarif
+            safety-report.json</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Notificaciones y Reporting</h2>
+                    
+                    <h3>Slack Notifications</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/notify.yml
+name: Notify on Status Change
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types: [completed]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    
+    steps:
+      - name: Notify Slack on failure
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#ci-cd'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}</code></pre>
+                    </div>
+
+                    <h3>Email Notifications</h3>
+                    <pre><code>- name: Send email notification
+  uses: dawidd6/action-send-mail@v3
+  with:
+    server_address: smtp.gmail.com
+    server_port: 587
+    username: ${{ secrets.EMAIL_USERNAME }}
+    password: ${{ secrets.EMAIL_PASSWORD }}
+    subject: "Build ${{ job.status }} for ${{ github.repository }}"
+    body: |
+      Build status: ${{ job.status }}
+      Repository: ${{ github.repository }}
+      Branch: ${{ github.ref }}
+      Commit: ${{ github.sha }}
+      Author: ${{ github.actor }}
+      
+      View details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    to: ${{ secrets.NOTIFICATION_EMAIL }}
+    from: GitHub Actions</code></pre>
+
+                    <h3>Discord Notifications</h3>
+                    <pre><code>- name: Discord notification
+  uses: Ilshidur/action-discord@0.3.0
+  with:
+    webhook: ${{ secrets.DISCORD_WEBHOOK }}
+    message: |
+      **Build Status**: ${{ job.status }}
+      **Repository**: ${{ github.repository }}
+      **Branch**: ${{ github.ref_name }}
+      **Commit**: ${{ github.sha }}
+      **Author**: ${{ github.actor }}
+      
+      [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Workflows Avanzados</h2>
+                    
+                    <h3>Workflow Condicional</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/conditional.yml
+name: Conditional Workflow
+
+on: [push]
+
+jobs:
+  # Job siempre ejecutado
+  always-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always run
+        run: echo "This always runs"
+  
+  # Job solo para cambios en frontend
+  frontend-changes:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'frontend/')
+    steps:
+      - name: Frontend changes detected
+        run: echo "Frontend files were modified"
+  
+  # Job solo para cambios en backend
+  backend-changes:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'backend/')
+    steps:
+      - name: Backend changes detected
+        run: echo "Backend files were modified"
+  
+  # Job solo para tags
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Release detected
+        run: echo "This is a release tag"</code></pre>
+                    </div>
+
+                    <h3>Workflow Dinámico</h3>
+                    <pre><code># .github/workflows/dynamic.yml
+name: Dynamic Matrix Build
+
+on: [push]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.changes.outputs.frontend }}
+      backend: ${{ steps.changes.outputs.backend }}
+      docs: ${{ steps.changes.outputs.docs }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Detect changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+            docs:
+              - 'docs/**'
+
+  build-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build frontend
+        run: echo "Building frontend..."
+
+  build-backend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build backend
+        run: echo "Building backend..."
+
+  deploy-docs:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy docs
+        run: echo "Deploying documentation..."</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Performance y Optimización</h2>
+                    
+                    <h3>Parallel Jobs</h3>
+                    <div class="code-example">
+                        <pre><code># .github/workflows/parallel.yml
+name: Parallel Testing
+
+on: [push]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    
+    steps:
+      - name: Generate test matrix
+        id: set-matrix
+        run: |
+          matrix=$(node -e "
+            const tests = [
+              {name: 'unit', file: 'unit.test.js'},
+              {name: 'integration', file: 'integration.test.js'},
+              {name: 'e2e', file: 'e2e.test.js'}
+            ];
+            console.log('matrix=' + JSON.stringify({include: tests}));
+          ")
+          echo $matrix
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ${{ matrix.name }} tests
+        run: npm test -- ${{ matrix.file }}</code></pre>
+                    </div>
+
+                    <h3>Cache Optimizado</h3>
+                    <pre><code>- name: Cache multiple layers
+  uses: actions/cache@v3
+  with:
+    path: |
+      ~/.npm
+      ~/.cache/pip
+      node_modules/
+      target/
+    key: ${{ runner.os }}-build-${{ github.sha }}
+    restore-keys: |
+      ${{ runner.os }}-build-
+      ${{ runner.os }}-</code></pre>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Mejores Prácticas</h2>
+                    
+                    <div class="best-practices">
+                        <h3>Performance</h3>
+                        <ul>
+                            <li>Usa cache para dependencies y build artifacts</li>
+                            <li>Paralleliza jobs cuando sea posible</li>
+                            <li>Evita steps innecesarios</li>
+                            <li>Usa runners apropiados para cada tarea</li>
+                        </ul>
+
+                        <h3>Security</h3>
+                        <ul>
+                            <li>Nunca expongas secrets en logs</li>
+                            <li>Usa tokens con permisos mínimos</li>
+                            <li>Escanea dependencias regularmente</li>
+                            <li>Revisa workflows de terceros</li>
+                        </ul>
+
+                        <h3>Mantenimiento</h3>
+                        <ul>
+                            <li>Documenta workflows complejos</li>
+                            <li>Usa versiones específicas de actions</li>
+                            <li>Monitorea costos y tiempos de ejecución</li>
+                            <li>Limpia artifacts antiguos</li>
+                        </ul>
+
+                        <h3>Debugging</h3>
+                        <ul>
+                            <li>Usa ADB Actions para debugging</li>
+                            <li>Habilita debug logging</li>
+                            <li>Usa tmate action para acceso SSH</li>
+                            <li>Revisa logs de ejecución</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-section">
+                    <h2>Conclusiones</h2>
+                    <p>
+                        GitHub Actions es una herramienta poderosa que puede transformar completamente 
+                        tu flujo de desarrollo. Con las prácticas correctas, puedes automatizar desde 
+                        pruebas simples hasta despliegues complejos en producción.
+                    </p>
+                    
+                    <div class="key-takeaways">
+                        <h3>Puntos Clave:</h3>
+                        <ul>
+                            <li>Empieza simple y añade complejidad gradualmente</li>
+                            <li>Usa cache para mejorar rendimiento</li>
+                            <li>Implementa testing automatizado temprano</li>
+                            <li>Monitorea costos y optimiza workflows</li>
+                            <li>Documenta tus patrones y convenciones</li>
+                            <li>Mantén secrets seguros y rotación regular</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="blog-footer">
+                    <div class="blog-navigation">
+                        <a href="fivem-mods.html" class="nav-link">
+                            <i class="fas fa-arrow-left"></i> Artículo Anterior
+                        </a>
+                        <a href="css-grid-flexbox.html" class="nav-link">
+                            Siguiente Artículo <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="blog-share">
+                        <h4>Comparte este artículo:</h4>
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="share-btn">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
+            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
+            <div class="footer-social">
+                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
