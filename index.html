@@ -11,42 +11,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Sistema de Edición en Tiempo Real -->
-    <div id="edit-controls" class="edit-controls" style="display: none;">
-        <div class="edit-panel">
-            <div class="edit-header">
-                <h3>Modo Edición</h3>
-                <button id="close-edit" class="btn-close-edit">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="edit-tools">
-                <button id="save-changes" class="btn-save">
-                    <i class="fas fa-save"></i> Guardar Cambios
-                </button>
-                <button id="reset-changes" class="btn-reset">
-                    <i class="fas fa-undo"></i> Resetear
-                </button>
-                <div class="edit-status">
-                    <span id="edit-status">Listo para editar</span>
-                </div>
-            </div>
-            <div class="edit-instructions">
-                <h4>Instrucciones:</h4>
-                <ul>
-                    <li>Haz clic en cualquier texto para editarlo</li>
-                    <li>Los cambios se guardan automáticamente</li>
-                    <li>Usa Ctrl+Z para deshacer cambios</li>
-                    <li>Presiona ESC para salir del modo edición</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Botón de Activar Edición -->
-    <button id="enable-edit" class="btn-enable-edit" title="Activar Modo Edición">
-        <i class="fas fa-edit"></i>
-    </button>
     <!-- Navegación -->
     <nav class="navbar">
         <div class="nav-container">
@@ -82,9 +46,9 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title editable" data-field="hero-title">Portfolio</h1>
-                <p class="hero-subtitle editable" data-field="hero-subtitle">Desarrollador & Creador de Contenido</p>
-                <p class="hero-description editable" data-field="hero-description">
+                <h1 class="hero-title">Portfolio</h1>
+                <p class="hero-subtitle">Desarrollador & Creador de Contenido</p>
+                <p class="hero-description">
                     Desarrollador especializado en bots, scripts de gaming, themes y herramientas personalizadas. 
                     20 repositorios públicos enfocados en gaming, automatización y desarrollo web.
                 </p>
@@ -107,12 +71,12 @@
             <h2 class="section-title">Sobre Mí</h2>
             <div class="about-content">
                 <div class="about-text">
-                <p class="editable" data-field="about-paragraph-1">
+                <p>
                     Desarrollador con experiencia en creación de bots, scripts de gaming, themes personalizados 
                     y herramientas de automatización. Especializado en proyectos relacionados con gaming, 
                     servidores de juegos y personalización de interfaces.
                 </p>
-                <p class="editable" data-field="about-paragraph-2">
+                <p>
                     Con 20 repositorios públicos, mi trabajo abarca desde bots de Discord hasta scripts para 
                     FiveM, pasando por themes de BetterDiscord y herramientas de gestión de servidores. 
                     Me enfoco en crear soluciones prácticas y funcionales para la comunidad gamer.
