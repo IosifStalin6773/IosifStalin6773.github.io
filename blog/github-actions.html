@@ -223,7 +223,8 @@ jobs:
                     </div>
 
                     <h3>Setup de Lenguajes</h3>
-                    <pre><code># Node.js
+                    <div class="code-example">
+                        <pre><code># Node.js
 - name: Setup Node.js
   uses: actions/setup-node@v4
   with:
@@ -250,9 +251,11 @@ jobs:
   with:
     distribution: 'temurin'
     java-version: '17'</code></pre>
+                    </div>
 
                     <h3>Cache</h3>
-                    <pre><code>- name: Cache dependencies
+                    <div class="code-example">
+                        <pre><code>- name: Cache dependencies
   uses: actions/cache@v3
   with:
     path: |
@@ -262,6 +265,7 @@ jobs:
     key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json') }}
     restore-keys: |
       ${{ runner.os }}-deps-</code></pre>
+                    </div>
                 </div>
 
                 <div class="blog-section">
