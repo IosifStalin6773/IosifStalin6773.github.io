@@ -839,6 +839,8 @@ section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .form-group {
@@ -880,6 +882,7 @@ section {
 /* ERROR Overlay Styles */
 .contact-form-container {
     position: relative;
+    min-height: 400px;
 }
 
 .error-overlay {
