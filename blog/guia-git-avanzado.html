@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Configura pipelines CI/CD automáticos para tus proyectos usando GitHub Actions">
-    <meta name="keywords" content="GitHub Actions, CI/CD, automatización, DevOps, pipelines, deployment">
+    <meta name="description" content="Guía avanzada de Git con técnicas profesionales para desarrollo de software">
+    <meta name="keywords" content="git, version control, desarrollo, software, avanzado, profesional">
     <meta name="author" content="Oscar de la Cruz">
-    <title>Automatización con GitHub Actions | Blog - Oscar de la Cruz</title>
+    <title>Guía Avanzada de Git | Blog - Oscar de la Cruz</title>
     
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
@@ -363,6 +363,40 @@
             color: var(--text-secondary);
         }
 
+        /* Alert Boxes */
+        .gitbook-alert {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-alert.warning {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.danger {
+            border-color: #EF4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.info {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         /* Key Takeaways */
         .gitbook-key-takeaways {
             background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
@@ -563,10 +597,10 @@
         <aside class="gitbook-sidebar" id="sidebar">
             <div class="gitbook-sidebar-header">
                 <div class="gitbook-sidebar-title">
-                    <i class="fas fa-rocket"></i>
-                    GitHub Actions
+                    <i class="fas fa-code-branch"></i>
+                    Git Avanzado
                 </div>
-                <div class="gitbook-sidebar-subtitle">Guía Completa de CI/CD</div>
+                <div class="gitbook-sidebar-subtitle">Guía Profesional</div>
             </div>
 
             <nav class="gitbook-toc">
@@ -576,25 +610,34 @@
                         <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#conceptos" class="gitbook-toc-link">Conceptos Fundamentales</a>
+                        <a href="#configuracion-avanzada" class="gitbook-toc-link">Configuración Avanzada</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#estructura" class="gitbook-toc-link">Estructura de Workflows</a>
+                        <a href="#branching-estrategico" class="gitbook-toc-link">Branching Estratégico</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#actions" class="gitbook-toc-link">Actions Comunes</a>
+                        <a href="#rebase-merge" class="gitbook-toc-link">Rebase vs Merge</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#testing" class="gitbook-toc-link">Testing Automatizado</a>
+                        <a href="#stashing" class="gitbook-toc-link">Stashing Avanzado</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#build-deploy" class="gitbook-toc-link">Build y Deploy</a>
+                        <a href="#cherry-pick" class="gitbook-toc-link">Cherry Pick</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#secrets" class="gitbook-toc-link">Secrets y Seguridad</a>
+                        <a href="#bisect" class="gitbook-toc-link">Git Bisect</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
+                        <a href="#hooks" class="gitbook-toc-link">Git Hooks</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#submodules" class="gitbook-toc-link">Submodules</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#workflows" class="gitbook-toc-link">Workflows Profesionales</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#conclusiones" class="gitbook-toc-link">Conclusiones</a>
                     </li>
                 </ul>
             </nav>
@@ -608,14 +651,14 @@
                 <span class="gitbook-breadcrumb-separator">/</span>
                 <a href="../index.html#blog">Blog</a>
                 <span class="gitbook-breadcrumb-separator">/</span>
-                <span>GitHub Actions</span>
+                <span>Guía Avanzada de Git</span>
             </div>
 
             <!-- Article Content -->
             <article class="gitbook-article">
                 <!-- Header -->
                 <header class="gitbook-header">
-                    <h1 class="gitbook-title">Automatización con GitHub Actions</h1>
+                    <h1 class="gitbook-title">Guía Avanzada de Git</h1>
                     <div class="gitbook-meta">
                         <div class="gitbook-meta-item">
                             <i class="fas fa-user"></i>
@@ -623,11 +666,11 @@
                         </div>
                         <div class="gitbook-meta-item">
                             <i class="fas fa-calendar"></i>
-                            <span>20 Feb 2026</span>
+                            <span>20 Mar 2026</span>
                         </div>
                         <div class="gitbook-meta-item">
                             <i class="fas fa-clock"></i>
-                            <span>16 min lectura</span>
+                            <span>18 min lectura</span>
                         </div>
                     </div>
                 </header>
@@ -637,589 +680,722 @@
                     <section id="introduccion">
                         <h2>Introducción</h2>
                         <p>
-                            GitHub Actions es la plataforma de CI/CD integrada de GitHub que permite 
-                            automatizar workflows de desarrollo, testing y deployment. En esta guía 
-                            completa exploraremos cómo configurar pipelines eficientes para tus proyectos, 
-                            desde pruebas automatizadas hasta despliegues automáticos.
+                            Git es mucho más que un simple sistema de control de versiones. Para desarrolladores 
+                            profesionales, dominar Git avanzado significa la diferencia entre un caos 
+                            gestionable y un desarrollo eficiente. Esta guía cubre técnicas avanzadas 
+                            que transformarán tu forma de trabajar con código.
                         </p>
-                        <p>
-                            Con GitHub Actions, puedes construir flujos de trabajo personalizados directamente 
-                            en tu repositorio. Cada workflow se compone de jobs que ejecutan steps, y puedes 
-                            activarlos por eventos como pushes, pull requests, o schedule.
-                        </p>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">
+                                <i class="fas fa-info-circle"></i>
+                                Prerrequisitos
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Esta guía asume que ya conoces los conceptos básicos de Git: commit, push, pull, 
+                                branch, merge. Si no, revisa primero nuestra guía básica de Git.
+                            </div>
+                        </div>
                     </section>
 
-                    <section id="conceptos">
-                        <h2>Conceptos Fundamentales</h2>
-                        <p>
-                            Para entender GitHub Actions, es importante conocer sus componentes principales:
-                        </p>
+                    <section id="configuracion-avanzada">
+                        <h2>Configuración Avanzada</h2>
+                        
+                        <h3>Configuración Global vs Local</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración multinivel</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Configuración global (afecta a todos tus repos)
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
 
-                        <h3>Arquitectura Básica</h3>
-                        <ul>
-                            <li><strong>Workflow:</strong> Proceso automatizado completo que define tu pipeline</li>
-                            <li><strong>Job:</strong> Conjunto de steps que se ejecutan en un runner</li>
-                            <li><strong>Step:</strong> Acción individual dentro de un job</li>
-                            <li><strong>Runner:</strong> Máquina que ejecuta los jobs</li>
-                            <li><strong>Action:</strong> Script reutilizable para tareas comunes</li>
-                            <li><strong>Trigger:</strong> Evento que inicia el workflow</li>
-                        </ul>
+# Configuración local (solo este repositorio)
+git config user.name "Nombre Profesional"
+git config user.email "profesional@empresa.com"
 
-                        <h3>Tipos de Runners</h3>
-                        <ul>
-                            <li><strong>GitHub-hosted:</strong> Linux, Windows, macOS proporcionados por GitHub</li>
-                            <li><strong>Self-hosted:</strong> Tus propias máquinas con más control</li>
-                            <li><strong>Larger runners:</strong> Más recursos para proyectos grandes</li>
-                        </ul>
+# Configuración a nivel de sistema
+git config --system core.editor "vim"
+
+# Ver todas las configuraciones
+git config --list --show-origin</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Aliases Personalizados</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Aliases para productividad</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Alias comunes
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.unstage 'reset HEAD --'
+git config --global alias.last 'log -1 HEAD'
+git config --global alias.visual '!gitk'
+
+# Alias avanzados
+git config --global alias.graph 'log --oneline --graph --decorate --all'
+git config --global alias.amend 'commit --amend --no-edit'
+git config --global alias.force-push 'push --force-with-lease'
+git config --global alias.undo 'reset --soft HEAD~1'</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Configuración de Editor y Herramientas</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración de herramientas</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Configurar editor por defecto
+git config --global core.editor "code --wait"  # VS Code
+git config --global core.editor "vim"          # Vim
+git config --global core.editor "nano"         # Nano
+
+# Configurar herramienta de diff
+git config --global diff.tool "vscode"
+git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
+
+# Configurar herramienta de merge
+git config --global merge.tool "vscode"
+git config --global mergetool.vscode.cmd 'code --wait $MERGE'
+
+# Configurar manejo de líneas finales
+git config --global core.autocrlf input  # Mac/Linux
+git config --global core.autocrlf true   # Windows
+
+# Ignorar permisos de archivos
+git config --global core.filemode false</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="branching-estrategico">
+                        <h2>Branching Estratégico</h2>
+                        
+                        <h3>Git Flow vs GitHub Flow</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fas fa-code-branch"></i>
+                                Git Flow (Vincent Driessen)
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ul>
+                                    <li><strong>main/master</strong>: Producción estable</li>
+                                    <li><strong>develop</strong>: Integración continua</li>
+                                    <li><strong>feature/*</strong>: Nuevas funcionalidades</li>
+                                    <li><strong>release/*</strong>: Preparación de lanzamiento</li>
+                                    <li><strong>hotfix/*</strong>: Arreglos urgentes</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fab fa-github"></i>
+                                GitHub Flow
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ul>
+                                    <li><strong>main</strong>: Siempre desplegable</li>
+                                    <li><strong>feature branches</strong>: Desarrollo</li>
+                                    <li><strong>Pull Requests</strong>: Revisión y merge</li>
+                                    <li><strong>Deploy</strong>: Directo desde main</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Creación de Branches Estratégicos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Workflows de branching</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Crear feature branch desde develop
+git checkout develop
+git pull origin develop
+git checkout -b feature/nueva-funcionalidad
+
+# Crear release branch
+git checkout develop
+git checkout -b release/v1.2.0
+
+# Crear hotfix desde main
+git checkout main
+git pull origin main
+git checkout -b hotfix/critico-bug
+
+# Mover commits entre branches
+git checkout target-branch
+git cherry-pick <commit-hash>
+
+# Renombrar branch actual
+git branch -m nuevo-nombre
+
+# Renombrar branch remoto
+git branch -m viejo-nombre nuevo-nombre
+git push origin :viejo-nombre nuevo-nombre</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="rebase-merge">
+                        <h2>Rebase vs Merge</h2>
+                        
+                        <h3>Cuándo usar cada estrategia</h3>
+                        <div class="gitbook-alert warning">
+                            <div class="gitbook-alert-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Regla de Oro
+                            </div>
+                            <div class="gitbook-alert-content">
+                                <strong>NUNCA</strong> hacer rebase en branches compartidos (main, develop, release). 
+                                        Solo haz rebase en tus branches locales antes de hacer merge.
+                            </div>
+                        </div>
+
+                        <h3>Merge Estratégico</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Tipos de merge</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Fast-forward merge (solo si es posible)
+git merge feature-branch --ff-only
+
+# No-fast-forward (siempre crea commit de merge)
+git merge feature-branch --no-ff
+
+# Squash merge (combina todos los commits en uno)
+git merge feature-branch --squash
+
+# Merge con mensaje personalizado
+git merge feature-branch -m "Merge: Integrar nueva funcionalidad"
+
+# Abortar merge en conflicto
+git merge --abort</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Rebase Interactivo</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Rebase interactivo avanzado</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Rebase interactivo de los últimos 5 commits
+git rebase -i HEAD~5
+
+# Comandos disponibles en rebase interactivo:
+# p, pick = usar commit
+# r, reword = usar commit pero editar mensaje
+# e, edit = usar commit pero permitir modificarlo
+# s, squash = usar commit pero combinarlo con el anterior
+# f, fixup = como squash pero descarta mensaje
+# d, drop = eliminar commit
+
+# Ejemplo de rebase interactivo:
+pick 1a2b3c4 Commit inicial
+r 5d6e7f8 Corregir typo
+s 9a0b1c2 Agregar tests
+f 3d4e5f6 Actualizar docs
+
+# Rebase de branch local sobre main
+git checkout feature-branch
+git fetch origin
+git rebase origin/main
+
+# Continuar rebase después de resolver conflictos
+git rebase --continue
+
+# Abortar rebase
+git rebase --abort</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="stashing">
+                        <h2>Stashing Avanzado</h2>
+                        
+                        <h3>Gestión Múltiple de Stashes</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Stashing con contexto</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Stash con mensaje descriptivo
+git stash push -m "Trabajo en progreso: autenticación"
+
+# Stash incluyendo archivos no trackeados
+git stash push -u -m "Incluir nuevos archivos"
+
+# Stash solo archivos específicos
+git stash push -m "Configuración temporal" -- config/
+
+# Stash con staged y unstaged por separado
+git stash push --staged -m "Cambios staged"
+git stash push -m "Cambios unstaged"
+
+# Listar todos los stashes
+git stash list
+
+# Aplicar stash específico
+git stash apply stash@{2}
+
+# Aplicar y eliminar stash
+git stash pop stash@{1}
+
+# Ver contenido de stash sin aplicarlo
+git stash show -p stash@{0}
+
+# Crear branch desde stash
+git stash branch feature-from-stash stash@{1}
+
+# Eliminar stash específico
+git stash drop stash@{2}
+
+# Limpiar todos los stashes
+git stash clear</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="cherry-pick">
+                        <h2>Cherry Pick</h2>
+                        
+                        <h3>Selección Selectiva de Commits</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Cherry pick avanzado</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Cherry pick de un commit específico
+git cherry-pick <commit-hash>
+
+# Cherry pick sin crear commit
+git cherry-pick --no-commit <commit-hash>
+
+# Cherry pick manteniendo autor original
+git cherry-pick --keep-author <commit-hash>
+
+# Cherry pick de múltiples commits
+git cherry-pick <start-hash>..<end-hash>
+
+# Cherry pick con edición
+git cherry-pick --edit <commit-hash>
+
+# Cherry pick de otro repositorio
+git remote add upstream https://github.com/original/repo.git
+git fetch upstream
+git cherry-pick upstream/main~5..upstream/main
+
+# Abortar cherry pick en conflicto
+git cherry-pick --abort
+
+# Continuar cherry pick después de resolver conflictos
+git cherry-pick --continue
+
+# Cherry pick revert
+git cherry-pick --mainline 1 <merge-commit-hash></code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="bisect">
+                        <h2>Git Bisect</h2>
+                        
+                        <h3>Búsqueda Binaria de Bugs</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Git bisect workflow</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Iniciar bisect
+git bisect start
+
+# Marcar commit actual como buggy
+git bisect bad
+
+# Marcar commit conocido como bueno
+git bisect good v1.0.0
+
+# Git te moverá al punto medio
+# Prueba el código y marca como good/bad
+git bisect good  # si funciona
+git bisect bad   # si tiene el bug
+
+# Automatizar bisect con script
+git bisect run ./test-script.sh
+
+# Ver log del bisect
+git bisect log
+
+# Resetear bisect
+git bisect reset
+
+# Bisect con rango específico
+git bisect start v1.0.0 HEAD
+git bisect bad HEAD
+git bisect good v1.0.0
+
+# Bisect visual
+git bisect visualize</code></pre>
+                            </div>
+                        </div>
 
                         <div class="gitbook-card">
                             <div class="gitbook-card-title">
                                 <i class="fas fa-lightbulb"></i>
-                                Tip Profesional
+                                Script de prueba para bisect
                             </div>
                             <div class="gitbook-card-content">
-                                Empieza con runners GitHub-hosted para desarrollo y considera self-hosted 
-                                cuando necesites entornos específicos o mejor rendimiento.
+                                <div class="gitbook-code-block">
+                                    <div class="gitbook-code-header">
+                                        <div class="gitbook-code-title">test-bug.sh</div>
+                                        <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i>
+                                            <span>Copiar</span>
+                                        </button>
+                                    </div>
+                                    <div class="gitbook-code-content">
+                                        <pre><code>#!/bin/bash
+# Script para detectar bug específico
+
+make build || exit 1
+./run-tests --specific-test || exit 1
+
+# Si pasa todas las pruebas, es bueno
+exit 0</code></pre>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    <section id="estructura">
-                        <h2>Estructura de Workflows</h2>
-                        <p>
-                            Los workflows de GitHub Actions se definen en archivos YAML ubicados en 
-                            <code>.github/workflows/</code>. Cada workflow puede tener múltiples jobs 
-                            que se ejecutan en paralelo o secuencia.
-                        </p>
-
-                        <h3>Workflow Básico</h3>
+                    <section id="hooks">
+                        <h2>Git Hooks</h2>
+                        
+                        <h3>Automatización con Hooks</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Ejemplo de Workflow Completo</div>
+                                <div class="gitbook-code-title">Hooks comunes</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code># .github/workflows/main.yml
-name: CI/CD Pipeline
+                                <pre><code># Pre-commit hook
+#!/bin/sh
+# .git/hooks/pre-commit
 
-# Trigger - Cuándo se ejecuta
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: '0 2 * * *'  # Todos los días a las 2 AM
+# Ejecutar linting
+npm run lint || exit 1
 
-# Variables de entorno
-env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.11'
+# Ejecutar tests
+npm test || exit 1
 
-# Jobs - Tareas a ejecutar
-jobs:
-  # Job de testing
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [16, 18, 20]
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run linting
-        run: npm run lint
-      
-      - name: Run tests
-        run: npm run test:coverage
-      
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}</code></pre>
+# Verificar archivos grandes
+files=$(git diff --cached --name-only | grep '\.js$')
+for file in $files; do
+    if [ $(stat -c%s "$file") -gt 100000 ]; then
+        echo "Error: $file es demasiado grande (>100KB)"
+        exit 1
+    fi
+done
+
+exit 0</code></pre>
                             </div>
                         </div>
 
-                        <h3>Workflow Multi-OS</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Testing Multiplataforma</div>
+                                <div class="gitbook-code-title">Pre-push hook</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code># .github/workflows/cross-platform.yml
-name: Cross Platform Testing
+                                <pre><code>#!/bin/sh
+# .git/hooks/pre-push
 
-on: [push, pull_request]
+# Evitar push a main directamente
+protected_branch="main"
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
-jobs:
-  test:
-    name: Test on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.9', '3.10', '3.11']
-        exclude:
-          - os: windows-latest
-            python-version: '3.9'
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
-      - name: Run tests
-        run: python -m pytest</code></pre>
+if [ "$current_branch" = "$protected_branch" ]; then
+    echo "Error: No puedes hacer push directamente a $protected_branch"
+    echo "Usa pull request en su lugar"
+    exit 1
+fi
+
+# Ejecutar tests completos
+npm run test:full || exit 1
+
+exit 0</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Commit-msg hook</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>#!/bin/sh
+# .git/hooks/commit-msg
+
+commit_regex='^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,50}'
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "Invalid commit message format."
+    echo "Format: type(scope): description"
+    echo "Types: feat, fix, docs, style, refactor, test, chore"
+    exit 1
+fi
+
+exit 0</code></pre>
                             </div>
                         </div>
                     </section>
 
-                    <section id="actions">
-                        <h2>Actions Comunes</h2>
-                        <p>
-                            GitHub Actions proporciona un ecosistema rico de actions predefinidas para 
-                            tareas comunes. Estas actions te permiten ahorrar tiempo y seguir mejores prácticas.
-                        </p>
-
-                        <h3>Checkout</h3>
+                    <section id="submodules">
+                        <h2>Submodules</h2>
+                        
+                        <h3>Gestión de Dependencias Externas</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Action de Checkout</div>
+                                <div class="gitbook-code-title">Comandos de submodules</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>- name: Checkout repository
-  uses: actions/checkout@v4
-  with:
-    # Opciones comunes
-    fetch-depth: 0           # Clonar todo el historial
-    token: ${{ secrets.PAT }}  # Token personalizado
-    path: 'subdirectory'     # Clonar en subdirectorio</code></pre>
-                            </div>
-                        </div>
+                                <pre><code># Agregar submodule
+git submodule add https://github.com/user/repo.git lib/repo
 
-                        <h3>Setup de Lenguajes</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Setup Actions para Diferentes Lenguajes</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <i class="fas fa-copy"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code># Node.js
-- name: Setup Node.js
-  uses: actions/setup-node@v4
-  with:
-    node-version: '18'
-    cache: 'npm'
-    cache-dependency-path: '**/package-lock.json'
+# Clonar repo con submodules
+git clone --recurse-submodules https://github.com/user/main-repo.git
 
-# Python
-- name: Setup Python
-  uses: actions/setup-python@v4
-  with:
-    python-version: '3.11'
-    cache: 'pip'
+# Inicializar y actualizar submodules
+git submodule init
+git submodule update
 
-# Go
-- name: Setup Go
-  uses: actions/setup-go@v4
-  with:
-    go-version: '1.21'
+# Atajo para inicializar y actualizar
+git submodule update --init --recursive
 
-# Java
-- name: Setup Java
-  uses: actions/setup-java@v3
-  with:
-    distribution: 'temurin'
-    java-version: '17'</code></pre>
-                            </div>
-                        </div>
+# Actualizar submodule a latest commit
+cd lib/repo
+git pull origin main
+cd ../..
+git add lib/repo
+git commit -m "Update submodule to latest"
 
-                        <h3>Cache</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Optimización con Cache</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <i class="fas fa-copy"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code>- name: Cache dependencies
-  uses: actions/cache@v3
-  with:
-    path: |
-      ~/.npm
-      ~/.cache/pip
-      target/
-    key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json') }}
-    restore-keys: |
-      ${{ runner.os }}-deps-</code></pre>
+# Clonar submodule específico
+git submodule update --init --recursive lib/repo
+
+# Ver status de submodules
+git submodule status
+
+# Eliminar submodule
+git submodule deinit lib/repo
+git rm lib/repo
+git commit -m "Remove submodule"
+
+# Trabajar con submodules
+cd lib/repo
+git checkout main
+git pull
+# hacer cambios...
+git commit -m "Update submodule"
+cd ../..
+git add lib/repo
+git commit -m "Update submodule content"</code></pre>
                             </div>
                         </div>
                     </section>
 
-                    <section id="testing">
-                        <h2>Testing Automatizado</h2>
-                        <p>
-                            El testing automatizado es una parte fundamental de CI/CD. GitHub Actions 
-                            facilita la ejecución de diferentes tipos de pruebas en cada commit.
-                        </p>
-
-                        <h3>Testing Multi-Lenguaje</h3>
+                    <section id="workflows">
+                        <h2>Workflows Profesionales</h2>
+                        
+                        <h3>Workflow de Feature Completa</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Pipeline de Testing Completo</div>
+                                <div class="gitbook-code-title">Workflow completo</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>name: Comprehensive Testing
+                                <pre><code># 1. Actualizar develop y crear feature
+git checkout develop
+git pull origin develop
+git checkout -b feature/nueva-funcionalidad
 
-on: [push, pull_request]
+# 2. Desarrollo iterativo
+git add .
+git commit -m "feat: implementar base de la funcionalidad"
 
-jobs:
-  test-node:
-    name: Node.js Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test:coverage
-      - uses: codecov/codecov-action@v3
+# 3. Stash si necesario cambios temporales
+git stash push -m "Configuración local temporal"
 
-  test-python:
-    name: Python Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-      
-      - run: pip install -r requirements.txt
-      - run: flake8 .
-      - run: mypy .
-      - run: pytest --cov=./ --cov-report=xml --cov-report=html
-      - uses: codecov/codecov-action@v3</code></pre>
+# 4. Antes de PR: limpiar historial
+git fetch origin develop
+git rebase -i origin/develop
+
+# 5. Crear pull request
+git push origin feature/nueva-funcionalidad
+
+# 6. Después de aprobación: merge y cleanup
+git checkout develop
+git pull origin develop
+git branch -d feature/nueva-funcionalidad
+git push origin --delete feature/nueva-funcionalidad</code></pre>
                             </div>
                         </div>
+
+                        <h3>Workflow de Hotfix</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Hotfix urgente</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># 1. Crear hotfix desde main
+git checkout main
+git pull origin main
+git checkout -b hotfix/critico-bug
+
+# 2. Arreglar bug rápidamente
+git add .
+git commit -m "fix: corrección crítica de seguridad"
+
+# 3. Merge a main y develop
+git checkout main
+git merge --no-ff hotfix/critico-bug
+git tag -a v1.2.1 -m "Hotfix: corrección crítica"
+
+git checkout develop
+git merge --no-ff hotfix/critico-bug
+
+# 4. Deploy inmediato
+git push origin main --tags
+git push origin develop
+
+# 5. Cleanup
+git branch -d hotfix/critico-bug</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Workflow de Release</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Preparación de release</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># 1. Crear release branch
+git checkout develop
+git pull origin develop
+git checkout -b release/v2.0.0
+
+# 2. Actualizar versión y changelog
+echo "2.0.0" > VERSION
+# actualizar CHANGELOG.md
+git add VERSION CHANGELOG.md
+git commit -m "chore: preparar versión 2.0.0"
+
+# 3. Testing y bugfixes
+# ... ciclos de test y fix ...
+
+# 4. Merge a main y tag
+git checkout main
+git merge --no-ff release/v2.0.0
+git tag -a v2.0.0 -m "Release versión 2.0.0"
+
+# 5. Merge de vuelta a develop
+git checkout develop
+git merge --no-ff release/v2.0.0
+
+# 6. Deploy y cleanup
+git push origin main --tags
+git push origin develop
+git branch -d release/v2.0.0</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="conclusiones">
+                        <h2>Conclusiones</h2>
+                        <p>
+                            Dominar Git avanzado te permite trabajar con mayor eficiencia y confianza. 
+                            Estas técnicas no solo mejoran tu productividad, sino que también establecen 
+                            bases sólidas para trabajar en equipos profesionales.
+                        </p>
 
                         <div class="gitbook-key-takeaways">
                             <h3>
                                 <i class="fas fa-star"></i>
-                                Mejores Prácticas de Testing
+                                Puntos Clave
                             </h3>
                             <ul>
-                                <li>Ejecuta linting antes que las pruebas unitarias</li>
-                                <li>Usa matrices para probar múltiples versiones</li>
-                                <li>Implementa coverage reporting</li>
-                                <li>Cache dependencies para mejorar rendimiento</li>
-                                <li>Separa tests unitarios de tests de integración</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section id="build-deploy">
-                        <h2>Build y Deploy</h2>
-                        <p>
-                            Una vez que las pruebas pasan, el siguiente paso es construir y desplegar 
-                            tu aplicación. GitHub Actions facilita este proceso con múltiples opciones 
-                            de despliegue.
-                        </p>
-
-                        <h3>Build de Aplicación Web</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Pipeline de Build y Deploy</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <i class="fas fa-copy"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code># .github/workflows/deploy.yml
-name: Build and Deploy
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build:
-    name: Build Application
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run tests
-        run: npm run test
-      
-      - name: Build application
-        run: npm run build
-        env:
-          VITE_API_URL: ${{ secrets.API_URL }}
-          VITE_APP_VERSION: ${{ github.sha }}
-      
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: dist/
-          retention-days: 1
-
-  deploy:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-      
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v2
-        with:
-          publish-dir: './dist'
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: false
-          overwrites-pull-request-comment: false
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}</code></pre>
-                            </div>
-                        </div>
-
-                        <h3>Deploy Docker</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Pipeline Docker</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <i class="fas fa-copy"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code># .github/workflows/docker.yml
-name: Build and Push Docker Image
-
-on:
-  push:
-    branches: [ main ]
-    tags: [ 'v*.*.*' ]
-
-jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: yourusername/yourapp
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-      
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}</code></pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="secrets">
-                        <h2>Secrets y Seguridad</h2>
-                        <p>
-                            La seguridad es crucial en CI/CD. GitHub Actions proporciona varias formas 
-                            de manejar información sensible de manera segura.
-                        </p>
-
-                        <h3>Gestión de Secrets</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Uso Seguro de Secrets</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <i class="fas fa-copy"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code># Usar secrets en workflows
-- name: Deploy with secrets
-  run: |
-    curl -X POST \
-      -H "Authorization: Bearer ${{ secrets.API_TOKEN }}" \
-      -H "Content-Type: application/json" \
-      -d '{"version": "${{ github.sha }}"}' \
-      https://api.example.com/deploy
-
-# Secrets en environment variables
-env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
-# Secrets en steps
-- name: Configure AWS CLI
-  run: |
-    aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    aws configure set default.region ${{ secrets.AWS_REGION }}</code></pre>
-                            </div>
-                        </div>
-
-                        <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                <i class="fas fa-shield-alt"></i>
-                                Mejores Prácticas de Seguridad
-                            </div>
-                            <div class="gitbook-card-content">
-                                <ul>
-                                    <li>Nunca incluyas secrets en el código o commits</li>
-                                    <li>Usa secrets específicos del repositorio cuando sea posible</li>
-                                    <li>Rota secrets regularmente</li>
-                                    <li>Usa encrypted secrets para datos sensibles</li>
-                                    <li>Limita permisos de tokens al mínimo necesario</li>
-                                    <li>Audita regularmente el uso de secrets</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="mejores-practicas">
-                        <h2>Mejores Prácticas</h2>
-                        <p>
-                            Para sacar el máximo provecho de GitHub Actions, es importante seguir 
-                            mejores prácticas que optimicen rendimiento, seguridad y mantenibilidad.
-                        </p>
-
-                        <h3>Optimización de Performance</h3>
-                        <ul>
-                            <li>Usa cache para dependencies y artifacts</li>
-                            <li>Paraleliza jobs cuando sea posible</li>
-                            <li>Usa runners específicos para tareas especializadas</li>
-                            <li>Optimiza el tamaño de artifacts</li>
-                            <li>Usa conditional execution para evitar trabajo innecesario</li>
-                        </ul>
-
-                        <h3>Mantenibilidad</h3>
-                        <ul>
-                            <li>Documenta tus workflows y convenciones</li>
-                            <li>Usa templates y actions reutilizables</li>
-                            <li>Implementa monitoreo y alerting</li>
-                            <li>Usa versiones específicas de actions</li>
-                            <li>Prueba workflows localmente con act</li>
-                        </ul>
-
-                        <h3>Cost Management</h3>
-                        <ul>
-                            <li>Monitorea el uso de minutes de runners</li>
-                            <li>Usa self-hosted runners para workloads pesadas</li>
-                            <li>Optimiza el tiempo de ejecución de jobs</li>
-                            <li>Usa caching para reducir descargas</li>
-                            <li>Configura timeouts apropiados</li>
-                        </ul>
-
-                        <div class="gitbook-key-takeaways">
-                            <h3>
-                                <i class="fas fa-star"></i>
-                                Conclusiones Clave
-                            </h3>
-                            <ul>
-                                <li>GitHub Actions es una plataforma CI/CD poderosa y flexible</li>
-                                <li>Empieza simple y añade complejidad gradualmente</li>
-                                <li>Usa cache para mejorar rendimiento</li>
-                                <li>Implementa testing automatizado temprano</li>
-                                <li>Monitorea costos y optimiza workflows</li>
-                                <li>Documenta tus patrones y convenciones</li>
-                                <li>Mantén secrets seguros y rotación regular</li>
+                                <li>Configura Git adecuadamente para cada entorno</li>
+                                <li>Usa branching estratégico según el proyecto</li>
+                                <li>Distingue cuándo usar merge vs rebase</li>
+                                <li>Automatiza con hooks para mantener calidad</li>
+                                <li>Usa workflows profesionales para consistencia</li>
                             </ul>
                         </div>
 
@@ -1229,9 +1405,9 @@ env:
                                 Próximos Pasos
                             </div>
                             <div class="gitbook-card-content">
-                                Ahora que tienes una base sólida en GitHub Actions, experimenta con 
-                                workflows más complejos, explora el marketplace de actions, y considera 
-                                crear tus propias actions personalizadas para tareas específicas de tu equipo.
+                                Practica estas técnicas en proyectos personales antes de aplicarlas 
+                                en equipos. La consistencia y la comunicación son clave para el éxito 
+                                con Git avanzado.
                             </div>
                         </div>
                     </section>
@@ -1239,7 +1415,7 @@ env:
 
                 <!-- Navigation -->
                 <nav class="gitbook-navigation">
-                    <a href="fivem-mods.html" class="gitbook-nav-link">
+                    <a href="seguridad-servers.html" class="gitbook-nav-link">
                         <i class="fas fa-arrow-left"></i>
                         Anterior
                     </a>
@@ -1247,7 +1423,7 @@ env:
                         Volver al Blog
                         <i class="fas fa-home"></i>
                     </a>
-                    <a href="css-grid-flexbox.html" class="gitbook-nav-link">
+                    <a href="github-actions.html" class="gitbook-nav-link">
                         Siguiente
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -1421,3 +1597,4 @@ env:
         });
     </script>
 </body>
+</html>

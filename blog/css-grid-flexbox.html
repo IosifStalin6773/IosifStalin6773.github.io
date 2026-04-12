@@ -19,82 +19,822 @@
     <!-- HTTPS Enforcement -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     
-    <link rel="stylesheet" href="../styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        /* Enhanced GitBook-Style Interface */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Original Militarized Color Palette */
+            --primary-color: #000000;
+            --secondary-color: #0D0D0D;
+            --accent-color: #DC2626;
+            --accent-hover: #EF4444;
+            --text-primary: #FAFAFA;
+            --text-secondary: #D4D4D8;
+            --text-muted: #71717A;
+            --bg-primary: #000000;
+            --bg-secondary: #0A0A0A;
+            --bg-tertiary: #141414;
+            --bg-card: #0F0F0F;
+            --bg-card-hover: #1A1A1A;
+            --border-color: #27272A;
+            --border-accent: #DC2626;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.7), 0 4px 6px -2px rgba(0,0,0,0.5);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Enhanced GitBook Colors */
+            --gitbook-bg: #0a0a0a;
+            --gitbook-sidebar: #0f0f0f;
+            --gitbook-content: #000000;
+            --gitbook-border: #1f1f1f;
+            --gitbook-hover: #dc2626;
+            --gitbook-code-bg: #1e1e1e;
+            --gitbook-inline-code: #dc2626;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--gitbook-content);
+            letter-spacing: 0.01em;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            transform: scale(0.6);
+            transform-origin: top left;
+            width: 166.67%;
+            height: auto;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Layout */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+            background: var(--gitbook-content);
+        }
+
+        /* Enhanced Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--gitbook-sidebar);
+            border-right: 1px solid var(--gitbook-border);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .gitbook-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .gitbook-sidebar::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .gitbook-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .gitbook-sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        .gitbook-sidebar-header {
+            padding: 0 1.5rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--gitbook-border);
+            margin-bottom: 1.5rem;
+        }
+
+        .gitbook-sidebar-title {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gitbook-sidebar-subtitle {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Table of Contents */
+        .gitbook-toc {
+            padding: 0 1.5rem;
+        }
+
+        .gitbook-toc-title {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .gitbook-toc-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            display: block;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            border-left: 2px solid transparent;
+        }
+
+        .gitbook-toc-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent-color);
+            transform: translateX(2px);
+        }
+
+        .gitbook-toc-link.active {
+            color: var(--accent-color);
+            background: rgba(220, 38, 38, 0.1);
+            border-left-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Main Content Area */
+        .gitbook-main {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            max-width: 900px;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            padding: 1.5rem 3rem 0 3rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--accent-color);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* Article Header */
+        .gitbook-article {
+            padding: 2rem 3rem 4rem 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .gitbook-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--gitbook-border);
+        }
+
+        .gitbook-title {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gitbook-author {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Enhanced Typography */
+        .gitbook-content h1 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 2.5rem 0 1.5rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        .gitbook-content h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gitbook-border);
+            letter-spacing: -0.005em;
+        }
+
+        .gitbook-content h3 {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 1.75rem 0 1rem 0;
+            letter-spacing: 0;
+        }
+
+        .gitbook-content h4 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .gitbook-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin: 1.25rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .gitbook-content li {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Enhanced Links */
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Enhanced Code Blocks */
+        .gitbook-code-block {
+            background: var(--gitbook-code-bg);
+            border: 1px solid var(--gitbook-border);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .gitbook-code-header {
+            background: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--gitbook-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gitbook-code-title {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+        .gitbook-copy-button.copied {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .gitbook-code-content {
+            padding: 1rem 1.5rem;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #d4d4d4;
+            white-space: pre;
+        }
+
+        /* Inline Code */
+        .gitbook-content code {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--gitbook-inline-code);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.875em;
+            font-weight: 500;
+        }
+
+        /* Enhanced Cards */
+        .gitbook-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gitbook-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .gitbook-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .gitbook-card-title {
+            color: var(--accent-color);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
+            border: 1px solid var(--gitbook-border);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .gitbook-key-takeaways h3 {
+            color: var(--accent-color);
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gitbook-key-takeaways ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .gitbook-key-takeaways li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .gitbook-key-takeaways li::before {
+            content: '>';
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-card);
+            border: 1px solid var(--gitbook-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gitbook-border);
+        }
+
+        .gitbook-content th {
+            background: var(--bg-tertiary);
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            border-top: 1px solid var(--gitbook-border);
+            margin-top: 3rem;
+        }
+
+        .gitbook-nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gitbook-nav-link:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gitbook-mobile-toggle:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        /* Footer from index.html */
+        .footer {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 3rem 0 1rem 0;
+            border-top: 2px solid var(--accent-color);
+            margin: 0;
+        }
+
+        .footer p {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--accent-hover);
+        }
+
+        .cisco-badge {
+            margin: 20px 0;
+            text-align: center;
+            padding: 20px 0;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .badge-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .badge-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+            transition: var(--transition);
+            object-fit: cover;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                transform: scale(0.5);
+                width: 200%;
+            }
+
+            .gitbook-mobile-toggle {
+                display: block;
+            }
+
+            .gitbook-sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .gitbook-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .gitbook-main {
+                margin-left: 0;
+                padding-top: 3rem;
+            }
+
+            .gitbook-article {
+                padding: 1rem 1.5rem 2rem 1.5rem;
+            }
+
+            .gitbook-title {
+                font-size: 2rem;
+            }
+
+            .gitbook-content h1 {
+                font-size: 1.75rem;
+            }
+
+            .gitbook-content h2 {
+                font-size: 1.375rem;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .gitbook-nav-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-title {
+                font-size: 1.75rem;
+            }
+
+            .gitbook-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .gitbook-content h2 {
+                font-size: 1.25rem;
+            }
+
+            .gitbook-code-content pre {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .gitbook-sidebar,
+            .gitbook-mobile-toggle,
+            .gitbook-navigation,
+            .reading-progress {
+                display: none;
+            }
+
+            .gitbook-main {
+                margin-left: 0;
+            }
+
+            body {
+                transform: none;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navegación -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <!-- Logo eliminado -->
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="../index.html" class="nav-link">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.html#about" class="nav-link">Sobre Mí</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.html#projects" class="nav-link">Proyectos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.html#skills" class="nav-link">Habilidades</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.html#blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.html#contact" class="nav-link">Contacto</a>
-                </li>
-            </ul>
-            <div class="nav-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
 
-    <!-- Blog Post Section -->
-    <section class="blog-post">
-        <div class="container">
-            <div class="blog-header">
-                <div class="blog-meta">
-                    <span class="blog-date">15 Feb 2026</span>
-                    <span class="blog-category">Diseño</span>
-                    <span class="blog-reading-time">14 min lectura</span>
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    <i class="fas fa-code"></i>
+                    CSS Grid vs Flexbox
                 </div>
-                <h1 class="blog-title">CSS Grid vs Flexbox</h1>
-                <div class="blog-tags">
-                    <span class="tag">CSS</span>
-                    <span class="tag">Grid</span>
-                    <span class="tag">Flexbox</span>
-                    <span class="tag">Layout</span>
-                </div>
+                <div class="gitbook-sidebar-subtitle">Guía Completa</div>
             </div>
 
-            <div class="blog-content">
-                <div class="blog-intro">
-                    <p>
-                        CSS Grid y Flexbox son dos de las herramientas más poderosas para crear layouts 
-                        modernos. Aunque ambos sirven para organizar elementos, cada uno tiene sus 
-                        fortalezas específicas. En esta guía exploraremos cuándo usar cada uno y cómo 
-                        combinarlos para crear diseños complejos y responsive.
-                    </p>
-                </div>
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#css-grid" class="gitbook-toc-link">CSS Grid</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#flexbox" class="gitbook-toc-link">Flexbox</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#comparacion" class="gitbook-toc-link">Comparación</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#ejemplos" class="gitbook-toc-link">Ejemplos Prácticos</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#conclusion" class="gitbook-toc-link">Conclusión</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-                <div class="blog-section">
-                    <h2>Introducción a CSS Grid</h2>
-                    <p>
-                        CSS Grid es un sistema de layout bidimensional diseñado para crear layouts 
-                        complejos tanto en filas como columnas. Es ideal para el diseño general de 
-                        la página y layouts complejos.
-                    </p>
-                    
-                    <div class="grid-overview">
-                        <h3>Características Principales de Grid</h3>
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>CSS Grid vs Flexbox</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">CSS Grid vs Flexbox</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>15 Feb 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>14 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            CSS Grid y Flexbox son dos de las herramientas más poderosas para crear layouts 
+                            modernos. Aunque ambos sirven para organizar elementos, cada uno tiene sus 
+                            fortalezas específicas. En esta guía exploraremos cuándo usar cada uno y cómo 
+                            combinarlos para crear diseños complejos y responsive.
+                        </p>
+                        <p>
+                            Entender la diferencia fundamental entre Grid y Flexbox es crucial para tomar 
+                            decisiones informadas sobre qué tecnología usar en cada situación. No se trata 
+                            de cuál es "mejor", sino de cuál es más apropiado para el problema específico 
+                            que estás resolviendo.
+                        </p>
+                    </section>
+
+                    <section id="css-grid">
+                        <h2>CSS Grid</h2>
+                        <p>
+                            CSS Grid es un sistema de layout bidimensional diseñado para crear layouts 
+                            complejos tanto en filas como columnas. Es ideal para el diseño general de 
+                            la página y layouts complejos.
+                        </p>
+
+                        <h3>Características Principales</h3>
                         <ul>
                             <li>Diseño bidimensional (filas y columnas)</li>
                             <li>Control preciso sobre el layout</li>
@@ -103,7 +843,7 @@
                             <li>Auto-placement automático</li>
                             <li>Gap para espaciado consistente</li>
                         </ul>
-                        
+
                         <h3>Cuándo Usar Grid</h3>
                         <ul>
                             <li>Layout general de la página</li>
@@ -112,11 +852,17 @@
                             <li>Layouts con áreas específicas</li>
                             <li>Diseños que necesitan alineación precisa</li>
                         </ul>
-                    </div>
 
-                    <h3>Ejemplo Básico de Grid</h3>
-                    <div class="code-example">
-                        <pre><code>/* Contenedor Grid */
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Ejemplo Básico de Grid</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Contenedor Grid */
 .container {
     display: grid;
     
@@ -170,64 +916,66 @@
     background: #2c3e50;
     color: white;
     padding: 20px;
-    text-align: center;
 }</code></pre>
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-                <div class="blog-section">
-                    <h2>Introducción a Flexbox</h2>
-                    <p>
-                        Flexbox es un sistema de layout unidimensional diseñado para organizar elementos 
-                        en una sola dirección (fila o columna). Es perfecto para componentes específicos 
-                        y alineación de elementos.
-                    </p>
-                    
-                    <div class="flexbox-overview">
-                        <h3>Características Principales de Flexbox</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fas fa-lightbulb"></i>
+                                Tip Profesional
+                            </div>
+                            <div class="gitbook-card-content">
+                                Usa <code>grid-template-areas</code> para layouts complejos. 
+                                Hace el código más legible y fácil de mantener que usar 
+                                <code>grid-column</code> y <code>grid-row</code> individualmente.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="flexbox">
+                        <h2>Flexbox</h2>
+                        <p>
+                            Flexbox es un sistema de layout unidimensional diseñado para organizar 
+                            elementos en una dirección (fila o columna). Es perfecto para alinear 
+                            componentes individuales y layouts más simples.
+                        </p>
+
+                        <h3>Características Principales</h3>
                         <ul>
                             <li>Diseño unidimensional (fila o columna)</li>
-                            <li>Flexibilidad automática de elementos</li>
-                            <li>Alineación y distribución potente</li>
-                            <li>Ordering de elementos</li>
+                            <li>Alineación flexible de elementos</li>
+                            <li>Distribución de espacio</li>
+                            <li>Orden flexible de elementos</li>
                             <li>Wrapping automático</li>
-                            <li>Flex grow/shrink control</li>
+                            <li>Control sobre crecimiento y encogimiento</li>
                         </ul>
-                        
+
                         <h3>Cuándo Usar Flexbox</h3>
                         <ul>
-                            <li>Componentes de navegación</li>
-                            <li>Centrado de elementos</li>
-                            <li>Barras de herramientas</li>
-                            <li>Card layouts</li>
-                            <li>Formularios y botones</li>
-                            <li>Menus y listas</li>
+                            <li>Componentes individuales (navegación, cards, botones)</li>
+                            <li>Alineación de elementos en una dirección</li>
+                            <li>Distribución de espacio horizontal o vertical</li>
+                            <li>Centering y alineación</li>
+                            <li>Layouts responsive simples</li>
                         </ul>
-                    </div>
 
-                    <h3>Ejemplo Básico de Flexbox</h3>
-                    <div class="code-example">
-                        <pre><code>/* Contenedor Flex */
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Ejemplo de Flexbox</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Contenedor Flexbox */
 .navbar {
     display: flex;
-    
-    /* Dirección del flex */
-    flex-direction: row;
-    
-    /* Alineación principal */
     justify-content: space-between;
-    
-    /* Alineación secundaria */
     align-items: center;
-    
-    /* Permitir wrapping */
-    flex-wrap: wrap;
-    
-    /* Espaciado */
-    gap: 10px;
-    
-    background: #34495e;
-    padding: 10px 20px;
+    padding: 1rem;
+    background: #2c3e50;
 }
 
 /* Logo */
@@ -235,71 +983,53 @@
     flex: 0 0 auto;
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
 }
 
-/* Menu de navegación */
-.nav-menu {
+/* Navegación */
+.nav-links {
     display: flex;
-    gap: 20px;
+    gap: 1rem;
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
-.nav-menu li {
+.nav-links li {
     flex: 0 0 auto;
 }
 
-.nav-menu a {
+/* Botón */
+.nav-button {
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
+    background: #e74c3c;
     color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-
-.nav-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Contenedor de botones */
-.button-group {
-    display: flex;
-    gap: 10px;
-}
-
-.btn {
-    flex: 0 0 auto;
-    padding: 8px 16px;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background: #3498db;
-    color: white;
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.btn-secondary {
-    background: #95a5a6;
-    color: white;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.card {
+    flex: 1 1 300px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }</code></pre>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                <div class="blog-section">
-                    <h2>Comparación Directa</h2>
-                    
-                    <div class="comparison-table">
-                        <h3>Grid vs Flexbox - Características</h3>
+                    <section id="comparacion">
+                        <h2>Comparación Directa</h2>
+                        <p>
+                            Para entender mejor cuándo usar cada uno, comparemos sus características principales:
+                        </p>
+
                         <table>
                             <thead>
                                 <tr>
@@ -310,7 +1040,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Dimensiones</td>
+                                    <td>Dimensionalidad</td>
                                     <td>2D (filas y columnas)</td>
                                     <td>1D (fila o columna)</td>
                                 </tr>
@@ -321,63 +1051,59 @@
                                 </tr>
                                 <tr>
                                     <td>Complejidad</td>
-                                    <td>Layouts complejos</td>
-                                    <td>Layouts simples</td>
-                                </tr>
-                                <tr>
-                                    <td>Control</td>
-                                    <td>Preciso y explícito</td>
-                                    <td>Flexible y automático</td>
+                                    <td>Mayor (más propiedades)</td>
+                                    <td>Menor (más simple)</td>
                                 </tr>
                                 <tr>
                                     <td>Browser Support</td>
-                                    <td>Moderno (IE11+)</td>
-                                    <td>Excelente (IE10+)</td>
+                                    <td>Excelente (moderno)</td>
+                                    <td>Excelente (universal)</td>
+                                </tr>
+                                <tr>
+                                    <td>Curva de Aprendizaje</td>
+                                    <td>Moderada</td>
+                                    <td>Fácil</td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
 
-                    <h3>Cuándo Elegir Cada Uno</h3>
-                    <div class="decision-guide">
-                        <h4>Usa CSS Grid cuando:</h4>
-                        <ul>
-                            <li>Necesitas controlar layout en 2 dimensiones</li>
-                            <li>Estás diseñando el layout general de la página</li>
-                            <li>Necesitas alinear elementos en filas y columnas</li>
-                            <li>Quieres crear un grid de contenido</li>
-                            <li>El layout es complejo y necesita áreas específicas</li>
-                        </ul>
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                <i class="fas fa-star"></i>
+                                Regla General
+                            </h3>
+                            <ul>
+                                <li><strong>Grid para layout, Flexbox para componentes</strong></li>
+                                <li>Usa Grid para la estructura general de la página</li>
+                                <li>Usa Flexbox para alinear elementos dentro de componentes</li>
+                                <li>Combina ambos: Grid para el contenedor principal, Flexbox para los elementos internos</li>
+                                <li>Empieza con Flexbox, sube a Grid cuando necesites 2D</li>
+                            </ul>
+                        </div>
+                    </section>
 
-                        <h4>Usa Flexbox cuando:</h4>
-                        <ul>
-                            <li>Estás diseñando componentes específicos</li>
-                            <li>Necesitas alinear elementos en 1 dimensión</li>
-                            <li>Quieres centrar contenido</li>
-                            <li>Estás trabajando con navegación o botones</li>
-                            <li>Necesitas distribuir espacio equitativamente</li>
-                        </ul>
-                    </div>
-                </div>
+                    <section id="ejemplos">
+                        <h2>Ejemplos Prácticos</h2>
 
-                <div class="blog-section">
-                    <h2>Combinando Grid y Flexbox</h2>
-                    <p>
-                        La mejor práctica es usar ambos sistemas juntos: Grid para el layout general 
-                        y Flexbox para los componentes internos.
-                    </p>
-
-                    <h3>Ejemplo: Dashboard Completo</h3>
-                    <div class="code-example">
-                        <pre><code>/* Layout general con Grid */
-.dashboard {
+                        <h3>Layout de Página con Grid + Flexbox</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Combinación Perfecta</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Layout principal con Grid */
+.page-layout {
     display: grid;
-    grid-template-columns: 250px 1fr 300px;
-    grid-template-rows: 60px 1fr 40px;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
-        "header header header"
-        "sidebar main widgets"
-        "footer footer footer";
+        "header header"
+        "sidebar main"
+        "footer footer";
     gap: 20px;
     min-height: 100vh;
 }
@@ -388,21 +1114,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem;
     background: #2c3e50;
     color: white;
-    padding: 0 20px;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
 /* Sidebar con Flexbox */
@@ -410,608 +1124,439 @@
     grid-area: sidebar;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
+    padding: 1rem;
     background: #34495e;
-    color: white;
-    padding: 20px;
 }
 
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.nav-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Main content con Grid interno */
+/* Main con Flexbox */
 .main {
     grid-area: main;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    background: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
 }
 
 /* Cards con Flexbox */
-.card {
+.card-grid {
     display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+.card {
+    flex: 1 1 300px;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .card-content {
-    flex: 1;
-    padding: 15px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-top: 1px solid #dee2e6;
-}
-
-/* Widgets con Flexbox */
-.widgets {
-    grid-area: widgets;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    background: #34495e;
-    color: white;
+    gap: 1rem;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: auto;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Dashboard Complejo</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Grid Areas Avanzadas</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>.dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-rows: 60px 1fr 60px;
+    grid-template-areas:
+        "header header header"
+        "sidebar main widgets"
+        "footer footer footer";
+    gap: 1rem;
+    height: 100vh;
+}
+
+/* Widgets con Grid anidado */
+.widget-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 .widget {
-    display: flex;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.1);
+    background: white;
+    padding: 1rem;
     border-radius: 8px;
-    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .widget-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
 }
 
 .widget-content {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.widget-stats {
+/* Stats con Flexbox */
+.stats-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    justify-content: space-around;
+    padding: 1rem 0;
 }
 
 .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
 .stat-value {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
+    color: #2c3e50;
 }
 
 .stat-label {
-    font-size: 0.8rem;
-    opacity: 0.8;
-}
-
-/* Footer con Flexbox */
-.footer {
-    grid-area: footer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #2c3e50;
-    color: white;
-    padding: 0 20px;
-}
-
-.footer-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.footer-links a {
-    color: white;
-    text-decoration: none;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-.footer-links a:hover {
-    opacity: 1;
+    font-size: 0.875rem;
+    color: #7f8c8d;
 }</code></pre>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                <div class="blog-section">
-                    <h2>Patterns Comunes</h2>
-                    
-                    <h3>1. Holy Grail Layout</h3>
-                    <div class="code-example">
-                        <pre><code>.holy-grail {
-    display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-        "header header header"
-        "nav main aside"
-        "footer footer footer";
-    gap: 20px;
-    min-height: 100vh;
-}
+                    <section id="mejores-practicas">
+                        <h2>Mejores Prácticas</h2>
 
-.header { grid-area: header; }
-.nav { grid-area: nav; }
-.main { grid-area: main; }
-.aside { grid-area: aside; }
-.footer { grid-area: footer; }
+                        <h3>Cuándo Elegir Grid</h3>
+                        <ul>
+                            <li><strong>Layout principal de la página:</strong> Header, main, sidebar, footer</li>
+                            <li><strong>Galerías de imágenes:</strong> Grids complejos de diferentes tamaños</li>
+                            <li><strong>Dashboard:</strong> Múltiples widgets organizados</li>
+                            <li><strong>Magazine layout:</strong> Artículos en diferentes posiciones</li>
+                            <li><strong>Formularios complejos:</strong> Campos organizados en grid</li>
+                        </ul>
 
-/* Responsive */
-@media (max-width: 768px) {
-    .holy-grail {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "header"
-            "nav"
-            "main"
-            "aside"
-            "footer";
-    }
-}</code></pre>
-                    </div>
+                        <h3>Cuándo Elegir Flexbox</h3>
+                        <ul>
+                            <li><strong>Navegación:</strong> Menús horizontales o verticales</li>
+                            <li><strong>Cards:</strong> Contenido alineado verticalmente</li>
+                            <li><strong>Botones:</strong> Grupos de botones alineados</li>
+                            <li><strong>Centering:</strong> Elementos centrados perfectamente</li>
+                            <li><strong>Formularios simples:</strong> Campos alineados</li>
+                        </ul>
 
-                    <h3>2. Card Grid</h3>
-                    <div class="code-example">
-                        <pre><code>.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
+                        <h3>Errores Comunes a Evitar</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Errores Frecuentes
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ul>
+                                    <li><strong>Usar Grid para todo:</strong> No uses Grid cuando Flexbox es suficiente</li>
+                                    <li><strong>Ignorar browser support:</strong> Verifica compatibilidad si target es antiguo</li>
+                                    <li><strong>Over-engineering:</strong> No compliques layouts simples</li>
+                                    <li><strong>Mixed approaches inconsistent:</strong> Sé consistente en tu enfoque</li>
+                                    <li><strong>Olvidar responsive:</strong> Ambos necesitan media queries</li>
+                                </ul>
+                            </div>
+                        </div>
 
-.card {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card-image {
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px 8px 0 0;
-}
-
-.card-content {
-    flex: 1;
-    padding: 15px;
-}
-
-.card-actions {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    border-top: 1px solid #eee;
-}</code></pre>
-                    </div>
-
-                    <h3>3. Navigation Bar</h3>
-                    <div class="code-example">
-                        <pre><code>.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: #333;
-    color: white;
-}
-
-.nav-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.nav-menu {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-actions {
-    display: flex;
-    gap: 1rem;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .nav-menu {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-}</code></pre>
-                    </div>
-                </div>
-
-                <div class="blog-section">
-                    <h2>Técnicas Avanzadas</h2>
-                    
-                    <h3>Grid Auto-Fit y Auto-Fill</h3>
-                    <div class="code-example">
-                        <pre><code>/* Auto-fit - ajusta número de columnas */
-.auto-fit-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-/* Auto-fill - mantiene espacio vacío */
-.auto-fill-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-/* Grid con densidad */
-.dense-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    grid-auto-flow: dense; /* Llena espacios vacíos */
-}
-
-/* Subgrid (navegador moderno) */
-.subgrid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.subgrid-item {
-    display: grid;
-    grid-template-columns: subgrid; /* Hereda del padre */
-    grid-column: span 2;
-}</code></pre>
-                    </div>
-
-                    <h3>Flexbox Avanzado</h3>
-                    <pre><code>/* Flexbox con ratios */
-.flex-ratios {
-    display: flex;
-}
-
-.flex-ratios > :first-child {
-    flex: 2; /* 2/5 del espacio */
-}
-
-.flex-ratios > :nth-child(2) {
-    flex: 3; /* 3/5 del espacio */
-}
-
-/* Flexbox con base y grow */
-.flex-base-grow {
-    display: flex;
-}
-
-.flex-base-grow > :first-child {
-    flex: 0 0 200px; /* Base fija de 200px */
-}
-
-.flex-base-grow > :nth-child(2) {
-    flex: 1; /* Crece para ocupar resto */
-}
-
-/* Flexbox con orden */
-.flex-order {
-    display: flex;
-}
-
-.flex-order > :first-child {
-    order: 2; /* Segundo elemento */
-}
-
-.flex-order > :nth-child(2) {
-    order: 1; /* Primer elemento */
-}
-
-/* Flexbox con alineación */
-.flex-align {
-    display: flex;
-    align-items: stretch; /* Todos los elementos misma altura */
-}
-
-.flex-align > div {
-    display: flex;
-    flex-direction: column;
-}</code></pre>
-                </div>
-
-                <div class="blog-section">
-                    <h2>Responsive Design</h2>
-                    
-                    <h3>Estrategias Responsive</h3>
-                    <div class="code-example">
-                        <pre><code>/* Mobile-first approach */
-.responsive-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .responsive-layout {
-        flex-direction: row;
-    }
-}
-
-@media (min-width: 1024px) {
-    .responsive-layout {
-        display: grid;
-        grid-template-columns: 200px 1fr 300px;
-        gap: 30px;
-    }
-}
-
-/* Container queries (navegadores modernos) */
-.card-container {
-    container-type: inline-size;
-}
-
-@container (min-width: 400px) {
-    .card {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-}
-
-/* CSS Functions para layouts dinámicos */
-.dynamic-grid {
-    display: grid;
-    grid-template-columns: repeat(
-        var(--columns, 3),
-        1fr
-    );
-    gap: var(--gap, 20px);
-}
-
-/* Variables CSS para layouts */
-.layout-variables {
-    --columns: 2;
-    --gap: 15px;
-    --min-width: 250px;
-    
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 1fr));
-    gap: var(--gap);
-}</code></pre>
-                    </div>
-
-                    <h3>Breakpoints Comunes</h3>
-                    <pre><code>/* Breakpoints estándar */
-:root {
-    --mobile: 480px;
-    --tablet: 768px;
-    --desktop: 1024px;
-    --wide: 1200px;
-}
-
-/* Mobile styles */
-@media (max-width: 479px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Tablet styles */
-@media (min-width: 480px) and (max-width: 767px) {
-    .layout {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-/* Desktop styles */
-@media (min-width: 768px) {
-    .layout {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Wide desktop */
-@media (min-width: 1200px) {
-    .layout {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-}</code></pre>
-                </div>
-
-                <div class="blog-section">
-                    <h2>Performance y Optimización</h2>
-                    
-                    <h3>Best Practices</h3>
-                    <div class="code-example">
-                        <pre><code>/* Evitar layouts complejos innecesarios */
-.simple-layout {
-    display: flex; /* Más simple que grid para 1D */
-    gap: 20px;
-}
-
-/* Usar transform en lugar de cambiar layout properties */
-.animated-item {
-    transform: translateX(0);
-    transition: transform 0.3s ease;
-}
-
-.animated-item:hover {
-    transform: translateX(10px);
-}
-
-/* Optimizar reflows */
+                        <h3>Performance Considerations</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Optimización</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Evita reflows innecesarios */
 .optimized-layout {
     display: grid;
-    grid-template-columns: 200px 1fr; /* Fijo, mejor performance */
-    gap: 20px;
-}
-
-/* Usar contain para mejorar performance */
-.performance-layout {
-    display: grid;
-    contain: layout style paint; /* Aislar cambios */
-}
-
-/* Evitar overflow en layouts */
-.no-overflow {
-    display: flex;
-    min-width: 0; /* Permite shrinking */
-    overflow: hidden;
-}
-
-/* Usar will-change para animaciones */
-.animated-element {
-    will-change: transform;
-    transition: transform 0.3s ease;
-}</code></pre>
-                    </div>
-
-                    <h3>Debugging Tools</h3>
-                    <pre><code>/* Grid debugging */
-.debug-grid {
-    display: grid;
+    /* Define todas las propiedades juntas */
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-rows: auto;
+    gap: 1rem;
+    
+    /* Evita cambios dinámicos frecuentes */
+    will-change: transform;
 }
 
-.debug-grid > * {
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid red;
-}
-
-/* Flexbox debugging */
-.debug-flex {
+/* Usa contain para optimización */
+.card-container {
     display: flex;
-    gap: 20px;
+    contain: layout style paint;
 }
 
-.debug-flex > * {
-    background: rgba(0, 255, 0, 0.1);
-    border: 1px solid green;
+/* Para layouts complejos, considera containment */
+.complex-grid {
+    display: grid;
+    contain: layout;
 }
 
-/* CSS Grid overlay en Chrome DevTools */
-/* Habilitar: Settings > Experiments > CSS Grid overlay */</code></pre>
-                </div>
+/* Evita animaciones en propiedades de layout */
+/* En su lugar, usa transform */
+.animated-card {
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
 
-                <div class="blog-section">
-                    <h2>Conclusiones</h2>
-                    <p>
-                        CSS Grid y Flexbox no son competidores, sino herramientas complementarias. 
-                        Dominar ambos te permitirá crear layouts modernos, responsive y eficientes. 
-                        La clave es entender cuándo usar cada uno y cómo combinarlos efectivamente.
-                    </p>
-                    
-                    <div class="key-takeaways">
-                        <h3>Puntos Clave:</h3>
-                        <ul>
-                            <li>Usa Grid para layouts bidimensionales y Flexbox para componentes</li>
-                            <li>Combina ambos sistemas para layouts complejos</li>
-                            <li>Optimiza para mobile-first responsive design</li>
-                            <li>Usa auto-fit/auto-fill para grids responsivos</li>
-                            <li>Mantén layouts simples cuando sea posible</li>
-                            <li>Usa herramientas de debugging para resolver problemas</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="blog-footer">
-                    <div class="blog-navigation">
-                        <a href="github-actions.html" class="nav-link">
-                            <i class="fas fa-arrow-left"></i> Artículo Anterior
-                        </a>
-                        <a href="../index.html#blog" class="nav-link">
-                            Volver al Blog <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="blog-share">
-                        <h4>Comparte este artículo:</h4>
-                        <div class="share-buttons">
-                            <a href="#" class="share-btn">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="share-btn">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                            <a href="#" class="share-btn">
-                                <i class="fab fa-github"></i>
-                            </a>
+.animated-card:hover {
+    transform: translateY(-4px);
+}</code></pre>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                    </section>
 
-    <!-- Footer -->
+                    <section id="conclusion">
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                <i class="fas fa-star"></i>
+                                Conclusiones Clave
+                            </h3>
+                            <ul>
+                                <li>Grid y Flexbox no son competidores, son complementos</li>
+                                <li>Grid es para layout 2D (estructura de página)</li>
+                                <li>Flexbox es para layout 1D (componentes y alineación)</li>
+                                <li>La combinación de ambos es la solución más poderosa</li>
+                                <li>Empieza simple, añade complejidad solo cuando sea necesario</li>
+                                <li>Considera siempre el responsive design</li>
+                                <li>Piensa en mantenibilidad y legibilidad del código</li>
+                                <li>Prueba en diferentes navegadores y dispositivos</li>
+                            </ul>
+                        </div>
+
+                        <h2>Recursos Adicionales</h2>
+                        <ul>
+                            <li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">CSS Tricks - Complete Guide to Grid</a></li>
+                            <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CSS Tricks - Complete Guide to Flexbox</a></li>
+                            <li><a href="https://gridbyexample.com/" target="_blank">Grid by Example</a></li>
+                            <li><a href="https://flexboxfroggy.com/" target="_blank">Flexbox Froggy (juego interactivo)</a></li>
+                            <li><a href="https://cssgridgarden.com/" target="_blank">CSS Grid Garden (juego interactivo)</a></li>
+                        </ul>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Próximos Pasos
+                            </div>
+                            <div class="gitbook-card-content">
+                                Ahora que entiendes las diferencias, practica creando layouts reales. 
+                                Comienza con componentes simples usando Flexbox, luego construye 
+                                layouts completos con Grid, y finalmente combina ambos en proyectos 
+                                complejos. La práctica es clave para dominar estas herramientas 
+                                fundamentales del CSS moderno.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="#" class="gitbook-nav-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Anterior
+                    </a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <a href="github-actions.html" class="gitbook-nav-link">
+                        Siguiente
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Oscar de la Cruz. Todos los derechos reservados.</p>
-            <p>Licencia: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></p>
-            <div class="footer-social">
-                <a href="https://discord.gg/WQ9XW9g9" target="_blank" rel="noopener">
-                    <i class="fab fa-discord"></i>
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Cisco Cybersecurity Badge -->
+            <div class="cisco-badge">
+                <!-- Direct badge display -->
+                <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                    <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                         alt="Cisco Introduction to Cybersecurity Badge" 
+                         class="badge-image">
                 </a>
-                <a href="https://www.instagram.com/oscarcrudi_20/" target="_blank" rel="noopener">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://github.com/IosifStalin6773" target="_blank" rel="noopener">
-                    <i class="fab fa-github"></i>
-                </a>
+                
+                <!-- Fallback content -->
+                <div id="badge-fallback" style="display: none;">
+                    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="ad7f6094-99a0-4aa5-a991-7ae451830572" data-share-badge-host="https://www.credly.com">
+                        <noscript>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 10px 0;">
+                                <i class="fas fa-shield-alt" style="color: var(--accent-color); margin-right: 8px;"></i>
+                                Cisco Introduction to Cybersecurity Badge
+                            </p>
+                        </noscript>
+                    </div>
+                    <script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                </div>
             </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
         </div>
     </footer>
 
-    <script src="../script.js"></script>
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '<i class="fas fa-check"></i><span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<i class="fas fa-copy"></i><span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
 </body>
-</html>
