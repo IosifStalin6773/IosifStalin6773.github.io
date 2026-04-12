@@ -19,71 +19,42 @@
     <!-- HTTPS Enforcement -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     
+    <!-- GitBook Style CSS -->
     <style>
-        /* Enhanced GitBook-Style Interface */
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            /* Original Militarized Color Palette */
-            --primary-color: #000000;
-            --secondary-color: #0D0D0D;
-            --accent-color: #DC2626;
-            --accent-hover: #EF4444;
-            --text-primary: #FAFAFA;
-            --text-secondary: #D4D4D8;
-            --text-muted: #71717A;
-            --bg-primary: #000000;
-            --bg-secondary: #0A0A0A;
-            --bg-tertiary: #141414;
-            --bg-card: #0F0F0F;
-            --bg-card-hover: #1A1A1A;
-            --border-color: #27272A;
-            --border-accent: #DC2626;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.7), 0 4px 6px -2px rgba(0,0,0,0.5);
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Enhanced GitBook Colors */
-            --gitbook-bg: #0a0a0a;
-            --gitbook-sidebar: #0f0f0f;
-            --gitbook-content: #000000;
-            --gitbook-border: #1f1f1f;
-            --gitbook-hover: #dc2626;
-            --gitbook-code-bg: #1e1e1e;
-            --gitbook-inline-code: #dc2626;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            height: 100%;
-            overflow-x: hidden;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 16px;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
             color: var(--text-primary);
-            background-color: var(--gitbook-content);
-            letter-spacing: 0.01em;
-            font-weight: 400;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            transform: scale(0.6);
-            transform-origin: top left;
-            width: 166.67%;
-            height: auto;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
+            line-height: 1.6;
             overflow-x: hidden;
-            position: relative;
         }
 
         /* Reading Progress Bar */
@@ -92,83 +63,72 @@
             top: 0;
             left: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            background: var(--accent-color);
             z-index: 1000;
             transition: width 0.3s ease;
         }
 
-        /* Main Layout */
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
         .gitbook-container {
             display: flex;
             min-height: 100vh;
-            background: var(--gitbook-content);
         }
 
-        /* Enhanced Sidebar */
+        /* Sidebar */
         .gitbook-sidebar {
             width: 280px;
-            background: var(--gitbook-sidebar);
-            border-right: 1px solid var(--gitbook-border);
-            padding: 2rem 0;
-            position: fixed;
-            height: 100vh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
             overflow-y: auto;
-            z-index: 100;
-            transition: var(--transition);
-        }
-
-        .gitbook-sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .gitbook-sidebar::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        .gitbook-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-
-        .gitbook-sidebar::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
 
         .gitbook-sidebar-header {
-            padding: 0 1.5rem 2rem 1.5rem;
-            border-bottom: 1px solid var(--gitbook-border);
-            margin-bottom: 1.5rem;
+            margin-bottom: 32px;
         }
 
         .gitbook-sidebar-title {
-            color: var(--text-primary);
             font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .gitbook-sidebar-subtitle {
-            color: var(--text-muted);
             font-size: 0.875rem;
-            font-weight: 500;
+            color: var(--text-muted);
         }
 
-        /* Table of Contents */
-        .gitbook-toc {
-            padding: 0 1.5rem;
-        }
-
+        /* TOC */
         .gitbook-toc-title {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             font-weight: 600;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-            padding: 0 0.5rem;
+            margin-bottom: 16px;
         }
 
         .gitbook-toc-list {
@@ -176,350 +136,307 @@
         }
 
         .gitbook-toc-item {
-            margin-bottom: 0.25rem;
+            margin-bottom: 4px;
         }
 
         .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.5rem 0.75rem;
-            display: block;
             border-radius: 6px;
-            transition: var(--transition);
             font-size: 0.875rem;
-            line-height: 1.4;
-            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
         }
 
         .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
             color: var(--text-primary);
-            background: var(--bg-tertiary);
-            border-left-color: var(--accent-color);
-            transform: translateX(2px);
         }
 
         .gitbook-toc-link.active {
-            color: var(--accent-color);
-            background: rgba(220, 38, 38, 0.1);
-            border-left-color: var(--accent-color);
-            font-weight: 500;
+            background: var(--sidebar-active);
+            color: var(--text-primary);
         }
 
-        /* Main Content Area */
+        /* Main Content */
         .gitbook-main {
             flex: 1;
-            margin-left: 280px;
-            display: flex;
-            flex-direction: column;
-            max-width: 900px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 60px;
         }
 
         /* Breadcrumbs */
         .gitbook-breadcrumbs {
-            padding: 1.5rem 3rem 0 3rem;
+            margin-bottom: 32px;
             font-size: 0.875rem;
-            color: var(--text-muted);
         }
 
         .gitbook-breadcrumbs a {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
-            transition: var(--transition);
         }
 
         .gitbook-breadcrumbs a:hover {
-            color: var(--accent-color);
+            color: var(--text-primary);
         }
 
         .gitbook-breadcrumb-separator {
-            margin: 0 0.5rem;
-            opacity: 0.5;
+            margin: 0 8px;
+            color: var(--text-muted);
         }
 
         /* Article Header */
-        .gitbook-article {
-            padding: 2rem 3rem 4rem 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
         .gitbook-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--gitbook-border);
+            margin-bottom: 48px;
         }
 
         .gitbook-title {
-            color: var(--text-primary);
             font-size: 2.5rem;
             font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
             line-height: 1.2;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
         }
 
         .gitbook-meta {
             display: flex;
-            align-items: center;
-            gap: 2rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
         }
 
         .gitbook-meta-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
         }
 
         .gitbook-author {
-            color: var(--accent-color);
-            font-weight: 600;
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
-        /* Enhanced Typography */
-        .gitbook-content h1 {
-            color: var(--text-primary);
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1.3;
-            margin: 2.5rem 0 1.5rem 0;
-            letter-spacing: -0.01em;
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
         }
 
         .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
             color: var(--text-primary);
-            font-size: 1.5rem;
-            font-weight: 600;
-            line-height: 1.3;
-            margin: 2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--gitbook-border);
-            letter-spacing: -0.005em;
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .gitbook-content h3 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
+            font-size: 1.375rem;
             font-weight: 600;
-            line-height: 1.4;
-            margin: 1.75rem 0 1rem 0;
-            letter-spacing: 0;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
         }
 
         .gitbook-content h4 {
-            color: var(--text-primary);
             font-size: 1.125rem;
             font-weight: 600;
-            line-height: 1.4;
-            margin: 1.5rem 0 0.75rem 0;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
         }
 
         .gitbook-content p {
+            margin-bottom: 20px;
             color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 1.25rem;
-            text-align: justify;
         }
 
         .gitbook-content ul, .gitbook-content ol {
-            margin: 1.25rem 0;
-            padding-left: 1.5rem;
+            margin-bottom: 20px;
+            padding-left: 24px;
         }
 
         .gitbook-content li {
+            margin-bottom: 8px;
             color: var(--text-secondary);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
         }
 
-        /* Enhanced Links */
         .gitbook-content a {
             color: var(--accent-color);
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: var(--transition);
-            font-weight: 500;
+            transition: border-color 0.2s ease;
         }
 
         .gitbook-content a:hover {
             border-bottom-color: var(--accent-color);
         }
 
-        /* Enhanced Code Blocks */
+        /* Code Blocks */
         .gitbook-code-block {
-            background: var(--gitbook-code-bg);
-            border: 1px solid var(--gitbook-border);
+            margin: 24px 0;
             border-radius: 8px;
-            margin: 1.5rem 0;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            position: relative;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
         }
 
         .gitbook-code-header {
-            background: var(--bg-tertiary);
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--gitbook-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .gitbook-code-title {
-            color: var(--text-secondary);
             font-size: 0.875rem;
+            color: var(--text-muted);
             font-weight: 500;
         }
 
         .gitbook-copy-button {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.375rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.375rem;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .gitbook-copy-button:hover {
-            background: var(--accent-color);
+            background: var(--sidebar-hover);
             color: var(--text-primary);
-            border-color: var(--accent-color);
         }
 
         .gitbook-copy-button.copied {
-            background: #10b981;
-            border-color: #10b981;
-            color: white;
+            background: var(--accent-color);
+            color: var(--text-primary);
         }
 
         .gitbook-code-content {
-            padding: 1rem 1.5rem;
+            padding: 20px;
             overflow-x: auto;
         }
 
         .gitbook-code-content pre {
             margin: 0;
-            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.875rem;
-            line-height: 1.5;
-            color: #d4d4d4;
-            white-space: pre;
+            line-height: 1.6;
+            color: var(--text-secondary);
         }
 
-        /* Inline Code */
-        .gitbook-content code {
-            background: rgba(220, 38, 38, 0.1);
-            color: var(--gitbook-inline-code);
-            padding: 0.125rem 0.375rem;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-            font-size: 0.875em;
-            font-weight: 500;
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Enhanced Cards */
+        /* Cards */
         .gitbook-card {
-            background: var(--bg-card);
-            border: 1px solid var(--gitbook-border);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-
-        .gitbook-card:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 1px var(--accent-color);
+            padding: 20px;
+            margin: 24px 0;
         }
 
         .gitbook-card-title {
-            color: var(--accent-color);
             font-size: 1.125rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         .gitbook-card-content {
             color: var(--text-secondary);
-            line-height: 1.6;
+        }
+
+        /* Alert Boxes */
+        .gitbook-alert {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-alert.warning {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.danger {
+            border-color: #EF4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.info {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* Key Takeaways */
         .gitbook-key-takeaways {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-tertiary));
-            border: 1px solid var(--gitbook-border);
-            border-left: 4px solid var(--accent-color);
-            border-radius: 0 8px 8px 0;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
         }
 
         .gitbook-key-takeaways h3 {
-            color: var(--accent-color);
-            font-size: 1.125rem;
-            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .gitbook-key-takeaways ul {
-            margin: 0;
-            padding-left: 1.5rem;
-        }
-
-        .gitbook-key-takeaways li {
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            position: relative;
-        }
-
-        .gitbook-key-takeaways li::before {
-            content: '>';
-            color: var(--accent-color);
-            font-weight: bold;
-            position: absolute;
-            left: -1rem;
+            gap: 8px;
         }
 
         /* Tables */
         .gitbook-content table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: var(--bg-card);
-            border: 1px solid var(--gitbook-border);
+            margin: 24px 0;
+            background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
         }
 
         .gitbook-content th,
         .gitbook-content td {
-            padding: 0.75rem 1rem;
+            padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--gitbook-border);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .gitbook-content th {
-            background: var(--bg-tertiary);
-            color: var(--accent-color);
+            background: var(--tertiary-bg);
             font-weight: 600;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            color: var(--text-primary);
         }
 
         .gitbook-content tr:last-child td {
@@ -531,199 +448,137 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 3rem;
-            border-top: 1px solid var(--gitbook-border);
-            margin-top: 3rem;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
         }
 
         .gitbook-nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            transition: var(--transition);
-            font-size: 0.875rem;
-            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
         }
 
         .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
             color: var(--text-primary);
             border-color: var(--accent-color);
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
         }
 
-        /* Mobile Menu Toggle */
-        .gitbook-mobile-toggle {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .gitbook-mobile-toggle:hover {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-            color: var(--text-primary);
-        }
-
-        /* Footer from index.html */
+        /* Footer Styles */
         .footer {
-            background: var(--bg-secondary);
-            color: var(--text-muted);
-            text-align: center;
-            padding: 3rem 0 1rem 0;
-            border-top: 2px solid var(--accent-color);
-            margin: 0;
+            background: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 0 0;
+            margin-top: 60px;
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .footer p {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            padding: 0;
-            margin: 0 0 1rem 0;
+            color: var(--text-secondary);
+            margin: 0 0 3rem 0;
+            text-align: center;
         }
 
         .footer a {
             color: var(--accent-color);
             text-decoration: none;
-            transition: var(--transition);
         }
 
         .footer a:hover {
-            color: var(--accent-hover);
+            text-decoration: underline;
         }
 
         .cisco-badge {
-            margin: 20px 0;
             text-align: center;
-            padding: 20px 0;
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-md);
+            margin: 20px 0;
         }
 
         .badge-link {
             display: inline-block;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .badge-link:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
         }
 
         .badge-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 12px;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
-            transition: var(--transition);
-            object-fit: cover;
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            body {
-                transform: scale(0.5);
-                width: 200%;
-            }
-
             .gitbook-mobile-toggle {
                 display: block;
             }
 
             .gitbook-sidebar {
-                transform: translateX(-100%);
-                width: 280px;
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
             }
 
             .gitbook-sidebar.open {
-                transform: translateX(0);
+                left: 0;
             }
 
             .gitbook-main {
-                margin-left: 0;
-                padding-top: 3rem;
-            }
-
-            .gitbook-article {
-                padding: 1rem 1.5rem 2rem 1.5rem;
+                padding: 80px 20px 40px 20px;
             }
 
             .gitbook-title {
                 font-size: 2rem;
             }
 
-            .gitbook-content h1 {
-                font-size: 1.75rem;
-            }
-
-            .gitbook-content h2 {
-                font-size: 1.375rem;
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 12px;
             }
 
             .gitbook-navigation {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1.5rem;
+                gap: 12px;
             }
 
             .gitbook-nav-link {
-                width: 100%;
                 justify-content: center;
             }
         }
 
         @media (max-width: 480px) {
+            .gitbook-main {
+                padding: 80px 16px 32px 16px;
+            }
+
             .gitbook-title {
                 font-size: 1.75rem;
             }
 
-            .gitbook-content h1 {
-                font-size: 1.5rem;
+            .gitbook-content {
+                font-size: 0.95rem;
             }
 
             .gitbook-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .gitbook-content h3 {
                 font-size: 1.25rem;
-            }
-
-            .gitbook-code-content pre {
-                font-size: 0.75rem;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            .gitbook-sidebar,
-            .gitbook-mobile-toggle,
-            .gitbook-navigation,
-            .reading-progress {
-                display: none;
-            }
-
-            .gitbook-main {
-                margin-left: 0;
-            }
-
-            body {
-                transform: none;
-                width: 100%;
             }
         }
     </style>
@@ -742,10 +597,10 @@
         <aside class="gitbook-sidebar" id="sidebar">
             <div class="gitbook-sidebar-header">
                 <div class="gitbook-sidebar-title">
-                    <i class="fas fa-code"></i>
-                    CSS Grid vs Flexbox
+                    <i class="fas fa-th"></i>
+                    CSS Layout
                 </div>
-                <div class="gitbook-sidebar-subtitle">Guía Completa</div>
+                <div class="gitbook-sidebar-subtitle">Grid vs Flexbox</div>
             </div>
 
             <nav class="gitbook-toc">
@@ -761,16 +616,13 @@
                         <a href="#flexbox" class="gitbook-toc-link">Flexbox</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#comparacion" class="gitbook-toc-link">Comparación</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#ejemplos" class="gitbook-toc-link">Ejemplos Prácticos</a>
+                        <a href="#combinando-ambos" class="gitbook-toc-link">Combinando Ambos</a>
                     </li>
                     <li class="gitbook-toc-item">
                         <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
                     </li>
                     <li class="gitbook-toc-item">
-                        <a href="#conclusion" class="gitbook-toc-link">Conclusión</a>
+                        <a href="#conclusion" class="gitbook-toc-link">Conclusiones</a>
                     </li>
                 </ul>
             </nav>
@@ -824,6 +676,17 @@
                             de cuál es "mejor", sino de cuál es más apropiado para el problema específico 
                             que estás resolviendo.
                         </p>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">
+                                <i class="fas fa-info-circle"></i>
+                                Concepto Clave
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Grid es bidimensional (filas y columnas) mientras que Flexbox es unidimensional 
+                                (fila o columna). Esta es la diferencia fundamental que determina cuándo usar cada uno.
+                            </div>
+                        </div>
                     </section>
 
                     <section id="css-grid">
@@ -1000,13 +863,14 @@
 .nav-button {
     flex: 0 0 auto;
     padding: 0.5rem 1rem;
-    background: #e74c3c;
+    background: #3498db;
     color: white;
     border: none;
     border-radius: 4px;
+    cursor: pointer;
 }
 
-/* Card Container */
+/* Cards con Flexbox */
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -1019,83 +883,48 @@
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Centering perfecto */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <i class="fas fa-star"></i>
+                                Ventaja Clave
+                            </div>
+                            <div class="gitbook-card-content">
+                                Flexbox es excelente para centering perfecto. Con <code>display: flex; 
+                                justify-content: center; align-items: center;</code> puedes centrar 
+                                cualquier elemento vertical y horizontalmente.
                             </div>
                         </div>
                     </section>
 
-                    <section id="comparacion">
-                        <h2>Comparación Directa</h2>
+                    <section id="combinando-ambos">
+                        <h2>Combinando Ambos</h2>
                         <p>
-                            Para entender mejor cuándo usar cada uno, comparemos sus características principales:
+                            La verdadera magia sucede cuando combinas Grid y Flexbox. Grid para el layout 
+                            general de la página y Flexbox para los componentes internos.
                         </p>
 
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Característica</th>
-                                    <th>CSS Grid</th>
-                                    <th>Flexbox</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Dimensionalidad</td>
-                                    <td>2D (filas y columnas)</td>
-                                    <td>1D (fila o columna)</td>
-                                </tr>
-                                <tr>
-                                    <td>Uso Principal</td>
-                                    <td>Layout de página</td>
-                                    <td>Componentes</td>
-                                </tr>
-                                <tr>
-                                    <td>Complejidad</td>
-                                    <td>Mayor (más propiedades)</td>
-                                    <td>Menor (más simple)</td>
-                                </tr>
-                                <tr>
-                                    <td>Browser Support</td>
-                                    <td>Excelente (moderno)</td>
-                                    <td>Excelente (universal)</td>
-                                </tr>
-                                <tr>
-                                    <td>Curva de Aprendizaje</td>
-                                    <td>Moderada</td>
-                                    <td>Fácil</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="gitbook-key-takeaways">
-                            <h3>
-                                <i class="fas fa-star"></i>
-                                Regla General
-                            </h3>
-                            <ul>
-                                <li><strong>Grid para layout, Flexbox para componentes</strong></li>
-                                <li>Usa Grid para la estructura general de la página</li>
-                                <li>Usa Flexbox para alinear elementos dentro de componentes</li>
-                                <li>Combina ambos: Grid para el contenedor principal, Flexbox para los elementos internos</li>
-                                <li>Empieza con Flexbox, sube a Grid cuando necesites 2D</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section id="ejemplos">
-                        <h2>Ejemplos Prácticos</h2>
-
-                        <h3>Layout de Página con Grid + Flexbox</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Combinación Perfecta</div>
+                                <div class="gitbook-code-title">Layout Híbrido</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>/* Layout principal con Grid */
+                                <pre><code>/* Grid para el layout principal */
 .page-layout {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -1108,7 +937,7 @@
     min-height: 100vh;
 }
 
-/* Header con Flexbox */
+/* Flexbox para el header */
 .header {
     grid-area: header;
     display: flex;
@@ -1119,26 +948,21 @@
     color: white;
 }
 
-/* Sidebar con Flexbox */
-.sidebar {
-    grid-area: sidebar;
+/* Flexbox para la navegación */
+.nav-menu {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    background: #34495e;
+    gap: 2rem;
+    list-style: none;
 }
 
-/* Main con Flexbox */
-.main {
+/* Flexbox para cards en el main */
+.main-content {
     grid-area: main;
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 1rem;
 }
 
-/* Cards con Flexbox */
 .card-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1147,101 +971,101 @@
 
 .card {
     flex: 1 1 300px;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.card-content {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
-.card-actions {
+.card-header {
     display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+}
+
+.card-body {
+    flex: 1;
+    padding: 1rem;
 }</code></pre>
                             </div>
                         </div>
 
-                        <h3>Dashboard Complejo</h3>
+                        <h3>Ejemplo Práctico: Dashboard</h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Grid Areas Avanzadas</div>
+                                <div class="gitbook-code-title">Dashboard con Grid + Flexbox</div>
                                 <button class="gitbook-copy-button" onclick="copyCode(this)">
                                     <i class="fas fa-copy"></i>
                                     <span>Copiar</span>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>.dashboard {
+                                <pre><code>/* Grid para estructura del dashboard */
+.dashboard {
     display: grid;
     grid-template-columns: 200px 1fr 300px;
-    grid-template-rows: 60px 1fr 60px;
+    grid-template-rows: 60px 1fr 40px;
     grid-template-areas:
-        "header header header"
-        "sidebar main widgets"
-        "footer footer footer";
-    gap: 1rem;
+        "sidebar header header"
+        "sidebar main aside"
+        "sidebar footer footer";
+    gap: 1px;
+    background: #e0e0e0;
     height: 100vh;
 }
 
-/* Widgets con Grid anidado */
-.widget-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+/* Flexbox para header */
+.dashboard-header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Flexbox para widgets */
+.widgets-container {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #f5f5f5;
 }
 
 .widget {
+    display: flex;
+    flex-direction: column;
     background: white;
-    padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
 }
 
 .widget-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #eee;
+    padding: 15px;
+    background: #2c3e50;
+    color: white;
 }
 
 .widget-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-/* Stats con Flexbox */
-.stats-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.stat-value {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    color: #7f8c8d;
+    flex: 1;
+    padding: 20px;
 }</code></pre>
                             </div>
                         </div>
@@ -1560,3 +1384,4 @@
         });
     </script>
 </body>
+</html>
