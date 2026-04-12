@@ -549,21 +549,34 @@
                         </a>
                     </div>
                 </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Tu Nombre" required>
+                <div class="contact-form-container">
+                    <!-- ERROR Overlay -->
+                    <div class="error-overlay">
+                        <img src="assets/images/ERROR.gif" alt="ERROR - Feature Not Available" class="error-gif">
+                        <div class="error-message">
+                            <h3>FEATURE TEMPORALMENTE DESHABILITADA</h3>
+                            <p>El formulario de contacto está en mantenimiento.</p>
+                            <p>Por favor, contáctame a través de mis redes sociales.</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Tu Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="subject" name="subject" placeholder="Asunto" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" rows="5" placeholder="Tu Mensaje" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
-                </form>
+                    
+                    <!-- Disabled Form -->
+                    <form class="contact-form" style="opacity: 0.3; pointer-events: none;">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Tu Nombre" disabled>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Tu Email" disabled>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" placeholder="Asunto" disabled>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" placeholder="Tu Mensaje" disabled></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" disabled>Enviar Mensaje</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

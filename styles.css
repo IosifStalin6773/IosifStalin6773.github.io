@@ -877,6 +877,92 @@ section {
     min-height: clamp(120px, 15vw, 140px);
 }
 
+/* ERROR Overlay Styles */
+.contact-form-container {
+    position: relative;
+}
+
+.error-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.error-gif {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+}
+
+.error-message {
+    text-align: center;
+    color: var(--text-primary);
+    padding: 0 20px;
+}
+
+.error-message h3 {
+    color: var(--accent-color);
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+.error-message p {
+    color: var(--text-secondary);
+    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Responsive for ERROR overlay */
+@media (max-width: 768px) {
+    .error-gif {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .error-message h3 {
+        font-size: 1rem;
+    }
+    
+    .error-message p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-gif {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 15px;
+    }
+    
+    .error-message h3 {
+        font-size: 0.9rem;
+    }
+    
+    .error-message p {
+        font-size: 0.75rem;
+    }
+}
+
 /* Blog Section Styles */
 .blog {
     padding: clamp(60px, 8vw, 100px) 0;
