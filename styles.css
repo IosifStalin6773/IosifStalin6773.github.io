@@ -1787,11 +1787,37 @@ tr:hover {
     background: white;
 }
 
+.badge-link {
+    display: inline-block;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.badge-link:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.badge-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    border: 2px solid var(--border-accent);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    transition: var(--transition);
+    object-fit: cover;
+}
+
 /* Responsive adjustments for badge */
 @media (max-width: 768px) {
     .cisco-badge {
         margin: 15px 0;
         padding: 5px 0;
+    }
+    
+    .badge-image {
+        width: 120px;
+        height: 120px;
     }
 }
 
@@ -1799,6 +1825,11 @@ tr:hover {
     .cisco-badge {
         margin: 10px 0;
         padding: 5px 0;
+    }
+    
+    .badge-image {
+        width: 100px;
+        height: 100px;
     }
 }
 
