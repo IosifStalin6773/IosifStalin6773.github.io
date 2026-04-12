@@ -134,7 +134,67 @@ html {
     border-bottom: 2px solid var(--border-accent);
     z-index: 1000;
     box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
 }
+
+/* Video/GIF de fondo del header */
+.header-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.header-video video,
+.header-video img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.header-video img {
+    display: none; /* Ocultar imagen por defecto, mostrar solo si video falla */
+}
+
+/* Fallback para dispositivos móviles y optimización de rendimiento */
+@media (max-width: 768px) {
+    .header-video video {
+        display: none; /* Ocultar video en móviles para rendimiento */
+    }
+    
+    .header-video img {
+        display: block; /* Mostrar GIF en móviles */
+    }
+    
+    .nav-link {
+        padding: 15px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Optimización para dispositivos de bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+    .header-video video {
+        display: none;
+    }
+    
+    .header-video img {
+        display: block;
+    }
+}
+
 
 .nav-container {
     max-width: 1200px;
@@ -144,6 +204,8 @@ html {
     justify-content: space-between;
     align-items: center;
     height: 60px;
+    position: relative;
+    z-index: 10;
 }
 
 .nav-logo h3 {
@@ -180,8 +242,8 @@ html {
 
 .nav-link {
     text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 400;
+    color: #ffffff;
+    font-weight: 700;
     transition: var(--transition);
     padding: 20px 30px;
     display: block;
@@ -190,6 +252,12 @@ html {
     font-size: 0.9rem;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 15;
 }
 
 .nav-link:hover {
@@ -991,11 +1059,14 @@ section {
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(28px, 4vw, 40px);
-    margin-top: clamp(48px, 6vw, 72px);
+    gap: 32px;
+    margin-top: 60px;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .blog-card {
@@ -1008,7 +1079,10 @@ section {
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-height: 480px;
     box-shadow: var(--shadow-card);
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .blog-card::before {
@@ -1058,21 +1132,23 @@ section {
 }
 
 .blog-content {
-    padding: clamp(28px, 4vw, 32px);
+    padding: 28px;
     flex: 1;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .blog-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: clamp(16px, 2.5vw, 20px);
-    font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+    margin-bottom: 16px;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     font-weight: 500;
+    line-height: 1.2;
 }
 
 .blog-date {
@@ -1101,14 +1177,13 @@ section {
 
 .blog-title {
     color: var(--text-primary);
-    font-size: clamp(1.125rem, 1.6vw, 1.25rem);
-    font-weight: 800;
-    margin-bottom: clamp(12px, 2vw, 16px);
-    text-transform: none;
-    letter-spacing: -0.03em;
-    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
     line-height: 1.3;
+    margin-bottom: 12px;
     transition: var(--transition);
+    font-family: var(--font-primary);
+    text-align: left;
 }
 
 .blog-card:hover .blog-title {
@@ -1127,8 +1202,9 @@ section {
 .blog-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: clamp(20px, 3vw, 24px);
+    gap: 6px;
+    margin-bottom: 12px;
+    align-items: center;
 }
 
 .tag {
@@ -1153,25 +1229,20 @@ section {
 }
 
 .blog-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.85rem;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
-    background: var(--accent-color);
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+    gap: 6px;
     transition: var(--transition);
     font-family: var(--font-primary);
-    border-radius: 8px;
-    border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    align-self: flex-start;
 }
 
 .blog-link::before {
@@ -1705,26 +1776,25 @@ tr:hover {
 /* Blog Responsive */
 @media (max-width: 768px) {
     .blog-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        padding: 0 16px;
     }
     
     .blog-card {
-        margin-bottom: 20px;
+        min-height: 420px;
     }
     
     .blog-content {
-        padding: 20px;
+        padding: 24px;
     }
     
     .blog-title {
-        font-size: clamp(0.65rem, 1vw, 0.75rem);
+        font-size: 1rem;
     }
     
-    .blog-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+    .blog-excerpt {
+        font-size: 0.85rem;
     }
 }
 
@@ -1735,27 +1805,50 @@ tr:hover {
     
     .blog-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 20px;
+        padding: 0 12px;
     }
     
-    .blog-image {
-        height: 150px;
-    }
-    
-    .blog-placeholder {
-        font-size: 2.5rem;
+    .blog-card {
+        min-height: 380px;
     }
     
     .blog-content {
-        padding: 15px;
+        padding: 20px;
     }
-    
+
     .blog-title {
-        font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+        font-size: 0.95rem;
+    }
+
+    .blog-excerpt {
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+    }
+
+    .blog-tags {
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+
+    .tag {
+        padding: 3px 8px;
+        font-size: 0.7rem;
+    }
+
+    .blog-link {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+    
+    /* Blog Post Responsive for 480px */
+    .blog-post {
+        padding: 30px 0;
     }
     
-    .blog-excerpt {
-        font-size: 0.9rem;
+    .blog-header {
+        margin-bottom: 30px;
     }
     
     .tags {
@@ -1765,15 +1858,6 @@ tr:hover {
     .tag {
         font-size: 0.75rem;
         padding: 3px 8px;
-    }
-    
-    /* Blog Post Responsive for 480px */
-    .blog-post {
-        padding: 30px 0;
-    }
-    
-    .blog-header {
-        margin-bottom: 30px;
     }
     
     .blog-title {
@@ -1854,16 +1938,29 @@ tr:hover {
     margin: 0 0 1rem 0;
 }
 
-/* Cisco Badge Styling */
-.cisco-badge {
+/* Badges Container Styling */
+.badges-container {
     margin: 20px 0;
     text-align: center;
     padding: 20px 0;
     background: var(--bg-tertiary);
     border-radius: 12px;
-    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
+
+/* Individual Badge Styling */
+.cisco-badge,
+.networking-badge {
+    display: inline-block;
+    vertical-align: top;
+}
+
 
 .cisco-badge div[data-iframe-width] {
     display: inline-block;
@@ -1902,11 +1999,11 @@ tr:hover {
     object-fit: cover;
 }
 
-/* Responsive adjustments for badge */
+/* Responsive adjustments for badges */
 @media (max-width: 768px) {
-    .cisco-badge {
-        margin: 15px 0;
-        padding: 5px 0;
+    .badges-container {
+        gap: 30px;
+        padding: 15px 0;
     }
     
     .badge-image {
@@ -1916,9 +2013,10 @@ tr:hover {
 }
 
 @media (max-width: 480px) {
-    .cisco-badge {
-        margin: 10px 0;
-        padding: 5px 0;
+    .badges-container {
+        gap: 20px;
+        padding: 10px 0;
+        flex-direction: column;
     }
     
     .badge-image {
@@ -2144,10 +2242,10 @@ tr:hover {
     animation: fadeInUp 0.4s ease-out;
 }
 
-/* Scroll Reveal Militarizado */
+/* Scroll Reveal Militarizado - DESACTIVADO */
 .reveal {
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
+    transform: translateY(0);
     transition: all 0.6s ease;
 }
 

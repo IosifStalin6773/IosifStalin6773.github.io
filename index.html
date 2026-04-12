@@ -27,6 +27,13 @@
 <body>
     <!-- Navegación -->
     <nav class="navbar">
+        <div class="header-video">
+            <video autoplay muted loop playsinline>
+                <source src="assets/videos/header-background.mp4" type="video/mp4">
+                <!-- Fallback para GIF -->
+                <img src="assets/images/header-background.gif" alt="Header Background">
+            </video>
+        </div>
         <div class="nav-container">
             <div class="nav-logo">
                 <!-- Logo eliminado -->
@@ -594,26 +601,26 @@
                 <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
             </p>
             
-            <!-- Cisco Cybersecurity Badge -->
-            <div class="cisco-badge">
-                <!-- Direct badge display -->
-                <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
-                    <img src="assets/icons/introduction-to-cybersecurity.png" 
-                         alt="Cisco Introduction to Cybersecurity Badge" 
-                         class="badge-image">
-                </a>
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
                 
-                <!-- Fallback content -->
-                <div id="badge-fallback" style="display: none;">
-                    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="ad7f6094-99a0-4aa5-a991-7ae451830572" data-share-badge-host="https://www.credly.com">
-                        <noscript>
-                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 10px 0;">
-                                <i class="fas fa-shield-alt" style="color: var(--accent-color); margin-right: 8px;"></i>
-                                Cisco Introduction to Cybersecurity Badge
-                            </p>
-                        </noscript>
-                    </div>
-                    <script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
                 </div>
             </div>
             

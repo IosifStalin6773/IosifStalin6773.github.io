@@ -15,23 +15,14 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-// Scroll Reveal Animation
+// Scroll Reveal Animation - DESACTIVADO
 function reveal() {
-    const reveals = document.querySelectorAll('.reveal');
-    
-    reveals.forEach(element => {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-            element.classList.add('active');
-        }
-    });
+    // Función desactivada - los elementos ahora son visibles inmediatamente
+    return;
 }
 
-window.addEventListener('scroll', reveal);
-reveal(); // Llamar a la función al cargar la página
+// window.addEventListener('scroll', reveal); // Desactivado
+// reveal(); // Desactivado - no llamar al cargar la página
 
 // Smooth scrolling para enlaces de navegación
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -294,11 +285,11 @@ window.addEventListener('DOMContentLoaded', () => {
         typeWriter(heroTitle, originalText, 50);
     }
     
-    // Añadir clase reveal a elementos para animación
-    const elementsToReveal = document.querySelectorAll('section > div, .project-card, .skill-category');
-    elementsToReveal.forEach(element => {
-        element.classList.add('reveal');
-    });
+    // Añadir clase reveal a elementos para animación - DESACTIVADO
+    // const elementsToReveal = document.querySelectorAll('section > div, .project-card, .skill-category');
+    // elementsToReveal.forEach(element => {
+    //     element.classList.add('reveal');
+    // });
 });
 
 // Contador animado para estadísticas (si se añaden en el futuro)
