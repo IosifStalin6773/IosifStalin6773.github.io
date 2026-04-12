@@ -624,25 +624,40 @@
 
     <script src="script.js"></script>
     <script>
-        // ERROR GIF Infinite Loop
-        function restartErrorGif() {
+        // ERROR GIF Infinite Loop - Smooth Method
+        function forceGifRestart() {
             const errorGif = document.getElementById('error-gif');
             if (errorGif) {
-                const src = errorGif.src;
-                errorGif.src = '';
-                setTimeout(() => {
-                    errorGif.src = src;
-                }, 10);
+                const originalSrc = errorGif.src.split('?')[0]; // Remove any existing query params
+                const timestamp = Date.now();
+                errorGif.src = originalSrc + '?t=' + timestamp;
             }
         }
         
-        // Restart GIF every 2 seconds to ensure continuous loop
-        setInterval(restartErrorGif, 2000);
+        // Check if GIF has stopped playing and restart if needed
+        function checkGifLoop() {
+            const errorGif = document.getElementById('error-gif');
+            if (errorGif && errorGif.complete) {
+                // Use a longer interval to avoid flickering
+                setTimeout(() => {
+                    forceGifRestart();
+                }, 5000); // Restart every 5 seconds instead of 2
+            }
+        }
+        
+        // Start the loop check when image loads
+        const errorGif = document.getElementById('error-gif');
+        if (errorGif) {
+            errorGif.addEventListener('load', () => {
+                // Start checking after initial load
+                setInterval(checkGifLoop, 5000);
+            });
+        }
         
         // Also restart when page becomes visible (tab switch)
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden) {
-                restartErrorGif();
+                forceGifRestart();
             }
         });
         
