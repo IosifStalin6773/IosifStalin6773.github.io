@@ -1760,6 +1760,48 @@ tr:hover {
     margin: 0;
 }
 
+/* Cisco Badge Styling */
+.cisco-badge {
+    margin: 20px 0;
+    text-align: center;
+    padding: 20px 0;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.cisco-badge div[data-iframe-width] {
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    border: 2px solid var(--border-accent);
+}
+
+.cisco-badge iframe {
+    border: none;
+    border-radius: 6px;
+    max-width: 100%;
+    height: auto;
+    background: white;
+}
+
+/* Responsive adjustments for badge */
+@media (max-width: 768px) {
+    .cisco-badge {
+        margin: 15px 0;
+        padding: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .cisco-badge {
+        margin: 10px 0;
+        padding: 5px 0;
+    }
+}
+
 /* Responsive Design Militarizado */
 @media (max-width: 768px) {
     .nav-menu {
