@@ -547,6 +547,26 @@
                 font-size: 1.25rem;
             }
         }
+        
+        /* Badge Alignment Fix */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+        }
+        
+        .cisco-badge,
+        .networking-badge {
+            display: inline-block;
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
