@@ -108,9 +108,9 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    transform: scale(0.75);
+    transform: scale(0.6);
     transform-origin: top left;
-    width: 133.33%;
+    width: 166.67%;
     margin: 0;
     padding: 0;
 }
