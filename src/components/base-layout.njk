@@ -68,6 +68,7 @@
         // Enhanced scroll fix for very small mobile screens
         function forceScrollToWork() {
             const isSmallMobile = window.innerWidth < 830 || window.innerHeight < 422;
+            const isUltraSmallMobile = window.innerWidth < 771 && window.innerHeight < 655;
             
             // Remove any scroll blocking
             document.body.style.overflow = '';
@@ -118,6 +119,58 @@
                 document.body.style.minHeight = contentHeight + 'px';
             }
             
+            // Ultra-specific fixes for 771x655 and below
+            if (isUltraSmallMobile) {
+                // Force touch action for pan-y scrolling
+                document.body.style.setProperty('touch-action', 'pan-y', 'important');
+                document.documentElement.style.setProperty('touch-action', 'pan-y', 'important');
+                
+                // Remove all touch event prevention
+                document.removeEventListener('touchmove', function(e) {}, { passive: false });
+                document.removeEventListener('touchstart', function(e) {}, { passive: false });
+                document.removeEventListener('touchend', function(e) {}, { passive: false });
+                
+                // Add passive touch listeners that allow scrolling
+                document.addEventListener('touchmove', function(e) {
+                    // Allow default scroll behavior - don't prevent default
+                }, { passive: true });
+                
+                // Force all elements to allow touch scrolling
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    el.style.setProperty('touch-action', 'manipulation', 'important');
+                    el.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
+                    el.style.setProperty('overflow-x', 'hidden', 'important');
+                    el.style.setProperty('overflow-y', 'visible', 'important');
+                });
+                
+                // Remove any CSS transforms that might block touch
+                document.querySelectorAll('*').forEach(el => {
+                    el.style.setProperty('transform', 'none', 'important');
+                    el.style.setProperty('-webkit-transform', 'none', 'important');
+                });
+                
+                // Ensure body has enough height for touch scrolling
+                const minScrollHeight = Math.max(window.innerHeight * 2, document.body.scrollHeight);
+                document.body.style.setProperty('min-height', minScrollHeight + 'px', 'important');
+                
+                // Force viewport to be scrollable
+                document.body.style.setProperty('position', 'relative', 'important');
+                document.documentElement.style.setProperty('position', 'relative', 'important');
+                
+                // Add iOS specific touch scroll fixes
+                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    document.body.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
+                    document.body.style.setProperty('overflow-scrolling', 'touch', 'important');
+                }
+                
+                // Android specific touch scroll fixes
+                if (/Android/.test(navigator.userAgent)) {
+                    document.body.style.setProperty('overflow', 'scroll', 'important');
+                    document.documentElement.style.setProperty('overflow', 'scroll', 'important');
+                }
+            }
+            
             // Remove any touch event prevention
             document.removeEventListener('touchmove', function(e) {}, { passive: false });
             document.removeEventListener('touchstart', function(e) {}, { passive: false });
@@ -142,7 +195,9 @@
         window.addEventListener('load', forceScrollToWork);
         
         // Apply fix more frequently for small screens
-        const interval = window.innerWidth < 830 ? 1000 : 2000;
+        let interval = 2000;
+        if (window.innerWidth < 830) interval = 1000;
+        if (window.innerWidth < 771 && window.innerHeight < 655) interval = 500; // Ultra-aggressive for resolutions smaller than 771x655
         setInterval(forceScrollToWork, interval);
         
         // Apply fix on orientation change
