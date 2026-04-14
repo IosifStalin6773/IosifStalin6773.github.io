@@ -224,12 +224,12 @@ description: "Portafolio profesional de Oscar de la Cruz - Desarrollador Web esp
     <div class="container">
         <h2 class="section-title">Blog Técnico</h2>
         <div class="blog-grid">
-            {% for post in collections.blog limit:3 %}
+            {% for post in collections.blog %}
             <article class="blog-card">
                 <div class="blog-meta">
                     <span class="blog-category">{{ post.data.category }}</span>
-                    <time datetime="{{ post.date | date('%Y-%m-%d') }}" class="blog-date">
-                        {{ post.date | date('%d %B %Y') }}
+                    <time datetime="{{ post.date | date('yyyy-MM-dd') }}" class="blog-date">
+                        {{ post.date | date('dd MMMM yyyy') }}
                     </time>
                 </div>
                 <h3 class="blog-title">

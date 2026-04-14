@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Prioritize important pages
+Allow: /blog/
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+
+# Block sensitive files
+Disallow: /secret.html
+Disallow: /secret.html.backup
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.qodo/
+Disallow: /.github/workflows/
+
+# Sitemap location
+Sitemap: https://iosifstalin6773.github.io/sitemap.xml
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
