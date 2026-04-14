@@ -63,159 +63,78 @@
     
     <!-- Scripts -->
     <script src="/js/script.js"></script>
-    <!-- Scroll Fix Script -->
+    <!-- Radical Scroll Fix - Minimal Approach -->
     <script>
-        // Enhanced scroll fix for very small mobile screens
-        function forceScrollToWork() {
-            const isSmallMobile = window.innerWidth < 830 || window.innerHeight < 422;
-            const isUltraSmallMobile = window.innerWidth < 771 && window.innerHeight < 655;
-            
-            // Remove any scroll blocking
+        // Simple and radical scroll fix
+        function enableScroll() {
+            // Reset all scroll-related styles
             document.body.style.overflow = '';
-            document.body.style.overflowY = 'scroll';
             document.body.style.overflowX = 'hidden';
-            document.documentElement.style.overflow = '';
-            document.documentElement.style.overflowY = 'scroll';
-            document.documentElement.style.overflowX = 'hidden';
-            
-            // Ensure body height allows scrolling
+            document.body.style.overflowY = 'scroll';
             document.body.style.height = 'auto';
-            document.body.style.minHeight = 'auto';
-            document.body.style.maxHeight = 'none';
+            document.body.style.position = 'relative';
+            document.body.style.transform = 'none';
+            document.body.style.webkitTransform = 'none';
             
-            // Extra fixes for very small screens
-            if (isSmallMobile) {
-                // Force scroll with !important
-                document.body.style.setProperty('overflow-y', 'scroll', 'important');
-                document.body.style.setProperty('overflow-x', 'hidden', 'important');
-                document.documentElement.style.setProperty('overflow-y', 'scroll', 'important');
-                document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
-                
-                // Remove any fixed positioning that might block scroll
-                const fixedElements = document.querySelectorAll('*');
-                fixedElements.forEach(el => {
-                    const computedStyle = window.getComputedStyle(el);
-                    if (computedStyle.position === 'fixed' && el !== document.querySelector('.navbar')) {
-                        el.style.position = 'absolute';
-                    }
-                });
-                
-                // Ensure viewport meta tag allows zoom
-                const viewport = document.querySelector('meta[name="viewport"]');
-                if (viewport) {
-                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
+            document.documentElement.style.overflow = '';
+            document.documentElement.style.overflowX = 'hidden';
+            document.documentElement.style.overflowY = 'scroll';
+            document.documentElement.style.height = 'auto';
+            document.documentElement.style.position = 'relative';
+            
+            // Enable touch scrolling
+            document.body.style.webkitOverflowScrolling = 'touch';
+            document.documentElement.style.webkitOverflowScrolling = 'touch';
+            
+            // Remove all touch event listeners that might block scroll
+            const events = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+            events.forEach(eventType => {
+                const listeners = document.getEventListeners ? document.getEventListeners(document)[eventType] : [];
+                if (listeners) {
+                    listeners.forEach(listener => {
+                        document.removeEventListener(eventType, listener.listener);
+                    });
                 }
-                
-                // Force touch scrolling
-                document.body.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
-                document.documentElement.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
-                
-                // Remove any transform that might block scroll
-                document.body.style.transform = 'none';
-                document.documentElement.style.transform = 'none';
-                
-                // Ensure content height is sufficient for scrolling
-                const contentHeight = Math.max(document.body.scrollHeight, window.innerHeight * 1.5);
-                document.body.style.minHeight = contentHeight + 'px';
+            });
+            
+            // Force viewport to allow scrolling
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
             }
             
-            // Ultra-specific fixes for 771x655 and below
-            if (isUltraSmallMobile) {
-                // Force touch action for pan-y scrolling
-                document.body.style.setProperty('touch-action', 'pan-y', 'important');
-                document.documentElement.style.setProperty('touch-action', 'pan-y', 'important');
-                
-                // Remove all touch event prevention
-                document.removeEventListener('touchmove', function(e) {}, { passive: false });
-                document.removeEventListener('touchstart', function(e) {}, { passive: false });
-                document.removeEventListener('touchend', function(e) {}, { passive: false });
-                
-                // Add passive touch listeners that allow scrolling
-                document.addEventListener('touchmove', function(e) {
-                    // Allow default scroll behavior - don't prevent default
-                }, { passive: true });
-                
-                // Force all elements to allow touch scrolling
-                const allElements = document.querySelectorAll('*');
-                allElements.forEach(el => {
-                    el.style.setProperty('touch-action', 'manipulation', 'important');
-                    el.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
-                    el.style.setProperty('overflow-x', 'hidden', 'important');
-                    el.style.setProperty('overflow-y', 'visible', 'important');
-                });
-                
-                // Remove any CSS transforms that might block touch
-                document.querySelectorAll('*').forEach(el => {
-                    el.style.setProperty('transform', 'none', 'important');
-                    el.style.setProperty('-webkit-transform', 'none', 'important');
-                });
-                
-                // Ensure body has enough height for touch scrolling
-                const minScrollHeight = Math.max(window.innerHeight * 2, document.body.scrollHeight);
-                document.body.style.setProperty('min-height', minScrollHeight + 'px', 'important');
-                
-                // Force viewport to be scrollable
-                document.body.style.setProperty('position', 'relative', 'important');
-                document.documentElement.style.setProperty('position', 'relative', 'important');
-                
-                // Add iOS specific touch scroll fixes
-                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                    document.body.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
-                    document.body.style.setProperty('overflow-scrolling', 'touch', 'important');
+            // Remove any CSS that might block scroll
+            const style = document.createElement('style');
+            style.textContent = `
+                * {
+                    -webkit-overflow-scrolling: touch !important;
+                    touch-action: auto !important;
+                    transform: none !important;
+                    -webkit-transform: none !important;
                 }
-                
-                // Android specific touch scroll fixes
-                if (/Android/.test(navigator.userAgent)) {
-                    document.body.style.setProperty('overflow', 'scroll', 'important');
-                    document.documentElement.style.setProperty('overflow', 'scroll', 'important');
+                body, html {
+                    overflow-x: hidden !important;
+                    overflow-y: scroll !important;
+                    height: auto !important;
+                    position: relative !important;
                 }
-            }
-            
-            // Remove any touch event prevention
-            document.removeEventListener('touchmove', function(e) {}, { passive: false });
-            document.removeEventListener('touchstart', function(e) {}, { passive: false });
-            
-            // Add passive touch listeners for better scroll performance
-            document.addEventListener('touchmove', function(e) {
-                // Allow default scroll behavior
-            }, { passive: true });
-            
-            document.addEventListener('touchstart', function(e) {
-                // Allow default scroll behavior
-            }, { passive: true });
+            `;
+            document.head.appendChild(style);
         }
         
-        // Apply fix immediately
-        forceScrollToWork();
+        // Apply immediately and on load
+        enableScroll();
+        document.addEventListener('DOMContentLoaded', enableScroll);
+        document.addEventListener('load', enableScroll);
         
-        // Apply fix after DOM is loaded
-        document.addEventListener('DOMContentLoaded', forceScrollToWork);
+        // Reapply every second to ensure it stays working
+        setInterval(enableScroll, 1000);
         
-        // Apply fix after window is loaded
-        window.addEventListener('load', forceScrollToWork);
-        
-        // Apply fix more frequently for small screens
-        let interval = 2000;
-        if (window.innerWidth < 830) interval = 1000;
-        if (window.innerWidth < 771 && window.innerHeight < 655) interval = 500; // Ultra-aggressive for resolutions smaller than 771x655
-        setInterval(forceScrollToWork, interval);
-        
-        // Apply fix on orientation change
-        window.addEventListener('orientationchange', () => {
-            setTimeout(forceScrollToWork, 100);
-        });
-        
-        // Apply fix on resize
-        window.addEventListener('resize', forceScrollToWork);
-        
-        // Apply fix on scroll events (to ensure scroll continues working)
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(forceScrollToWork, 100);
-        }, { passive: true });
+        // Reapply on resize/orientation change
+        window.addEventListener('resize', enableScroll);
+        window.addEventListener('orientationchange', enableScroll);
     </script>
-    <!-- Temporarily disabled for scroll testing
+    <!-- Mobile interactions completely disabled to fix scroll
     <script src="/js/mobile-interactions.js"></script>
     -->
     
