@@ -2,9 +2,9 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="header-video" aria-hidden="true">
         <video autoplay muted loop playsinline preload="metadata">
-            <source src="/assets/videos/header-background.mp4" type="video/mp4">
+            <source src='{{ "/assets/videos/header-background.mp4" | url }}' type="video/mp4">
             <!-- Fallback para GIF -->
-            <img src="/assets/images/header-background.gif" alt="Animated background with digital effects" loading="lazy">
+            <img src='{{ "/assets/images/header-background.gif" | url }}' alt="Animated background with digital effects" loading="lazy">
         </video>
     </div>
     <div class="nav-container">
