@@ -22,14 +22,22 @@ module.exports = function(eleventyConfig) {
         );
     });
     
+    // Get pathPrefix for GitHub Pages
+    const pathPrefix = process.env.ELEVENTY_PATH_PREFIX || "/IosifStalin6773.github.io/";
+    
     // Add date filter for better date formatting
     eleventyConfig.addFilter("date", function(date, format = 'YYYY-MM-DD') {
         const DateTime = require('luxon').DateTime;
         return DateTime.fromJSDate(date).toFormat(format);
     });
     
-    // Get pathPrefix for GitHub Pages
-    const pathPrefix = process.env.ELEVENTY_PATH_PREFIX || "/IosifStalin6773.github.io/";
+    // Add url filter for GitHub Pages path prefix
+    eleventyConfig.addFilter("url", function(path) {
+        if (path.startsWith('/')) {
+            return pathPrefix.replace(/\/$/, '') + path;
+        }
+        return path;
+    });
     
     // Configuración de directorios
     return {

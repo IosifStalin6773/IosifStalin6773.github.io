@@ -58,24 +58,24 @@
     <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="/css/styles.css" as="style">
+    <link rel="preload" href='{{ "/css/styles.css" | url }}' as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
     
     <!-- Performance optimizations -->
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#1a1a1a">
-    <link rel="icon" type="image/svg+xml" href="/assets/icons/website.svg">
-    <link rel="icon" type="image/png" href="/assets/icons/favicon.png">
+    <link rel="icon" type="image/svg+xml" href='{{ "/assets/icons/website.svg" | url }}'>
+    <link rel="icon" type="image/png" href='{{ "/assets/icons/favicon.png" | url }}'>
     
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href='{{ "/css/styles.css" | url }}'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     {% if extra_css %}
         {% for css_file in extra_css %}
-        <link rel="stylesheet" href="/css/{{ css_file }}">
+        <link rel="stylesheet" href='{{ "/css/" + css_file | url }}'>
         {% endfor %}
     {% endif %}
 </head>
@@ -140,7 +140,7 @@
     
     {% if extra_js %}
         {% for js_file in extra_js %}
-        <script src="/js/{{ js_file }}"></script>
+        <script src='{{ "/js/" + js_file | url }}'></script>
         {% endfor %}
     {% endif %}
     
