@@ -2,7 +2,7 @@
 <html lang="{{ site.lang }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta name="description" content="{{ description or site.description }}">
     <meta name="keywords" content="{{ keywords or site.keywords }}">
     <meta name="author" content="{{ author or site.author.name }}">
@@ -63,6 +63,7 @@
     
     <!-- Scripts -->
     <script src="/js/script.js"></script>
+    <script src="/js/mobile-interactions.js"></script>
     
     {% if extra_js %}
         {% for js_file in extra_js %}

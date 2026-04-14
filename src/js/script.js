@@ -1,20 +1,117 @@
-// Performance optimized mobile navigation
+// Enhanced mobile navigation with touch optimizations
 const mobileMenu = document.getElementById('mobile-menu');
 const navMenu = document.querySelector('.nav-menu');
+let touchStartX = 0;
+let touchEndX = 0;
+let isMenuOpen = false;
 
-// Use passive event listeners for better scroll performance
-mobileMenu?.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    navMenu.classList.toggle('active');
+// Touch gesture detection for swipe menu
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
 
-// Optimized menu closing with event delegation
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipeGesture();
+}, { passive: true });
+
+function handleSwipeGesture() {
+    const swipeThreshold = 50;
+    const swipeDistance = touchEndX - touchStartX;
+    
+    // Swipe right to open menu (from left edge)
+    if (swipeDistance > swipeThreshold && touchStartX < 50 && !isMenuOpen) {
+        openMobileMenu();
+    }
+    // Swipe left to close menu
+    else if (swipeDistance < -swipeThreshold && isMenuOpen) {
+        closeMobileMenu();
+    }
+}
+
+function openMobileMenu() {
+    mobileMenu?.classList.add('active');
+    navMenu?.classList.add('active');
+    isMenuOpen = true;
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+}
+
+function closeMobileMenu() {
+    mobileMenu?.classList.remove('active');
+    navMenu?.classList.remove('active');
+    isMenuOpen = false;
+    document.body.style.overflow = ''; // Restore scroll
+    document.body.style.overflowY = 'auto'; // Ensure vertical scroll works
+    document.documentElement.style.overflow = ''; // Restore html overflow
+}
+
+// Ensure scroll works properly on page load
+function ensureScrollWorks() {
+    document.body.style.overflow = '';
+    document.body.style.overflowY = 'auto';
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.overflowY = 'auto';
+    document.documentElement.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden';
+}
+
+// Initialize scroll on page load
+document.addEventListener('DOMContentLoaded', ensureScrollWorks);
+
+// Also ensure scroll works on window resize (orientation change)
+window.addEventListener('resize', ensureScrollWorks);
+
+// Enhanced menu toggle with haptic feedback simulation
+mobileMenu?.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    if (isMenuOpen) {
+        closeMobileMenu();
+    } else {
+        openMobileMenu();
+    }
+    
+    // Visual feedback
+    mobileMenu.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        mobileMenu.style.transform = '';
+    }, 100);
+}, { passive: true });
+
+// Optimized menu closing with better touch handling
 document.addEventListener('click', (e) => {
     if (e.target.matches('.nav-link')) {
-        mobileMenu?.classList.remove('active');
-        navMenu?.classList.remove('active');
+        // Add ripple effect for touch feedback
+        createRippleEffect(e.target, e);
+        closeMobileMenu();
+    }
+    
+    // Close menu when clicking outside
+    if (isMenuOpen && !navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMobileMenu();
     }
 }, { passive: true });
+
+// Create ripple effect for touch feedback
+function createRippleEffect(element, event) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    
+    element.appendChild(ripple);
+    
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+}
 
 // Scroll Reveal Animation - DESACTIVADO
 function reveal() {
@@ -360,6 +457,190 @@ window.addEventListener('scroll', () => {
         parallaxTicking = true;
     }
 }, { passive: true });
+
+// Enhanced mobile form interactions
+const mobileContactForm = document.querySelector('.form');
+if (mobileContactForm) {
+    // Mobile-optimized form handling
+    const inputs = mobileContactForm.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+        // Better focus handling for mobile
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+            
+            // Scroll to input on mobile (avoid keyboard overlap)
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        });
+        
+        input.addEventListener('blur', () => {
+            input.parentElement.classList.remove('focused');
+            validateField(input);
+        });
+        
+        // Touch feedback
+        input.addEventListener('touchstart', () => {
+            input.style.transform = 'scale(0.98)';
+        });
+        
+        input.addEventListener('touchend', () => {
+            input.style.transform = '';
+        });
+    });
+    
+    // Enhanced form submission with mobile feedback
+    mobileContactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = mobileContactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        
+        // Simulate form submission (replace with actual submission)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Show success feedback
+        submitBtn.textContent = '¡Enviado!';
+        submitBtn.classList.add('success');
+        
+        // Reset form
+        setTimeout(() => {
+            mobileContactForm.reset();
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading', 'success');
+            
+            // Show success message
+            showMobileMessage('¡Mensaje enviado con éxito!', 'success');
+        }, 1500);
+    });
+}
+
+// Field validation with visual feedback
+function validateField(field) {
+    const value = field.value.trim();
+    let isValid = true;
+    let message = '';
+    
+    if (field.type === 'email') {
+        isValid = validateEmail(value);
+        message = isValid ? '' : 'Email inválido';
+    } else if (field.type === 'text' && field.name === 'name') {
+        isValid = validateName(value);
+        message = isValid ? '' : 'Nombre inválido';
+    } else if (field.tagName === 'TEXTAREA') {
+        isValid = validateMessage(value);
+        message = isValid ? '' : 'Mensaje debe tener entre 10 y 1000 caracteres';
+    }
+    
+    // Show validation feedback
+    const feedbackElement = field.parentElement.querySelector('.field-feedback');
+    if (feedbackElement) {
+        feedbackElement.textContent = message;
+        feedbackElement.style.display = message ? 'block' : 'none';
+    }
+    
+    field.classList.toggle('valid', isValid && value);
+    field.classList.toggle('invalid', !isValid && value);
+    
+    return isValid;
+}
+
+// Mobile toast notifications
+function showMobileMessage(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `mobile-toast ${type}`;
+    toast.textContent = message;
+    
+    // Add to page
+    document.body.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Auto remove
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Enhanced mobile scroll indicators
+function addScrollIndicators() {
+    const sections = document.querySelectorAll('section[id]');
+    
+    sections.forEach(section => {
+        // Add scroll indicator for long sections on mobile
+        if (window.innerWidth <= 768 && section.scrollHeight > window.innerHeight * 1.5) {
+            const indicator = document.createElement('div');
+            indicator.className = 'scroll-indicator';
+            indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+            section.appendChild(indicator);
+        }
+    });
+}
+
+// Pull-to-refresh functionality for mobile
+let pullStartY = 0;
+let pullDistance = 0;
+let isPulling = false;
+
+document.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0) {
+        pullStartY = e.touches[0].clientY;
+        isPulling = true;
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (isPulling) {
+        pullDistance = e.touches[0].clientY - pullStartY;
+        
+        if (pullDistance > 0 && pullDistance < 150) {
+            document.body.style.transform = `translateY(${pullDistance * 0.5}px)`;
+        }
+    }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+    if (isPulling) {
+        document.body.style.transform = '';
+        
+        if (pullDistance > 100) {
+            // Trigger refresh
+            location.reload();
+        }
+        
+        isPulling = false;
+        pullDistance = 0;
+    }
+}, { passive: true });
+
+// Mobile performance optimizations
+if ('serviceWorker' in navigator && window.innerWidth <= 768) {
+    // Register service worker for better mobile performance
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Service worker registration failed (optional)
+    });
+}
+
+// Initialize mobile enhancements
+document.addEventListener('DOMContentLoaded', () => {
+    addScrollIndicators();
+    
+    // Add mobile-specific classes
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile-device');
+    }
+});
 
 // Cambiar tema (opcional - para futura implementación)
 function toggleTheme() {
