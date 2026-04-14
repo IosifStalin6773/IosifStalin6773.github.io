@@ -92,8 +92,8 @@
         /* Main Container */
         .gitbook-container {
             display: flex;
-            min-height: 100vh;
             flex: 1;
+            flex-direction: row;
         }
 
         /* Sidebar */
@@ -173,7 +173,7 @@
             max-width: 800px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Keep horizontal */;
         }
 
         /* Breadcrumbs */
@@ -477,43 +477,13 @@
         }
 
         .gitbook-nav-link:hover {
-            background: var(--sidebar-hover);
+            background: var(--accent-color);
             color: var(--text-primary);
-            border-color: var(--accent-color);
-        }
-
-        /* Footer Styles */
-        .footer {
-            background: var(--secondary-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 0 0;
-            margin-top: 60px;
-        }
-
-        .footer .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .footer p {
-            color: var(--text-secondary);
-            margin: 0;
-            text-align: center;
-        }
-
-        .footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
         }
 
         .cisco-badge {
             text-align: center;
-            margin: 10px 0;
+            margin: 20px 0;
         }
 
         .badge-link {
@@ -556,12 +526,12 @@
             }
 
             .gitbook-meta {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 12px;
             }
 
             .gitbook-navigation {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 12px;
             }
 
@@ -586,6 +556,35 @@
             .gitbook-content h2 {
                 font-size: 1.5rem;
             }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        
+        /* Badge Alignment Fix */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+        }
+        
+        .cisco-badge,
+        .networking-badge,
+        .python-badge {
+            display: inline-block;
+            vertical-align: top;
         }
     </style>
 </head>
@@ -1571,9 +1570,7 @@ Thumbs.db
                 </div>
             </div>
             
-            <!-- Easter egg oculto -->
-            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
-        </div>
+            </div>
     </footer>
 
     <script>

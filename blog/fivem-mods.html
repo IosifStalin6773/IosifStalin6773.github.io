@@ -92,8 +92,8 @@
         /* Main Container */
         .gitbook-container {
             display: flex;
-            min-height: 100vh;
             flex: 1;
+            flex-direction: row;
         }
 
         /* Sidebar */
@@ -173,7 +173,7 @@
             max-width: 800px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Keep horizontal */;
         }
 
         /* Breadcrumbs */
@@ -452,7 +452,7 @@
 
         .cisco-badge {
             text-align: center;
-            margin: 10px 0;
+            margin: 20px 0;
         }
 
         .badge-link {
@@ -464,6 +464,48 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer positioning fix */
+        .footer {
+            position: relative;
+            width: 100%;
+            margin-top: auto;
+            clear: both;
+            flex-shrink: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .gitbook-container {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Badge Alignment Fix */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+        }
+
+        .cisco-badge,
+        .networking-badge,
+        .python-badge {
+            display: inline-block;
+            vertical-align: top;
         }
 
         /* Responsive Design */
@@ -507,13 +549,13 @@
             }
 
             .gitbook-meta {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 16px;
                 margin-bottom: 2rem;
             }
 
             .gitbook-navigation {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 16px;
                 margin-bottom: 2rem;
             }
@@ -1983,9 +2025,7 @@ Config = {
                 </div>
             </div>
             
-            <!-- Easter egg oculto -->
-            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
-        </div>
+            </div>
     </footer>
 
     <script>

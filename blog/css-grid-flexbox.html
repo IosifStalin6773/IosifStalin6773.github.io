@@ -92,8 +92,8 @@
         /* Main Container */
         .gitbook-container {
             display: flex;
-            min-height: 100vh;
             flex: 1;
+            flex-direction: row;
         }
 
         /* Sidebar */
@@ -485,7 +485,7 @@
 
         .cisco-badge {
             text-align: center;
-            margin: 10px 0;
+            margin: 20px 0;
         }
 
         .badge-link {
@@ -741,16 +741,6 @@
             filter: brightness(1.1);
         }
 
-        .badge-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 12px;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
-            transition: var(--transition);
-            object-fit: cover;
-        }
-        
         /* Badge Responsive Design */
         @media (max-width: 768px) {
             .badges-container {
@@ -965,11 +955,6 @@
     padding: 20px;
 }
 
-.footer {
-    grid-area: footer;
-    background: #2c3e50;
-    color: white;
-    padding: 20px;
 }</code></pre>
                             </div>
                         </div>
@@ -1441,9 +1426,7 @@
                 </div>
             </div>
             
-            <!-- Easter egg oculto -->
-            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
-        </div>
+            </div>
     </footer>
 
     <script>

@@ -55,6 +55,11 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Reading Progress Bar */
@@ -87,7 +92,8 @@
         /* Main Container */
         .gitbook-container {
             display: flex;
-            min-height: 100vh;
+            flex: 1;
+            flex-direction: row;
         }
 
         /* Sidebar */
@@ -518,12 +524,12 @@
             }
 
             .gitbook-meta {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 12px;
             }
 
             .gitbook-navigation {
-                flex-direction: column;
+                flex-direction: row; /* Keep horizontal */;
                 gap: 12px;
             }
 
@@ -551,6 +557,35 @@
 
             .gitbook-content h3 {
                 font-size: 1.25rem;
+            }
+
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            /* Footer positioning fix */
+            .footer {
+                position: relative !important;
+                width: 100% !important;
+                margin-top: auto !important;
+                clear: both !important;
+                flex-shrink: 0 !important;
+            }
+
+            body {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: 100vh !important;
+            }
+
+            .gitbook-container {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: row !important;
             }
         }
         
@@ -1440,9 +1475,7 @@ git branch -d release/v2.0.0</code></pre>
                 </div>
             </div>
             
-            <!-- Easter egg oculto -->
-            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
-        </div>
+            </div>
     </footer>
 
     <script>
