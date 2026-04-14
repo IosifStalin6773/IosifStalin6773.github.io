@@ -62,92 +62,52 @@
     {% include "../components/footer.njk" %}
     
     <!-- Scripts -->
-    <script src="/js/script.js"></script>
-    <!-- Radical Scroll Fix - Minimal Approach -->
+    <!-- Ultra-minimalist approach - disable all JS to isolate scroll issue -->
+    <!-- <script src="/js/script.js"></script> -->
+    
+    <!-- Basic scroll fix only -->
     <script>
-        // Simple and radical scroll fix
-        function enableScroll() {
-            // Store current scroll position
-            const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-            const currentScrollX = window.pageXOffset || document.documentElement.scrollLeft;
+        // Wait for page to fully load
+        window.addEventListener('load', function() {
+            // Remove all inline styles that might block scroll
+            document.body.removeAttribute('style');
+            document.documentElement.removeAttribute('style');
             
-            // Reset all scroll-related styles without forcing position
-            document.body.style.overflow = '';
-            document.body.style.overflowX = 'hidden';
-            document.body.style.overflowY = 'auto';
-            document.body.style.height = '';
-            document.body.style.position = '';
-            document.body.style.transform = '';
-            document.body.style.webkitTransform = '';
+            // Remove any dynamic styles
+            const dynamicStyles = document.querySelectorAll('style[data-dynamic]');
+            dynamicStyles.forEach(style => style.remove());
             
-            document.documentElement.style.overflow = '';
-            document.documentElement.style.overflowX = 'hidden';
-            document.documentElement.style.overflowY = 'auto';
-            document.documentElement.style.height = '';
-            document.documentElement.style.position = '';
-            
-            // Enable touch scrolling
-            document.body.style.webkitOverflowScrolling = 'touch';
-            document.documentElement.style.webkitOverflowScrolling = 'touch';
-            
-            // Remove any CSS that might block scroll or force position
-            const style = document.createElement('style');
-            style.textContent = `
-                * {
-                    -webkit-overflow-scrolling: touch !important;
-                    touch-action: auto !important;
-                    scroll-behavior: smooth !important;
-                }
+            // Set basic scroll styles
+            const basicStyle = document.createElement('style');
+            basicStyle.textContent = `
                 html, body {
                     overflow-x: hidden !important;
                     overflow-y: auto !important;
                     height: auto !important;
+                    max-height: none !important;
                     position: static !important;
                     transform: none !important;
                     -webkit-transform: none !important;
-                    scroll-snap-type: none !important;
+                    touch-action: auto !important;
+                    -webkit-overflow-scrolling: touch !important;
+                    scroll-behavior: auto !important;
                 }
-                main, section, .hero, .projects, .blog, .skills, .contact {
-                    overflow: visible !important;
-                    position: relative !important;
-                    transform: none !important;
+                * {
+                    touch-action: auto !important;
                 }
             `;
-            document.head.appendChild(style);
+            document.head.appendChild(basicStyle);
             
-            // Restore scroll position after style changes
-            setTimeout(() => {
-                window.scrollTo(currentScrollX, currentScrollY);
-            }, 10);
-            
-            // Force viewport to allow scrolling
+            // Simple viewport fix
             const viewport = document.querySelector('meta[name="viewport"]');
             if (viewport) {
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes, height=device-height');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
             }
-        }
-        
-        // Apply once and don't reapply to prevent snap back
-        let scrollFixed = false;
-        function applyScrollFixOnce() {
-            if (!scrollFixed) {
-                enableScroll();
-                scrollFixed = true;
-            }
-        }
-        
-        // Apply immediately and on load
-        applyScrollFixOnce();
-        document.addEventListener('DOMContentLoaded', applyScrollFixOnce);
-        document.addEventListener('load', applyScrollFixOnce);
-        
-        // Only reapply on major changes, not periodically
-        window.addEventListener('orientationchange', () => {
-            scrollFixed = false;
-            setTimeout(applyScrollFixOnce, 100);
         });
     </script>
-    <!-- Mobile interactions completely disabled to fix scroll
+    
+    <!-- All JavaScript disabled to eliminate scroll conflicts
+    <script src="/js/script.js"></script>
     <script src="/js/mobile-interactions.js"></script>
     -->
     
