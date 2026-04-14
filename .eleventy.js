@@ -1,8 +1,26 @@
 module.exports = function(eleventyConfig) {
-    // Copy static assets
+    // Copy static assets (only from src, eliminate duplicates)
     eleventyConfig.addPassthroughCopy("src/css");
     eleventyConfig.addPassthroughCopy("src/js");
-    eleventyConfig.addPassthroughCopy("public/assets");
+    eleventyConfig.addPassthroughCopy("src/assets");
+    eleventyConfig.addPassthroughCopy("robots.txt");
+    
+    // Minify CSS in production
+    if (process.env.NODE_ENV === 'production') {
+        eleventyConfig.addTransform("cssmin", function(content, outputPath) {
+            if (outputPath && outputPath.endsWith(".css")) {
+                return content.replace(/\s+/g, ' ').trim();
+            }
+            return content;
+        });
+    }
+    
+    // Generate sitemap
+    eleventyConfig.addCollection("sitemap", function(collection) {
+        return collection.getAll().filter(item => 
+            !item.data.sitemapExclude && item.url
+        );
+    });
     
     // Add date filter for better date formatting
     eleventyConfig.addFilter("date", function(date, format = 'YYYY-MM-DD') {

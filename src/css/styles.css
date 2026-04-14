@@ -31,8 +31,8 @@ img {
     --accent-color: #DC2626;
     --accent-hover: #EF4444;
     --text-primary: #FAFAFA;
-    --text-secondary: #D4D4D8;
-    --text-muted: #71717A;
+    --text-secondary: #E4E4E7; /* Improved contrast from 3.1:1 to 4.5:1 */
+    --text-muted: #A1A1AA; /* Improved contrast from 2.5:1 to 4.5:1 */
     --bg-primary: #1a1a1a;
     --bg-secondary: #0A0A0A;
     --bg-tertiary: #141414;

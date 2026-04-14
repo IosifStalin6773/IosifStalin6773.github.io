@@ -1,0 +1,35 @@
+{
+  "person": {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Oscar de la Cruz",
+    "jobTitle": "Desarrollador Web",
+    "description": "Desarrollador especializado en bots, scripts de gaming, themes y herramientas personalizadas",
+    "url": "https://iosifstalin6773.github.io",
+    "sameAs": [
+      "https://github.com/IosifStalin6773",
+      "https://www.instagram.com/oscarcrudi_20/",
+      "https://discord.gg/WQ9XW9g9"
+    ],
+    "knowsAbout": [
+      "JavaScript", "HTML5", "CSS3", "Node.js", "FiveM", "Lua", "Discord.js", "Git"
+    ],
+    "offersServices": {
+      "@type": "Offer",
+      "name": "Desarrollo Web y Gaming",
+      "description": "Desarrollo de bots, scripts personalizados, themes y herramientas de automatización"
+    }
+  },
+  "website": {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Oscar de la Cruz - Portfolio",
+    "description": "Portfolio profesional de desarrollo web especializado en gaming y automatización",
+    "url": "https://iosifstalin6773.github.io",
+    "inLanguage": "es",
+    "author": {
+      "@type": "Person",
+      "name": "Oscar de la Cruz"
+    }
+  }
+}

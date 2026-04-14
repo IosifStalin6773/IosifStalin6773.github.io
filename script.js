@@ -14,6 +14,28 @@ document.addEventListener('click', (e) => {
         mobileMenu?.classList.remove('active');
         navMenu?.classList.remove('active');
     }
+    
+    // Close menu when clicking outside
+    if (!navMenu?.contains(e.target) && !mobileMenu?.contains(e.target)) {
+        mobileMenu?.classList.remove('active');
+        navMenu?.classList.remove('active');
+    }
+}, { passive: true });
+
+// Close menu on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu?.classList.contains('active')) {
+        mobileMenu?.classList.remove('active');
+        navMenu?.classList.remove('active');
+    }
+}, { passive: true });
+
+// Close menu on window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        mobileMenu?.classList.remove('active');
+        navMenu?.classList.remove('active');
+    }
 }, { passive: true });
 
 // Scroll Reveal Animation - DESACTIVADO
@@ -347,6 +369,8 @@ const hero = document.querySelector('.hero');
 let parallaxTicking = false;
 
 const updateParallax = () => {
+    if (window.innerWidth <= 768) return; // desactivar en móvil
+    
     const scrolled = window.pageYOffset;
     if (hero) {
         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
@@ -457,4 +481,22 @@ function isMobile() {
 if (isMobile()) {
     // Reducir animaciones en móviles para mejor rendimiento
     document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
+    
+    // Prevent horizontal scroll on mobile
+    document.body.style.overflowX = 'hidden';
+    
+    // Improve touch scrolling
+    document.documentElement.style.setProperty('-webkit-overflow-scrolling', 'touch');
 }
+
+// Handle orientation changes
+window.addEventListener('orientationchange', () => {
+    // Close mobile menu on orientation change
+    mobileMenu?.classList.remove('active');
+    navMenu?.classList.remove('active');
+    
+    // Small delay to allow for orientation change completion
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
+}, { passive: true });

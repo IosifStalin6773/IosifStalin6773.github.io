@@ -1,40 +1,40 @@
 <!-- Navegación -->
-<nav class="navbar">
-    <div class="header-video">
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="header-video" aria-hidden="true">
         <video autoplay muted loop playsinline preload="metadata">
             <source src="/assets/videos/header-background.mp4" type="video/mp4">
             <!-- Fallback para GIF -->
-            <img src="/assets/images/header-background.gif" alt="Header Background" loading="lazy">
+            <img src="/assets/images/header-background.gif" alt="Animated background with digital effects" loading="lazy">
         </video>
     </div>
     <div class="nav-container">
         <div class="nav-logo">
-            <h3>{{ site.author.initials }}</h3>
+            <h3 aria-label="Oscar de la Cruz - Portfolio">{{ site.author.initials }}</h3>
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#home" class="nav-link">Inicio</a>
+        <ul class="nav-menu" role="menubar">
+            <li class="nav-item" role="none">
+                <a href="#home" class="nav-link" role="menuitem" aria-current="page">Inicio</a>
             </li>
-            <li class="nav-item">
-                <a href="#about" class="nav-link">Sobre Mí</a>
+            <li class="nav-item" role="none">
+                <a href="#about" class="nav-link" role="menuitem">Sobre Mí</a>
             </li>
-            <li class="nav-item">
-                <a href="#projects" class="nav-link">Proyectos</a>
+            <li class="nav-item" role="none">
+                <a href="#projects" class="nav-link" role="menuitem">Proyectos</a>
             </li>
-            <li class="nav-item">
-                <a href="#skills" class="nav-link">Habilidades</a>
+            <li class="nav-item" role="none">
+                <a href="#skills" class="nav-link" role="menuitem">Habilidades</a>
             </li>
-            <li class="nav-item">
-                <a href="#blog" class="nav-link">Blog</a>
+            <li class="nav-item" role="none">
+                <a href="#blog" class="nav-link" role="menuitem">Blog</a>
             </li>
-            <li class="nav-item">
-                <a href="#contact" class="nav-link">Contacto</a>
+            <li class="nav-item" role="none">
+                <a href="#contact" class="nav-link" role="menuitem">Contacto</a>
             </li>
         </ul>
-        <div class="nav-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
+        <button class="nav-toggle" id="mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
+            <span class="bar" aria-hidden="true"></span>
+        </button>
     </div>
 </nav>
