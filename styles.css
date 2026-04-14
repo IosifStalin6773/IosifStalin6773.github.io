@@ -1,11 +1,31 @@
-/* Reset y Variables Militarized */
-* {
+/* Reset y Variables Militarized - Optimized */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Reduce paint operations */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* GPU acceleration for transformed elements */
+.hero,
+.navbar,
+.project-card,
+.blog-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* CSS Custom Properties - Optimized */
 :root {
+    /* Color System */
     --primary-color: #000000;
     --secondary-color: #0D0D0D;
     --accent-color: #DC2626;
@@ -25,10 +45,18 @@
     --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.7), 0 4px 6px -2px rgba(0,0,0,0.5);
     --shadow-card: 0 2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
     --shadow-card-hover: 0 8px 12px rgba(0,0,0,0.4), 0 4px 6px rgba(0,0,0,0.3);
-    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Performance Optimizations */
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Typography System */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
     --font-secondary: 'Arial', sans-serif;
+    
+    /* Font Display Strategy */
+    --font-display: swap;
     
     /* Fluid Typography Variables */
     --fluid-min-width: 320;
@@ -93,10 +121,24 @@
     );
 }
 
-html {
-    scroll-behavior: smooth;
+/* Container Queries for Better Responsiveness */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 40px);
+    width: 100%;
 }
 
+/* Optimize scrolling performance */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    /* Enable hardware acceleration for scrolling */
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Performance optimized body */
 body {
     font-family: var(--font-primary);
     font-size: var(--fluid-font-size);
@@ -112,6 +154,8 @@ body {
     padding: 0;
     overflow-x: hidden;
     position: relative;
+    /* Reduce repaints */
+    will-change: scroll-position;
 }
 
 html {
@@ -245,11 +289,11 @@ html {
     color: #ffffff;
     font-weight: 700;
     transition: var(--transition);
-    padding: 20px 30px;
-    display: block;
+    padding: 18px 25px;
+    display: flex;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
@@ -258,6 +302,9 @@ html {
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     z-index: 15;
+    min-height: 50px;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-link:hover {
@@ -1920,7 +1967,7 @@ tr:hover {
     }
 }
 
-/* Footer Militarizado */
+/* Footer Militarizado - Optimized */
 .footer {
     background: var(--bg-secondary);
     color: var(--text-muted);
@@ -1928,6 +1975,41 @@ tr:hover {
     padding: 3rem 0 1rem 0;
     border-top: 2px solid var(--border-accent);
     margin: 0;
+    /* Performance optimization */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Mobile Touch Optimizations */
+@media (max-width: 768px) {
+    /* Improve touch targets */
+    .btn, .nav-link, .project-link, .blog-link, .social-link {
+        min-height: 48px;
+        min-width: 48px;
+        touch-action: manipulation;
+    }
+    
+    /* Better spacing for touch */
+    .project-card, .skill-category, .blog-card {
+        margin: 0.5rem;
+    }
+    
+    /* Scroll improvements */
+    body {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+    
+    /* Prevent text selection on touch */
+    .nav-menu, .hero-buttons, .blog-navigation {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    
+    /* Better input handling */
+    input, textarea, button {
+        touch-action: manipulation;
+    }
 }
 
 .footer p {
@@ -1956,7 +2038,8 @@ tr:hover {
 
 /* Individual Badge Styling */
 .cisco-badge,
-.networking-badge {
+.networking-badge,
+.python-badge {
     display: inline-block;
     vertical-align: top;
 }
@@ -2027,18 +2110,29 @@ tr:hover {
 
 /* Responsive Design Militarizado */
 @media (max-width: 768px) {
+    /* Mobile Navigation Improvements */
+    .navbar {
+        height: 70px;
+    }
+    
+    .nav-container {
+        height: 70px;
+    }
+    
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 80px;
+        top: 70px;
         flex-direction: column;
         background-color: var(--bg-secondary);
         width: 100%;
         text-align: center;
         transition: 0.3s;
         box-shadow: var(--shadow-lg);
-        padding: 2rem 0;
+        padding: 1.5rem 0;
         border-bottom: 2px solid var(--border-accent);
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -2047,25 +2141,86 @@ tr:hover {
 
     .nav-toggle {
         display: flex;
+        padding: 15px;
+        z-index: 1001;
+        cursor: pointer;
+        touch-action: manipulation;
     }
 
     .bar {
         background: var(--text-primary);
+        width: 28px;
+        height: 3px;
+        margin: 4px 0;
+        transition: 0.3s;
+        border-radius: 2px;
     }
 
+    .nav-toggle.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Mobile Navigation Links */
+    .nav-menu .nav-link {
+        min-height: 55px;
+        font-size: 1rem;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .nav-menu .nav-link:last-child {
+        border-bottom: none;
+    }
+
+    /* Hero Section Mobile */
+    .hero {
+        min-height: calc(100vh - 70px);
+        padding-top: 70px;
+    }
+    
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 3rem;
+        gap: 2rem;
+        padding: 0 20px;
     }
 
     .hero-title {
-        font-size: 2.5rem;
-        letter-spacing: 2px;
+        font-size: 2.2rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        padding-left: 15px;
     }
 
     .hero-buttons {
         justify-content: center;
+        gap: 1rem;
+    }
+    
+    .btn {
+        padding: 15px 25px;
+        font-size: 0.9rem;
+        min-height: 48px;
+        min-width: 120px;
+        touch-action: manipulation;
     }
 
     .profile-placeholder {
@@ -2138,17 +2293,45 @@ tr:hover {
 }
 
 @media (max-width: 480px) {
+    /* Small Mobile Optimizations */
+    .navbar {
+        height: 60px;
+    }
+    
+    .nav-container {
+        height: 60px;
+    }
+    
+    .nav-menu {
+        top: 60px;
+        max-height: calc(100vh - 60px);
+    }
+    
+    .hero {
+        min-height: calc(100vh - 60px);
+        padding-top: 60px;
+    }
+    
     .hero-title {
         font-size: 1.8rem;
         letter-spacing: 1px;
+        margin-bottom: 0.8rem;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        padding-left: 10px;
     }
 
     .section-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
     }
 
     .container {
@@ -2160,51 +2343,112 @@ tr:hover {
     }
 
     .nav-logo h3 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+    }
+    
+    .nav-toggle {
+        padding: 10px;
+    }
+    
+    .bar {
+        width: 24px;
+        height: 2px;
     }
 
     .profile-placeholder {
-        width: 200px;
-        height: 200px;
-        font-size: 3rem;
+        width: 180px;
+        height: 180px;
+        font-size: 2.5rem;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.85rem;
+        min-height: 44px;
+        min-width: 100px;
+    }
+    
+    /* Touch-friendly improvements */
+    .project-card {
+        margin: 0.5rem;
+    }
+    
+    .project-content {
+        padding: 1.5rem;
+    }
+    
+    .skill-category {
+        margin: 0.5rem;
+        padding: 1.5rem;
+    }
+    
+    .contact-item {
+        padding: 0.8rem;
+    }
+    
+    .social-link {
+        width: 44px;
+        height: 44px;
     }
 
     .blog-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
+        padding: 0 10px;
     }
 
     .blog-image {
-        height: 120px;
+        height: 100px;
     }
 
     .blog-content {
-        padding: 20px;
+        padding: 16px;
     }
 
     .blog-meta {
-        margin-bottom: 14px;
-        font-size: 0.75rem;
+        margin-bottom: 12px;
+        font-size: 0.7rem;
     }
 
     .blog-title {
-        font-size: 1.05rem;
-        margin-bottom: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
     }
 
     .blog-excerpt {
-        font-size: 0.85rem;
-        margin-bottom: 16px;
+        font-size: 0.8rem;
+        margin-bottom: 12px;
     }
 
     .blog-category {
-        font-size: 0.7rem;
-        padding: 4px 10px;
+        font-size: 0.65rem;
+        padding: 3px 8px;
     }
 
     .blog-link {
-        padding: 10px 18px;
-        font-size: 0.75rem;
+        padding: 8px 14px;
+        font-size: 0.7rem;
+        min-height: 36px;
+    }
+    
+    /* Footer mobile */
+    .footer {
+        padding: 2rem 0 0.5rem 0;
+    }
+    
+    .footer p {
+        font-size: 0.7rem;
+        padding: 0 10px;
+    }
+    
+    .badges-container {
+        gap: 15px;
+        padding: 15px 10px;
+    }
+    
+    .badge-image {
+        width: 80px;
+        height: 80px;
     }
 }
 

@@ -55,6 +55,11 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Reading Progress Bar */
@@ -88,6 +93,7 @@
         .gitbook-container {
             display: flex;
             min-height: 100vh;
+            flex: 1;
         }
 
         /* Sidebar */
@@ -162,9 +168,12 @@
         /* Main Content */
         .gitbook-main {
             flex: 1;
+            padding: 60px;
+            overflow-y: auto;
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Breadcrumbs */
@@ -473,38 +482,10 @@
             border-color: var(--accent-color);
         }
 
-        /* Footer Styles */
-        .footer {
-            background: var(--secondary-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 0 0;
-            margin-top: 60px;
-        }
-
-        .footer .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .footer p {
-            color: var(--text-secondary);
-            margin: 0 0 3rem 0;
-            text-align: center;
-        }
-
-        .footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
 
         .cisco-badge {
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .badge-link {
@@ -522,67 +503,210 @@
         @media (max-width: 768px) {
             .gitbook-mobile-toggle {
                 display: block;
+                padding: 15px;
+                border-radius: 12px;
+                touch-action: manipulation;
+                min-height: 48px;
+                min-width: 48px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             }
 
             .gitbook-sidebar {
                 position: fixed;
-                left: -280px;
+                left: -300px;
                 top: 0;
                 height: 100vh;
                 z-index: 1000;
                 transition: left 0.3s ease;
+                width: 280px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .gitbook-sidebar.open {
                 left: 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .gitbook-main {
-                padding: 80px 20px 40px 20px;
+                padding: 100px 24px 60px 24px;
+                max-width: 100%;
             }
 
             .gitbook-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
             }
 
             .gitbook-meta {
                 flex-direction: column;
-                gap: 12px;
+                gap: 16px;
+                margin-bottom: 2rem;
             }
 
             .gitbook-navigation {
                 flex-direction: column;
-                gap: 12px;
+                gap: 16px;
+                margin-bottom: 2rem;
             }
 
             .gitbook-nav-link {
                 justify-content: center;
+                min-height: 48px;
+                padding: 12px 20px;
+                touch-action: manipulation;
+            }
+            
+            /* Typography improvements */
+            .gitbook-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 1.2rem;
+            }
+            
+            /* Code blocks mobile */
+            .code-example pre {
+                font-size: 0.85rem;
+                padding: 16px;
+                overflow-x: auto;
+                white-space: pre;
+                word-wrap: normal;
+            }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            
+            /* TOC improvements */
+            .gitbook-toc-link {
+                padding: 12px 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+            
+            /* Touch optimizations */
+            .gitbook-content a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
             }
         }
 
         @media (max-width: 480px) {
+            .gitbook-mobile-toggle {
+                top: 15px;
+                left: 15px;
+                padding: 12px;
+            }
+
+            .gitbook-sidebar {
+                width: 260px;
+                left: -280px;
+            }
+
             .gitbook-main {
-                padding: 80px 16px 32px 16px;
+                padding: 90px 16px 40px 16px;
             }
 
             .gitbook-title {
-                font-size: 1.75rem;
+                font-size: 1.9rem;
+                line-height: 1.1;
             }
-
-            .gitbook-content {
-                font-size: 0.95rem;
+            
+            .gitbook-content h1 {
+                font-size: 1.6rem;
             }
-
+            
             .gitbook-content h2 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
-
+            
             .gitbook-content h3 {
-                font-size: 1.25rem;
+                font-size: 1.1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            /* Code blocks small mobile */
+            .code-example pre {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+            
+            .code-example h4 {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+            
+            /* Tables small mobile */
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                min-width: 100px;
+            }
+            
+            /* Navigation small mobile */
+            .gitbook-nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .gitbook-meta {
+                font-size: 0.85rem;
+            }
+            
+            /* TOC small mobile */
+            .gitbook-toc-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Content spacing */
+            .gitbook-content section {
+                margin-bottom: 2rem;
+            }
+            
+            .best-practices, .comparison-table, .decision-guide {
+                padding: 16px;
+                margin-bottom: 1.5rem;
             }
         }
         
-        /* Badge Alignment Fix */
+        /* Badge Centering - All Screen Sizes */
         .badges-container {
             display: flex;
             justify-content: center;
@@ -594,17 +718,67 @@
             background: var(--tertiary-bg);
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+            width: 100%;
+            text-align: center;
         }
-        
+
         .cisco-badge,
-        .networking-badge {
+        .networking-badge,
+        .python-badge {
             display: inline-block;
             vertical-align: top;
+            text-align: center;
+        }
+        
+        .badge-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .badge-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+            transition: var(--transition);
+            object-fit: cover;
+        }
+        
+        /* Badge Responsive Design */
+        @media (max-width: 768px) {
+            .badges-container {
+                gap: 30px;
+                padding: 15px 0;
+                margin: 15px 0;
+            }
+            
+            .badge-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges-container {
+                gap: 20px;
+                padding: 10px 0;
+                margin: 10px 0;
+                flex-direction: column;
+            }
+            
+            .badge-image {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
-    
-    <!-- Main CSS Import -->
-    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <!-- Reading Progress Bar -->
@@ -1210,14 +1384,11 @@
 
                 <!-- Navigation -->
                 <nav class="gitbook-navigation">
-                    <a href="guia-git-avanzado.html" class="gitbook-nav-link">
+                    <a href="github-actions.html" class="gitbook-nav-link">
                         ← Anterior
                     </a>
                     <a href="../index.html#blog" class="gitbook-nav-link">
                         Volver al Blog 🏠
-                    </a>
-                    <a href="fivem-mods.html" class="gitbook-nav-link">
-                        Siguiente →
                     </a>
                 </nav>
             </article>
@@ -1255,6 +1426,16 @@
                     <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
                         <img src="../assets/icons/networking-basics.png" 
                              alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
                              class="badge-image">
                     </a>
                 </div>

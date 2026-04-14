@@ -55,6 +55,11 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Reading Progress Bar */
@@ -88,6 +93,7 @@
         .gitbook-container {
             display: flex;
             min-height: 100vh;
+            flex: 1;
         }
 
         /* Sidebar */
@@ -162,9 +168,12 @@
         /* Main Content */
         .gitbook-main {
             flex: 1;
+            padding: 60px;
+            overflow-y: auto;
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Breadcrumbs */
@@ -439,38 +448,11 @@
             border-color: var(--accent-color);
         }
 
-        /* Footer Styles */
-        .footer {
-            background: var(--secondary-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 0 0;
-            margin-top: 60px;
-        }
 
-        .footer .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .footer p {
-            color: var(--text-secondary);
-            margin: 0 0 3rem 0;
-            text-align: center;
-        }
-
-        .footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
 
         .cisco-badge {
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .badge-link {
@@ -488,63 +470,206 @@
         @media (max-width: 768px) {
             .gitbook-mobile-toggle {
                 display: block;
+                padding: 15px;
+                border-radius: 12px;
+                touch-action: manipulation;
+                min-height: 48px;
+                min-width: 48px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             }
 
             .gitbook-sidebar {
                 position: fixed;
-                left: -280px;
+                left: -300px;
                 top: 0;
                 height: 100vh;
                 z-index: 1000;
                 transition: left 0.3s ease;
+                width: 280px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .gitbook-sidebar.open {
                 left: 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .gitbook-main {
-                padding: 80px 20px 40px 20px;
+                padding: 100px 24px 60px 24px;
+                max-width: 100%;
             }
 
             .gitbook-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
             }
 
             .gitbook-meta {
                 flex-direction: column;
-                gap: 12px;
+                gap: 16px;
+                margin-bottom: 2rem;
             }
 
             .gitbook-navigation {
                 flex-direction: column;
-                gap: 12px;
+                gap: 16px;
+                margin-bottom: 2rem;
             }
 
             .gitbook-nav-link {
                 justify-content: center;
+                min-height: 48px;
+                padding: 12px 20px;
+                touch-action: manipulation;
+            }
+            
+            /* Typography improvements */
+            .gitbook-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 1.2rem;
+            }
+            
+            /* Code blocks mobile */
+            .code-example pre {
+                font-size: 0.85rem;
+                padding: 16px;
+                overflow-x: auto;
+                white-space: pre;
+                word-wrap: normal;
+            }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            
+            /* TOC improvements */
+            .gitbook-toc-link {
+                padding: 12px 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+            
+            /* Touch optimizations */
+            .gitbook-content a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
             }
         }
 
         @media (max-width: 480px) {
+            .gitbook-mobile-toggle {
+                top: 15px;
+                left: 15px;
+                padding: 12px;
+            }
+
+            .gitbook-sidebar {
+                width: 260px;
+                left: -280px;
+            }
+
             .gitbook-main {
-                padding: 80px 16px 32px 16px;
+                padding: 90px 16px 40px 16px;
             }
 
             .gitbook-title {
-                font-size: 1.75rem;
+                font-size: 1.9rem;
+                line-height: 1.1;
             }
-
-            .gitbook-content {
-                font-size: 0.95rem;
+            
+            .gitbook-content h1 {
+                font-size: 1.6rem;
             }
-
+            
             .gitbook-content h2 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
-
+            
             .gitbook-content h3 {
-                font-size: 1.25rem;
+                font-size: 1.1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            /* Code blocks small mobile */
+            .code-example pre {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+            
+            .code-example h4 {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+            
+            /* Tables small mobile */
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                min-width: 100px;
+            }
+            
+            /* Navigation small mobile */
+            .gitbook-nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .gitbook-meta {
+                font-size: 0.85rem;
+            }
+            
+            /* TOC small mobile */
+            .gitbook-toc-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Content spacing */
+            .gitbook-content section {
+                margin-bottom: 2rem;
+            }
+            
+            .best-practices, .comparison-table, .decision-guide {
+                padding: 16px;
+                margin-bottom: 1.5rem;
             }
         }
     </style>
@@ -1243,341 +1368,71 @@ end)</code></pre>
                                 </button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú FiveM</title>
-    <link rel="stylesheet" href="../styles.css">
-</head>
-<body>
-    <div class="menu-container" id="menuContainer">
-        <div class="menu-header">
-            <h2>Menú Principal</h2>
-            <button class="close-btn" id="closeBtn">×</button>
-        </div>
+                                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Menú FiveM&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="menu-container" id="menuContainer"&gt;
+        &lt;div class="menu-header"&gt;
+            &lt;h2&gt;Menú Principal&lt;/h2&gt;
+            &lt;button class="close-btn" id="closeBtn"&gt;×&lt;/button&gt;
+        &lt;/div&gt;
         
-        <div class="menu-content">
-            <div class="menu-section">
-                <h3>Personaje</h3>
-                <div class="menu-item" data-action="inventory">
-                    🎒 <span>Inventario</span>
-                </div>
-                <div class="menu-item" data-action="wallet">
-                    👛 <span>Cartera</span>
-                </div>
-                <div class="menu-item" data-action="phone">
-                    📱 <span>Teléfono</span>
-                </div>
-            </div>
+        &lt;div class="menu-content"&gt;
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Personaje&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="inventory"&gt;
+                    <span>Inventario</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="wallet"&gt;
+                    <span>Cartera</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="phone"&gt;
+                    <span>Teléfono</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
             
-            <div class="menu-section">
-                <h3>Vehículo</h3>
-                <div class="menu-item" data-action="garage">
-                    🏭 <span>Garaje</span>
-                </div>
-                <div class="menu-item" data-action="gps">
-                    🗺️ <span>GPS</span>
-                </div>
-            </div>
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Vehículo&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="garage"&gt;
+                    <span>Garaje</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="gps"&gt;
+                    <span>GPS</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
             
-            <div class="menu-section">
-                <h3>Sistema</h3>
-                <div class="menu-item" data-action="settings">
-                    ⚙️ <span>Configuración</span>
-                </div>
-                <div class="menu-item" data-action="help">
-                    ❓ <span>Ayuda</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Sistema&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="settings"&gt;
+                    <span>Configuración</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="help"&gt;
+                    <span>Ayuda</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
     
-    <script src="script.js"></script>
-</body>
-</html></code></pre>
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
                             </div>
                         </div>
 
-                        <h3>CSS para Estilos</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">style.css - Estilos del Menú</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    📋 <span>Copiar</span>
-                                </button>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <span>Nota Importante</span>
                             </div>
-                            <div class="gitbook-code-content">
-                                <pre><code>/* style.css */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: transparent;
-    overflow: hidden;
-}
-
-.menu-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background: rgba(0, 0, 0, 0.9);
-    border: 2px solid #333;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-}
-
-.menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid #333;
-    border-radius: 8px 8px 0 0;
-}
-
-.menu-header h2 {
-    margin: 0;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background 0.3s ease;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.menu-content {
-    padding: 10px;
-}
-
-.menu-section {
-    margin-bottom: 15px;
-}
-
-.menu-section h3 {
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 10px 10px;
-    text-transform: uppercase;
-    opacity: 0.8;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    margin-bottom: 5px;
-}
-
-.menu-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-.menu-item i {
-    width: 20px;
-    margin-right: 12px;
-    font-size: 16px;
-}
-
-.menu-item span {
-    font-size: 14px;
-}</code></pre>
-                            </div>
-                        </div>
-
-                        <h3>JavaScript para Interactividad</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">script.js - Lógica del Menú</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    📋 <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code>// script.js
-document.addEventListener('DOMContentLoaded', function() {
-    const menuContainer = document.getElementById('menuContainer');
-    const closeBtn = document.getElementById('closeBtn');
-    const menuItems = document.querySelectorAll('.menu-item');
-    
-    // Cerrar menú
-    closeBtn.addEventListener('click', function() {
-        fetch(`https://${GetParentResourceName()}/closeMenu`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: JSON.stringify({})
-        });
-    });
-    
-    // Manejar clics en items del menú
-    menuItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');
-            
-            fetch(`https://${GetParentResourceName()}/menuAction`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8',
-                },
-                body: JSON.stringify({
-                    action: action
-                })
-            });
-        });
-    });
-    
-    // Escuchar mensajes del cliente
-    window.addEventListener('message', function(event) {
-        const data = event.data;
-        
-        switch (data.type) {
-            case 'showMenu':
-                menuContainer.style.display = 'block';
-                break;
-            case 'hideMenu':
-                menuContainer.style.display = 'none';
-                break;
-            case 'updateMoney':
-                // Actualizar display de dinero
-                break;
-        }
-    });
-});
-
-// Función para comunicarse con el cliente
-function sendMessage(type, data) {
-    fetch(`https://${GetParentResourceName()}/message`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            type: type,
-            data: data
-        })
-    });
-}</code></pre>
-                            </div>
-                        </div>
-
-                        <h3>Integración con Lua</h3>
-                        <div class="gitbook-code-block">
-                            <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">client.lua - Control de NUI</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    📋 <span>Copiar</span>
-                                </button>
-                            </div>
-                            <div class="gitbook-code-content">
-                                <pre><code>-- client.lua - Control de NUI
-local isMenuOpen = false
-
--- Abrir menú
-function OpenMenu()
-    if not isMenuOpen then
-        isMenuOpen = true
-        SetNuiFocus(true, true)
-        SendNUIMessage({
-            type = 'showMenu'
-        })
-    end
-end
-
--- Cerrar menú
-function CloseMenu()
-    if isMenuOpen then
-        isMenuOpen = false
-        SetNuiFocus(false, false)
-        SendNUIMessage({
-            type = 'hideMenu'
-        })
-    end
-end
-
--- Callbacks de NUI
-RegisterNUICallback('closeMenu', function(data, cb)
-    CloseMenu()
-    cb('ok')
-end)
-
-RegisterNUICallback('menuAction', function(data, cb)
-    local action = data.action
-    
-    -- Procesar acción del menú
-    if action == 'inventory' then
-        -- Abrir inventario
-        TriggerEvent('inventory:open')
-    elseif action == 'wallet' then
-        -- Mostrar dinero
-        TriggerEvent('wallet:show')
-    elseif action == 'phone' then
-        -- Abrir teléfono
-        TriggerEvent('phone:open')
-    elseif action == 'garage' then
-        -- Abrir garaje
-        TriggerEvent('garage:open')
-    elseif action == 'gps' then
-        -- Abrir GPS
-        TriggerEvent('gps:open')
-    elseif action == 'settings' then
-        -- Abrir configuración
-        TriggerEvent('settings:open')
-    elseif action == 'help' then
-        -- Mostrar ayuda
-        TriggerEvent('help:show')
-    end
-    
-    cb('ok')
-end)
-
--- Comando para abrir menú
-RegisterCommand('menu', function()
-    OpenMenu()
-end, false)
-
--- Tecla para abrir/cerrar menú
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if IsControlJustPressed(0, 244) then -- M key
-            if isMenuOpen then
-                CloseMenu()
-            else
-                OpenMenu()
-            end
-        end
-    end
-end)</code></pre>
+                            <div class="gitbook-card-content">
+                                Este es un ejemplo básico de menú NUI. Para producción, considera 
+                                añadir más funcionalidades como animaciones, sonidos, y 
+                                validaciones adicionales.
                             </div>
                         </div>
                     </section>
@@ -2068,7 +1923,7 @@ Config = {
 
                 <!-- Navigation -->
                 <nav class="gitbook-navigation">
-                    <a href="css-grid-flexbox.html" class="gitbook-nav-link">
+                    <a href="git-guide.html" class="gitbook-nav-link">
                         ← Anterior
                     </a>
                     <a href="../index.html#blog" class="gitbook-nav-link">
@@ -2113,6 +1968,16 @@ Config = {
                     <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
                         <img src="../assets/icons/networking-basics.png" 
                              alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
                              class="badge-image">
                     </a>
                 </div>

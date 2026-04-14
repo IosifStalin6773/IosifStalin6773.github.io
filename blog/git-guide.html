@@ -55,6 +55,11 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Reading Progress Bar */
@@ -88,6 +93,7 @@
         .gitbook-container {
             display: flex;
             min-height: 100vh;
+            flex: 1;
         }
 
         /* Sidebar */
@@ -162,9 +168,12 @@
         /* Main Content */
         .gitbook-main {
             flex: 1;
+            padding: 60px;
+            overflow-y: auto;
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Breadcrumbs */
@@ -489,7 +498,7 @@
 
         .footer p {
             color: var(--text-secondary);
-            margin: 0 0 3rem 0;
+            margin: 0;
             text-align: center;
         }
 
@@ -504,7 +513,7 @@
 
         .cisco-badge {
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .badge-link {
@@ -517,6 +526,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -576,30 +586,6 @@
             .gitbook-content h2 {
                 font-size: 1.5rem;
             }
-
-            .gitbook-content h3 {
-                font-size: 1.25rem;
-            }
-        }
-        
-        /* Badge Alignment Fix */
-        .badges-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-            padding: 20px 0;
-            background: var(--tertiary-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
-        }
-        
-        .cisco-badge,
-        .networking-badge {
-            display: inline-block;
-            vertical-align: top;
         }
     </style>
 </head>
@@ -1525,13 +1511,13 @@ Thumbs.db
 
                 <!-- Navigation -->
                 <nav class="gitbook-navigation">
-                    <a href="#" class="gitbook-nav-link">
+                    <a href="seguridad-servers.html" class="gitbook-nav-link">
                         ← Anterior
                     </a>
                     <a href="../index.html#blog" class="gitbook-nav-link">
                         Volver al Blog 🏠
                     </a>
-                    <a href="guia-git-avanzado.html" class="gitbook-nav-link">
+                    <a href="fivem-mods.html" class="gitbook-nav-link">
                         Siguiente →
                     </a>
                 </nav>
@@ -1570,6 +1556,16 @@ Thumbs.db
                     <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
                         <img src="../assets/icons/networking-basics.png" 
                              alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
                              class="badge-image">
                     </a>
                 </div>

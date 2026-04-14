@@ -1,19 +1,20 @@
-// Navegación móvil
+// Performance optimized mobile navigation
 const mobileMenu = document.getElementById('mobile-menu');
 const navMenu = document.querySelector('.nav-menu');
 
-mobileMenu.addEventListener('click', () => {
+// Use passive event listeners for better scroll performance
+mobileMenu?.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
     navMenu.classList.toggle('active');
-});
+}, { passive: true });
 
-// Cerrar menú al hacer clic en un enlace
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        navMenu.classList.remove('active');
-    });
-});
+// Optimized menu closing with event delegation
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.nav-link')) {
+        mobileMenu?.classList.remove('active');
+        navMenu?.classList.remove('active');
+    }
+}, { passive: true });
 
 // Scroll Reveal Animation - DESACTIVADO
 function reveal() {
@@ -24,31 +25,57 @@ function reveal() {
 // window.addEventListener('scroll', reveal); // Desactivado
 // reveal(); // Desactivado - no llamar al cargar la página
 
-// Smooth scrolling para enlaces de navegación
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// Optimized smooth scrolling with requestAnimationFrame
+const smoothScroll = (target) => {
+    const targetPosition = target.offsetTop - 60;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
 
-// Mantener estilo de navegación militarizado al hacer scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
+    const animation = (currentTime) => {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const run = easeInOutQuad(timeElapsed, startPosition, distance, 500);
+        window.scrollTo(0, run);
+        if (timeElapsed < 500) requestAnimationFrame(animation);
+    };
+
+    const easeInOutQuad = (t, b, c, d) => {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    };
+
+    requestAnimationFrame(animation);
+};
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const target = document.querySelector(e.target.getAttribute('href'));
+        if (target) smoothScroll(target);
+    }
+}, { passive: true });
+
+// Optimized scroll performance with throttling
+const navbar = document.querySelector('.navbar');
+let ticking = false;
+
+const updateNavbar = () => {
     if (window.scrollY > 100) {
         navbar.style.background = 'var(--bg-secondary)';
         navbar.style.boxShadow = 'var(--shadow-lg)';
-    } else {
-        navbar.style.background = 'var(--bg-secondary)';
-        navbar.style.boxShadow = 'var(--shadow-lg)';
     }
-});
+    ticking = false;
+};
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateNavbar);
+        ticking = true;
+    }
+}, { passive: true });
 
 // Security Functions
 function sanitizeInput(input) {
@@ -261,20 +288,25 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Animación de escritura para el hero title
+// Optimized typewriter animation with requestAnimationFrame
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.textContent = '';
+    const startTime = performance.now();
     
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
+    function type(currentTime) {
+        const elapsed = currentTime - startTime;
+        const charIndex = Math.floor(elapsed / speed);
+        
+        if (charIndex < text.length) {
+            element.textContent = text.substring(0, charIndex + 1);
+            requestAnimationFrame(type);
+        } else {
+            element.textContent = text;
         }
     }
     
-    type();
+    requestAnimationFrame(type);
 }
 
 // Inicializar animación de escritura cuando la página cargue
@@ -310,14 +342,24 @@ function animateCounter(element, target, duration = 2000) {
     updateCounter();
 }
 
-// Parallax effect para hero section
-window.addEventListener('scroll', () => {
+// Optimized parallax effect with throttling
+const hero = document.querySelector('.hero');
+let parallaxTicking = false;
+
+const updateParallax = () => {
     const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
     if (hero) {
         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
     }
-});
+    parallaxTicking = false;
+};
+
+window.addEventListener('scroll', () => {
+    if (!parallaxTicking) {
+        requestAnimationFrame(updateParallax);
+        parallaxTicking = true;
+    }
+}, { passive: true });
 
 // Cambiar tema (opcional - para futura implementación)
 function toggleTheme() {

@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portafolio profesional - Desarrollador Web">
-    <meta name="keywords" content="portafolio, desarrollador, web, programación">
+    <meta name="description" content="Portafolio profesional de Oscar de la Cruz - Desarrollador Web especializado en bots, scripts de gaming, themes y herramientas personalizadas. 20 repositorios públicos enfocados en gaming, automatización y desarrollo web.">
+    <meta name="keywords" content="portafolio, desarrollador, web, programación, gaming, bots, scripts, FiveM, Lua, JavaScript, automation">
     <meta name="author" content="Oscar de la Cruz">
-    <title>Oscar de la Cruz - Portafolio</title>
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Oscar de la Cruz - Portafolio">
+    <meta property="og:description" content="Desarrollador especializado en bots, scripts de gaming, themes y herramientas personalizadas">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iosifstalin6773.github.io">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Oscar de la Cruz - Portafolio">
+    <meta name="twitter:description" content="Desarrollador especializado en bots, scripts de gaming y automatización">
+    <title>Oscar de la Cruz - Desarrollador Web | Gaming & Automation</title>
     
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
@@ -19,24 +27,34 @@
     <!-- HTTPS Enforcement -->
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
     
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//github.com">
+    <link rel="dns-prefetch" href="//credly.com">
+    <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
+    
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 <body>
     <!-- Navegación -->
     <nav class="navbar">
         <div class="header-video">
-            <video autoplay muted loop playsinline>
+            <video autoplay muted loop playsinline preload="metadata">
                 <source src="assets/videos/header-background.mp4" type="video/mp4">
                 <!-- Fallback para GIF -->
-                <img src="assets/images/header-background.gif" alt="Header Background">
+                <img src="assets/images/header-background.gif" alt="Header Background" loading="lazy">
             </video>
         </div>
         <div class="nav-container">
             <div class="nav-logo">
-                <!-- Logo eliminado -->
+                <h3>O.C.</h3>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -622,6 +640,16 @@
                              class="badge-image">
                     </a>
                 </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
             </div>
             
             <!-- Easter egg oculto -->
@@ -667,24 +695,6 @@
                 forceGifRestart();
             }
         });
-        
-        // Sistema de acceso secreto
-        const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let secretIndex = 0;
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === secretCode[secretIndex]) {
-                secretIndex++;
-                
-                if (secretIndex === secretCode.length) {
-                    activateSecretAccess();
-                    secretIndex = 0;
-                }
-            } else {
-                secretIndex = 0;
-            }
-        });
-        
         function activateSecretAccess() {
             // Efecto visual
             document.body.style.animation = 'flash 0.5s ease-in-out';
@@ -698,7 +708,7 @@
             }, 1500);
         }
         
-        // Acceso por clic en el footer (triple clic)
+        // Acceso secreto - Triple clic en el footer
         let clickCount = 0;
         const footer = document.querySelector('.footer');
         
@@ -711,72 +721,8 @@
             setTimeout(() => { clickCount = 0; }, 2000);
         });
         
-        // Acceso por palabra secreta en el título
-        let titleClicks = 0;
-        const navLogo = document.querySelector('.nav-logo h3');
-        
-        navLogo.addEventListener('click', () => {
-            titleClicks++;
-            if (titleClicks === 5) {
-                activateSecretAccess();
-                titleClicks = 0;
-            }
-            setTimeout(() => { titleClicks = 0; }, 3000);
-        });
-        
-        // Acceso por combinación de teclas (Ctrl + Shift + S)
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
-                e.preventDefault();
-                activateSecretAccess();
-            }
-        });
-        
-        // Acceso por scroll específico
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                if (window.scrollY > window.innerHeight * 2.5) {
-                    activateSecretAccess();
-                }
-            }, 1000);
-        });
-        
-        // Acceso por hover en skills por 3 segundos
-        let hoverTimer;
-        const skillsSection = document.querySelector('#skills');
-        
-        if (skillsSection) {
-            skillsSection.addEventListener('mouseenter', () => {
-                hoverTimer = setTimeout(() => {
-                    activateSecretAccess();
-                }, 3000);
-            });
-            
-            skillsSection.addEventListener('mouseleave', () => {
-                clearTimeout(hoverTimer);
-            });
-        }
-        let clickTimer;
-        
-        document.querySelector('.footer').addEventListener('click', () => {
-            clickCount++;
-            
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 1000);
-            
-            if (clickCount === 3) {
-                activateSecretAccess();
-                clickCount = 0;
-            }
-        });
-        
-        // Acceso por texto secreto en la consola
-        console.log('%cPista: Intenta la combinación clásica...', 'color: #ff0000; font-size: 12px;');
-        console.log('%cO prueba hacer triple clic en el footer...', 'color: #00ff00; font-size: 12px;');
+        // Pista para acceso secreto
+        console.log('%cPista: Haz triple clic en el footer...', 'color: #00ff00; font-size: 12px;');
         
         // Añadir animación flash
         const style = document.createElement('style');
