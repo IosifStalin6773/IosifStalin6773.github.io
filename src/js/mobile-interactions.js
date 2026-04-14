@@ -29,24 +29,22 @@ class TouchStateManager {
     }
     
     setupAdvancedGestures() {
-        const container = document.body;
+        // Only track touch events on specific interactive elements, not entire body
+        const interactiveElements = document.querySelectorAll('.btn, .nav-link, .project-card, .blog-card, .skill-category');
         
-        // Track all touch points
-        container.addEventListener('touchstart', (e) => {
-            this.handleTouchStart(e);
-        }, { passive: false });
-        
-        container.addEventListener('touchmove', (e) => {
-            this.handleTouchMove(e);
-        }, { passive: false });
-        
-        container.addEventListener('touchend', (e) => {
-            this.handleTouchEnd(e);
-        }, { passive: false });
-        
-        container.addEventListener('touchcancel', (e) => {
-            this.handleTouchCancel(e);
-        }, { passive: false });
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', (e) => {
+                this.handleTouchStart(e);
+            }, { passive: true });
+            
+            element.addEventListener('touchmove', (e) => {
+                this.handleTouchMove(e);
+            }, { passive: true });
+            
+            element.addEventListener('touchend', (e) => {
+                this.handleTouchEnd(e);
+            }, { passive: true });
+        });
     }
     
     handleTouchStart(e) {
@@ -94,13 +92,11 @@ class TouchStateManager {
             }
         }
         
-        // Handle different gesture types
+        // Only handle pinch gestures, allow normal scrolling for single touch
         if (this.gestureType === 'pinch' && e.touches.length === 2) {
             this.handlePinchGesture(e.touches);
-            e.preventDefault();
-        } else if (this.gestureType === 'single') {
-            this.handleSingleTouchMove(e.touches[0]);
         }
+        // Don't prevent default for single touch to allow normal scrolling
     }
     
     handleTouchEnd(e) {
@@ -359,13 +355,16 @@ class TouchStateManager {
     }
     
     setupMultiTouch() {
-        // Handle 3+ finger gestures
-        document.addEventListener('touchstart', (e) => {
-            if (e.touches.length >= 3) {
-                this.handleMultiTouchGesture(e.touches);
-                e.preventDefault();
-            }
-        }, { passive: false });
+        // Handle 3+ finger gestures - only on specific elements to avoid blocking scroll
+        const interactiveElements = document.querySelectorAll('.btn, .nav-link, .project-card, .blog-card, .skill-category');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', (e) => {
+                if (e.touches.length >= 3) {
+                    this.handleMultiTouchGesture(e.touches);
+                }
+            }, { passive: true });
+        });
     }
     
     handleMultiTouchGesture(touches) {
