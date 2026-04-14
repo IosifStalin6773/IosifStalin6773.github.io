@@ -9,7 +9,7 @@
 3. En el menú lateral, ve a **Pages**
 4. En "Source", selecciona **GitHub Actions**
 
-### 2. Activar GitHub Actions
+### 2. Activar GitHub Actions.
 
 1. Ve a **Settings** > **Actions** > **General**
 2. En "Workflow permissions", selecciona:
