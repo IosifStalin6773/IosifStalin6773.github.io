@@ -1,0 +1,50 @@
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>
+            <a href="{{ site.repository.url }}">{{ site.repository.name }}</a> &copy; {{ "now" | date("YYYY") }} by 
+            <a href="{{ site.author.github }}">{{ site.author.name }}</a> is licensed under 
+            <a href="{{ site.license.url }}">{{ site.license.name }}</a>
+            <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        </p>
+        
+        <!-- Badges Container -->
+        <div class="badges-container">
+            <!-- Cisco Cybersecurity Badge -->
+            <div class="cisco-badge">
+                <!-- Direct badge display -->
+                <a href="{{ site.badges.cisco.url }}" target="_blank" rel="noopener noreferrer" class="badge-link">
+                    <img src="/assets/icons/introduction-to-cybersecurity.png" 
+                         alt="Cisco Introduction to Cybersecurity Badge" 
+                         class="badge-image">
+                </a>
+            </div>
+            
+            <!-- Networking Basics Badge -->
+            <div class="networking-badge">
+                <!-- Direct badge display -->
+                <a href="{{ site.badges.networking.url }}" target="_blank" rel="noopener noreferrer" class="badge-link">
+                    <img src="/assets/icons/networking-basics.png" 
+                         alt="Networking Basics Badge" 
+                         class="badge-image">
+                </a>
+            </div>
+            
+            <!-- Python Essentials Badge -->
+            <div class="python-badge">
+                <!-- Direct badge display -->
+                <a href="{{ site.badges.python.url }}" target="_blank" rel="noopener noreferrer" class="badge-link">
+                    <img src="/assets/icons/python-essentials-1.1.png" 
+                         alt="Python Essentials Badge" 
+                         class="badge-image">
+                </a>
+            </div>
+        </div>
+        
+        <!-- Easter egg oculto -->
+        <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+    </div>
+</footer>

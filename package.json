@@ -1,0 +1,36 @@
+{
+  "name": "iosifstalin677-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio profesional de Oscar de la Cruz - Desarrollador Web especializado en bots, scripts de gaming, themes y herramientas personalizadas",
+  "main": ".eleventy.js",
+  "scripts": {
+    "build": "ELEVENTY_PATH_PREFIX=/IosifStalin6773.github.io/ eleventy",
+    "build:local": "eleventy",
+    "dev": "ELEVENTY_PATH_PREFIX=/IosifStalin6773.github.io/ eleventy --serve",
+    "dev:local": "eleventy --serve",
+    "clean": "rimraf public",
+    "debug": "DEBUG=* ELEVENTY_PATH_PREFIX=/IosifStalin6773.github.io/ eleventy"
+  },
+  "keywords": [
+    "portfolio",
+    "desarrollador",
+    "web",
+    "gaming",
+    "bots",
+    "scripts",
+    "automation",
+    "eleventy"
+  ],
+  "author": "Oscar de la Cruz",
+  "license": "CC BY-NC-ND 4.0",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "markdown-it": "^13.0.2",
+    "markdown-it-anchor": "^8.6.7",
+    "rimraf": "^5.0.5"
+  },
+  "dependencies": {
+    "luxon": "^3.4.4"
+  }
+}

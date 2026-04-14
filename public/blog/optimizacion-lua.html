@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Técnicas avanzadas para optimizar scripts de Lua en entornos de gaming y servidores">
+    <meta name="keywords" content="Lua, optimización, rendimiento, gaming, servidores, programación">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Optimización de Rendimiento en Lua | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- GitBook Style CSS -->
+    <style>
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .gitbook-sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .gitbook-sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
+        .gitbook-toc-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 4px;
+        }
+
+        .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-toc-link.active {
+            background: var(--sidebar-active);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .gitbook-main {
+            flex: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 60px;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
+        /* Article Header */
+        .gitbook-header {
+            margin-bottom: 48px;
+        }
+
+        .gitbook-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-author {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .gitbook-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
+        }
+
+        .gitbook-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .gitbook-content li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Code Blocks */
+        .gitbook-code-block {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-copy-button.copied {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .gitbook-code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cards */
+        .gitbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .gitbook-key-takeaways h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content th {
+            background: var(--tertiary-bg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gitbook-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+
+        .cisco-badge {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .badge-link {
+            display: inline-block;
+        }
+
+        .badge-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gitbook-mobile-toggle {
+                display: block;
+            }
+
+            .gitbook-sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+
+            .gitbook-sidebar.open {
+                left: 0;
+            }
+
+            .gitbook-main {
+                padding: 80px 20px 40px 20px;
+            }
+
+            .gitbook-title {
+                font-size: 2rem;
+            }
+
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .gitbook-nav-link {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-main {
+                padding: 80px 16px 32px 16px;
+            }
+
+            .gitbook-title {
+                font-size: 1.75rem;
+            }
+
+            .gitbook-content {
+                font-size: 0.95rem;
+            }
+
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .gitbook-content h3 {
+                font-size: 1.25rem;
+            }
+        }
+        
+        /* Badge Alignment Fix */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+        }
+        
+        .cisco-badge,
+        .networking-badge,
+        .python-badge {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        ☰
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    💻 Optimización Lua
+                </div>
+                <div class="gitbook-sidebar-subtitle">Guía Completa de Rendimiento</div>
+            </div>
+
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#por-que-optimizar" class="gitbook-toc-link">¿Por qué optimizar en gaming?</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#gestion-memoria" class="gitbook-toc-link">Gestión de Memoria</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#optimizacion-bucles" class="gitbook-toc-link">Optimización de Bucles</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#estructuras-datos" class="gitbook-toc-link">Estructuras de Datos Eficientes</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#strings-concatenacion" class="gitbook-toc-link">Strings y Concatenación</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#herramientas-profiling" class="gitbook-toc-link">Herramientas de Profiling</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#casos-uso" class="gitbook-toc-link">Casos de Uso en Gaming</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#conclusiones" class="gitbook-toc-link">Conclusiones</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>Optimización Lua</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">Optimización de Rendimiento en Lua</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            📅 <span>15 Mar 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            ⏱️ <span>15 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            Lua es un lenguaje de scripting ligero y rápido, pero en entornos de gaming 
+                            y servidores donde el rendimiento es crítico, cada microsegundo cuenta. 
+                            En este artículo exploraremos técnicas avanzadas para optimizar scripts Lua 
+                            y maximizar el rendimiento en aplicaciones de tiempo real.
+                        </p>
+                    </section>
+
+                    <section id="por-que-optimizar">
+                        <h2>¿Por qué optimizar en gaming?</h2>
+                        <p>
+                            Los entornos de gaming presentan desafíos únicos que requieren optimización 
+                            exhaustiva:
+                        </p>
+                        <ul>
+                            <li>Los game loops se ejecutan 60+ veces por segundo</li>
+                            <li>Múltiples jugadores simultáneos</li>
+                            <li>Recursos limitados del servidor</li>
+                            <li>Latencia crítica en tiempo real</li>
+                        </ul>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💡 Impacto del Rendimiento
+                            </div>
+                            <div class="gitbook-card-content">
+                                En servidores con 100+ jugadores, cada milisegundo de optimización 
+                                puede significar la diferencia entre una experiencia fluida y 
+                                un juego injugable.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="gestion-memoria">
+                        <h2>Gestión de Memoria</h2>
+                        <p>
+                            La gestión eficiente de memoria es fundamental en Lua. El garbage collector 
+                            automático puede causar lag si no se maneja correctamente.
+                        </p>
+                        
+                        <h3>Evitar creación de objetos innecesarios</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">MAL: Creación de objetos cada frame</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>function updatePlayer(player)
+    local pos = Vector3(player.x, player.y, player.z)  -- Nuevo objeto cada frame
+    player.position = pos
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">BIEN: Reutilización de objetos</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>function updatePlayer(player)
+    -- Reutilizar el mismo objeto si existe
+    if not player.tempPos then
+        player.tempPos = Vector3(0, 0, 0)
+    end
+    player.tempPos.x = player.x
+    player.tempPos.y = player.y
+    player.tempPos.z = player.z
+    player.position = player.tempPos
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Pool de Objetos</h3>
+                        <p>
+                            Implementar un pool de objetos permite reutilizar instancias en lugar de 
+                            crear nuevas constantemente:
+                        </p>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Implementación de Object Pool</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local objectPool = {}
+local poolSize = 100
+
+function getObject()
+    if #objectPool > 0 then
+        return table.remove(objectPool)
+    else
+        return createNewObject()
+    end
+end
+
+function releaseObject(obj)
+    if #objectPool < poolSize then
+        resetObject(obj)
+        table.insert(objectPool, obj)
+    end
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="optimizacion-bucles">
+                        <h2>Optimización de Bucles</h2>
+                        <p>
+                            Los bucles son donde más tiempo de CPU se consume en gaming. Optimizarlos 
+                            puede marcar una diferencia significativa.
+                        </p>
+
+                        <h3>Evitar calcular table.length en cada iteración</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">MAL: Cálculo repetido de longitud</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>for i = 1, #players do
+    processPlayer(players[i])
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">BIEN: Cache de longitud</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local playerCount = #players
+for i = 1, playerCount do
+    processPlayer(players[i])
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>ipairs vs pairs</h3>
+                        <p>
+                            <code>ipairs</code> es más rápido para arrays secuenciales, mientras que 
+                            <code>pairs</code> es necesario para tablas con claves no numéricas:
+                        </p>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Iteradores optimizados</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- ipairs para arrays secuenciales
+for i, player in ipairs(players) do
+    processPlayer(player)
+end
+
+-- pairs para tablas hash
+for id, player in pairs(players) do
+    processPlayer(player)
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="estructuras-datos">
+                        <h2>Estructuras de Datos Eficientes</h2>
+                        <p>
+                            La elección de la estructura de datos correcta puede mejorar drásticamente 
+                            el rendimiento.
+                        </p>
+
+                        <h3>Arrays vs Tablas Hash</h3>
+                        <p>
+                            Usar arrays en lugar de tablas hash cuando sea posible:
+                        </p>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Comparación de estructuras</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- MAL (para lista secuencial):
+local players = {}
+players[1001] = player1
+players[1002] = player2
+
+-- BIEN:
+local players = {}
+players[1] = player1
+players[2] = player2</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Cache de Resultados</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema de cache simple</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local cache = {}
+local cacheSize = 1000
+
+function expensiveCalculation(input)
+    if cache[input] then
+        return cache[input]
+    end
+    
+    local result = -- cálculo costoso
+    cache[input] = result
+    
+    -- Limitar tamaño del cache
+    if table.getn(cache) > cacheSize then
+        cache = {}  -- Simple: limpiar todo
+    end
+    
+    return result
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="strings-concatenacion">
+                        <h2>Strings y Concatenación</h2>
+                        <p>
+                            La concatenación de strings en Lua puede ser costosa, especialmente en bucles.
+                        </p>
+
+                        <h3>Evitar concatenación excesiva</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">MAL: Concatenación en bucle</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local result = ""
+for i = 1, 1000 do
+    result = result .. tostring(i) .. ","
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">BIEN: table.concat</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local parts = {}
+for i = 1, 1000 do
+    parts[i] = tostring(i)
+end
+local result = table.concat(parts, ",")</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>String Formateo Eficiente</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">string.format vs concatenación</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- MAL:
+local message = "Player " .. name .. " has " .. health .. " health"
+
+-- BIEN:
+local message = string.format("Player %s has %d health", name, health)</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="herramientas-profiling">
+                        <h2>Herramientas de Profiling</h2>
+                        <p>
+                            Para optimizar efectivamente, necesitas medir el rendimiento:
+                        </p>
+
+                        <h3>Medición de Tiempo</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Medición de tiempo de ejecución</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local startTime = os.clock()
+-- código a medir
+local endTime = os.clock()
+local duration = endTime - startTime
+print("Execution time: " .. duration .. " seconds")</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Memory Profiling</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Medición de uso de memoria</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>function getMemoryUsage()
+    collectgarbage("collect")  -- Forzar GC
+    return collectgarbage("count")  -- KB de memoria usada
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="casos-uso">
+                        <h2>Casos de Uso en Gaming</h2>
+                        
+                        <h3>Sistema de Inventario Optimizado</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Inventario optimizado para gaming</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>function Inventory:addItem(item, count)
+    -- Buscar slot existente primero
+    for slot, slotItem in pairs(self.slots) do
+        if slotItem.id == item.id and slotItem.count < item.maxStack then
+            local space = item.maxStack - slotItem.count
+            local addAmount = math.min(count, space)
+            slotItem.count = slotItem.count + addAmount
+            count = count - addAmount
+            
+            if count == 0 then
+                self.dirty = true
+                return true
+            end
+        end
+    end
+    
+    -- Buscar slot vacío
+    for i = 1, self.size do
+        if not self.slots[i] then
+            self.slots[i] = {
+                id = item.id,
+                count = math.min(count, item.maxStack),
+                data = item.data
+            }
+            self.dirty = true
+            return true
+        end
+    end
+    
+    return false
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="conclusiones">
+                        <h2>Conclusiones</h2>
+                        <p>
+                            La optimización en Lua requiere un equilibrio entre rendimiento y 
+                            mantenibilidad. Las técnicas presentadas pueden mejorar significativamente 
+                            el rendimiento en entornos críticos como gaming.
+                        </p>
+                        
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Puntos Clave
+                            </h3>
+                            <ul>
+                                <li>Mide antes de optimizar</li>
+                                <li>Optimiza los cuellos de botella reales</li>
+                                <li>Mantén el código legible</li>
+                                <li>Prueba exhaustivamente después de optimizar</li>
+                            </ul>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🎓 Próximos Pasos
+                            </div>
+                            <div class="gitbook-card-content">
+                                Aplica estas técnicas en tus proyectos y mide el impacto real 
+                                en el rendimiento. Recuerda que la optimización prematura es 
+                                la raíz de todos los males.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog 🏠
+                    </a>
+                    <a href="seguridad-servers.html" class="gitbook-nav-link">
+                        Siguiente →
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '✅ <span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 <span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

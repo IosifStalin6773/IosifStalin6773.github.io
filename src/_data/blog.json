@@ -1,0 +1,20 @@
+{
+  "title": "Blog - Oscar de la Cruz",
+  "description": "Artículos sobre desarrollo web, gaming, automatización y tecnología",
+  "posts_per_page": 6,
+  "categories": [
+    "CSS",
+    "JavaScript",
+    "Gaming",
+    "FiveM",
+    "Git",
+    "Seguridad",
+    "Automatización",
+    "Python"
+  ],
+  "default_author": "Oscar de la Cruz",
+  "reading_time": {
+    "words_per_minute": 200,
+    "min_reading_time": 1
+  }
+}

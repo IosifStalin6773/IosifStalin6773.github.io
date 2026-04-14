@@ -1,0 +1,55 @@
+---
+layout: base-layout.njk
+title: "{{ title }}"
+description: "{{ description }}"
+keywords: "{{ keywords }}"
+extra_css: ["blog-styles.css"]
+---
+
+<article class="blog-post">
+    <header class="blog-header">
+        <div class="blog-meta">
+            <span class="blog-category">{{ category }}</span>
+            <time datetime="{{ date | date('%Y-%m-%d') }}" class="blog-date">{{ date | date('%d %B %Y') }}</time>
+        </div>
+        <h1 class="blog-title">{{ title }}</h1>
+        <p class="blog-excerpt">{{ excerpt }}</p>
+    </header>
+
+    <div class="blog-content">
+        {{ content | safe }}
+    </div>
+
+    <footer class="blog-footer">
+        <div class="blog-navigation">
+            {% if previous_post %}
+            <a href="{{ previous_post.url }}" class="nav-link prev-link">
+                <span class="nav-direction">Anterior</span>
+                <span class="nav-title">{{ previous_post.data.title }}</span>
+            </a>
+            {% endif %}
+            
+            {% if next_post %}
+            <a href="{{ next_post.url }}" class="nav-link next-link">
+                <span class="nav-direction">Siguiente</span>
+                <span class="nav-title">{{ next_post.data.title }}</span>
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="blog-share">
+            <h3>Compartir artículo</h3>
+            <div class="share-buttons">
+                <a href="https://twitter.com/intent/tweet?text={{ title }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="share-button twitter">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer" class="share-button linkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener noreferrer" class="share-button github">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+</article>

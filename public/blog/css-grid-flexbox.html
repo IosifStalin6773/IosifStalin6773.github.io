@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cuándo usar cada uno y cómo combinarlos para layouts complejos y responsive">
+    <meta name="keywords" content="CSS, Grid, Flexbox, layout, responsive, diseño web">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>CSS Grid vs Flexbox | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- GitBook Style CSS -->
+    <style>
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .gitbook-sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .gitbook-sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
+        .gitbook-toc-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 4px;
+        }
+
+        .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-toc-link.active {
+            background: var(--sidebar-active);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .gitbook-main {
+            flex: 1;
+            padding: 60px;
+            overflow-y: auto;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
+        /* Article Header */
+        .gitbook-header {
+            margin-bottom: 48px;
+        }
+
+        .gitbook-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-author {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .gitbook-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
+        }
+
+        .gitbook-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .gitbook-content li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Code Blocks */
+        .gitbook-code-block {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-copy-button.copied {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .gitbook-code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cards */
+        .gitbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Alert Boxes */
+        .gitbook-alert {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-alert.warning {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.danger {
+            border-color: #EF4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.info {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .gitbook-key-takeaways h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content th {
+            background: var(--tertiary-bg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gitbook-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+
+        .cisco-badge {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .badge-link {
+            display: inline-block;
+        }
+
+        .badge-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gitbook-mobile-toggle {
+                display: block;
+                padding: 15px;
+                border-radius: 12px;
+                touch-action: manipulation;
+                min-height: 48px;
+                min-width: 48px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .gitbook-sidebar {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                width: 280px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .gitbook-sidebar.open {
+                left: 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .gitbook-main {
+                padding: 100px 24px 60px 24px;
+                max-width: 100%;
+            }
+
+            .gitbook-title {
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
+            }
+
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-nav-link {
+                justify-content: center;
+                min-height: 48px;
+                padding: 12px 20px;
+                touch-action: manipulation;
+            }
+            
+            /* Typography improvements */
+            .gitbook-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 1.2rem;
+            }
+            
+            /* Code blocks mobile */
+            .code-example pre {
+                font-size: 0.85rem;
+                padding: 16px;
+                overflow-x: auto;
+                white-space: pre;
+                word-wrap: normal;
+            }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            
+            /* TOC improvements */
+            .gitbook-toc-link {
+                padding: 12px 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+            
+            /* Touch optimizations */
+            .gitbook-content a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-mobile-toggle {
+                top: 15px;
+                left: 15px;
+                padding: 12px;
+            }
+
+            .gitbook-sidebar {
+                width: 260px;
+                left: -280px;
+            }
+
+            .gitbook-main {
+                padding: 90px 16px 40px 16px;
+            }
+
+            .gitbook-title {
+                font-size: 1.9rem;
+                line-height: 1.1;
+            }
+            
+            .gitbook-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.3rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            /* Code blocks small mobile */
+            .code-example pre {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+            
+            .code-example h4 {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+            
+            /* Tables small mobile */
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                min-width: 100px;
+            }
+            
+            /* Navigation small mobile */
+            .gitbook-nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .gitbook-meta {
+                font-size: 0.85rem;
+            }
+            
+            /* TOC small mobile */
+            .gitbook-toc-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Content spacing */
+            .gitbook-content section {
+                margin-bottom: 2rem;
+            }
+            
+            .best-practices, .comparison-table, .decision-guide {
+                padding: 16px;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        /* Badge Centering - All Screen Sizes */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cisco-badge,
+        .networking-badge,
+        .python-badge {
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+        }
+        
+        .badge-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .badge-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+            transition: var(--transition);
+            object-fit: cover;
+        }
+        
+        /* Badge Responsive Design */
+        @media (max-width: 768px) {
+            .badges-container {
+                gap: 30px;
+                padding: 15px 0;
+                margin: 15px 0;
+            }
+            
+            .badge-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges-container {
+                gap: 20px;
+                padding: 10px 0;
+                margin: 10px 0;
+                flex-direction: column;
+            }
+            
+            .badge-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        ☰
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    📐 CSS Layout
+                </div>
+                <div class="gitbook-sidebar-subtitle">Grid vs Flexbox</div>
+            </div>
+
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#css-grid" class="gitbook-toc-link">CSS Grid</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#flexbox" class="gitbook-toc-link">Flexbox</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#combinando-ambos" class="gitbook-toc-link">Combinando Ambos</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#conclusion" class="gitbook-toc-link">Conclusiones</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>CSS Grid vs Flexbox</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">CSS Grid vs Flexbox</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            📅 <span>15 Feb 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            ⏱️ <span>14 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            CSS Grid y Flexbox son dos de las herramientas más poderosas para crear layouts 
+                            modernos. Aunque ambos sirven para organizar elementos, cada uno tiene sus 
+                            fortalezas específicas. En esta guía exploraremos cuándo usar cada uno y cómo 
+                            combinarlos para crear diseños complejos y responsive.
+                        </p>
+                        <p>
+                            Entender la diferencia fundamental entre Grid y Flexbox es crucial para tomar 
+                            decisiones informadas sobre qué tecnología usar en cada situación. No se trata 
+                            de cuál es "mejor", sino de cuál es más apropiado para el problema específico 
+                            que estás resolviendo.
+                        </p>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">
+                                ℹ️ Concepto Clave
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Grid es bidimensional (filas y columnas) mientras que Flexbox es unidimensional 
+                                (fila o columna). Esta es la diferencia fundamental que determina cuándo usar cada uno.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="css-grid">
+                        <h2>CSS Grid</h2>
+                        <p>
+                            CSS Grid es un sistema de layout bidimensional diseñado para crear layouts 
+                            complejos tanto en filas como columnas. Es ideal para el diseño general de 
+                            la página y layouts complejos.
+                        </p>
+
+                        <h3>Características Principales</h3>
+                        <ul>
+                            <li>Diseño bidimensional (filas y columnas)</li>
+                            <li>Control preciso sobre el layout</li>
+                            <li>Sistema de tracks (grid lines)</li>
+                            <li>Areas nombradas</li>
+                            <li>Auto-placement automático</li>
+                            <li>Gap para espaciado consistente</li>
+                        </ul>
+
+                        <h3>Cuándo Usar Grid</h3>
+                        <ul>
+                            <li>Layout general de la página</li>
+                            <li>Diseños complejos bidimensionales</li>
+                            <li>Dashboard y grids de contenido</li>
+                            <li>Layouts con áreas específicas</li>
+                            <li>Diseños que necesitan alineación precisa</li>
+                        </ul>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Ejemplo Básico de Grid</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Contenedor Grid */
+.container {
+    display: grid;
+    
+    /* Definir columnas y filas */
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    
+    /* Definir áreas */
+    grid-template-areas:
+        "header header header"
+        "sidebar main aside"
+        "footer footer footer";
+    
+    /* Espaciado */
+    gap: 20px;
+    
+    /* Alto mínimo del contenedor */
+    min-height: 100vh;
+}
+
+/* Elementos del layout */
+.header {
+    grid-area: header;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+}
+
+.main {
+    grid-area: main;
+    background: #ecf0f1;
+    padding: 20px;
+}
+
+.aside {
+    grid-area: aside;
+    background: #34495e;
+    color: white;
+    padding: 20px;
+}
+
+.footer {
+    grid-area: footer;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💡 Tip Profesional
+                            </div>
+                            <div class="gitbook-card-content">
+                                Usa <code>grid-template-areas</code> para layouts complejos. 
+                                Hace el código más legible y fácil de mantener que usar 
+                                <code>grid-column</code> y <code>grid-row</code> individualmente.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="flexbox">
+                        <h2>Flexbox</h2>
+                        <p>
+                            Flexbox es un sistema de layout unidimensional diseñado para organizar 
+                            elementos en una dirección (fila o columna). Es perfecto para alinear 
+                            componentes individuales y layouts más simples.
+                        </p>
+
+                        <h3>Características Principales</h3>
+                        <ul>
+                            <li>Diseño unidimensional (fila o columna)</li>
+                            <li>Alineación flexible de elementos</li>
+                            <li>Distribución de espacio</li>
+                            <li>Orden flexible de elementos</li>
+                            <li>Wrapping automático</li>
+                            <li>Control sobre crecimiento y encogimiento</li>
+                        </ul>
+
+                        <h3>Cuándo Usar Flexbox</h3>
+                        <ul>
+                            <li>Componentes individuales (navegación, cards, botones)</li>
+                            <li>Alineación de elementos en una dirección</li>
+                            <li>Distribución de espacio horizontal o vertical</li>
+                            <li>Centering y alineación</li>
+                            <li>Layouts responsive simples</li>
+                        </ul>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Ejemplo de Flexbox</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Contenedor Flexbox */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #2c3e50;
+}
+
+/* Logo */
+.logo {
+    flex: 0 0 auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navegación */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+.nav-links li {
+    flex: 0 0 auto;
+}
+
+/* Botón */
+.nav-button {
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Cards con Flexbox */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1 1 300px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Centering perfecto */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                ⭐ Ventaja Clave
+                            </div>
+                            <div class="gitbook-card-content">
+                                Flexbox es excelente para centering perfecto. Con <code>display: flex; 
+                                justify-content: center; align-items: center;</code> puedes centrar 
+                                cualquier elemento vertical y horizontalmente.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="combinando-ambos">
+                        <h2>Combinando Ambos</h2>
+                        <p>
+                            La verdadera magia sucede cuando combinas Grid y Flexbox. Grid para el layout 
+                            general de la página y Flexbox para los componentes internos.
+                        </p>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Layout Híbrido</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Grid para el layout principal */
+.page-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    gap: 20px;
+    min-height: 100vh;
+}
+
+/* Flexbox para el header */
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #2c3e50;
+    color: white;
+}
+
+/* Flexbox para la navegación */
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+/* Flexbox para cards en el main */
+.main-content {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+}
+
+.card-body {
+    flex: 1;
+    padding: 1rem;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Ejemplo Práctico: Dashboard</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Dashboard con Grid + Flexbox</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Grid para estructura del dashboard */
+.dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-rows: 60px 1fr 40px;
+    grid-template-areas:
+        "sidebar header header"
+        "sidebar main aside"
+        "sidebar footer footer";
+    gap: 1px;
+    background: #e0e0e0;
+    height: 100vh;
+}
+
+/* Flexbox para header */
+.dashboard-header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background: white;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Flexbox para widgets */
+.widgets-container {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #2c3e50;
+    color: white;
+}
+
+.widget-content {
+    flex: 1;
+    padding: 20px;
+}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas">
+                        <h2>Mejores Prácticas</h2>
+
+                        <h3>Cuándo Elegir Grid</h3>
+                        <ul>
+                            <li><strong>Layout principal de la página:</strong> Header, main, sidebar, footer</li>
+                            <li><strong>Galerías de imágenes:</strong> Grids complejos de diferentes tamaños</li>
+                            <li><strong>Dashboard:</strong> Múltiples widgets organizados</li>
+                            <li><strong>Magazine layout:</strong> Artículos en diferentes posiciones</li>
+                            <li><strong>Formularios complejos:</strong> Campos organizados en grid</li>
+                        </ul>
+
+                        <h3>Cuándo Elegir Flexbox</h3>
+                        <ul>
+                            <li><strong>Navegación:</strong> Menús horizontales o verticales</li>
+                            <li><strong>Cards:</strong> Contenido alineado verticalmente</li>
+                            <li><strong>Botones:</strong> Grupos de botones alineados</li>
+                            <li><strong>Centering:</strong> Elementos centrados perfectamente</li>
+                            <li><strong>Formularios simples:</strong> Campos alineados</li>
+                        </ul>
+
+                        <h3>Errores Comunes a Evitar</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                ⚠️ Errores Frecuentes
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ul>
+                                    <li><strong>Usar Grid para todo:</strong> No uses Grid cuando Flexbox es suficiente</li>
+                                    <li><strong>Ignorar browser support:</strong> Verifica compatibilidad si target es antiguo</li>
+                                    <li><strong>Over-engineering:</strong> No compliques layouts simples</li>
+                                    <li><strong>Mixed approaches inconsistent:</strong> Sé consistente en tu enfoque</li>
+                                    <li><strong>Olvidar responsive:</strong> Ambos necesitan media queries</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Performance Considerations</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Optimización</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>/* Evita reflows innecesarios */
+.optimized-layout {
+    display: grid;
+    /* Define todas las propiedades juntas */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+    
+    /* Evita cambios dinámicos frecuentes */
+    will-change: transform;
+}
+
+/* Usa contain para optimización */
+.card-container {
+    display: flex;
+    contain: layout style paint;
+}
+
+/* Para layouts complejos, considera containment */
+.complex-grid {
+    display: grid;
+    contain: layout;
+}
+
+/* Evita animaciones en propiedades de layout */
+/* En su lugar, usa transform */
+.animated-card {
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.animated-card:hover {
+    transform: translateY(-4px);
+}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="conclusion">
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Conclusiones Clave
+                            </h3>
+                            <ul>
+                                <li>Grid y Flexbox no son competidores, son complementos</li>
+                                <li>Grid es para layout 2D (estructura de página)</li>
+                                <li>Flexbox es para layout 1D (componentes y alineación)</li>
+                                <li>La combinación de ambos es la solución más poderosa</li>
+                                <li>Empieza simple, añade complejidad solo cuando sea necesario</li>
+                                <li>Considera siempre el responsive design</li>
+                                <li>Piensa en mantenibilidad y legibilidad del código</li>
+                                <li>Prueba en diferentes navegadores y dispositivos</li>
+                            </ul>
+                        </div>
+
+                        <h2>Recursos Adicionales</h2>
+                        <ul>
+                            <li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">CSS Tricks - Complete Guide to Grid</a></li>
+                            <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">CSS Tricks - Complete Guide to Flexbox</a></li>
+                            <li><a href="https://gridbyexample.com/" target="_blank">Grid by Example</a></li>
+                            <li><a href="https://flexboxfroggy.com/" target="_blank">Flexbox Froggy (juego interactivo)</a></li>
+                            <li><a href="https://cssgridgarden.com/" target="_blank">CSS Grid Garden (juego interactivo)</a></li>
+                        </ul>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🎓 Próximos Pasos
+                            </div>
+                            <div class="gitbook-card-content">
+                                Ahora que entiendes las diferencias, practica creando layouts reales. 
+                                Comienza con componentes simples usando Flexbox, luego construye 
+                                layouts completos con Grid, y finalmente combina ambos en proyectos 
+                                complejos. La práctica es clave para dominar estas herramientas 
+                                fundamentales del CSS moderno.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="github-actions.html" class="gitbook-nav-link">
+                        ← Anterior
+                    </a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog 🏠
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '✅ <span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 <span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

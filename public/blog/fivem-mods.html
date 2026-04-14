@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creación de mods personalizados para FiveM con ESX y frameworks populares">
+    <meta name="keywords" content="FiveM, mods, ESX, Lua, gaming, desarrollo, GTA V">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Desarrollo de Mods para FiveM | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- GitBook Style CSS -->
+    <style>
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .gitbook-sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .gitbook-sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
+        .gitbook-toc-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 4px;
+        }
+
+        .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-toc-link.active {
+            background: var(--sidebar-active);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .gitbook-main {
+            flex: 1;
+            padding: 60px;
+            overflow-y: auto;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
+        /* Article Header */
+        .gitbook-header {
+            margin-bottom: 48px;
+        }
+
+        .gitbook-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-author {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .gitbook-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
+        }
+
+        .gitbook-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .gitbook-content li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Code Blocks */
+        .gitbook-code-block {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-copy-button.copied {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .gitbook-code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cards */
+        .gitbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .gitbook-key-takeaways h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content th {
+            background: var(--tertiary-bg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gitbook-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+
+
+        .cisco-badge {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .badge-link {
+            display: inline-block;
+        }
+
+        .badge-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gitbook-mobile-toggle {
+                display: block;
+                padding: 15px;
+                border-radius: 12px;
+                touch-action: manipulation;
+                min-height: 48px;
+                min-width: 48px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .gitbook-sidebar {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                width: 280px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .gitbook-sidebar.open {
+                left: 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .gitbook-main {
+                padding: 100px 24px 60px 24px;
+                max-width: 100%;
+            }
+
+            .gitbook-title {
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
+            }
+
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-nav-link {
+                justify-content: center;
+                min-height: 48px;
+                padding: 12px 20px;
+                touch-action: manipulation;
+            }
+            
+            /* Typography improvements */
+            .gitbook-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 1.2rem;
+            }
+            
+            /* Code blocks mobile */
+            .code-example pre {
+                font-size: 0.85rem;
+                padding: 16px;
+                overflow-x: auto;
+                white-space: pre;
+                word-wrap: normal;
+            }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            
+            /* TOC improvements */
+            .gitbook-toc-link {
+                padding: 12px 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+            
+            /* Touch optimizations */
+            .gitbook-content a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-mobile-toggle {
+                top: 15px;
+                left: 15px;
+                padding: 12px;
+            }
+
+            .gitbook-sidebar {
+                width: 260px;
+                left: -280px;
+            }
+
+            .gitbook-main {
+                padding: 90px 16px 40px 16px;
+            }
+
+            .gitbook-title {
+                font-size: 1.9rem;
+                line-height: 1.1;
+            }
+            
+            .gitbook-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.3rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            /* Code blocks small mobile */
+            .code-example pre {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+            
+            .code-example h4 {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+            
+            /* Tables small mobile */
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                min-width: 100px;
+            }
+            
+            /* Navigation small mobile */
+            .gitbook-nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .gitbook-meta {
+                font-size: 0.85rem;
+            }
+            
+            /* TOC small mobile */
+            .gitbook-toc-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Content spacing */
+            .gitbook-content section {
+                margin-bottom: 2rem;
+            }
+            
+            .best-practices, .comparison-table, .decision-guide {
+                padding: 16px;
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        ☰
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    🎮 FiveM Mods
+                </div>
+                <div class="gitbook-sidebar-subtitle">Guía Completa de Desarrollo</div>
+            </div>
+
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#configuracion" class="gitbook-toc-link">Configuración del Entorno</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#primer-recurso" class="gitbook-toc-link">Primer Recurso</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#frameworks" class="gitbook-toc-link">Frameworks Populares</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#sistemas-personalizados" class="gitbook-toc-link">Sistemas Personalizados</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#nui" class="gitbook-toc-link">Interfaces NUI</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#bases-datos" class="gitbook-toc-link">Bases de Datos</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>FiveM Mods</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">Desarrollo de Mods para FiveM</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            📅 <span>28 Feb 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            ⏱️ <span>20 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            FiveM es una de las plataformas más populares para crear servidores personalizados 
+                            de GTA V. En esta guía completa exploraremos cómo desarrollar mods desde cero, 
+                            utilizando frameworks como ESX y creando sistemas personalizados que mejorarán 
+                            la experiencia de juego en tu servidor.
+                        </p>
+                        <p>
+                            FiveM es una modificación multijugador para GTA V que permite crear servidores 
+                            personalizados con scripts y recursos personalizados. A diferencia de GTA Online, 
+                            FiveM da control total sobre el servidor y permite implementar sistemas 
+                            completamente personalizados.
+                        </p>
+
+                        <h3>Características Principales</h3>
+                        <ul>
+                            <li>Soporte nativo para Lua y JavaScript</li>
+                            <li>API completa para interactuar con el juego</li>
+                            <li>Framework de recursos modular</li>
+                            <li>Soporte para bases de datos MySQL</li>
+                            <li>Comunidad activa y documentación extensiva</li>
+                            <li>Compatibilidad con mods personalizados</li>
+                        </ul>
+
+                        <h3>Arquitectura de Recursos</h3>
+                        <p>
+                            Cada mod en FiveM se llama "recurso" y tiene una estructura específica:
+                        </p>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Estructura de Recurso FiveM</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>mi-recurso/
+    fxmanifest.lua     # Configuración del recurso
+    client.lua         # Scripts del cliente
+    server.lua         # Scripts del servidor
+    shared.lua         # Scripts compartidos
+    html/              # Interfaz web (NUI)
+    css/               # Estilos para NUI
+    js/                # JavaScript para NUI
+    images/            # Imágenes y assets</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuracion">
+                        <h2>Configuración del Entorno</h2>
+                        <p>
+                            Antes de comenzar a desarrollar mods para FiveM, necesitas configurar tu entorno 
+                            de desarrollo correctamente. Esto incluye instalar el software necesario y 
+                            configurar la estructura básica del servidor.
+                        </p>
+
+                        <h3>Requisitos Previos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Software y Extensiones Necesarias</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Software necesario:
+- FiveM Server (última versión)
+- Visual Studio Code o editor preferido
+- MySQL Server (para bases de datos)
+- Git (para control de versiones)
+
+# Extensiones recomendadas para VS Code:
+- Lua Language Server
+- FiveM Resource Development
+- ESLint (para JavaScript)
+- Prettier (formateo de código)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Estructura del Servidor</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Estructura de Directorios del Servidor</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>servidor-fivem/
+    resources/           # Todos los recursos
+        [essential]/     # Recursos esenciales
+        [frameworks]/    # Frameworks (ESX, QBCore)
+        [standalone]/    # Recursos independientes
+        [custom]/        # Tus recursos personalizados
+    
+    server.cfg           # Configuración del servidor
+    start.bat            # Script de inicio
+    citizen.ini          # Configuración de CitizenFX</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Configuración Básica</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">server.cfg - Configuración Esencial</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># server.cfg - Configuración esencial
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+
+# Información del servidor
+sv_hostname "Mi Servidor FiveM"
+sv_maxclients 32
+sv_endpointprivacy true
+
+# Configuración de OneSync
+set onesync on
+
+# Licencia (obtener de https://keymaster.fivem.net/)
+sv_license "tu-licencia-aqui"
+
+# Scripts de inicio
+start mapmanager
+start chat</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💡 Tip Profesional
+                            </div>
+                            <div class="gitbook-card-content">
+                                Obtén tu licencia de FiveM desde keymaster.fivem.net. Es gratuita para desarrollo 
+                                y necesaria para que tu servidor funcione correctamente.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="primer-recurso">
+                        <h2>Primer Recurso</h2>
+                        <p>
+                            Ahora vamos a crear nuestro primer recurso básico para entender cómo funciona 
+                            el sistema de recursos de FiveM. Crearemos un simple "Hola Mundo" que se 
+                            ejecutará cuando un jugador se conecte al servidor.
+                        </p>
+
+                        <h3>fxmanifest.lua</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración del Recurso</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- fxmanifest.lua
+fx_version 'cerulean'
+game 'gta5'
+
+author 'Tu Nombre'
+description 'Mi primer recurso FiveM'
+version '1.0.0'
+
+-- Scripts del cliente
+client_scripts {
+    'client.lua'
+}
+
+-- Scripts del servidor
+server_scripts {
+    'server.lua'
+}
+
+-- Scripts compartidos
+shared_scripts {
+    'shared.lua'
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>client.lua</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Script del Cliente</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- client.lua
+local PlayerLoaded = false
+
+-- Evento que se dispara cuando el jugador carga
+AddEventHandler('playerSpawned', function()
+    if not PlayerLoaded then
+        PlayerLoaded = true
+        TriggerEvent('chat:addMessage', {
+            color = {0, 255, 0},
+            multiline = true,
+            args = {"[FiveM]", "¡Bienvenido a mi servidor!"}
+        })
+    end
+end)
+
+-- Comando personalizado
+RegisterCommand('hola', function(source, args, rawCommand)
+    TriggerEvent('chat:addMessage', {
+        color = {0, 255, 255},
+        multiline = true,
+        args = {"[Sistema]", "¡Hola! Este es tu primer mod."}
+    })
+end, false)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>server.lua</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Script del Servidor</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- server.lua
+-- Evento que se dispara cuando un jugador se conecta
+AddEventHandler('playerConnecting', function()
+    local playerName = GetPlayerName(source)
+    print(string.format("^2%s ^7se está conectando al servidor", playerName))
+end)
+
+-- Evento que se dispara cuando un jugador se une completamente
+AddEventHandler('playerJoining', function(source)
+    local playerName = GetPlayerName(source)
+    
+    -- Notificar a todos los jugadores
+    TriggerClientEvent('chat:addMessage', -1, {
+        color = {255, 255, 0},
+        multiline = true,
+        args = {"[Servidor", string.format("%s se ha unido al servidor", playerName)}
+    })
+end)
+
+-- Comando para administradores
+RegisterCommand('anuncio', function(source, args, rawCommand)
+    if source == 0 or IsPlayerAceAllowed(source, 'command') then
+        local message = table.concat(args, " ")
+        TriggerClientEvent('chat:addMessage', -1, {
+            color = {255, 0, 0},
+            multiline = true,
+            args = {"[ANUNCIO]", message}
+        })
+    else
+        TriggerClientEvent('chat:addMessage', source, {
+            color = {255, 0, 0},
+            multiline = true,
+            args = {"[ERROR]", "No tienes permisos para usar este comando"}
+        })
+    end
+end)</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="frameworks">
+                        <h2>Frameworks Populares</h2>
+                        <p>
+                            Los frameworks proporcionan una base sólida para desarrollar servidores FiveM 
+                            con sistemas predefinidos como economía, inventario, trabajos, y más. 
+                            Los dos frameworks más populares son ESX y QBCore.
+                        </p>
+
+                        <h3>ESX Framework</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Instalación de ESX</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- Descargar ESX Legacy
+cd resources/[frameworks]
+git clone https://github.com/esx-framework/esx-legacy.git
+
+-- Configurar server.cfg para ESX
+set esx_data_mysql "mysql-async"
+set esx_data_hostname "localhost"
+set esx_data_username "root"
+set esx_data_password ""
+set esx_data_database "esx"
+
+-- Iniciar recursos ESX
+start es_extended
+start esx_menu_default
+start esx_menu_list
+start esx_menu_dialog</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Ejemplo de Job con ESX</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Job de Mecánico con ESX</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- client.lua - Job de mecánico
+local ESX = exports['es_extended']:getSharedObject()
+
+-- Blip del taller
+local blips = {
+    {title="Taller Mecánico", colour=5, id=446, x=-212.17, y=-1326.24, z=30.89}
+}
+
+Citizen.CreateThread(function()
+    for _, info in pairs(blips) do
+        info.blip = AddBlipForCoord(info.x, info.y, info.z)
+        SetBlipSprite(info.blip, info.id)
+        SetBlipDisplay(info.blip, 4)
+        SetBlipScale(info.blip, 0.8)
+        SetBlipColour(info.blip, info.colour)
+        SetBlipAsShortRange(info.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(info.title)
+        EndTextCommandSetBlipName(info.blip)
+    end
+end)
+
+-- Menú de reparación
+RegisterNetEvent('esx_mechanicjob:openMenu')
+AddEventHandler('esx_mechanicjob:openMenu', function()
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'mechanic_menu', {
+        title = 'Taller Mecánico',
+        align = 'top-left',
+        elements = {
+            {label = 'Reparar vehículo ($500)', value = 'repair'},
+            {label = 'Mejorar vehículo ($1000)', value = 'upgrade'},
+            {label = 'Pintar vehículo ($300)', value = 'paint'}
+        }
+    }, function(data, menu)
+        local action = data.current.value
+        
+        if action == 'repair' then
+            TriggerServerEvent('esx_mechanicjob:repairVehicle')
+        elseif action == 'upgrade' then
+            TriggerServerEvent('esx_mechanicjob:upgradeVehicle')
+        elseif action == 'paint' then
+            TriggerServerEvent('esx_mechanicjob:paintVehicle')
+        end
+    end, function(data, menu)
+        menu.close()
+    end)
+end)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>QBCore Framework</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Instalación de QBCore</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- Descargar QBCore
+cd resources/[frameworks]
+git clone https://github.com/qbcore-framework/qb-core.git
+
+-- Configurar database
+-- Importar qb-core.sql a tu base de datos MySQL
+
+-- Configurar server.cfg
+set mysql_connection_string "mysql://root:@localhost/qbcore"
+set qbcore_locale "es"
+
+-- Iniciar recursos QBCore
+start qb-core
+start qb-inventory
+start qb-shops
+start qb-garages</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                ℹ️ Framework Comparison
+                            </div>
+                            <div class="gitbook-card-content">
+                                <strong>ESX:</strong> Más antiguo, gran comunidad, más recursos disponibles.<br>
+                                <strong>QBCore:</strong> Más moderno, mejor rendimiento, código más limpio.<br>
+                                Ambos son excelentes opciones, elige según tus preferencias.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sistemas-personalizados">
+                        <h2>Sistemas Personalizados</h2>
+                        <p>
+                            Una vez que entiendes los conceptos básicos, puedes crear sistemas personalizados 
+                            para tu servidor. Aquí mostraremos cómo crear algunos sistemas comunes.
+                        </p>
+
+                        <h3>Sistema de Economía</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema de Dinero Personalizado</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- server.lua - Sistema de economía
+local PlayerMoney = {}
+
+-- Cargar dinero del jugador al conectar
+AddEventHandler('playerConnecting', function()
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    -- Aquí cargarías desde la base de datos
+    PlayerMoney[identifier] = 5000 -- Dinero inicial
+end)
+
+-- Función para obtener dinero
+exports('GetPlayerMoney', function(source)
+    local identifier = GetPlayerIdentifier(source)
+    return PlayerMoney[identifier] or 0
+end)
+
+-- Función para añadir dinero
+exports('AddPlayerMoney', function(source, amount)
+    local identifier = GetPlayerIdentifier(source)
+    PlayerMoney[identifier] = (PlayerMoney[identifier] or 0) + amount
+    
+    -- Notificar al cliente
+    TriggerClientEvent('money:updated', source, PlayerMoney[identifier])
+end)
+
+-- Función para remover dinero
+exports('RemovePlayerMoney', function(source, amount)
+    local identifier = GetPlayerIdentifier(source)
+    local currentMoney = PlayerMoney[identifier] or 0
+    
+    if currentMoney >= amount then
+        PlayerMoney[identifier] = currentMoney - amount
+        TriggerClientEvent('money:updated', source, PlayerMoney[identifier])
+        return true
+    else
+        return false
+    end
+end)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Sistema de Inventario</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Inventario Básico</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- shared.lua - Sistema de inventario
+local Inventory = {}
+
+-- Estructura de item
+local ItemTypes = {
+    ['phone'] = {name = 'Teléfono', weight = 0.5, stackable = false},
+    ['water'] = {name = 'Agua', weight = 0.3, stackable = true},
+    ['bread'] = {name = 'Pan', weight = 0.2, stackable = true},
+    ['lockpick'] = {name = 'Ganzúa', weight = 0.1, stackable = true}
+}
+
+-- Función para crear inventario
+function CreateInventory(identifier)
+    Inventory[identifier] = {
+        items = {},
+        maxWeight = 30.0,
+        currentWeight = 0.0
+    }
+    return Inventory[identifier]
+end
+
+-- Función para añadir item
+function AddItem(identifier, itemName, count)
+    local inventory = Inventory[identifier]
+    if not inventory then
+        inventory = CreateInventory(identifier)
+    end
+    
+    local itemType = ItemTypes[itemName]
+    if not itemType then return false end
+    
+    local totalWeight = itemType.weight * count
+    if inventory.currentWeight + totalWeight > inventory.maxWeight then
+        return false
+    end
+    
+    if itemType.stackable then
+        inventory.items[itemName] = (inventory.items[itemName] or 0) + count
+    else
+        for i = 1, count do
+            table.insert(inventory.items, {
+                name = itemName,
+                label = itemType.name,
+                weight = itemType.weight
+            })
+        end
+    end
+    
+    inventory.currentWeight = inventory.currentWeight + totalWeight
+    return true
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Sistema de GPS</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema de GPS y Waypoints</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- client.lua - Sistema GPS
+local HasGPS = false
+local GPSLocations = {
+    {name = 'Hospital', x = 295.83, y = -583.97, z = 43.15},
+    {name = 'Policía', x = 425.13, y = -979.61, z = 30.71},
+    {name = 'Mecánico', x = -212.17, y = -1326.24, z = 30.89},
+    {name = 'Banco', x = 150.26, y = -1040.53, z = 29.37}
+}
+
+-- Comando para activar GPS
+RegisterCommand('gps', function(source, args, rawCommand)
+    if #args == 0 then
+        -- Mostrar lista de ubicaciones
+        local message = "^3Ubicaciones disponibles:^7\n"
+        for i, loc in ipairs(GPSLocations) do
+            message = message .. string.format("^2%d^7 - %s\n", i, loc.name)
+        end
+        TriggerEvent('chat:addMessage', {args = {message}})
+    else
+        local index = tonumber(args[1])
+        if index and index > 0 and index <= #GPSLocations then
+            local location = GPSLocations[index]
+            SetNewWaypoint(location.x, location.y)
+            TriggerEvent('chat:addMessage', {
+                color = {0, 255, 0},
+                multiline = true,
+                args = {"[GPS]", "GPS establecido en: " .. location.name}
+            })
+            HasGPS = true
+        else
+            TriggerEvent('chat:addMessage', {
+                color = {255, 0, 0},
+                multiline = true,
+                args = {"[ERROR]", "Ubicación inválida"}
+            })
+        end
+    end
+end, false)
+
+-- Mostrar distancia al waypoint
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        if HasGPS then
+            local waypoint = GetFirstBlipInfoId(8)
+            if DoesBlipExist(waypoint) then
+                local coords = GetBlipInfoIdCoord(waypoint)
+                local playerCoords = GetEntityCoords(PlayerPedId())
+                local distance = #(playerCoords - vector3(coords.x, coords.y, coords.z))
+                
+                -- Actualizar HUD con distancia
+                -- Aquí podrías actualizar un elemento de la UI
+            end
+        end
+    end
+end)</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="nui">
+                        <h2>Interfaces NUI</h2>
+                        <p>
+                            NUI (Native UI) te permite crear interfaces web dentro del juego. 
+                            Es perfecto para menús, inventarios, y sistemas interactivos.
+                        </p>
+
+                        <h3>HTML para Menú</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">index.html - Menú Principal</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Menú FiveM&lt;/title&gt;
+    &lt;link rel="stylesheet" href="../styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="menu-container" id="menuContainer"&gt;
+        &lt;div class="menu-header"&gt;
+            &lt;h2&gt;Menú Principal&lt;/h2&gt;
+            &lt;button class="close-btn" id="closeBtn"&gt;×&lt;/button&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="menu-content"&gt;
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Personaje&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="inventory"&gt;
+                    <span>Inventario</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="wallet"&gt;
+                    <span>Cartera</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="phone"&gt;
+                    <span>Teléfono</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Vehículo&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="garage"&gt;
+                    <span>Garaje</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="gps"&gt;
+                    <span>GPS</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="menu-section"&gt;
+                &lt;h3&gt;Sistema&lt;/h3&gt;
+                &lt;div class="menu-item" data-action="settings"&gt;
+                    <span>Configuración</span>
+                &lt;/div&gt;
+                &lt;div class="menu-item" data-action="help"&gt;
+                    <span>Ayuda</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                <span>Nota Importante</span>
+                            </div>
+                            <div class="gitbook-card-content">
+                                Este es un ejemplo básico de menú NUI. Para producción, considera 
+                                añadir más funcionalidades como animaciones, sonidos, y 
+                                validaciones adicionales.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="bases-datos">
+                        <h2>Bases de Datos</h2>
+                        <p>
+                            Para servidores serios, necesitarás una base de datos para almacenar 
+                            información persistente como dinero del jugador, inventario, vehículos, y más.
+                        </p>
+
+                        <h3>Configuración MySQL</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración de MySQL</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- server.cfg - Configuración MySQL
+set mysql_connection_string "mysql://username:password@localhost/database_name"
+set mysql_async true
+
+-- O usar oxmysql
+set mysql_async false
+ensure oxmysql</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Esquema de Base de Datos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">SQL - Esquema Básico</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- Crear base de datos
+CREATE DATABASE fivem_server;
+USE fivem_server;
+
+-- Tabla de jugadores
+CREATE TABLE `players` (
+  `identifier` varchar(50) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `money` int(11) DEFAULT 5000,
+  `bank` int(11) DEFAULT 10000,
+  `job` varchar(50) DEFAULT 'unemployed',
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`identifier`)
+);
+
+-- Tabla de vehículos
+CREATE TABLE `owned_vehicles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(50) NOT NULL,
+  `plate` varchar(12) NOT NULL,
+  `vehicle` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `job` varchar(20) DEFAULT NULL,
+  `stored` tinyint(1) DEFAULT 1,
+  `parking` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `plate` (`plate`)
+);
+
+-- Tabla de inventario
+CREATE TABLE `user_inventory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(50) NOT NULL,
+  `item` varchar(50) NOT NULL,
+  `count` int(11) DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `identifier` (`identifier`)
+);
+
+-- Tabla de datos del jugador
+CREATE TABLE `user_data` (
+  `identifier` varchar(50) NOT NULL,
+  `data` longtext DEFAULT NULL,
+  PRIMARY KEY (`identifier`)
+);</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Conexión a Base de Datos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Lua - Conexión MySQL</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- server.lua - Conexión MySQL
+local MySQL = exports['oxmysql']
+
+-- Función para cargar datos del jugador
+function LoadPlayerData(identifier)
+    MySQL.scalar('SELECT money, bank, job FROM players WHERE identifier = ?', {
+        identifier
+    }, function(result)
+        if result then
+            -- Enviar datos al cliente
+            TriggerClientEvent('playerData:loaded', source, {
+                money = result.money,
+                bank = result.bank,
+                job = result.job
+            })
+        else
+            -- Crear nuevo jugador
+            MySQL.execute('INSERT INTO players (identifier, name, money, bank, job) VALUES (?, ?, ?, ?, ?)', {
+                identifier,
+                GetPlayerName(source),
+                5000,
+                10000,
+                'unemployed'
+            })
+            
+            TriggerClientEvent('playerData:loaded', source, {
+                money = 5000,
+                bank = 10000,
+                job = 'unemployed'
+            })
+        end
+    end)
+end
+
+-- Guardar datos del jugador
+function SavePlayerData(identifier, data)
+    MySQL.execute('UPDATE players SET money = ?, bank = ?, job = ? WHERE identifier = ?', {
+        data.money,
+        data.bank,
+        data.job,
+        identifier
+    })
+end
+
+-- Evento cuando el jugador se conecta
+AddEventHandler('playerConnecting', function()
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    -- Cargar datos después de que el jugador se una completamente
+    Citizen.CreateThread(function()
+        Citizen.Wait(2000)
+        LoadPlayerData(identifier)
+    end)
+end)
+
+-- Guardar datos cuando el jugador se desconecta
+AddEventHandler('playerDropped', function(reason)
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    -- Obtener datos actuales del jugador
+    TriggerClientEvent('playerData:getData', source)
+end)
+
+-- Recibir datos del cliente para guardar
+RegisterNetEvent('playerData:saveData')
+AddEventHandler('playerData:saveData', function(data)
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    SavePlayerData(identifier, data)
+end)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Sistema de Vehículos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Lua - Gestión de Vehículos</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- server.lua - Sistema de vehículos
+local MySQL = exports['oxmysql']
+
+-- Obtener vehículos del jugador
+RegisterServerEvent('garage:getVehicles')
+AddEventHandler('garage:getVehicles', function()
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    MySQL.query('SELECT * FROM owned_vehicles WHERE owner = ?', {
+        identifier
+    }, function(vehicles)
+        TriggerClientEvent('garage:showVehicles', source, vehicles)
+    end)
+end)
+
+-- Sacar vehículo del garaje
+RegisterServerEvent('garage:takeOutVehicle')
+AddEventHandler('garage:takeOutVehicle', function(plate)
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    MySQL.execute('UPDATE owned_vehicles SET stored = 0 WHERE plate = ? AND owner = ?', {
+        plate,
+        identifier
+    }, function(affectedRows)
+        if affectedRows > 0 then
+            TriggerClientEvent('garage:vehicleSpawned', source, plate)
+        else
+            TriggerClientEvent('chat:addMessage', source, {
+                color = {255, 0, 0},
+                multiline = true,
+                args = {"[Garaje]", "No tienes este vehículo"}
+            })
+        end
+    end)
+end)
+
+-- Guardar vehículo en garaje
+RegisterServerEvent('garage:storeVehicle')
+AddEventHandler('garage:storeVehicle', function(plate)
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    MySQL.execute('UPDATE owned_vehicles SET stored = 1, parking = ? WHERE plate = ? AND owner = ?', {
+        'central',
+        plate,
+        identifier
+    }, function(affectedRows)
+        if affectedRows > 0 then
+            TriggerClientEvent('chat:addMessage', source, {
+                color = {0, 255, 0},
+                multiline = true,
+                args = {"[Garaje]", "Vehículo guardado correctamente"}
+            })
+        end
+    end)
+end)
+
+-- Comprar vehículo
+RegisterServerEvent('garage:buyVehicle')
+AddEventHandler('garage:buyVehicle', function(vehicleModel, price)
+    local source = source
+    local identifier = GetPlayerIdentifier(source)
+    
+    -- Verificar si el jugador tiene suficiente dinero
+    MySQL.scalar('SELECT money FROM players WHERE identifier = ?', {
+        identifier
+    }, function(money)
+        if money and money >= price then
+            -- Generar matrícula única
+            local plate = GeneratePlate()
+            
+            -- Descontar dinero
+            MySQL.execute('UPDATE players SET money = money - ? WHERE identifier = ?', {
+                price,
+                identifier
+            })
+            
+            -- Añadir vehículo
+            MySQL.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, type, stored) VALUES (?, ?, ?, ?, ?)', {
+                identifier,
+                plate,
+                vehicleModel,
+                'car',
+                1
+            })
+            
+            TriggerClientEvent('chat:addMessage', source, {
+                color = {0, 255, 0},
+                multiline = true,
+                args = {"[Concesionario]", "Vehículo comprado: " .. plate}
+            })
+            
+            TriggerClientEvent('garage:refreshVehicles', source)
+        else
+            TriggerClientEvent('chat:addMessage', source, {
+                color = {255, 0, 0},
+                multiline = true,
+                args = {"[Concesionario]", "No tienes suficiente dinero"}
+            })
+        end
+    end)
+end)
+
+-- Generar matrícula única
+function GeneratePlate()
+    local plate = string.format("%s%s%s%s%s%s%s%s", 
+        string.char(math.random(65, 90)),
+        string.char(math.random(65, 90)),
+        math.random(0, 9),
+        math.random(0, 9),
+        math.random(0, 9),
+        string.char(math.random(65, 90)),
+        string.char(math.random(65, 90)),
+        math.random(0, 9)
+    )
+    
+    -- Verificar que no exista
+    local result = MySQL.scalarSync('SELECT plate FROM owned_vehicles WHERE plate = ?', {plate})
+    if result then
+        return GeneratePlate() -- Recursivo si ya existe
+    else
+        return plate
+    end
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas">
+                        <h2>Mejores Prácticas</h2>
+                        <p>
+                            Para crear mods de alta calidad y mantenibles, es importante seguir 
+                            mejores prácticas de desarrollo y optimización.
+                        </p>
+
+                        <h3>Optimización de Rendimiento</h3>
+                        <ul>
+                            <li>Usa Citizen.CreateThread con delays apropiados</li>
+                            <li>Evita loops infinitos sin Citizen.Wait</li>
+                            <li>Cachea referencias a funciones y variables</li>
+                            <li>Usa eventos en lugar de polling constante</li>
+                            <li>Optimiza consultas a base de datos</li>
+                        </ul>
+
+                        <h3>Código Limpio</h3>
+                        <ul>
+                            <li>Usa nombres descriptivos para variables y funciones</li>
+                            <li>Comenta código complejo</li>
+                            <li>Separa la lógica en módulos</li>
+                            <li>Usa configuración externa cuando sea posible</li>
+                            <li>Sigue convenciones de nomenclatura consistentes</li>
+                        </ul>
+
+                        <h3>Seguridad</h3>
+                        <ul>
+                            <li>Valida todas las entradas del cliente</li>
+                            <li>Usa permisos para comandos administrativos</li>
+                            <li>Sanitiza datos de base de datos</li>
+                            <li>Implementa rate limiting para acciones</li>
+                            <li>Usa HTTPS para recursos web</li>
+                        </ul>
+
+                        <h3>Testing y Debugging</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Herramientas de Debug</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- Herramientas de debug
+local DEBUG_MODE = true
+
+-- Función de log personalizada
+function DebugLog(message)
+    if DEBUG_MODE then
+        print(string.format("^3[DEBUG]^7 %s", message))
+    end
+end
+
+-- Comando para toggle debug
+RegisterCommand('debug', function(source, args, rawCommand)
+    if source == 0 or IsPlayerAceAllowed(source, 'command') then
+        DEBUG_MODE = not DEBUG_MODE
+        local status = DEBUG_MODE and "activado" or "desactivado"
+        print(string.format("^2Debug %s^7", status))
+    end
+end, false)
+
+-- Función para medir rendimiento
+local function MeasurePerformance(func, ...)
+    local startTime = GetGameTimer()
+    local result = func(...)
+    local endTime = GetGameTimer()
+    
+    DebugLog(string.format("Función ejecutada en %d ms", endTime - startTime))
+    return result
+end
+
+-- Ejemplo de uso
+local function ExpensiveFunction()
+    -- Simular operación pesada
+    Citizen.Wait(100)
+    return "resultado"
+end
+
+-- Medir rendimiento
+local result = MeasurePerformance(ExpensiveFunction)
+
+-- Comando para probar funciones
+RegisterCommand('test', function(source, args, rawCommand)
+    if source == 0 or IsPlayerAceAllowed(source, 'command') then
+        local functionName = args[1]
+        
+        if functionName == 'economy' then
+            -- Probar sistema de economía
+            TriggerEvent('economy:test')
+        elseif functionName == 'inventory' then
+            -- Probar sistema de inventario
+            TriggerEvent('inventory:test')
+        else
+            print("^3Funciones de prueba disponibles: economy, inventory^7")
+        end
+    end
+end, false)</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Documentación</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Template de Documentación</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- [[
+    Nombre del Recurso: Mi Sistema Personalizado
+    Autor: Tu Nombre
+    Versión: 1.0.0
+    Descripción: Sistema completo para gestionar X en el servidor
+    
+    Dependencias:
+    - es_extended (si usa ESX)
+    - oxmysql (para base de datos)
+    - ox_inventory (si usa ox_inventory)
+    
+    Instalación:
+    1. Copiar la carpeta a resources/[custom]/
+    2. Añadir 'start mi-recurso' a server.cfg
+    3. Importar SQL a la base de datos
+    4. Configurar fxmanifest.lua si es necesario
+    
+    Comandos:
+    /micomando - Descripción del comando
+    /admincmd - Comando de administradores
+    
+    Eventos:
+    cliente:miEvento - Disparado cuando X ocurre
+    servidor:miEvento - Disparado cuando Y ocurre
+    
+    Configuración:
+    Ver archivo config.lua para opciones personalizables
+--]]
+
+-- Configuración principal
+Config = {
+    EnableDebug = false,
+    MaxItems = 50,
+    DefaultMoney = 5000,
+    SaveInterval = 300000 -- 5 minutos
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Conclusiones Clave
+                            </h3>
+                            <ul>
+                                <li>FiveM es una plataforma poderosa para crear servidores personalizados</li>
+                                <li>Empieza con recursos simples y aumenta la complejidad gradualmente</li>
+                                <li>Usa frameworks como ESX o QBCore para acelerar el desarrollo</li>
+                                <li>Implementa sistemas de base de datos para persistencia de datos</li>
+                                <li>Crea interfaces NUI atractivas y funcionales</li>
+                                <li>Sigue mejores prácticas para código mantenible y seguro</li>
+                                <li>Testea exhaustivamente antes de lanzar a producción</li>
+                            </ul>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🎓 Próximos Pasos
+                            </div>
+                            <div class="gitbook-card-content">
+                                Ahora que tienes una base sólida en desarrollo de mods FiveM, experimenta con 
+                                sistemas más complejos, explora la comunidad de FiveM, y considera 
+                                crear tus propios frameworks o sistemas personalizados para tu servidor.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="git-guide.html" class="gitbook-nav-link">
+                        ← Anterior
+                    </a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog 🏠
+                    </a>
+                    <a href="github-actions.html" class="gitbook-nav-link">
+                        Siguiente →
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '✅ <span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 <span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

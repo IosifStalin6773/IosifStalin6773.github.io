@@ -1,9 +1,12 @@
 # Portafolio Web Personal
 
-Un portafolio web moderno, responsive y profesional diseñado para showcase de proyectos y habilidades de desarrollo.
+Un portafolio web moderno, responsive y profesional construido con Eleventy (Static Site Generator) y diseñado para showcase de proyectos y habilidades de desarrollo.
 
 ## Características
 
+- **Arquitectura Modular**: Sistema basado en componentes con plantillas reutilizables
+- **Static Site Generator**: Eleventy para generación estática optimizada
+- **Blog con Markdown**: Sistema de blog basado en archivos Markdown
 - **Diseño Moderno**: Interfaz limpia y profesional con gradientes y animaciones suaves
 - **Totalmente Responsive**: Se adapta perfectamente a dispositivos móviles, tablets y desktop
 - **Optimizado para SEO**: Meta tags optimizados y estructura semántica HTML5
@@ -11,22 +14,140 @@ Un portafolio web moderno, responsive y profesional diseñado para showcase de p
 - **Interactivo**: Menú navegación móvil, scroll animations y formulario de contacto funcional
 - **Accesible**: Cumple con estándares de accesibilidad web
 
+## Estructura del Proyecto
+
+```
+IosifStalin6773.github.io/
+  src/                          # Source files
+    js/                         # JavaScript files
+    css/                        # CSS stylesheets
+    components/                 # Reusable components
+      header.njk               # Header component
+      footer.njk               # Footer component
+      base-layout.njk          # Base layout template
+      blog-layout.njk          # Blog post template
+    blog/                       # Blog posts in Markdown
+      css-grid-flexbox.md      # Example blog post
+      index.njk                # Blog listing page
+    _data/                      # Site configuration data
+      site.json                # Site metadata
+      blog.json                # Blog configuration
+    index.njk                   # Homepage template
+  public/                       # Built files (generated)
+    assets/                     # Static assets
+    blog/                       # Generated HTML blog posts
+  config.json                   # Global configuration
+  .eleventy.js                  # Eleventy configuration
+  package.json                  # Node.js dependencies
+```
+
 ## Tecnologías Utilizadas
 
+- **Eleventy**: Static Site Generator para generación de sitios estáticos
+- **Nunjucks**: Template engine para plantillas HTML
+- **Markdown**: Sistema de escritura para blog posts
 - **HTML5**: Estructura semántica y accesible
 - **CSS3**: Flexbox, Grid, animaciones y diseño responsive
 - **JavaScript Vanilla**: Interactividad sin dependencias externas
 - **Font Awesome**: Iconos profesionales
 
-## Estructura del Proyecto
+## Instalación y Configuración
 
-```
-IosifStalin6773.github.io/
-    index.html          # Página principal del portafolio
-    styles.css          # Estilos CSS con diseño responsive
-    script.js           # Funcionalidad JavaScript
-    README.md           # Documentación del proyecto
-```
+### Prerrequisitos
+
+- Node.js (versión 16 o superior)
+- npm o yarn
+
+### Instalación
+
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/IosifStalin6773/IosifStalin6773.github.io.git
+   cd IosifStalin6773.github.io
+   ```
+
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+
+3. Iniciar servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+4. Construir para producción:
+   ```bash
+   npm run build
+   ```
+
+### Scripts Disponibles
+
+- `npm run dev`: Inicia servidor de desarrollo con path prefix para GitHub Pages
+- `npm run dev:local`: Servidor de desarrollo local (sin path prefix)
+- `npm run build`: Genera el sitio estático para GitHub Pages
+- `npm run build:local`: Genera el sitio estático para desarrollo local
+- `npm run clean`: Limpia la carpeta de construcción
+- `npm run debug`: Ejecuta Eleventy en modo debug
+
+### GitHub Pages
+
+Este proyecto está configurado para despliegue automático en GitHub Pages:
+
+1. **URL del sitio**: https://iosifstalin6773.github.io/IosifStalin6773.github.io/
+2. **Despliegue automático**: Al hacer push a la rama `main`
+3. **Workflow**: GitHub Actions construye y despliega el sitio
+
+Para más detalles, consulta [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md)
+
+## Personalización
+
+### Configuración del Sitio
+
+Edita los siguientes archivos de configuración:
+
+1. **src/_data/site.json**: Información básica del sitio
+   ```json
+   {
+     "title": "Tu Nombre - Desarrollador Web",
+     "description": "Descripción del sitio",
+     "author": {
+       "name": "Tu Nombre",
+       "github": "tu-username"
+     }
+   }
+   ```
+
+2. **config.json**: Configuración global del proyecto
+
+### Añadir Nuevos Posts al Blog
+
+1. Crea un nuevo archivo en `src/blog/` con extensión `.md`
+2. Añade el front matter con metadatos:
+   ```markdown
+   ---
+   title: "Título del Artículo"
+   description: "Descripción breve"
+   date: 2026-02-15
+   category: "JavaScript"
+   tags: ["JavaScript", "Tutorial"]
+   ---
+   
+   Contenido del artículo en formato Markdown...
+   ```
+
+### Modificar Componentes
+
+- **src/components/header.njk**: Header y navegación
+- **src/components/footer.njk**: Footer y enlaces
+- **src/components/base-layout.njk**: Layout base del sitio
+- **src/components/blog-layout.njk**: Layout para posts del blog
+
+### Personalizar Estilos
+
+Edita los archivos CSS en `src/css/`:
+- `styles.css`: Estilos principales del sitio
+- `blog-styles.css`: Estilos específicos del blog
 
 ## Secciones del Portafolio
 
@@ -34,36 +155,8 @@ IosifStalin6773.github.io/
 2. **About Me**: Información personal y profesional
 3. **Projects**: Showcase de proyectos destacados
 4. **Skills**: Habilidades técnicas organizadas por categorías
-5. **Contact**: Formulario de contacto e información de contacto
-
-## Personalización
-
-### Cambiar Información Personal
-
-Edita los siguientes archivos:
-
-1. **index.html**:
-   - Cambia "Tu Nombre" en el logo y título
-   - Actualiza la información en la sección "About"
-   - Modifica los proyectos y habilidades
-   - Actualiza la información de contacto
-
-2. **styles.css**:
-   - Personaliza colores en las variables CSS:
-     ```css
-     :root {
-         --primary-color: #667eea;
-         --secondary-color: #764ba2;
-     }
-     ```
-
-### Añadir Nuevos Proyectos
-
-Copia una de las tarjetas de proyecto existente en `index.html`:
-
-```html
-<div class="project-card">
-    <div class="project-image">
+5. **Blog**: Artículos técnicos y tutoriales
+6. **Contact**: Formulario de contacto e información de contacto
         <div class="project-placeholder">
             <i class="fas fa-code"></i>
         </div>

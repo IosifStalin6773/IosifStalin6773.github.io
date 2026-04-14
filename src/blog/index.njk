@@ -1,0 +1,74 @@
+---
+layout: base-layout.njk
+title: "Blog - Oscar de la Cruz"
+description: "Artículos sobre desarrollo web, gaming, automatización y tecnología"
+---
+
+<section class="blog-page">
+    <div class="container">
+        <header class="blog-header">
+            <h1 class="page-title">Blog Técnico</h1>
+            <p class="page-description">
+                Artículos sobre desarrollo web, gaming, automatización y tecnología. 
+                Compartiendo conocimiento y experiencias de proyectos reales.
+            </p>
+        </header>
+
+        <div class="blog-filters">
+            <div class="filter-group">
+                <label for="category-filter">Categoría:</label>
+                <select id="category-filter">
+                    <option value="">Todas</option>
+                    {% for category in blog.categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="search-filter">Buscar:</label>
+                <input type="search" id="search-filter" placeholder="Buscar artículos...">
+            </div>
+        </div>
+
+        <div class="blog-grid">
+            {% for post in collections.blog %}
+            <article class="blog-card" data-category="{{ post.data.category }}">
+                <div class="blog-meta">
+                    <span class="blog-category">{{ post.data.category }}</span>
+                    <time datetime="{{ post.date | date('%Y-%m-%d') }}" class="blog-date">
+                        {{ post.date | date('%d %B %Y') }}
+                    </time>
+                    <span class="reading-time">
+                        <i class="fas fa-clock"></i> 
+                        {{ post.data.reading_time or 5 }} min lectura
+                    </span>
+                </div>
+                
+                <h3 class="blog-title">
+                    <a href="{{ post.url }}">{{ post.data.title }}</a>
+                </h3>
+                
+                <p class="blog-excerpt">{{ post.data.excerpt }}</p>
+                
+                <div class="blog-tags">
+                    {% for tag in post.data.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                
+                <a href="{{ post.url }}" class="blog-link">
+                    Leer más <i class="fas fa-arrow-right"></i>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+
+        {% if collections.blog.length > blog.posts_per_page %}
+        <div class="blog-pagination">
+            <button class="btn btn-secondary" id="load-more">
+                Cargar Más Artículos
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</section>

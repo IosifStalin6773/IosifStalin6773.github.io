@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mejores prácticas para proteger tus servidores de gaming contra ataques y vulnerabilidades">
+    <meta name="keywords" content="seguridad, servidores gaming, protección, ataques, vulnerabilidades, ciberseguridad">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Seguridad en Servidores Gaming | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- GitBook Style CSS -->
+    <style>
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .gitbook-sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .gitbook-sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
+        .gitbook-toc-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 4px;
+        }
+
+        .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-toc-link.active {
+            background: var(--sidebar-active);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .gitbook-main {
+            flex: 1;
+            padding: 60px;
+            overflow-y: auto;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
+        /* Article Header */
+        .gitbook-header {
+            margin-bottom: 48px;
+        }
+
+        .gitbook-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-author {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .gitbook-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
+        }
+
+        .gitbook-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .gitbook-content li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Code Blocks */
+        .gitbook-code-block {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-copy-button.copied {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .gitbook-code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cards */
+        .gitbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Alert Boxes */
+        .gitbook-alert {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-alert.warning {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.danger {
+            border-color: #EF4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.info {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .gitbook-key-takeaways h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content th {
+            background: var(--tertiary-bg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gitbook-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+
+        .cisco-badge {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .badge-link {
+            display: inline-block;
+        }
+
+        .badge-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gitbook-mobile-toggle {
+                display: block;
+                padding: 15px;
+                border-radius: 12px;
+                touch-action: manipulation;
+                min-height: 48px;
+                min-width: 48px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .gitbook-sidebar {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                width: 280px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .gitbook-sidebar.open {
+                left: 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+            }
+
+            .gitbook-main {
+                padding: 100px 24px 60px 24px;
+                max-width: 100%;
+            }
+
+            .gitbook-title {
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1.5rem;
+            }
+
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 2rem;
+            }
+
+            .gitbook-nav-link {
+                justify-content: center;
+                min-height: 48px;
+                padding: 12px 20px;
+                touch-action: manipulation;
+            }
+            
+            /* Typography improvements */
+            .gitbook-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 1.2rem;
+            }
+            
+            /* Code blocks mobile */
+            .code-example pre {
+                font-size: 0.85rem;
+                padding: 16px;
+                overflow-x: auto;
+                white-space: pre;
+                word-wrap: normal;
+            }
+            
+            /* Tables mobile */
+            table {
+                font-size: 0.9rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            
+            /* TOC improvements */
+            .gitbook-toc-link {
+                padding: 12px 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+            
+            /* Touch optimizations */
+            .gitbook-content a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                touch-action: manipulation;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-mobile-toggle {
+                top: 15px;
+                left: 15px;
+                padding: 12px;
+            }
+
+            .gitbook-sidebar {
+                width: 260px;
+                left: -280px;
+            }
+
+            .gitbook-main {
+                padding: 90px 16px 40px 16px;
+            }
+
+            .gitbook-title {
+                font-size: 1.9rem;
+                line-height: 1.1;
+            }
+            
+            .gitbook-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .gitbook-content h2 {
+                font-size: 1.3rem;
+            }
+            
+            .gitbook-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .gitbook-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            /* Code blocks small mobile */
+            .code-example pre {
+                font-size: 0.8rem;
+                padding: 12px;
+            }
+            
+            .code-example h4 {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+            
+            /* Tables small mobile */
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                min-width: 100px;
+            }
+            
+            /* Navigation small mobile */
+            .gitbook-nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .gitbook-meta {
+                font-size: 0.85rem;
+            }
+            
+            /* TOC small mobile */
+            .gitbook-toc-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            /* Content spacing */
+            .gitbook-content section {
+                margin-bottom: 2rem;
+            }
+            
+            .best-practices, .comparison-table, .decision-guide {
+                padding: 16px;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        /* Badge Centering - All Screen Sizes */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px 0;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.6), 0 2px 4px -1px rgba(0,0,0,0.4);
+            width: 100%;
+            text-align: center;
+        }
+
+        .cisco-badge,
+        .networking-badge,
+        .python-badge {
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+        }
+        
+        .badge-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .badge-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+            transition: var(--transition);
+            object-fit: cover;
+        }
+        
+        /* Badge Responsive Design */
+        @media (max-width: 768px) {
+            .badges-container {
+                gap: 30px;
+                padding: 15px 0;
+                margin: 15px 0;
+            }
+            
+            .badge-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .badges-container {
+                gap: 20px;
+                padding: 10px 0;
+                margin: 10px 0;
+                flex-direction: column;
+            }
+            
+            .badge-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        ☰
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    🛡️ Seguridad Gaming
+                </div>
+                <div class="gitbook-sidebar-subtitle">Mejores Prácticas</div>
+            </div>
+
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#tipos-ataques" class="gitbook-toc-link">Tipos Comunes de Ataques</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#configuracion-basica" class="gitbook-toc-link">Configuración Básica de Seguridad</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#validacion-entradas" class="gitbook-toc-link">Validación de Entradas</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#proteccion-ddos" class="gitbook-toc-link">Protección contra DDoS</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#seguridad-bd" class="gitbook-toc-link">Seguridad de Base de Datos</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#monitoreo-logs" class="gitbook-toc-link">Monitoreo y Logs</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#hardening-servidor" class="gitbook-toc-link">Hardening del Servidor</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#respuesta-incidentes" class="gitbook-toc-link">Respuesta a Incidentes</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas Resumidas</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>Seguridad en Servidores Gaming</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">Seguridad en Servidores Gaming</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            📅 <span>10 Mar 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            ⏱️ <span>12 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            Los servidores de gaming son objetivos frecuentes de ataques maliciosos. 
+                            Desde DDoS hasta exploits de scripts, las amenazas son diversas y constantes. 
+                            En este artículo exploraremos las mejores prácticas para proteger tus servidores 
+                            y mantener una experiencia de juego segura para todos los usuarios.
+                        </p>
+
+                        <div class="gitbook-alert warning">
+                            <div class="gitbook-alert-title">
+                                ⚠️ Advertencia
+                            </div>
+                            <div class="gitbook-alert-content">
+                                La seguridad no es opcional en servidores gaming. Un solo ataque puede 
+                                comprometer datos de usuarios, causar pérdida de jugadores y dañar tu reputación.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="tipos-ataques">
+                        <h2>Tipos Comunes de Ataques</h2>
+                        <p>
+                            Antes de proteger tu servidor, es crucial entender contra qué te estás defendiendo:
+                        </p>
+                        
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💣 1. Ataques DDoS (Distributed Denial of Service)
+                            </div>
+                            <div class="gitbook-card-content">
+                                Sobrecarga del servidor con tráfico masivo para causar lag o caídas. 
+                                Es el ataque más común en servidores gaming.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💻 2. Exploits de Scripts
+                            </div>
+                            <div class="gitbook-card-content">
+                                Aprovechamiento de vulnerabilidades en el código del servidor o plugins 
+                                para ejecutar comandos no autorizados.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🗄️ 3. Inyección SQL
+                            </div>
+                            <div class="gitbook-card-content">
+                                Manipulación de bases de datos a través de entradas no validadas, 
+                                común en servidores con sistemas de cuentas.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🖥️ 4. RCE (Remote Code Execution)
+                            </div>
+                            <div class="gitbook-card-content">
+                                Ejecución remota de código en el servidor, el ataque más peligroso 
+                                que puede dar control total al atacante.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🔑 5. Brute Force
+                            </div>
+                            <div class="gitbook-card-content">
+                                Intentos repetidos de acceso mediante fuerza bruta a cuentas administrativas 
+                                o de usuarios.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuracion-basica">
+                        <h2>Configuración Básica de Seguridad</h2>
+                        
+                        <h3>1. Firewall y Puertos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración de Firewall (iptables)</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Permitir solo puertos esenciales
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # SSH
+iptables -A INPUT -p tcp --dport 27015 -j ACCEPT  # Game Server
+iptables -A INPUT -p udp --dport 27015 -j ACCEPT  # Game Server UDP
+
+# Limitar conexiones por IP
+iptables -A INPUT -p tcp --dport 27015 -m connlimit --connlimit-above 10 -j REJECT
+
+# Protección contra ping floods
+iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Rate Limiting</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Lua - Rate limiting para conexiones</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local connectionLimiter = {}
+local maxConnections = 5
+local connectionWindow = 60 -- segundos
+
+function canConnect(ip)
+    local now = os.time()
+    
+    if not connectionLimiter[ip] then
+        connectionLimiter[ip] = {count = 1, firstTime = now}
+        return true
+    end
+    
+    local data = connectionLimiter[ip]
+    
+    if now - data.firstTime > connectionWindow then
+        data.count = 1
+        data.firstTime = now
+        return true
+    end
+    
+    if data.count >= maxConnections then
+        return false
+    end
+    
+    data.count = data.count + 1
+    return true
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="validacion-entradas">
+                        <h2>Validación de Entradas</h2>
+                        <p>
+                            La mayoría de los exploits provienen de entradas no validadas. 
+                            Implementa validación estricta en todos los puntos de entrada.
+                        </p>
+
+                        <div class="gitbook-alert danger">
+                            <div class="gitbook-alert-title">
+                                
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Nunca confíes en las entradas del usuario. Siempre valida y sanitiza 
+                                todos los datos provenientes de clientes.
+                            </div>
+                        </div>
+
+                        <h3>Sanitización de Strings</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Lua - Función de sanitización robusta</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local function sanitizeInput(input, inputType)
+    if not input or type(input) ~= "string" then
+        return nil
+    end
+    
+    -- Eliminar caracteres peligrosos
+    local sanitized = string.gsub(input, "[<>\"'&%c]", "")
+    
+    -- Limitar longitud
+    local maxLength = 255
+    if inputType == "chat" then
+        maxLength = 128
+    elseif inputType == "name" then
+        maxLength = 32
+    elseif inputType == "command" then
+        maxLength = 64
+    end
+    
+    if #sanitized > maxLength then
+        sanitized = string.sub(sanitized, 1, maxLength)
+    end
+    
+    -- Validación específica por tipo
+    if inputType == "number" then
+        local num = tonumber(sanitized)
+        return num and num >= 0 and num <= 1000000 and num or nil
+    elseif inputType == "name" then
+        -- Solo permitir caracteres alfanuméricos y espacios
+        if not string.match(sanitized, "^[%w%s]+$") then
+            return nil
+        end
+    end
+    
+    return sanitized
+end
+
+-- Uso en comandos
+function handleCommand(player, command, args)
+    local sanitizedCmd = sanitizeInput(command, "command")
+    if not sanitizedCmd then
+        player:ChatPrint("Comando inválido")
+        return
+    end
+    
+    -- Procesar comando seguro
+    processSafeCommand(player, sanitizedCmd, args)
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="proteccion-ddos">
+                        <h2>Protección contra DDoS</h2>
+                        
+                        <h3>1. Configuración de Rate Limiting Avanzado</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema anti-DDoS multicapa</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local DDoSProtection = {
+    ipConnections = {},
+    packetLimits = {},
+    blacklistedIPs = {},
+    
+    -- Configuración
+    maxConnectionsPerIP = 3,
+    connectionTimeout = 30,
+    maxPacketsPerSecond = 100,
+    blacklistDuration = 3600
+}
+
+function DDoSProtection:checkConnection(ip)
+    local now = os.time()
+    
+    -- Verificar blacklist
+    if self.blacklistedIPs[ip] and self.blacklistedIPs[ip] > now then
+        return false, "IP blacklisted"
+    end
+    
+    -- Limpiar conexiones expiradas
+    self:cleanupExpiredConnections()
+    
+    -- Verificar límite de conexiones
+    local connections = self.ipConnections[ip] or {}
+    local activeConnections = 0
+    
+    for _, conn in pairs(connections) do
+        if conn.expires > now then
+            activeConnections = activeConnections + 1
+        end
+    end
+    
+    if activeConnections >= self.maxConnectionsPerIP then
+        self:blacklistIP(ip, "Too many connections")
+        return false, "Connection limit exceeded"
+    end
+    
+    -- Registrar nueva conexión
+    table.insert(connections, {
+        expires = now + self.connectionTimeout,
+        id = #connections + 1
+    })
+    self.ipConnections[ip] = connections
+    
+    return true, "Connection allowed"
+end
+
+function DDoSProtection:blacklistIP(ip, reason)
+    self.blacklistedIPs[ip] = os.time() + self.blacklistDuration
+    print(string.format("IP %s blacklisted: %s", ip, reason))
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Cloudflare y CDN</h3>
+                        <p>
+                            Utilizar servicios como Cloudflare puede mitigar ataques DDoS antes de 
+                            que lleguen a tu servidor:
+                        </p>
+                        <ul>
+                            <li>Activar "I'm Under Attack" mode durante ataques</li>
+                            <li>Configurar reglas de firewall a nivel de CDN</li>
+                            <li>Utilizar rate limiting a nivel de edge</li>
+                            <li>Ocultar IP real del servidor</li>
+                        </ul>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">
+                                
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Cloudflare ofrece protección DDoS gratuita que es suficiente para 
+                                la mayoría de servidores gaming pequeños y medianos.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="seguridad-bd">
+                        <h2>Seguridad de Base de Datos</h2>
+                        
+                        <h3>1. Consultas Parametrizadas</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">SQL Injection - Mal vs Bien</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- MAL - Vulnerable a SQL Injection
+local query = "SELECT * FROM players WHERE name = '" .. playerName .. "'"
+
+-- BIEN - Consulta parametrizada
+local function getPlayerByName(name)
+    local stmt = db:prepare("SELECT * FROM players WHERE name = ?")
+    stmt:bind_values(name)
+    local result = stmt:step()
+    stmt:finalize()
+    return result
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Cifrado de Datos Sensibles</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Cifrado de contraseñas y datos</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>-- Cifrado de contraseñas
+local bcrypt = require("bcrypt")
+
+function hashPassword(password)
+    return bcrypt.digest(password, 12) -- 12 rounds
+end
+
+function verifyPassword(password, hash)
+    return bcrypt.verify(password, hash)
+end
+
+-- Cifrado de datos sensibles en la base de datos
+local function encryptSensitiveData(data, key)
+    -- Implementar cifrado AES-256
+    return aes256.encrypt(key, data)
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="monitoreo-logs">
+                        <h2>Monitoreo y Logs</h2>
+                        
+                        <h3>1. Sistema de Logging</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema de logging seguro</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local Logger = {
+    logFile = "server_security.log",
+    maxFileSize = 10 * 1024 * 1024, -- 10MB
+    logLevels = {
+        DEBUG = 1,
+        INFO = 2,
+        WARN = 3,
+        ERROR = 4,
+        CRITICAL = 5
+    }
+}
+
+function Logger:log(level, message, ip, playerId)
+    if self.logLevels[level] < self.logLevels.INFO then
+        return -- Solo loggear INFO y superior
+    end
+    
+    local timestamp = os.date("%Y-%m-%d %H:%M:%S")
+    local logEntry = string.format("[%s] %s - IP: %s - Player: %s - %s\n", 
+                                   timestamp, level, ip or "unknown", 
+                                   playerId or "unknown", message)
+    
+    -- Escribir al archivo
+    local file = io.open(self.logFile, "a")
+    if file then
+        file:write(logEntry)
+        file:close()
+    end
+    
+    -- Alertas para eventos críticos
+    if level == "CRITICAL" then
+        self:sendAlert(message, ip)
+    end
+end
+
+function Logger:sendAlert(message, ip)
+    -- Enviar alerta a administradores
+    for _, admin in ipairs(getAdmins()) do
+        admin:ChatPrint("[SECURITY ALERT] " .. message .. " (IP: " .. ip .. ")")
+    end
+    
+    -- Opcional: enviar a webhook/email
+    self:sendWebhookAlert(message, ip)
+end</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Detección de Anomalías</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Sistema de detección de anomalías</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local AnomalyDetector = {
+    playerStats = {},
+    thresholds = {
+        maxCommandsPerSecond = 10,
+        maxChatMessagesPerMinute = 30,
+        maxMovementSpeed = 500,
+        suspiciousPatterns = {"admin", "ban", "kick", "exploit"}
+    }
+}
+
+function AnomalyDetector:analyzePlayerAction(player, actionType, data)
+    local steamId = player:SteamID()
+    local now = os.time()
+    
+    if not self.playerStats[steamId] then
+        self.playerStats[steamId] = {
+            commands = {},
+            chatMessages = {},
+            lastPosition = player:GetPos(),
+            suspiciousActions = 0
+        }
+    end
+    
+    local stats = self.playerStats[steamId]
+    
+    if actionType == "command" then
+        self:checkCommandFrequency(player, data, now, stats)
+    elseif actionType == "chat" then
+        self:checkChatFrequency(player, data, now, stats)
+    elseif actionType == "movement" then
+        self:checkMovementAnomalies(player, data, stats)
+    end
+end
+
+function AnomalyDetector:checkCommandFrequency(player, command, now, stats)
+    -- Limpiar comandos antiguos (más de 1 segundo)
+    local recentCommands = {}
+    for timestamp, cmd in pairs(stats.commands) do
+        if now - timestamp <= 1 then
+            recentCommands[timestamp] = cmd
+        end
+    end
+    stats.commands = recentCommands
+    
+    -- Contar comandos en el último segundo
+    local commandCount = 0
+    for _ in pairs(stats.commands) do
+        commandCount = commandCount + 1
+    end
+    
+    if commandCount > self.thresholds.maxCommandsPerSecond then
+        Logger:log("WARN", "Excessive command usage: " .. commandCount .. "/s", 
+                  player:IPAddress(), player:SteamID())
+        
+        stats.suspiciousActions = stats.suspiciousActions + 1
+        
+        if stats.suspiciousActions > 5 then
+            self:handleSuspiciousPlayer(player, "Excessive command usage")
+        end
+    end
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="hardening-servidor">
+                        <h2>Hardening del Servidor</h2>
+                        
+                        <h3>1. Configuración de Sistema Operativo</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">/etc/sysctl.conf - Optimizaciones de seguridad</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Protección contra SYN floods
+net.ipv4.tcp_syncookies = 1
+
+# Ignorar pings
+net.ipv4.icmp_echo_ignore_all = 1
+
+# Limitar conexiones concurrentes
+net.ipv4.tcp_max_syn_backlog = 2048
+
+# Protección contra IP spoofing
+net.ipv4.conf.all.rp_filter = 1
+
+# Deshabilitar redirects ICMP
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.send_redirects = 0</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Configuración de Game Server</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">server.cfg - Configuración segura</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>hostname "Secure Gaming Server"
+sv_password "your_secure_password"
+rcon_password "your_rcon_password"
+sv_pure 1
+sv_pure_kick_clients 1
+
+-- Limitar tasa de actualización
+sv_maxupdaterate 67
+sv_minupdaterate 33
+
+-- Protección contra cheats
+sv_cheats 0
+sv_allowupload 0
+sv_allowdownload 0
+
+-- Logging extendido
+log on
+sv_log_onefile 0
+sv_logfile 1
+sv_logbans 1
+sv_logecho 1</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="respuesta-incidentes">
+                        <h2>Respuesta a Incidentes</h2>
+                        
+                        <h3>Plan de Respuesta</h3>
+                        <ol>
+                            <li><strong>Detección:</strong> Monitoreo continuo y alertas automáticas</li>
+                            <li><strong>Contención:</strong> Aislar sistemas afectados</li>
+                            <li><strong>Análisis:</strong> Investigar el alcance del ataque</li>
+                            <li><strong>Erradicación:</strong> Eliminar amenazas y vulnerabilidades</li>
+                            <li><strong>Recuperación:</strong> Restaurar sistemas desde backups</li>
+                            <li><strong>Prevención:</strong> Implementar medidas preventivas</li>
+                        </ol>
+
+                        <h3>Comandos de Emergencia</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Script de emergencia para GMod</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code>local EmergencyCommands = {}
+
+function EmergencyCommands:lockdown()
+    -- Bloquear nuevas conexiones
+    game.ConsoleCommand("sv_password lockdown_temp_" .. os.time())
+    
+    -- Kickear todos los jugadores excepto admins
+    for _, ply in ipairs(player.GetAll()) do
+        if not ply:IsAdmin() then
+            ply:Kick("Server lockdown - Try again later")
+        end
+    end
+    
+    Logger:log("CRITICAL", "Server lockdown activated", "SYSTEM")
+end
+
+function EmergencyCommands:backup()
+    -- Crear backup de datos críticos
+    local backupName = "emergency_backup_" .. os.date("%Y%m%d_%H%M%S")
+    
+    -- Backup base de datos
+    os.execute("mysqldump -u root -p gaming_db > backups/" .. backupName .. ".sql")
+    
+    -- Backup archivos de configuración
+    os.execute("tar -czf backups/" .. backupName .. "_config.tar.gz server.cfg addons/")
+    
+    Logger:log("INFO", "Emergency backup created: " .. backupName, "SYSTEM")
+end</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas">
+                        <h2>Mejores Prácticas Resumidas</h2>
+                        
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Checklist de Seguridad
+                            </h3>
+                            
+                            <h4>Configuración</h4>
+                            <ul>
+                                <li>Mantener software actualizado</li>
+                                <li>Usar contraseñas fuertes y únicas</li>
+                                <li>Configurar firewall correctamente</li>
+                                <li>Limitar acceso administrativo</li>
+                            </ul>
+
+                            <h4>Monitoreo</h4>
+                            <ul>
+                                <li>Implementar logging exhaustivo</li>
+                                <li>Configurar alertas automáticas</li>
+                                <li>Monitorear recursos del sistema</li>
+                                <li>Analizar logs regularmente</li>
+                            </ul>
+
+                            <h4>Prevención</h4>
+                            <ul>
+                                <li>Validar todas las entradas</li>
+                                <li>Usar consultas parametrizadas</li>
+                                <li>Implementar rate limiting</li>
+                                <li>Realizar backups regulares</li>
+                            </ul>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🎓 Próximos Pasos
+                            </div>
+                            <div class="gitbook-card-content">
+                                La seguridad es un proceso continuo, no un destino. Implementa estas 
+                                medidas gradualmente y mantente actualizado sobre nuevas amenazas 
+                                y técnicas de protección.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="optimizacion-lua.html" class="gitbook-nav-link">
+                        <- Anterior
+                    </a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog 
+                    </a>
+                    <a href="git-guide.html" class="gitbook-nav-link">
+                        Siguiente ->
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '✅ <span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 <span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

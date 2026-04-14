@@ -1,0 +1,107 @@
+{
+  "site": {
+    "title": "Oscar de la Cruz - Desarrollador Web | Gaming & Automation",
+    "description": "Portafolio profesional de Oscar de la Cruz - Desarrollador Web especializado en bots, scripts de gaming, themes y herramientas personalizadas. 20 repositorios públicos enfocados en gaming, automatización y desarrollo web.",
+    "keywords": "portafolio, desarrollador, web, programación, gaming, bots, scripts, FiveM, Lua, JavaScript, automation",
+    "lang": "es",
+    "url": "https://iosifstalin6773.github.io/IosifStalin6773.github.io",
+    "author": {
+      "name": "Oscar de la Cruz",
+      "initials": "O.C.",
+      "github": "IosifStalin6773",
+      "email": "oscar@example.com"
+    },
+    "repository": {
+      "name": "IosifStalin6773.github.io",
+      "url": "https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main"
+    },
+    "license": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+    },
+    "badges": {
+      "cisco": {
+        "url": "https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572",
+        "image": "introduction-to-cybersecurity.png"
+      },
+      "networking": {
+        "url": "https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84",
+        "image": "networking-basics.png"
+      },
+      "python": {
+        "url": "#",
+        "image": "python-essentials-1.1.png"
+      }
+    },
+    "social": {
+      "github": "https://github.com/IosifStalin6773",
+      "linkedin": "#",
+      "twitter": "#"
+    },
+    "navigation": [
+      {
+        "name": "Inicio",
+        "href": "#home"
+      },
+      {
+        "name": "Sobre Mí",
+        "href": "#about"
+      },
+      {
+        "name": "Proyectos",
+        "href": "#projects"
+      },
+      {
+        "name": "Habilidades",
+        "href": "#skills"
+      },
+      {
+        "name": "Blog",
+        "href": "#blog"
+      },
+      {
+        "name": "Contacto",
+        "href": "#contact"
+      }
+    ]
+  },
+  "blog": {
+    "title": "Blog - Oscar de la Cruz",
+    "description": "Artículos sobre desarrollo web, gaming, automatización y tecnología",
+    "posts_per_page": 6,
+    "categories": [
+      "CSS",
+      "JavaScript",
+      "Gaming",
+      "FiveM",
+      "Git",
+      "Seguridad",
+      "Automatización",
+      "Python"
+    ],
+    "default_author": "Oscar de la Cruz",
+    "reading_time": {
+      "words_per_minute": 200,
+      "min_reading_time": 1
+    }
+  },
+  "build": {
+    "input_dir": "src",
+    "output_dir": "public",
+    "template_formats": ["njk", "md", "html"],
+    "passthrough_file_copy": true,
+    "collections": {
+      "blog": "src/blog/*.md"
+    }
+  },
+  "seo": {
+    "og_type": "website",
+    "twitter_card": "summary_large_image",
+    "robots": "index, follow"
+  },
+  "performance": {
+    "minify_css": true,
+    "minify_js": true,
+    "optimize_images": true
+  }
+}

@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aprende a usar Git como profesional con comandos avanzados y flujos de trabajo eficientes">
+    <meta name="keywords" content="Git, version control, workflow, desarrollo, programación, comandos Git">
+    <meta name="author" content="Oscar de la Cruz">
+    <title>Guía de Git para Desarrolladores | Blog - Oscar de la Cruz</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- GitBook Style CSS -->
+    <style>
+        /* Color Palette - Militarized Theme */
+        :root {
+            --primary-bg: #0A0A0A;
+            --secondary-bg: #0F0F0F;
+            --tertiary-bg: #141414;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #D4D4D8;
+            --text-muted: #9CA3AF;
+            --accent-color: #DC2626;
+            --accent-hover: #B91C1C;
+            --border-color: #2A2A2A;
+            --code-bg: #1E1E1E;
+            --sidebar-bg: #0F0F0F;
+            --sidebar-hover: #1A1A1A;
+            --sidebar-active: #DC2626;
+        }
+
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Toggle */
+        .gitbook-mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .gitbook-container {
+            display: flex;
+            min-height: 100vh;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .gitbook-sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .gitbook-sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .gitbook-sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-sidebar-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* TOC */
+        .gitbook-toc-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .gitbook-toc-list {
+            list-style: none;
+        }
+
+        .gitbook-toc-item {
+            margin-bottom: 4px;
+        }
+
+        .gitbook-toc-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-toc-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-toc-link.active {
+            background: var(--sidebar-active);
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        .gitbook-main {
+            flex: 1;
+            padding: 60px;
+            overflow-y: auto;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Breadcrumbs */
+        .gitbook-breadcrumbs {
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .gitbook-breadcrumbs a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .gitbook-breadcrumbs a:hover {
+            color: var(--text-primary);
+        }
+
+        .gitbook-breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-muted);
+        }
+
+        /* Article Header */
+        .gitbook-header {
+            margin-bottom: 48px;
+        }
+
+        .gitbook-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .gitbook-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .gitbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .gitbook-author {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Content */
+        .gitbook-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .gitbook-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 48px 0 24px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+        }
+
+        .gitbook-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 12px 0;
+        }
+
+        .gitbook-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content ul, .gitbook-content ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .gitbook-content li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .gitbook-content a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Code Blocks */
+        .gitbook-code-block {
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--tertiary-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-code-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .gitbook-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-copy-button:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+        }
+
+        .gitbook-copy-button.copied {
+            background: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .gitbook-code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .gitbook-code-content pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .gitbook-code-content code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Cards */
+        .gitbook-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gitbook-card-content {
+            color: var(--text-secondary);
+        }
+
+        /* Alert Boxes */
+        .gitbook-alert {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .gitbook-alert.warning {
+            border-color: #F59E0B;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.danger {
+            border-color: #EF4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert.info {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--card-bg));
+        }
+
+        .gitbook-alert-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Key Takeaways */
+        .gitbook-key-takeaways {
+            background: linear-gradient(135deg, var(--card-bg), var(--tertiary-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .gitbook-key-takeaways h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        .gitbook-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gitbook-content th,
+        .gitbook-content td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gitbook-content th {
+            background: var(--tertiary-bg);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .gitbook-content tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Navigation */
+        .gitbook-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gitbook-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .gitbook-nav-link:hover {
+            background: var(--sidebar-hover);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 0 0;
+            margin-top: 60px;
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            margin: 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .cisco-badge {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .badge-link {
+            display: inline-block;
+        }
+
+        .badge-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gitbook-mobile-toggle {
+                display: block;
+            }
+
+            .gitbook-sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+
+            .gitbook-sidebar.open {
+                left: 0;
+            }
+
+            .gitbook-main {
+                padding: 80px 20px 40px 20px;
+            }
+
+            .gitbook-title {
+                font-size: 2rem;
+            }
+
+            .gitbook-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .gitbook-navigation {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .gitbook-nav-link {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gitbook-main {
+                padding: 80px 16px 32px 16px;
+            }
+
+            .gitbook-title {
+                font-size: 1.75rem;
+            }
+
+            .gitbook-content {
+                font-size: 0.95rem;
+            }
+
+            .gitbook-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="gitbook-mobile-toggle" id="mobileToggle">
+        ☰
+    </button>
+
+    <div class="gitbook-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="gitbook-sidebar" id="sidebar">
+            <div class="gitbook-sidebar-header">
+                <div class="gitbook-sidebar-title">
+                    🌿 Git Guide
+                </div>
+                <div class="gitbook-sidebar-subtitle">Version Control</div>
+            </div>
+
+            <nav class="gitbook-toc">
+                <div class="gitbook-toc-title">Contenido</div>
+                <ul class="gitbook-toc-list">
+                    <li class="gitbook-toc-item">
+                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#configuracion" class="gitbook-toc-link">Configuración Inicial</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#comandos-basicos" class="gitbook-toc-link">Comandos Básicos</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#branching" class="gitbook-toc-link">Branching</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#merge-conflicts" class="gitbook-toc-link">Merge & Conflicts</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#remote-repositories" class="gitbook-toc-link">Remote Repositories</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#workflow-avanzado" class="gitbook-toc-link">Workflow Avanzado</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas</a>
+                    </li>
+                    <li class="gitbook-toc-item">
+                        <a href="#conclusion" class="gitbook-toc-link">Conclusiones</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="gitbook-main">
+            <!-- Breadcrumbs -->
+            <div class="gitbook-breadcrumbs">
+                <a href="../index.html">Inicio</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <a href="../index.html#blog">Blog</a>
+                <span class="gitbook-breadcrumb-separator">/</span>
+                <span>Guía de Git para Desarrolladores</span>
+            </div>
+
+            <!-- Article Content -->
+            <article class="gitbook-article">
+                <!-- Header -->
+                <header class="gitbook-header">
+                    <h1 class="gitbook-title">Guía de Git para Desarrolladores</h1>
+                    <div class="gitbook-meta">
+                        <div class="gitbook-meta-item">
+                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            📅 <span>5 Feb 2026</span>
+                        </div>
+                        <div class="gitbook-meta-item">
+                            ⏱️ <span>16 min lectura</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Content -->
+                <div class="gitbook-content">
+                    <section id="introduccion">
+                        <h2>Introducción</h2>
+                        <p>
+                            Git es el sistema de control de versiones más utilizado en el desarrollo 
+                            de software moderno. Dominar Git no solo te hace más productivo, sino 
+                            que es una habilidad fundamental para trabajar en equipo y mantener 
+                            código de calidad.
+                        </p>
+                        <p>
+                            Esta guía cubre desde los conceptos básicos hasta técnicas avanzadas que 
+                            te permitirán manejar cualquier situación en el desarrollo de software. 
+                            Aprenderás workflows profesionales, comandos esenciales y buenas prácticas 
+                            que te diferenciarán como desarrollador.
+                        </p>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">
+                                ℹ️ ¿Por qué Git?
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Git no solo guarda versiones de tu código, sino que facilita la colaboración, 
+                                permite experimentar sin miedo, mantiene un historial completo de cambios, 
+                                y es esencial para el desarrollo moderno.
+                            </div>
+                        </div>
+
+                        <h3>Conceptos Fundamentales</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                📚 Terminología Esencial
+                            </div>
+                            <div class="gitbook-card-content">
+                                <h4>Repository (Repositorio)</h4>
+                                <p>
+                                    Es el contenedor que almacena todo tu proyecto, incluyendo el código, 
+                                    historial de cambios, configuraciones y metadatos.
+                                </p>
+
+                                <h4>Commit</h4>
+                                <p>
+                                    Una instantánea de tu proyecto en un momento específico. 
+                                    Cada commit tiene un ID único (hash SHA-1) y contiene los cambios, autor, 
+                                    fecha y mensaje descriptivo.
+                                </p>
+
+                                <h4>Branch (Rama)</h4>
+                                <p>
+                                    Las ramas permiten trabajar en diferentes versiones del proyecto 
+                                    simultáneamente. La rama principal suele llamarse <code>main</code> o <code>master</code>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💡 Concepto Clave
+                            </div>
+                            <div class="gitbook-card-content">
+                                Git es un sistema distribuido, lo que significa que cada desarrollador 
+                                tiene una copia completa del historial del proyecto. Esto permite trabajar 
+                                offline y mantiene redundancia de los datos.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuracion">
+                        <h2>Configuración Inicial</h2>
+                        <p>
+                            Una configuración adecuada es fundamental para un workflow eficiente. 
+                            Configura tu entorno Git una vez y olvídate de problemas futuros.
+                        </p>
+
+                        <h3>Configurar Identidad</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Configuración Básica</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Configurar nombre y email (obligatorio)
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+
+# Configurar editor por defecto
+git config --global core.editor "code --wait"  # VS Code
+git config --global core.editor "nano"         # Nano
+git config --global core.editor "vim"          # Vim
+
+# Configurar herramienta de diferencias
+git config --global diff.tool "vscode"
+
+# Configurar alias útiles
+git config --global alias.st "status"
+git config --global alias.co "checkout"
+git config --global alias.br "branch"
+git config --global alias.cm "commit -m"
+git config --global alias.unstage "reset HEAD --"
+git config --global alias.last "log -1 HEAD"
+
+# Ver configuración actual
+git config --list</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Configuración de Seguridad</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">SSH Keys para GitHub</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Generar clave SSH Ed25519 (recomendado)
+ssh-keygen -t ed25519 -C "tu@email.com"
+
+# Iniciar agente SSH
+eval "$(ssh-agent -s)"
+
+# Añadir clave privada al agente
+ssh-add ~/.ssh/id_ed25519
+
+# Copiar clave pública al portapapeles
+cat ~/.ssh/id_ed25519.pub | clip
+
+# Probar conexión
+ssh -T git@github.com</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🛡️ Seguridad
+                            </div>
+                            <div class="gitbook-card-content">
+                                Las claves SSH son más seguras que los passwords y evitan tener que 
+                                autenticarte constantemente. Configúralas una vez y úsalas en todos 
+                                tus repositorios.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="comandos-basicos">
+                        <h2>Comandos Básicos</h2>
+                        <p>
+                            Estos son los comandos que usarás diariamente. Dominarlos es fundamental 
+                            para un workflow eficiente.
+                        </p>
+
+                        <h3>Inicializar y Clonar</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Crear y Obtener Repositorios</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Inicializar nuevo repositorio
+git init mi-proyecto
+cd mi-proyecto
+
+# Clonar repositorio existente
+git clone https://github.com/user/repo.git
+git clone git@github.com:user/repo.git  # SSH
+
+# Clonar en directorio específico
+git clone https://github.com/user/repo.git mi-directorio
+
+# Ver estado del repositorio
+git status
+
+# Ver historial de commits
+git log --oneline --graph --decorate
+git log --author="Tu Nombre" --since="1 month ago"</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Working Directory vs Staging Area</h3>
+                        <div class="gitbook-alert warning">
+                            <div class="gitbook-alert-title">
+                                ⚠️ Concepto Clave
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Git tiene tres áreas principales: Working Directory (tus archivos), 
+                                Staging Area (archivos listos para commit), y Repository (historial de commits).
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Flujo de Trabajo Básico</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Ver cambios en working directory
+git status
+
+# Añadir archivos específicos al staging area
+git add archivo.js
+git add *.js
+git add src/
+
+# Añadir todos los cambios
+git add .
+git add -A  # Incluye archivos eliminados
+
+# Hacer commit
+git commit -m "Mensaje descriptivo del cambio"
+
+# Ver qué cambiará en el próximo commit
+git diff --staged
+
+# Ver diferencias entre working y staging
+git diff
+
+# Ver diferencias entre commits
+git diff HEAD~1 HEAD</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Ver y Navegar el Historial</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Inspección del Historial</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Ver log con formato personalizado
+git log --pretty=format:"%h - %an, %ar : %s" --graph
+
+# Ver cambios específicos de un archivo
+git log -p archivo.js
+
+# Buscar commits por mensaje
+git log --grep="fix bug"
+
+# Ver commits que modificaron un archivo específico
+git log --follow archivo.js
+
+# Ver quién modificó cada línea
+git blame archivo.js
+
+# Ver estadísticas de commits
+git shortlog -sn
+
+# Ver gráfico de ramas
+git log --oneline --graph --all --decorate</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="branching">
+                        <h2>Branching</h2>
+                        <p>
+                            Las ramas son la característica más poderosa de Git. Te permiten trabajar 
+                            en múltiples versiones simultáneamente sin afectar el código principal.
+                        </p>
+
+                        <h3>Crear y Gestionar Ramas</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Operaciones con Ramas</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Listar ramas
+git branch
+git branch -r  # Remotas
+git branch -a  # Todas
+
+# Crear nueva rama
+git branch feature-nueva-funcionalidad
+git checkout -b hotfix-critico  # Crear y cambiar
+
+# Cambiar entre ramas
+git checkout main
+git switch feature-nueva-funcionalidad
+
+# Renombrar rama actual
+git branch -m nuevo-nombre
+
+# Eliminar rama
+git branch -d feature-completada  # Solo si está mergeada
+git branch -D feature-obsolete    # Forzar eliminación
+
+# Ver diferencias entre ramas
+git diff main feature-branch</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Workflow de Feature Branch</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🌿 Flujo de Trabajo Recomendado
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ol>
+                                    <li>Crear rama para nueva funcionalidad</li>
+                                    <li>Trabajar en la rama con commits frecuentes</li>
+                                    <li>Hacer merge a main cuando esté completa</li>
+                                    <li>Eliminar rama de feature</li>
+                                    <li>Repetir para cada nueva funcionalidad</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <h3>Stashing</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Guardar Trabajo Temporal</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Guardar cambios actuales temporalmente
+git stash
+git stash push -m "Trabajo en progreso"
+
+# Ver stashes disponibles
+git stash list
+
+# Aplicar último stash
+git stash pop
+
+# Aplicar stash específico y mantenerlo
+git stash apply stash@{1}
+
+# Eliminar stash
+git stash drop stash@{0}
+
+# Crear rama desde stash
+git stash branch feature-from-stash stash@{1}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="merge-conflicts">
+                        <h2>Merge & Conflicts</h2>
+                        <p>
+                            Los merges son fundamentales para integrar trabajo de diferentes ramas. 
+                            Los conflictos son inevitables, pero manejables con las herramientas adecuadas.
+                        </p>
+
+                        <h3>Tipos de Merge</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Estrategias de Merge</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Fast-forward merge (solo si es posible)
+git merge feature-branch --ff-only
+
+# Merge con commit de merge (siempre crea commit)
+git merge feature-branch --no-ff
+
+# Squash merge (combina todos los commits en uno)
+git merge feature-branch --squash
+
+# Abortar merge en conflicto
+git merge --abort
+
+# Continuar merge después de resolver conflictos
+git merge --continue</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Resolver Conflictos</h3>
+                        <div class="gitbook-alert danger">
+                            <div class="gitbook-alert-title">
+                                ❌ Conflictos
+                            </div>
+                            <div class="gitbook-alert-content">
+                                Cuando Git no puede resolver automáticamente, te mostrará los conflictos. 
+                                Debes editar los archivos manualmente, elegir qué versión mantener, 
+                                y luego hacer commit de la resolución.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Marcadores de Conflicto</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Estructura de un conflicto
+<<<<<<< HEAD
+código en tu rama actual
+=======
+código en la rama que haces merge
+>>>>>>> feature-branch
+
+# Resolver conflicto:
+# 1. Editar archivo, dejar solo el código deseado
+# 2. Eliminar marcadores <<<<<<<, ======, >>>>>>>
+# 3. git add archivo-resuelto
+# 4. git commit</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Herramientas para Conflictos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Comandos Útiles</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Ver archivos con conflictos
+git diff --name-only --diff-filter=U
+
+# Ver conflictos específicos
+git diff archivo-en-conflicto
+
+# Elegir una versión automáticamente
+git checkout --ours archivo.js      # Mantener tu versión
+git checkout --theirs archivo.js     # Mantener versión de la otra rama
+
+# Usar herramienta de merge gráfica
+git mergetool
+
+# Configurar herramienta de merge
+git config merge.tool vscode
+git config mergetool.vscode.cmd 'code --wait $MERGED'</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="remote-repositories">
+                        <h2>Remote Repositories</h2>
+                        <p>
+                            Los remotos te permiten colaborar con otros desarrolladores y mantener 
+                            copias de seguridad de tu trabajo.
+                        </p>
+
+                        <h3>Gestionar Remotos</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Operaciones con Remotos</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Ver remotos configurados
+git remote -v
+
+# Agregar nuevo remoto
+git remote add origin https://github.com/user/repo.git
+git remote add upstream https://github.com/original/repo.git
+
+# Cambiar URL de remoto
+git remote set-url origin git@github.com:user/repo.git
+
+# Eliminar remoto
+git remote remove origin
+
+# Ver información de remoto
+git remote show origin
+
+# Renombrar remoto
+git remote rename origin upstream</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Sincronización</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Push y Pull</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Enviar cambios al remoto
+git push origin main
+git push -u origin feature-branch  # Configurar upstream
+
+# Enviar todas las ramas
+git push --all origin
+
+# Enviar con tags
+git push --tags
+
+# Obtener cambios del remoto
+git pull origin main
+git fetch origin  # Solo descargar, no hacer merge
+
+# Sincronizar con upstream (forks)
+git fetch upstream
+git merge upstream/main
+
+# Ver commits que no están en el remoto
+git log origin/main..HEAD
+git log HEAD..origin/main</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Workflows Colaborativos</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                👥 Pull Requests
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ol>
+                                    <li>Hacer fork del repositorio original</li>
+                                    <li>Clonar tu fork</li>
+                                    <li>Crear rama para tu contribución</li>
+                                    <li>Hacer commits y push a tu fork</li>
+                                    <li>Crear pull request en el repositorio original</li>
+                                    <li>Responder feedback y hacer cambios si es necesario</li>
+                                    <li>Esperar merge y celebrar</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="workflow-avanzado">
+                        <h2>Workflow Avanzado</h2>
+                        <p>
+                            Dominar estas técnicas te permitirá manejar situaciones complejas 
+                            y optimizar tu flujo de trabajo.
+                        </p>
+
+                        <h3>Rebase vs Merge</h3>
+                        <div class="gitbook-alert warning">
+                            <div class="gitbook-alert-title">
+                                ⚠️ Cuándo usar cada uno
+                            </div>
+                            <div class="gitbook-alert-content">
+                                <strong>Merge:</strong> Preserva historial completo, ideal para ramas principales.<br>
+                                <strong>Rebase:</strong> Historial lineal, ideal para feature branches antes de PR.
+                            </div>
+                        </div>
+
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Rebase Interactivo</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Rebase interactivo de últimos 3 commits
+git rebase -i HEAD~3
+
+# Comandos disponibles:
+# p, pick = usar commit
+# r, reword = editar mensaje
+# e, edit = modificar commit
+# s, squash = combinar con anterior
+# f, fixup = combinar descartando mensaje
+# d, drop = eliminar commit
+
+# Rebase de rama sobre main
+git checkout feature-branch
+git rebase main
+
+# Abortar rebase
+git rebase --abort
+
+# Continuar rebase después de conflictos
+git rebase --continue</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Cherry Pick</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Seleccionar Commits Específicos</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Aplicar commit específico a rama actual
+git cherry-pick <commit-hash>
+
+# Aplicar múltiples commits
+git cherry-pick <start-hash>..<end-hash>
+
+# Cherry pick sin crear commit
+git cherry-pick --no-commit <commit-hash>
+
+# Editar mensaje del cherry pick
+git cherry-pick --edit <commit-hash>
+
+# Abortar cherry pick
+git cherry-pick --abort</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Reset y Revert</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Deshacer Cambios</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Reset (modifica historial)
+git reset --soft HEAD~1     # Mantiene cambios en staging
+git reset --mixed HEAD~1    # Mantiene cambios en working directory
+git reset --hard HEAD~1     # Elimina todos los cambios
+
+# Reset a commit específico
+git reset <commit-hash>
+
+# Revert (crea nuevo commit que deshace cambios)
+git revert HEAD
+git revert <commit-hash>
+
+# Reset a archivo específico
+git reset HEAD -- archivo.js
+
+# Limpiar working directory completamente
+git clean -fd</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Reflog - El Viajero del Tiempo</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🕰️ Recuperación de Datos
+                            </div>
+                            <div class="gitbook-card-content">
+                                <p>
+                                    El reflog registra todos los movimientos en Git. Es tu red de seguridad 
+                                    cuando creías haber perdido algo para siempre.
+                                </p>
+                                <div class="gitbook-code-block">
+                                    <div class="gitbook-code-header">
+                                        <div class="gitbook-code-title">Usar Reflog</div>
+                                        <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    <span>Copiar</span>
+                                </button>
+                                    </div>
+                                    <div class="gitbook-code-content">
+                                        <pre><code># Ver reflog
+git reflog
+
+# Recuperar commit perdido
+git reset --hard HEAD@{2}
+
+# Ver reflog de una rama específica
+git reflog feature-branch
+
+# Encontrar commit perdido
+git log --walk-reflogs --oneline</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="mejores-practicas">
+                        <h2>Mejores Prácticas</h2>
+
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Convenciones de Commits
+                            </h3>
+                            <ul>
+                                <li><strong>Formato:</strong> tipo(scope): descripción concisa</li>
+                                <li><strong>Tipos:</strong> feat, fix, docs, style, refactor, test, chore</li>
+                                <li><strong>Ejemplo:</strong> feat(auth): agregar login con OAuth</li>
+                                <li><strong>Presente:</strong> "agrega" en lugar de "agregué"</li>
+                                <li><strong>Limite:</strong> 50 caracteres en la primera línea</li>
+                            </ul>
+                        </div>
+
+                        <h3>Workflow Recomendado</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Flujo Profesional</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># 1. Mantener main siempre estable
+git checkout main
+git pull origin main
+
+# 2. Crear rama para cada tarea
+git checkout -b feature/nueva-funcionalidad
+
+# 3. Commits atómicos y descriptivos
+git add .
+git commit -m "feat: implementar base de la funcionalidad"
+
+# 4. Mantener rama actualizada con main
+git fetch origin
+git rebase origin/main
+
+# 5. Push y crear pull request
+git push -u origin feature/nueva-funcionalidad
+
+# 6. Después del merge, limpiar
+git checkout main
+git pull origin main
+git branch -d feature/nueva-funcionalidad
+git push origin --delete feature/nueva-funcionalidad</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Consejos Profesionales</h3>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                💡 Tips Expertos
+                            </div>
+                            <div class="gitbook-card-content">
+                                <ul>
+                                    <li>Usa <code>.gitignore</code> para excluir archivos innecesarios</li>
+                                    <li>Haz commits pequeños y frecuentes</li>
+                                    <li>Nunca haces push directamente a main</li>
+                                    <li>Usa branches descriptivos</li>
+                                    <li>Revisa tus cambios antes de hacer push</li>
+                                    <li>Mantén tu repositorio limpio con garbage collection regular</li>
+                                    <li>Elige el workflow adecuado para tu equipo y síguelo consistentemente</li>
+                                    <li>Usa herramientas visuales cuando sea necesario, pero domina los comandos</li>
+                                    <li>Practica regularmente para mantener fluidez con los comandos básicos</li>
+                                    <li>Documenta tus convenciones de commits y workflows</li>
+                                    <li>Siempre prueba antes de hacer push a ramas principales</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Configuración .gitignore</h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">Archivos Comunes a Ignorar</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)">
+                                    📋 <span>Copiar</span>
+                                </button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de compilación
+dist/
+build/
+*.tgz
+*.tar.gz
+
+# Variables de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Temporales
+*.tmp
+*.temp</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="conclusion">
+                        <div class="gitbook-key-takeaways">
+                            <h3>
+                                ⭐ Conclusiones Clave
+                            </h3>
+                            <ul>
+                                <li>Git es una habilidad fundamental para todo desarrollador moderno</li>
+                                <li>Los comandos básicos cubren el 80% de las necesidades diarias</li>
+                                <li>Los workflows de branching son clave para la colaboración</li>
+                                <li>Los conflictos son normales, aprender a resolverlos es esencial</li>
+                                <li>El reflog es tu red de seguridad contra errores</li>
+                                <li>Las convenciones de commits facilitan la colaboración</li>
+                                <li>La práctica constante es la clave para dominar Git</li>
+                                <li>Cada equipo tiene su workflow, adáptate pero conoce los fundamentos</li>
+                            </ul>
+                        </div>
+
+                        <h2>Próximos Pasos</h2>
+                        <p>
+                            Ahora que tienes una base sólida de Git avanzado, considera explorar:
+                        </p>
+                        <ul>
+                            <li><strong>Git Hooks:</strong> Automatiza tareas con hooks pre-commit, post-merge, etc.</li>
+                            <li><strong>Submodules:</strong> Gestiona dependencias de otros repositorios</li>
+                            <li><strong>Worktrees:</strong> Trabaja con múltiples branches simultáneamente</li>
+                            <li><strong>Git Attributes:</strong> Configura comportamiento específico por archivo</li>
+                            <li><strong>Filter Branch:</strong> Reescribe historial masivamente (con precaución)</li>
+                        </ul>
+
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">
+                                🎓 Recomendación Final
+                            </div>
+                            <div class="gitbook-card-content">
+                                La mejor manera de aprender Git es practicando. Crea un repositorio 
+                                de prueba, experimenta con estos comandos, y no tengas miedo de 
+                                cometer errores. Con reflog, siempre puedes recuperar cualquier cambio.
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="gitbook-navigation">
+                    <a href="seguridad-servers.html" class="gitbook-nav-link">
+                        ← Anterior
+                    </a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">
+                        Volver al Blog 🏠
+                    </a>
+                    <a href="fivem-mods.html" class="gitbook-nav-link">
+                        Siguiente →
+                    </a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <!-- Footer from index.html -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
+                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+            </p>
+            
+            <!-- Badges Container -->
+            <div class="badges-container">
+                <!-- Cisco Cybersecurity Badge -->
+                <div class="cisco-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
+                             alt="Cisco Introduction to Cybersecurity Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Networking Basics Badge -->
+                <div class="networking-badge">
+                    <!-- Direct badge display -->
+                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/networking-basics.png" 
+                             alt="Networking Basics Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+                
+                <!-- Python Essentials Badge -->
+                <div class="python-badge">
+                    <!-- Direct badge display -->
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-1.1.png" 
+                             alt="Python Essentials Badge" 
+                             class="badge-image">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Easter egg oculto -->
+            <div id="secret-trigger" style="opacity: 0; cursor: default; user-select: none; font-size: 0.1px;">1337</div>
+        </div>
+    </footer>
+
+    <script>
+        // Reading Progress Bar
+        function updateReadingProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('readingProgress').style.width = scrollPercent + '%';
+        }
+
+        // Copy Code Functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.gitbook-code-block');
+            const codeContent = codeBlock.querySelector('pre code').textContent;
+            
+            navigator.clipboard.writeText(codeContent).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '✅ <span>Copiado</span>';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 <span>Copiar</span>';
+                }, 2000);
+            });
+        }
+
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('mobileToggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Active TOC Link based on scroll position
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.gitbook-toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = targetSection.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar after navigation
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('sidebar').classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateReadingProgress();
+            updateActiveTOC();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search (if implemented)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Focus search input if exists
+                const searchInput = document.querySelector('.gitbook-search input');
+                if (searchInput) searchInput.focus();
+            }
+            
+            // Escape to close mobile sidebar
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
