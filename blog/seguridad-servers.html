@@ -1,3 +1,6 @@
+Aquí está el archivo HTML actualizado con todas las mejoras aplicadas (explicaciones mejoradas, especificación de sistemas operativos, tablas, checklists detallados y contenido enriquecido):
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -479,7 +482,6 @@
             border-color: var(--accent-color);
         }
 
-
         .cisco-badge {
             text-align: center;
             margin: 20px 0;
@@ -537,13 +539,13 @@
             }
 
             .gitbook-meta {
-                flex-direction: row; /* Keep horizontal */;
+                flex-direction: row;
                 gap: 16px;
                 margin-bottom: 2rem;
             }
 
             .gitbook-navigation {
-                flex-direction: row; /* Keep horizontal */;
+                flex-direction: row;
                 gap: 16px;
                 margin-bottom: 2rem;
             }
@@ -553,12 +555,6 @@
                 min-height: 48px;
                 padding: 12px 20px;
                 touch-action: manipulation;
-            }
-            
-            /* Typography improvements */
-            .gitbook-content h1 {
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
             }
             
             .gitbook-content h2 {
@@ -577,16 +573,6 @@
                 margin-bottom: 1.2rem;
             }
             
-            /* Code blocks mobile */
-            .code-example pre {
-                font-size: 0.85rem;
-                padding: 16px;
-                overflow-x: auto;
-                white-space: pre;
-                word-wrap: normal;
-            }
-            
-            /* Tables mobile */
             table {
                 font-size: 0.9rem;
                 display: block;
@@ -599,19 +585,10 @@
                 min-width: 120px;
             }
             
-            /* TOC improvements */
             .gitbook-toc-link {
                 padding: 12px 16px;
                 min-height: 44px;
                 display: flex;
-                align-items: center;
-                touch-action: manipulation;
-            }
-            
-            /* Touch optimizations */
-            .gitbook-content a {
-                min-height: 44px;
-                display: inline-flex;
                 align-items: center;
                 touch-action: manipulation;
             }
@@ -638,10 +615,6 @@
                 line-height: 1.1;
             }
             
-            .gitbook-content h1 {
-                font-size: 1.6rem;
-            }
-            
             .gitbook-content h2 {
                 font-size: 1.3rem;
             }
@@ -655,18 +628,6 @@
                 line-height: 1.6;
             }
             
-            /* Code blocks small mobile */
-            .code-example pre {
-                font-size: 0.8rem;
-                padding: 12px;
-            }
-            
-            .code-example h4 {
-                font-size: 0.8rem;
-                padding: 10px 12px;
-            }
-            
-            /* Tables small mobile */
             table {
                 font-size: 0.8rem;
             }
@@ -676,7 +637,6 @@
                 min-width: 100px;
             }
             
-            /* Navigation small mobile */
             .gitbook-nav-link {
                 padding: 10px 16px;
                 font-size: 0.9rem;
@@ -686,24 +646,12 @@
                 font-size: 0.85rem;
             }
             
-            /* TOC small mobile */
             .gitbook-toc-link {
                 padding: 10px 12px;
                 font-size: 0.85rem;
             }
-            
-            /* Content spacing */
-            .gitbook-content section {
-                margin-bottom: 2rem;
-            }
-            
-            .best-practices, .comparison-table, .decision-guide {
-                padding: 16px;
-                margin-bottom: 1.5rem;
-            }
         }
         
-        /* Footer positioning fix */
         .footer {
             position: relative;
             width: 100%;
@@ -724,7 +672,6 @@
             flex-direction: row;
         }
         
-        /* Badge Centering - All Screen Sizes */
         .badges-container {
             display: flex;
             justify-content: center;
@@ -751,7 +698,6 @@
         .badge-link {
             display: inline-block;
             text-decoration: none;
-            transition: var(--transition);
         }
 
         .badge-link:hover {
@@ -759,7 +705,6 @@
             filter: brightness(1.1);
         }
 
-        /* Badge Responsive Design */
         @media (max-width: 768px) {
             .badges-container {
                 gap: 30px;
@@ -778,13 +723,24 @@
                 gap: 20px;
                 padding: 10px 0;
                 margin: 10px 0;
-                flex-direction: row; /* Keep horizontal */;
+                flex-direction: row;
             }
             
             .badge-image {
                 width: 100px;
                 height: 100px;
             }
+        }
+
+        .os-badge {
+            display: inline-block;
+            background: var(--tertiary-bg);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+            color: var(--accent-color);
         }
     </style>
 </head>
@@ -810,36 +766,16 @@
             <nav class="gitbook-toc">
                 <div class="gitbook-toc-title">Contenido</div>
                 <ul class="gitbook-toc-list">
-                    <li class="gitbook-toc-item">
-                        <a href="#introduccion" class="gitbook-toc-link">Introducción</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#tipos-ataques" class="gitbook-toc-link">Tipos Comunes de Ataques</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#configuracion-basica" class="gitbook-toc-link">Configuración Básica de Seguridad</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#validacion-entradas" class="gitbook-toc-link">Validación de Entradas</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#proteccion-ddos" class="gitbook-toc-link">Protección contra DDoS</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#seguridad-bd" class="gitbook-toc-link">Seguridad de Base de Datos</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#monitoreo-logs" class="gitbook-toc-link">Monitoreo y Logs</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#hardening-servidor" class="gitbook-toc-link">Hardening del Servidor</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#respuesta-incidentes" class="gitbook-toc-link">Respuesta a Incidentes</a>
-                    </li>
-                    <li class="gitbook-toc-item">
-                        <a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas Resumidas</a>
-                    </li>
+                    <li class="gitbook-toc-item"><a href="#introduccion" class="gitbook-toc-link">Introducción</a></li>
+                    <li class="gitbook-toc-item"><a href="#tipos-ataques" class="gitbook-toc-link">Tipos Comunes de Ataques</a></li>
+                    <li class="gitbook-toc-item"><a href="#configuracion-basica" class="gitbook-toc-link">Configuración Básica de Seguridad</a></li>
+                    <li class="gitbook-toc-item"><a href="#validacion-entradas" class="gitbook-toc-link">Validación de Entradas</a></li>
+                    <li class="gitbook-toc-item"><a href="#proteccion-ddos" class="gitbook-toc-link">Protección contra DDoS</a></li>
+                    <li class="gitbook-toc-item"><a href="#seguridad-bd" class="gitbook-toc-link">Seguridad de Base de Datos</a></li>
+                    <li class="gitbook-toc-item"><a href="#monitoreo-logs" class="gitbook-toc-link">Monitoreo y Logs</a></li>
+                    <li class="gitbook-toc-item"><a href="#hardening-servidor" class="gitbook-toc-link">Hardening del Servidor</a></li>
+                    <li class="gitbook-toc-item"><a href="#respuesta-incidentes" class="gitbook-toc-link">Respuesta a Incidentes</a></li>
+                    <li class="gitbook-toc-item"><a href="#mejores-practicas" class="gitbook-toc-link">Mejores Prácticas Resumidas</a></li>
                 </ul>
             </nav>
         </aside>
@@ -861,135 +797,123 @@
                 <header class="gitbook-header">
                     <h1 class="gitbook-title">Seguridad en Servidores Gaming</h1>
                     <div class="gitbook-meta">
-                        <div class="gitbook-meta-item">
-                            👤 <span class="gitbook-author">Oscar de la Cruz</span>
-                        </div>
-                        <div class="gitbook-meta-item">
-                            📅 <span>10 Mar 2026</span>
-                        </div>
-                        <div class="gitbook-meta-item">
-                            ⏱️ <span>12 min lectura</span>
-                        </div>
+                        <div class="gitbook-meta-item">👤 <span class="gitbook-author">Oscar de la Cruz</span></div>
+                        <div class="gitbook-meta-item">📅 <span>10 Mar 2026</span></div>
+                        <div class="gitbook-meta-item">⏱️ <span>12 min lectura</span></div>
+                        <div class="gitbook-meta-item">🔄 <span>Actualizado: 15 Abr 2026</span></div>
                     </div>
                 </header>
 
                 <!-- Content -->
                 <div class="gitbook-content">
+                    <!-- INTRODUCCIÓN -->
                     <section id="introduccion">
                         <h2>Introducción</h2>
-                        <p>
-                            Los servidores de gaming son objetivos frecuentes de ataques maliciosos. 
-                            Desde DDoS hasta exploits de scripts, las amenazas son diversas y constantes. 
-                            En este artículo exploraremos las mejores prácticas para proteger tus servidores 
-                            y mantener una experiencia de juego segura para todos los usuarios.
-                        </p>
+                        <p>Los servidores de gaming son objetivos frecuentes de ataques maliciosos. Desde DDoS hasta exploits de scripts, las amenazas son diversas y constantes. En este artículo exploraremos las mejores prácticas para proteger tus servidores y mantener una experiencia de juego segura para todos los usuarios.</p>
 
                         <div class="gitbook-alert warning">
-                            <div class="gitbook-alert-title">
-                                ⚠️ Advertencia
-                            </div>
-                            <div class="gitbook-alert-content">
-                                La seguridad no es opcional en servidores gaming. Un solo ataque puede 
-                                comprometer datos de usuarios, causar pérdida de jugadores y dañar tu reputación.
-                            </div>
+                            <div class="gitbook-alert-title">⚠️ Advertencia</div>
+                            <div class="gitbook-alert-content">La seguridad no es opcional en servidores gaming. Un solo ataque puede comprometer datos de usuarios, causar pérdida de jugadores y dañar tu reputación.</div>
                         </div>
                     </section>
 
+                    <!-- TIPOS DE ATAQUES -->
                     <section id="tipos-ataques">
                         <h2>Tipos Comunes de Ataques</h2>
-                        <p>
-                            Antes de proteger tu servidor, es crucial entender contra qué te estás defendiendo:
-                        </p>
+                        <p>Antes de proteger tu servidor, es crucial entender contra qué te estás defendiendo:</p>
                         
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                💣 1. Ataques DDoS (Distributed Denial of Service)
-                            </div>
-                            <div class="gitbook-card-content">
-                                Sobrecarga del servidor con tráfico masivo para causar lag o caídas. 
-                                Es el ataque más común en servidores gaming.
-                            </div>
+                            <div class="gitbook-card-title">💣 1. Ataques DDoS (Distributed Denial of Service)</div>
+                            <div class="gitbook-card-content"><strong>Qué es:</strong> Un atacante utiliza múltiples sistemas comprometidos (botnet) para enviar tráfico masivo a tu servidor.<br>
+                            <strong>Consecuencias:</strong> El servidor se sobrecarga, causa lag extremo o se cae por completo. Es el ataque más común en servidores gaming.<br>
+                            <strong>Ejemplo real:</strong> Un servidor de Minecraft recibe 10,000 peticiones por segundo desde miles de IPs diferentes.</div>
                         </div>
 
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                💻 2. Exploits de Scripts
-                            </div>
-                            <div class="gitbook-card-content">
-                                Aprovechamiento de vulnerabilidades en el código del servidor o plugins 
-                                para ejecutar comandos no autorizados.
-                            </div>
+                            <div class="gitbook-card-title">💻 2. Exploits de Scripts</div>
+                            <div class="gitbook-card-content"><strong>Qué es:</strong> Los atacantes aprovechan vulnerabilidades en el código del servidor, addons o plugins mal programados.<br>
+                            <strong>Consecuencias:</strong> Pueden ejecutar comandos no autorizados, duplicar items, expulsar jugadores o incluso tomar control del servidor.<br>
+                            <strong>Ejemplo real:</strong> Un plugin de economía mal validado permite a un jugador ejecutar <code>;give 1000 gold</code> sin permisos.</div>
                         </div>
 
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                🗄️ 3. Inyección SQL
-                            </div>
-                            <div class="gitbook-card-content">
-                                Manipulación de bases de datos a través de entradas no validadas, 
-                                común en servidores con sistemas de cuentas.
-                            </div>
+                            <div class="gitbook-card-title">🗄️ 3. Inyección SQL</div>
+                            <div class="gitbook-card-content"><strong>Qué es:</strong> El atacante inserta código SQL malicioso en campos de entrada (login, chat, formularios).<br>
+                            <strong>Consecuencias:</strong> Puede leer, modificar o eliminar toda tu base de datos, robando credenciales de usuarios.<br>
+                            <strong>Ejemplo real:</strong> En un login, el usuario ingresa <code>' OR '1'='1</code> como contraseña, eludiendo la verificación.</div>
                         </div>
 
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                🖥️ 4. RCE (Remote Code Execution)
-                            </div>
-                            <div class="gitbook-card-content">
-                                Ejecución remota de código en el servidor, el ataque más peligroso 
-                                que puede dar control total al atacante.
-                            </div>
+                            <div class="gitbook-card-title">🖥️ 4. RCE (Remote Code Execution)</div>
+                            <div class="gitbook-card-content"><strong>Qué es:</strong> El atacante logra ejecutar código arbitrario en el sistema operativo del servidor.<br>
+                            <strong>Consecuencias:</strong> Es el ataque más peligroso posible. El atacante puede instalar malware, robar archivos, o usar tu servidor para atacar a otros.<br>
+                            <strong>Ejemplo real:</strong> Un comando de servidor mal sanitizado permite ejecutar <code>; rm -rf /</code> (eliminar todo el sistema).</div>
                         </div>
 
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                🔑 5. Brute Force
-                            </div>
-                            <div class="gitbook-card-content">
-                                Intentos repetidos de acceso mediante fuerza bruta a cuentas administrativas 
-                                o de usuarios.
-                            </div>
+                            <div class="gitbook-card-title">🔑 5. Brute Force (Fuerza Bruta)</div>
+                            <div class="gitbook-card-content"><strong>Qué es:</strong> El atacante intenta miles o millones de combinaciones de contraseñas por segundo.<br>
+                            <strong>Consecuencias:</strong> Pueden comprometer cuentas administrativas (RCON, FTP, SSH) o cuentas de jugadores VIP.<br>
+                            <strong>Ejemplo real:</strong> Un bot prueba 10,000 contraseñas por minuto contra el puerto SSH de tu servidor.</div>
                         </div>
                     </section>
 
+                    <!-- CONFIGURACIÓN BÁSICA -->
                     <section id="configuracion-basica">
                         <h2>Configuración Básica de Seguridad</h2>
                         
-                        <h3>1. Firewall y Puertos</h3>
+                        <h3>1. Firewall y Puertos <span class="os-badge">🐧 Linux - iptables</span></h3>
+                        <p><strong>¿Qué es un firewall?</strong> Es un sistema que filtra el tráfico de red, permitiendo o bloqueando conexiones según reglas definidas. <strong>Regla de oro:</strong> Solo abre los puertos estrictamente necesarios.</p>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Configuración de Firewall (iptables)</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <div class="gitbook-code-title">Configuración de Firewall (iptables) - Linux</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code># Permitir solo puertos esenciales
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT  # SSH
-iptables -A INPUT -p tcp --dport 27015 -j ACCEPT  # Game Server
-iptables -A INPUT -p udp --dport 27015 -j ACCEPT  # Game Server UDP
+                                <pre><code># 🔒 Permitir solo puertos esenciales
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT      # SSH (administración remota)
+iptables -A INPUT -p tcp --dport 27015 -j ACCEPT   # Puerto del servidor de juego (TCP)
+iptables -A INPUT -p udp --dport 27015 -j ACCEPT   # Puerto del servidor de juego (UDP)
 
-# Limitar conexiones por IP
+# 🔒 Limitar conexiones por IP (anti-DDoS básico)
 iptables -A INPUT -p tcp --dport 27015 -m connlimit --connlimit-above 10 -j REJECT
 
-# Protección contra ping floods
+# 🔒 Protección contra ping floods
 iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT
-iptables -A INPUT -p icmp --icmp-type echo-request -j DROP</code></pre>
+iptables -A INPUT -p icmp --icmp-type echo-request -j DROP
+
+# 🔒 Bloquear todo lo demás
+iptables -P INPUT DROP</code></pre>
                             </div>
                         </div>
 
-                        <h3>2. Rate Limiting</h3>
+                        <h3>Firewall en Windows Server <span class="os-badge">🪟 Windows - PowerShell</span></h3>
+                        <div class="gitbook-code-block">
+                            <div class="gitbook-code-header">
+                                <div class="gitbook-code-title">PowerShell - Reglas de Firewall para Windows</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
+                            </div>
+                            <div class="gitbook-code-content">
+                                <pre><code># Crear regla para permitir el puerto del juego
+New-NetFirewallRule -DisplayName "Game Server TCP" -Direction Inbound -Protocol TCP -LocalPort 27015 -Action Allow
+New-NetFirewallRule -DisplayName "Game Server UDP" -Direction Inbound -Protocol UDP -LocalPort 27015 -Action Allow
+
+# Bloquear ICMP (pings)
+New-NetFirewallRule -DisplayName "Block ICMP" -Protocol ICMPv4 -IcmpType 8 -Action Block</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>2. Rate Limiting <span class="os-badge">📜 Lua - Multiplataforma</span></h3>
+                        <p><strong>¿Qué es rate limiting?</strong> Técnica que limita cuántas veces un usuario puede realizar una acción en un período de tiempo.</p>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">Lua - Rate limiting para conexiones</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local connectionLimiter = {}
-local maxConnections = 5
-local connectionWindow = 60 -- segundos
+local maxConnections = 5        -- Máximo 5 conexiones por IP
+local connectionWindow = 60     -- En 60 segundos
 
 function canConnect(ip)
     local now = os.time()
@@ -1018,30 +942,21 @@ end</code></pre>
                         </div>
                     </section>
 
+                    <!-- VALIDACIÓN DE ENTRADAS -->
                     <section id="validacion-entradas">
                         <h2>Validación de Entradas</h2>
-                        <p>
-                            La mayoría de los exploits provienen de entradas no validadas. 
-                            Implementa validación estricta en todos los puntos de entrada.
-                        </p>
+                        <p>La mayoría de los exploits provienen de entradas no validadas. Implementa validación estricta en todos los puntos de entrada.</p>
 
                         <div class="gitbook-alert danger">
-                            <div class="gitbook-alert-title">
-                                
-                            </div>
-                            <div class="gitbook-alert-content">
-                                Nunca confíes en las entradas del usuario. Siempre valida y sanitiza 
-                                todos los datos provenientes de clientes.
-                            </div>
+                            <div class="gitbook-alert-title">🔒 Regla de Oro de Seguridad</div>
+                            <div class="gitbook-alert-content">Nunca, bajo ninguna circunstancia, confíes en las entradas del usuario. Siempre valida y sanitiza TODOS los datos provenientes de clientes.</div>
                         </div>
 
-                        <h3>Sanitización de Strings</h3>
+                        <h3>Sanitización de Strings <span class="os-badge">📜 Lua</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">Lua - Función de sanitización robusta</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local function sanitizeInput(input, inputType)
@@ -1049,10 +964,10 @@ end</code></pre>
         return nil
     end
     
-    -- Eliminar caracteres peligrosos
+    -- Eliminar caracteres peligrosos: < > " ' & y caracteres de control
     local sanitized = string.gsub(input, "[<>\"'&%c]", "")
     
-    -- Limitar longitud
+    -- Limitar longitud según el tipo
     local maxLength = 255
     if inputType == "chat" then
         maxLength = 128
@@ -1071,7 +986,6 @@ end</code></pre>
         local num = tonumber(sanitized)
         return num and num >= 0 and num <= 1000000 and num or nil
     elseif inputType == "name" then
-        -- Solo permitir caracteres alfanuméricos y espacios
         if not string.match(sanitized, "^[%w%s]+$") then
             return nil
         end
@@ -1080,43 +994,35 @@ end</code></pre>
     return sanitized
 end
 
--- Uso en comandos
 function handleCommand(player, command, args)
     local sanitizedCmd = sanitizeInput(command, "command")
     if not sanitizedCmd then
         player:ChatPrint("Comando inválido")
         return
     end
-    
-    -- Procesar comando seguro
     processSafeCommand(player, sanitizedCmd, args)
 end</code></pre>
                             </div>
                         </div>
                     </section>
 
+                    <!-- PROTECCIÓN DDoS -->
                     <section id="proteccion-ddos">
                         <h2>Protección contra DDoS</h2>
                         
-                        <h3>1. Configuración de Rate Limiting Avanzado</h3>
+                        <h3>1. Rate Limiting Avanzado <span class="os-badge">📜 Lua</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">Sistema anti-DDoS multicapa</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local DDoSProtection = {
     ipConnections = {},
-    packetLimits = {},
     blacklistedIPs = {},
-    
-    -- Configuración
     maxConnectionsPerIP = 3,
     connectionTimeout = 30,
-    maxPacketsPerSecond = 100,
-    blacklistDuration = 3600
+    blacklistDuration = 3600  -- 1 hora
 }
 
 function DDoSProtection:checkConnection(ip)
@@ -1124,7 +1030,7 @@ function DDoSProtection:checkConnection(ip)
     
     -- Verificar blacklist
     if self.blacklistedIPs[ip] and self.blacklistedIPs[ip] > now then
-        return false, "IP blacklisted"
+        return false, "IP bloqueada temporalmente"
     end
     
     -- Limpiar conexiones expiradas
@@ -1141,69 +1047,55 @@ function DDoSProtection:checkConnection(ip)
     end
     
     if activeConnections >= self.maxConnectionsPerIP then
-        self:blacklistIP(ip, "Too many connections")
-        return false, "Connection limit exceeded"
+        self:blacklistIP(ip, "Demasiadas conexiones")
+        return false, "Límite de conexiones excedido"
     end
     
-    -- Registrar nueva conexión
-    table.insert(connections, {
-        expires = now + self.connectionTimeout,
-        id = #connections + 1
-    })
+    table.insert(connections, {expires = now + self.connectionTimeout})
     self.ipConnections[ip] = connections
-    
-    return true, "Connection allowed"
+    return true, "Conexión permitida"
 end
 
 function DDoSProtection:blacklistIP(ip, reason)
     self.blacklistedIPs[ip] = os.time() + self.blacklistDuration
-    print(string.format("IP %s blacklisted: %s", ip, reason))
+    print(string.format("IP %s bloqueada: %s", ip, reason))
 end</code></pre>
                             </div>
                         </div>
 
-                        <h3>2. Cloudflare y CDN</h3>
-                        <p>
-                            Utilizar servicios como Cloudflare puede mitigar ataques DDoS antes de 
-                            que lleguen a tu servidor:
-                        </p>
+                        <h3>2. Cloudflare y CDN <span class="os-badge">🌐 Multiplataforma</span></h3>
+                        <p>Cloudflare actúa como escudo entre tus jugadores y tu servidor, ocultando tu IP real y mitigando ataques DDoS.</p>
                         <ul>
-                            <li>Activar "I'm Under Attack" mode durante ataques</li>
-                            <li>Configurar reglas de firewall a nivel de CDN</li>
-                            <li>Utilizar rate limiting a nivel de edge</li>
-                            <li>Ocultar IP real del servidor</li>
+                            <li><strong>Beneficios:</strong> Oculta IP real, mitiga DDoS, proporciona SSL gratuito</li>
+                            <li><strong>Configuración recomendada:</strong> Activar "Proxy" (nube naranja), configurar reglas de firewall, activar "I'm Under Attack Mode" durante ataques</li>
                         </ul>
 
                         <div class="gitbook-alert info">
-                            <div class="gitbook-alert-title">
-                                
-                            </div>
-                            <div class="gitbook-alert-content">
-                                Cloudflare ofrece protección DDoS gratuita que es suficiente para 
-                                la mayoría de servidores gaming pequeños y medianos.
-                            </div>
+                            <div class="gitbook-alert-title">ℹ️ Nota</div>
+                            <div class="gitbook-alert-content">Cloudflare ofrece protección DDoS gratuita suficiente para servidores gaming pequeños y medianos. Para servidores grandes, considera el plan Pro ($20/mes).</div>
                         </div>
                     </section>
 
+                    <!-- SEGURIDAD BD -->
                     <section id="seguridad-bd">
                         <h2>Seguridad de Base de Datos</h2>
                         
-                        <h3>1. Consultas Parametrizadas</h3>
+                        <h3>1. Consultas Parametrizadas <span class="os-badge">🗄️ SQL</span></h3>
+                        <p>Las consultas parametrizadas previenen la inyección SQL al separar el código SQL de los datos.</p>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">SQL Injection - Mal vs Bien</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>-- MAL - Vulnerable a SQL Injection
+                                <pre><code>-- ❌ MAL - Vulnerable a SQL Injection
+-- Si el jugador ingresa "Robert'; DROP TABLE players; --"
 local query = "SELECT * FROM players WHERE name = '" .. playerName .. "'"
 
--- BIEN - Consulta parametrizada
+-- ✅ BIEN - Consulta parametrizada (segura)
 local function getPlayerByName(name)
     local stmt = db:prepare("SELECT * FROM players WHERE name = ?")
-    stmt:bind_values(name)
+    stmt:bind_values(name)  -- El '?' se reemplaza por el valor sanitizado
     local result = stmt:step()
     stmt:finalize()
     return result
@@ -1211,161 +1103,96 @@ end</code></pre>
                             </div>
                         </div>
 
-                        <h3>2. Cifrado de Datos Sensibles</h3>
+                        <h3>2. Cifrado de Datos Sensibles <span class="os-badge">📜 Lua con bcrypt</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Cifrado de contraseñas y datos</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <div class="gitbook-code-title">Cifrado de contraseñas con bcrypt</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
-                                <pre><code>-- Cifrado de contraseñas
-local bcrypt = require("bcrypt")
+                                <pre><code>local bcrypt = require("bcrypt")  -- luarocks install bcrypt
 
 function hashPassword(password)
-    return bcrypt.digest(password, 12) -- 12 rounds
+    return bcrypt.digest(password, 12)  -- 12 rounds
 end
 
 function verifyPassword(password, hash)
     return bcrypt.verify(password, hash)
 end
 
--- Cifrado de datos sensibles en la base de datos
-local function encryptSensitiveData(data, key)
-    -- Implementar cifrado AES-256
-    return aes256.encrypt(key, data)
+function registerUser(username, plainPassword)
+    local safeUsername = sanitizeInput(username, "name")
+    if not safeUsername then return false end
+    
+    local passwordHash = hashPassword(plainPassword)
+    local stmt = db:prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)")
+    stmt:bind_values(safeUsername, passwordHash)
+    stmt:step()
+    return true
 end</code></pre>
                             </div>
                         </div>
                     </section>
 
+                    <!-- MONITOREO Y LOGS -->
                     <section id="monitoreo-logs">
                         <h2>Monitoreo y Logs</h2>
                         
-                        <h3>1. Sistema de Logging</h3>
+                        <h3>1. Sistema de Logging <span class="os-badge">📜 Lua</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">Sistema de logging seguro</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local Logger = {
     logFile = "server_security.log",
-    maxFileSize = 10 * 1024 * 1024, -- 10MB
-    logLevels = {
-        DEBUG = 1,
-        INFO = 2,
-        WARN = 3,
-        ERROR = 4,
-        CRITICAL = 5
-    }
+    logLevels = {DEBUG=1, INFO=2, WARN=3, ERROR=4, CRITICAL=5}
 }
 
 function Logger:log(level, message, ip, playerId)
-    if self.logLevels[level] < self.logLevels.INFO then
-        return -- Solo loggear INFO y superior
-    end
+    if self.logLevels[level] < self.logLevels.INFO then return end
     
     local timestamp = os.date("%Y-%m-%d %H:%M:%S")
-    local logEntry = string.format("[%s] %s - IP: %s - Player: %s - %s\n", 
+    local logEntry = string.format("[%s] %s | IP: %s | Player: %s | %s\n", 
                                    timestamp, level, ip or "unknown", 
                                    playerId or "unknown", message)
     
-    -- Escribir al archivo
     local file = io.open(self.logFile, "a")
-    if file then
-        file:write(logEntry)
-        file:close()
-    end
+    if file then file:write(logEntry) file:close() end
     
-    -- Alertas para eventos críticos
     if level == "CRITICAL" then
         self:sendAlert(message, ip)
     end
-end
-
-function Logger:sendAlert(message, ip)
-    -- Enviar alerta a administradores
-    for _, admin in ipairs(getAdmins()) do
-        admin:ChatPrint("[SECURITY ALERT] " .. message .. " (IP: " .. ip .. ")")
-    end
-    
-    -- Opcional: enviar a webhook/email
-    self:sendWebhookAlert(message, ip)
 end</code></pre>
                             </div>
                         </div>
 
-                        <h3>2. Detección de Anomalías</h3>
+                        <h3>2. Detección de Anomalías <span class="os-badge">📜 Lua</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">Sistema de detección de anomalías</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local AnomalyDetector = {
-    playerStats = {},
     thresholds = {
         maxCommandsPerSecond = 10,
-        maxChatMessagesPerMinute = 30,
-        maxMovementSpeed = 500,
         suspiciousPatterns = {"admin", "ban", "kick", "exploit"}
     }
 }
 
-function AnomalyDetector:analyzePlayerAction(player, actionType, data)
-    local steamId = player:SteamID()
-    local now = os.time()
-    
-    if not self.playerStats[steamId] then
-        self.playerStats[steamId] = {
-            commands = {},
-            chatMessages = {},
-            lastPosition = player:GetPos(),
-            suspiciousActions = 0
-        }
-    end
-    
-    local stats = self.playerStats[steamId]
-    
-    if actionType == "command" then
-        self:checkCommandFrequency(player, data, now, stats)
-    elseif actionType == "chat" then
-        self:checkChatFrequency(player, data, now, stats)
-    elseif actionType == "movement" then
-        self:checkMovementAnomalies(player, data, stats)
-    end
-end
-
 function AnomalyDetector:checkCommandFrequency(player, command, now, stats)
-    -- Limpiar comandos antiguos (más de 1 segundo)
-    local recentCommands = {}
-    for timestamp, cmd in pairs(stats.commands) do
-        if now - timestamp <= 1 then
-            recentCommands[timestamp] = cmd
-        end
-    end
-    stats.commands = recentCommands
-    
-    -- Contar comandos en el último segundo
     local commandCount = 0
-    for _ in pairs(stats.commands) do
-        commandCount = commandCount + 1
-    end
+    for _ in pairs(stats.commands) do commandCount = commandCount + 1 end
     
     if commandCount > self.thresholds.maxCommandsPerSecond then
-        Logger:log("WARN", "Excessive command usage: " .. commandCount .. "/s", 
+        Logger:log("WARN", "Exceso de comandos: " .. commandCount .. "/s", 
                   player:IPAddress(), player:SteamID())
         
-        stats.suspiciousActions = stats.suspiciousActions + 1
-        
-        if stats.suspiciousActions > 5 then
-            self:handleSuspiciousPlayer(player, "Excessive command usage")
+        stats.suspiciousActions = (stats.suspiciousActions or 0) + 1
+        if stats.suspiciousActions >= 5 then
+            self:handleSuspiciousPlayer(player, "Exceso de comandos")
         end
     end
 end</code></pre>
@@ -1373,22 +1200,22 @@ end</code></pre>
                         </div>
                     </section>
 
+                    <!-- HARDENING -->
                     <section id="hardening-servidor">
                         <h2>Hardening del Servidor</h2>
+                        <p><strong>¿Qué es hardening?</strong> El proceso de asegurar un sistema reduciendo su superficie de ataque.</p>
                         
-                        <h3>1. Configuración de Sistema Operativo</h3>
+                        <h3>1. Configuración de Sistema Operativo <span class="os-badge">🐧 Linux - /etc/sysctl.conf</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">/etc/sysctl.conf - Optimizaciones de seguridad</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code># Protección contra SYN floods
 net.ipv4.tcp_syncookies = 1
 
-# Ignorar pings
+# Ignorar pings (previene ping floods)
 net.ipv4.icmp_echo_ignore_all = 1
 
 # Limitar conexiones concurrentes
@@ -1399,64 +1226,66 @@ net.ipv4.conf.all.rp_filter = 1
 
 # Deshabilitar redirects ICMP
 net.ipv4.conf.all.accept_redirects = 0
-net.ipv4.conf.all.send_redirects = 0</code></pre>
+net.ipv4.conf.all.send_redirects = 0
+
+# Aplicar cambios: sudo sysctl -p</code></pre>
                             </div>
                         </div>
 
-                        <h3>2. Configuración de Game Server</h3>
+                        <h3>2. Configuración de Game Server <span class="os-badge">🎮 Source Engine - server.cfg</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
                                 <div class="gitbook-code-title">server.cfg - Configuración segura</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>hostname "Secure Gaming Server"
-sv_password "your_secure_password"
-rcon_password "your_rcon_password"
+sv_password "TuClaveSegura_Aqui"
+rcon_password "TuClaveRCON_Segura"
+
+# Protección de archivos
 sv_pure 1
 sv_pure_kick_clients 1
-
--- Limitar tasa de actualización
-sv_maxupdaterate 67
-sv_minupdaterate 33
-
--- Protección contra cheats
-sv_cheats 0
 sv_allowupload 0
 sv_allowdownload 0
 
--- Logging extendido
+# Rate limiting
+sv_maxupdaterate 67
+sv_minupdaterate 33
+
+# Anti-cheats
+sv_cheats 0
+
+# Logging extendido
 log on
-sv_log_onefile 0
 sv_logfile 1
-sv_logbans 1
-sv_logecho 1</code></pre>
+sv_logbans 1</code></pre>
                             </div>
                         </div>
                     </section>
 
+                    <!-- RESPUESTA A INCIDENTES -->
                     <section id="respuesta-incidentes">
                         <h2>Respuesta a Incidentes</h2>
                         
-                        <h3>Plan de Respuesta</h3>
-                        <ol>
-                            <li><strong>Detección:</strong> Monitoreo continuo y alertas automáticas</li>
-                            <li><strong>Contención:</strong> Aislar sistemas afectados</li>
-                            <li><strong>Análisis:</strong> Investigar el alcance del ataque</li>
-                            <li><strong>Erradicación:</strong> Eliminar amenazas y vulnerabilidades</li>
-                            <li><strong>Recuperación:</strong> Restaurar sistemas desde backups</li>
-                            <li><strong>Prevención:</strong> Implementar medidas preventivas</li>
-                        </ol>
+                        <h3>Plan de Respuesta (6 pasos)</h3>
+                        <table>
+                            <thead><tr><th>Paso</th><th>Acción</th><th>Tiempo objetivo</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>1. Detección</strong></td><td>Monitoreo continuo y alertas automáticas</td><td>&lt; 1 min</td></tr>
+                                <tr><td><strong>2. Contención</strong></td><td>Aislar sistemas afectados</td><td>&lt; 5 min</td></tr>
+                                <tr><td><strong>3. Análisis</strong></td><td>Investigar el alcance del ataque</td><td>15-30 min</td></tr>
+                                <tr><td><strong>4. Erradicación</strong></td><td>Eliminar amenazas y vulnerabilidades</td><td>1-2 horas</td></tr>
+                                <tr><td><strong>5. Recuperación</strong></td><td>Restaurar sistemas desde backups</td><td>2-4 horas</td></tr>
+                                <tr><td><strong>6. Prevención</strong></td><td>Implementar medidas preventivas</td><td>Continuo</td></tr>
+                            </tbody>
+                        </table>
 
-                        <h3>Comandos de Emergencia</h3>
+                        <h3>Comandos de Emergencia <span class="os-badge">🎮 GMod/Lua</span></h3>
                         <div class="gitbook-code-block">
                             <div class="gitbook-code-header">
-                                <div class="gitbook-code-title">Script de emergencia para GMod</div>
-                                <button class="gitbook-copy-button" onclick="copyCode(this)">
-                                    <span>Copiar</span>
-                                </button>
+                                <div class="gitbook-code-title">Script de emergencia</div>
+                                <button class="gitbook-copy-button" onclick="copyCode(this)"><span>Copiar</span></button>
                             </div>
                             <div class="gitbook-code-content">
                                 <pre><code>local EmergencyCommands = {}
@@ -1465,95 +1294,90 @@ function EmergencyCommands:lockdown()
     -- Bloquear nuevas conexiones
     game.ConsoleCommand("sv_password lockdown_temp_" .. os.time())
     
-    -- Kickear todos los jugadores excepto admins
+    -- Expulsar jugadores no administradores
     for _, ply in ipairs(player.GetAll()) do
         if not ply:IsAdmin() then
-            ply:Kick("Server lockdown - Try again later")
+            ply:Kick("🔒 BLOQUEO DE EMERGENCIA")
         end
     end
     
-    Logger:log("CRITICAL", "Server lockdown activated", "SYSTEM")
+    Logger:log("CRITICAL", "Bloqueo de emergencia activado", "SYSTEM")
 end
 
-function EmergencyCommands:backup()
-    -- Crear backup de datos críticos
+function EmergencyCommands:emergencyBackup()
     local backupName = "emergency_backup_" .. os.date("%Y%m%d_%H%M%S")
-    
-    -- Backup base de datos
     os.execute("mysqldump -u root -p gaming_db > backups/" .. backupName .. ".sql")
-    
-    -- Backup archivos de configuración
     os.execute("tar -czf backups/" .. backupName .. "_config.tar.gz server.cfg addons/")
-    
-    Logger:log("INFO", "Emergency backup created: " .. backupName, "SYSTEM")
+    Logger:log("INFO", "Backup creado: " .. backupName, "SYSTEM")
 end</code></pre>
                             </div>
                         </div>
                     </section>
 
+                    <!-- MEJORES PRÁCTICAS -->
                     <section id="mejores-practicas">
                         <h2>Mejores Prácticas Resumidas</h2>
                         
                         <div class="gitbook-key-takeaways">
-                            <h3>
-                                ⭐ Checklist de Seguridad
-                            </h3>
+                            <h3>⭐ Checklist de Seguridad</h3>
                             
-                            <h4>Configuración</h4>
+                            <h4>🔧 Configuración (hacer una vez, revisar mensualmente)</h4>
                             <ul>
-                                <li>Mantener software actualizado</li>
-                                <li>Usar contraseñas fuertes y únicas</li>
-                                <li>Configurar firewall correctamente</li>
-                                <li>Limitar acceso administrativo</li>
+                                <li>✅ Mantener software actualizado (<code>apt update &amp;&amp; apt upgrade</code> o Windows Update)</li>
+                                <li>✅ Usar contraseñas fuertes y únicas (12+ caracteres, mayúsculas, números, símbolos)</li>
+                                <li>✅ Configurar firewall correctamente</li>
+                                <li>✅ Limitar acceso administrativo (solo IPs confiables)</li>
                             </ul>
 
-                            <h4>Monitoreo</h4>
+                            <h4>📊 Monitoreo (hacer diariamente)</h4>
                             <ul>
-                                <li>Implementar logging exhaustivo</li>
-                                <li>Configurar alertas automáticas</li>
-                                <li>Monitorear recursos del sistema</li>
-                                <li>Analizar logs regularmente</li>
+                                <li>✅ Implementar logging exhaustivo</li>
+                                <li>✅ Configurar alertas automáticas (Discord webhooks, email)</li>
+                                <li>✅ Monitorear recursos del sistema (<code>htop</code>, Task Manager)</li>
+                                <li>✅ Analizar logs regularmente (<code>grep ERROR security.log</code>)</li>
                             </ul>
 
-                            <h4>Prevención</h4>
+                            <h4>🛡️ Prevención (implementar gradualmente)</h4>
                             <ul>
-                                <li>Validar todas las entradas</li>
-                                <li>Usar consultas parametrizadas</li>
-                                <li>Implementar rate limiting</li>
-                                <li>Realizar backups regulares</li>
+                                <li>✅ Validar TODAS las entradas de usuario 🔴 ALTA</li>
+                                <li>✅ Usar consultas parametrizadas en BD 🔴 ALTA</li>
+                                <li>✅ Implementar rate limiting 🟡 MEDIA</li>
+                                <li>✅ Realizar backups automáticos diarios 🔴 ALTA</li>
                             </ul>
                         </div>
 
+                        <h3>🎓 Hoja de Ruta - Próximos Pasos</h3>
                         <div class="gitbook-card">
-                            <div class="gitbook-card-title">
-                                🎓 Próximos Pasos
-                            </div>
-                            <div class="gitbook-card-content">
-                                La seguridad es un proceso continuo, no un destino. Implementa estas 
-                                medidas gradualmente y mantente actualizado sobre nuevas amenazas 
-                                y técnicas de protección.
-                            </div>
+                            <div class="gitbook-card-title">Semana 1 - Fundamentos</div>
+                            <div class="gitbook-card-content">☐ Cambiar todas las contraseñas por defecto<br>☐ Configurar firewall básico<br>☐ Implementar sistema de logging</div>
+                        </div>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">Semana 2 - Protección Avanzada</div>
+                            <div class="gitbook-card-content">☐ Implementar rate limiting<br>☐ Configurar Cloudflare (si aplica)<br>☐ Revisar y sanitizar código de comandos</div>
+                        </div>
+                        <div class="gitbook-card">
+                            <div class="gitbook-card-title">Semana 3 - Monitoreo y Respuesta</div>
+                            <div class="gitbook-card-content">☐ Configurar alertas automáticas<br>☐ Preparar script de emergencia<br>☐ Configurar backups automáticos</div>
+                        </div>
+
+                        <div class="gitbook-alert info">
+                            <div class="gitbook-alert-title">💡 Recuerda</div>
+                            <div class="gitbook-alert-content">La seguridad es un proceso continuo, no un destino. Implementa estas medidas gradualmente y mantente actualizado sobre nuevas amenazas y técnicas de protección. Un servidor seguro es un servidor exitoso.</div>
                         </div>
                     </section>
                 </div>
 
                 <!-- Navigation -->
                 <nav class="gitbook-navigation">
-                    <a href="optimizacion-lua.html" class="gitbook-nav-link">
-                        <- Anterior
-                    </a>
-                    <a href="../index.html#blog" class="gitbook-nav-link">
-                        Volver al Blog 
-                    </a>
-                    <a href="git-guide.html" class="gitbook-nav-link">
-                        Siguiente ->
-                    </a>
+                    <a href="#" class="gitbook-nav-link" style="opacity:0.5; cursor: default;">← Anterior</a>
+                    <a href="../index.html#blog" class="gitbook-nav-link">📚 Volver al Blog</a>
+                    <a href="#" class="gitbook-nav-link" style="opacity:0.5; cursor: default;">Siguiente →</a>
                 </nav>
             </article>
         </main>
     </div>
 
-    <!-- Footer from index.html -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>
@@ -1566,44 +1390,40 @@ end</code></pre>
                 <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
             </p>
             
-            <!-- Badges Container -->
             <div class="badges-container">
-                <!-- Cisco Cybersecurity Badge -->
                 <div class="cisco-badge">
-                    <!-- Direct badge display -->
                     <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="../assets/icons/introduction-to-cybersecurity.png" 
-                             alt="Cisco Introduction to Cybersecurity Badge" 
-                             class="badge-image">
+                        <img src="../assets/icons/introduction-to-cybersecurity.png" alt="Cisco Introduction to Cybersecurity Badge" class="badge-image">
                     </a>
                 </div>
-                
-                <!-- Networking Basics Badge -->
                 <div class="networking-badge">
-                    <!-- Direct badge display -->
                     <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="../assets/icons/networking-basics.png" 
-                             alt="Networking Basics Badge" 
-                             class="badge-image">
+                        <img src="../assets/icons/networking-basics.png" alt="Networking Basics Badge" class="badge-image">
                     </a>
                 </div>
-                
-                <!-- Python Essentials Badge -->
+                <!-- Python Essentials 1 Badge -->
                 <div class="python-badge">
-                    <!-- Direct badge display -->
                     <a href="https://www.credly.com/badges/368a28b9-0ab7-48a4-b404-675a2814e620" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="../assets/icons/python-essentials-1.1.png" 
-                             alt="Python Essentials Badge" 
-                             class="badge-image">
+                        <img src="../assets/icons/python-essentials-1.1.png" alt="Python Essentials 1 Badge" class="badge-image">
+                    </a>
+                </div>
+                <!-- Python Essentials 2 Badge -->
+                <div class="python-badge">
+                    <a href="https://www.credly.com/badges/95703985-643c-4352-8ddf-eec0a24e98d7" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/python-essentials-2.png" alt="Python Essentials 2 Badge" class="badge-image">
+                    </a>
+                </div>
+                <!-- Linux Essentials Badge -->
+                <div class="linux-badge">
+                    <a href="https://www.credly.com/badges/f21b2d04-2f93-439e-a73f-a340263b86f9" target="_blank" rel="noopener noreferrer" class="badge-link">
+                        <img src="../assets/icons/linux-essentials.png" alt="Linux Essentials Badge" class="badge-image">
                     </a>
                 </div>
             </div>
-            
-            </div>
+        </div>
     </footer>
 
     <script>
-        // Reading Progress Bar
         function updateReadingProgress() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1611,7 +1431,6 @@ end</code></pre>
             document.getElementById('readingProgress').style.width = scrollPercent + '%';
         }
 
-        // Copy Code Functionality
         function copyCode(button) {
             const codeBlock = button.closest('.gitbook-code-block');
             const codeContent = codeBlock.querySelector('pre code').textContent;
@@ -1619,7 +1438,6 @@ end</code></pre>
             navigator.clipboard.writeText(codeContent).then(() => {
                 button.classList.add('copied');
                 button.innerHTML = '✅ <span>Copiado</span>';
-                
                 setTimeout(() => {
                     button.classList.remove('copied');
                     button.innerHTML = '📋 <span>Copiar</span>';
@@ -1627,99 +1445,49 @@ end</code></pre>
             });
         }
 
-        // Mobile Toggle
+        function updateActiveTOC() {
+            const sections = document.querySelectorAll('.gitbook-content section[id]');
+            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
+            let currentSection = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) currentSection = section.id;
+            });
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) link.classList.add('active');
+            });
+        }
+
         document.getElementById('mobileToggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(e) {
             const sidebar = document.getElementById('sidebar');
             const toggle = document.getElementById('mobileToggle');
-            
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(e.target) && 
-                !toggle.contains(e.target) && 
-                sidebar.classList.contains('open')) {
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !toggle.contains(e.target) && sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
             }
         });
 
-        // Active TOC Link based on scroll position
-        function updateActiveTOC() {
-            const sections = document.querySelectorAll('.gitbook-content section[id]');
-            const tocLinks = document.querySelectorAll('.gitbook-toc-link');
-            
-            let currentSection = '';
-            
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= 100) {
-                    currentSection = section.id;
-                }
-            });
-            
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + currentSection) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // Smooth scroll for TOC links
         document.querySelectorAll('.gitbook-toc-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetSection = document.getElementById(targetId);
-                
                 if (targetSection) {
-                    const offset = 100; // Account for sticky header
-                    const targetPosition = targetSection.offsetTop - offset;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile sidebar after navigation
-                    if (window.innerWidth <= 768) {
-                        document.getElementById('sidebar').classList.remove('open');
-                    }
+                    window.scrollTo({ top: targetSection.offsetTop - 100, behavior: 'smooth' });
+                    if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
                 }
             });
         });
 
-        // Event listeners
-        window.addEventListener('scroll', () => {
-            updateReadingProgress();
-            updateActiveTOC();
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            updateReadingProgress();
-            updateActiveTOC();
-        });
-
-        // Keyboard shortcuts
+        window.addEventListener('scroll', () => { updateReadingProgress(); updateActiveTOC(); });
+        window.addEventListener('resize', () => { if (window.innerWidth > 768) document.getElementById('sidebar').classList.remove('open'); });
+        document.addEventListener('DOMContentLoaded', () => { updateReadingProgress(); updateActiveTOC(); });
+        
         document.addEventListener('keydown', (e) => {
-            // Ctrl/Cmd + K to focus search (if implemented)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                // Focus search input if exists
-                const searchInput = document.querySelector('.gitbook-search input');
-                if (searchInput) searchInput.focus();
-            }
-            
-            // Escape to close mobile sidebar
             if (e.key === 'Escape' && window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('open');
             }
