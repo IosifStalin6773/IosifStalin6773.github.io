@@ -178,7 +178,6 @@ body {
     z-index: 1000;
     box-shadow: var(--shadow-lg);
     position: relative;
-    overflow: hidden;
 }
 
 /* Video/GIF de fondo del header */
@@ -2146,25 +2145,32 @@ tr:hover {
     
     .nav-menu {
         position: fixed;
-        left: -100%;
+        right: 0;
         top: 70px;
+        display: flex;
         flex-direction: column;
         background-color: var(--bg-secondary);
-        width: 100%;
+        width: 70%;
+        max-width: 300px;
+        height: calc(100vh - 70px);
         text-align: center;
-        transition: transform 0.3s ease;
-        box-shadow: var(--shadow-lg);
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        box-shadow: -4px 0 15px rgba(0,0,0,0.5);
         padding: 1.5rem 0;
-        border-bottom: 2px solid var(--border-accent);
-        max-height: calc(100vh - 70px);
+        border-left: 2px solid var(--border-accent);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 999;
+        /* Start hidden off-screen to the right */
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
     }
 
     .nav-menu.active {
         transform: translateX(0);
-        left: 0;
+        opacity: 1;
+        visibility: visible;
     }
 
     .nav-toggle {
