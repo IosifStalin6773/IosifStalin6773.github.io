@@ -482,10 +482,7 @@ if (isMobile()) {
     // Reducir animaciones en móviles para mejor rendimiento
     document.documentElement.style.setProperty('--transition', 'all 0.2s ease');
     
-    // Prevent horizontal scroll on mobile
-    document.body.style.overflowX = 'hidden';
-    
-    // Improve touch scrolling
+    // Improve touch scrolling - REMOVED overflowX manipulation that blocks scroll
     document.documentElement.style.setProperty('-webkit-overflow-scrolling', 'touch');
 }
 
@@ -494,9 +491,4 @@ window.addEventListener('orientationchange', () => {
     // Close mobile menu on orientation change
     mobileMenu?.classList.remove('active');
     navMenu?.classList.remove('active');
-    
-    // Small delay to allow for orientation change completion
-    setTimeout(() => {
-        window.scrollTo(0, 0);
-    }, 100);
 }, { passive: true });

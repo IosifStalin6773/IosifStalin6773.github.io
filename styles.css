@@ -132,10 +132,12 @@ img {
 /* Optimize scrolling performance */
 html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
-    /* Enable hardware acceleration for scrolling */
-    overflow-y: scroll;
+    /* Enable smooth scrolling on iOS */
     -webkit-overflow-scrolling: touch;
+    /* Allow natural scroll behavior */
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
 }
 
 /* Performance optimized body */
@@ -152,25 +154,18 @@ body {
     text-rendering: optimizeLegibility;
     margin: 0;
     padding: 0;
+    /* Allow vertical scroll, prevent horizontal - CRITICAL for mobile */
     overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
     position: relative;
-    /* Reduce repaints */
-    will-change: scroll-position;
     /* Mobile optimization */
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-}
-
-html {
-    height: 100%;
-    overflow-x: hidden;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
+    /* Enable smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
 }
 
 /* Navegación Militarizada */
@@ -2005,11 +2000,12 @@ tr:hover {
         touch-action: manipulation;
     }
     
-    /* Scroll improvements */
+    /* Scroll improvements - allow vertical scroll */
     body {
         -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
+        overscroll-behavior-y: auto;
         overflow-x: hidden;
+        overflow-y: auto;
     }
     
     /* Prevent text selection on touch */
@@ -2666,5 +2662,313 @@ tr:hover {
     }
     100% {
         left: -100%;
+    }
+}
+
+/* =====================================================
+   100% MOBILE COMPATIBILITY - Enhanced Responsive Design
+   ===================================================== */
+
+/* iOS Safe Areas Support (Notch/Dynamic Island) */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+        padding-top: max(0px, env(safe-area-inset-top));
+    }
+    
+    .hero {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+    
+    .footer {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    .nav-menu {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+}
+
+/* Extra Small Mobile - 320px Breakpoint */
+@media (max-width: 360px) {
+    :root {
+        --fluid-min-font: 14;
+        --fluid-max-font: 16;
+    }
+    
+    .container {
+        padding: 0 12px;
+    }
+    
+    .nav-container {
+        padding: 0 12px;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .hero-description {
+        font-size: 0.75rem;
+        padding-left: 8px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        min-height: 40px;
+        min-width: 90px;
+    }
+    
+    .section-title {
+        font-size: 1.4rem;
+    }
+    
+    .profile-placeholder {
+        width: 150px;
+        height: 150px;
+        font-size: 2rem;
+    }
+    
+    .badge-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .blog-grid {
+        gap: 12px;
+        padding: 0 8px;
+    }
+    
+    .blog-title {
+        font-size: 0.85rem;
+    }
+    
+    .blog-excerpt {
+        font-size: 0.7rem;
+    }
+    
+    .skill-category {
+        padding: 1rem;
+    }
+    
+    .skill-item {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    
+    .footer p {
+        font-size: 0.65rem;
+    }
+}
+
+/* Mobile Landscape Mode */
+@media (max-height: 500px) and (orientation: landscape) {
+    .navbar {
+        height: 50px;
+    }
+    
+    .nav-container {
+        height: 50px;
+    }
+    
+    .nav-menu {
+        top: 50px;
+        max-height: calc(100vh - 50px);
+    }
+    
+    .hero {
+        min-height: auto;
+        padding: 60px 0 40px;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .profile-placeholder {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .section {
+        padding: 40px 0;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet Landscape */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .hero-container {
+        gap: 3rem;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .header-video video {
+        display: none;
+    }
+    
+    .scanning-line::after {
+        animation: none;
+    }
+    
+    .military-border::before {
+        animation: none;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --text-primary: #ffffff;
+        --text-secondary: #ffffff;
+        --border-color: #ffffff;
+        --border-accent: #ff0000;
+    }
+    
+    .btn {
+        border: 2px solid var(--text-primary);
+    }
+    
+    .nav-link {
+        border: 1px solid transparent;
+    }
+    
+    .nav-link:hover {
+        border-color: var(--accent-color);
+    }
+}
+
+/* Dark Mode Support (System Preference) */
+@media (prefers-color-scheme: dark) {
+    /* Already dark theme, but ensure consistency */
+    :root {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #0A0A0A;
+        --text-primary: #FAFAFA;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .header-video,
+    .hero-buttons,
+    .blog-link,
+    .project-link,
+    .nav-toggle {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .section {
+        padding: 20px 0;
+        page-break-inside: avoid;
+    }
+    
+    a {
+        text-decoration: underline;
+        color: black !important;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects on touch devices */
+    .btn:hover,
+    .nav-link:hover,
+    .project-card:hover,
+    .blog-card:hover,
+    .skill-category:hover {
+        transform: none;
+    }
+    
+    /* Increase touch targets */
+    .btn,
+    .nav-link,
+    .project-link,
+    .blog-link,
+    .social-link,
+    .skill-item {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    /* Add active states for touch feedback */
+    .btn:active,
+    .nav-link:active,
+    .project-card:active,
+    .blog-card:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+}
+
+/* Foldable Device Support */
+@media (horizontal-viewport-segments: 2) {
+    .hero-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Ultra-wide Screens */
+@media (min-width: 2560px) {
+    :root {
+        --fluid-min-font: 18;
+        --fluid-max-font: 22;
+    }
+    
+    .container {
+        max-width: 1600px;
     }
 }
