@@ -10,7 +10,7 @@
 // Leave it blank to use text instead
 // (Put the files in the images folder)
 // (You can also use external URL)
-var l_serverImage = "";
+var l_serverImage = "republic_emblem.png"; 
 
 // Center logo?
 // 'true' or 'false'
@@ -22,12 +22,12 @@ var l_displayMapGamemode = true;
 
 // Custom server name configuration
 // Leave it blank for automatic server name
-var l_serverName = "";
+var l_serverName = "KANON";
 
 // Use a video for the background?
 // Otherwise it will use images
 // 'true' or 'false'
-var l_bgVideo = false;
+var l_bgVideo = true;
 
 // Default available videos:
 // "aurora.webm"
@@ -55,7 +55,7 @@ var l_bgVideo = false;
 // Just make sure they are using webm VP8 format 
 // (Place the videos in the backgrounds/videos folder)
 // (You can also use external URL)
-var l_background = "";
+var l_background = "sleekLoad2/images/29c7c98a6be6f7401416d3653cb68907.gif";
 
 // (Image-background only)
 // Enable map-based background image?
