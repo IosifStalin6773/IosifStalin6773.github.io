@@ -1,732 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
-    <meta name="description" content="Portafolio profesional de Oscar de la Cruz - Desarrollador Web especializado en bots, scripts de gaming, themes y herramientas personalizadas. 20 repositorios públicos enfocados en gaming, automatización y desarrollo web.">
-    <meta name="keywords" content="portafolio, desarrollador, web, programación, gaming, bots, scripts, FiveM, Lua, JavaScript, automation">
-    <meta name="author" content="Oscar de la Cruz">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Oscar de la Cruz - Portafolio">
-    <meta property="og:description" content="Desarrollador especializado en bots, scripts de gaming, themes y herramientas personalizadas">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://iosifstalin6773.github.io">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Oscar de la Cruz - Portafolio">
-    <meta name="twitter:description" content="Desarrollador especializado en bots, scripts de gaming y automatización">
-    <title>Oscar de la Cruz - Desarrollador Web | Gaming & Automation</title>
-    
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
-    
-    <!-- HTTPS Enforcement -->
-    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
-    
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- DNS prefetch for external resources -->
-    <link rel="dns-prefetch" href="//github.com">
-    <link rel="dns-prefetch" href="//credly.com">
-    <link rel="dns-prefetch" href="//mirrors.creativecommons.org">
-    
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUPER PORTFOLIO BROS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-    <!-- Navegación -->
-    <nav class="navbar">
-        <div class="header-video">
-            <video autoplay muted loop playsinline preload="metadata">
-                <source src="assets/videos/header-background.mp4" type="video/mp4">
-                <!-- Fallback para GIF -->
-                <img src="assets/images/header-background.gif" alt="Header Background" loading="lazy">
-            </video>
+
+<body data-screen="boot">
+
+    <!-- ============ ESCENA MARIO ============ -->
+    <div class="scene">
+
+        <!-- Nubes -->
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+        <div class="cloud c4"></div>
+
+        <!-- Suelo inferior -->
+        <div class="ground"></div>
+        <div class="bushes">
+            <span class="bush b1"></span>
+            <span class="bush b2"></span>
+            <span class="bush b3"></span>
         </div>
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h3>O.C.</h3>
+
+        <!-- HUD superior estilo Mario -->
+        <header class="hud" id="hud">
+            <span class="hud-item"> <b id="hud-name">---</b></span>
+            <span class="hud-item">×<b id="hud-coins">00</b> <span class="coin-icon">◉</span></span>
+            <span class="hud-item">WORLD <b id="hud-world">1-1</b></span>
+            <span class="hud-item">TIME <b id="hud-time">400</b></span>
+        </header>
+
+        <!-- ========== BOOT ========== -->
+        <section class="screen active" id="screen-boot">
+            <div class="boot-box">
+                <div class="boot" id="boot-log"></div>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">Sobre Mí</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link">Proyectos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#skills" class="nav-link">Habilidades</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contacto</a>
-                </li>
-            </ul>
-            <div class="nav-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+        </section>
+
+        <!-- ========== TITLE ========== -->
+        <section class="screen" id="screen-title">
+            <div class="title-wrap">
+                <p class="tiny">★ 1 PLAYER GAME ★</p>
+                <h1 class="big-title" id="title-name">SUPER<br>PORTFOLIO<br>BROS</h1>
+                <p class="subtitle" id="title-role">DEV · ADVENTURE</p>
+
+                <div class="press-block">
+                    <div class="qblock">?</div>
+                    <p class="blink" id="press-start">PULSA START</p>
+                </div>
+
+                <p class="tiny dim" id="title-copy">© 1987 TU-EMPRESA SOFT</p>
             </div>
-        </div>
-    </nav>
+        </section>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">Portfolio</h1>
-                <p class="hero-subtitle">Desarrollador & Creador de Contenido</p>
-                <p class="hero-description">
-                    Desarrollador especializado en bots, scripts de gaming, themes y herramientas personalizadas. 
-                    20 repositorios públicos enfocados en gaming, automatización y desarrollo web.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">Ver Proyectos</a>
-                    <a href="#contact" class="btn btn-secondary">Contactar</a>
-                </div>
+        <!-- ========== MENU ========== -->
+        <section class="screen" id="screen-menu">
+            <h2 class="screen-title">▸ SELECCIONA MUNDO</h2>
+            <ul class="menu" id="menu-list"></ul>
+            <p class="hint">↑↓ MOVER &nbsp;·&nbsp; ENTER ENTRAR &nbsp;·&nbsp; M SONIDO</p>
+        </section>
+
+        <!-- ========== LEVEL ========== -->
+        <section class="screen" id="screen-level">
+            <div class="level-header">
+                <span class="pipe-mini"></span>
+                <span id="level-code">WORLD 1-1</span>
+                <span id="level-name">---</span>
+                <span class="pipe-mini pipe-mini-r"></span>
             </div>
-            <div class="hero-image">
-                <div class="profile-placeholder">
-                    <i class="fab fa-github"></i>
-                </div>
+            <div class="level-body" id="level-content"></div>
+            <p class="hint"><b id="back-btn">◀ VOLVER AL MAPA</b> &nbsp;(ESC)</p>
+        </section>
+        <!-- ========== CERT DETAIL ========== -->
+        <section class="screen" id="screen-cert">
+            <div class="level-header">
+                <span class="pipe-mini"></span>
+                <span id="cert-code">BADGE</span>
+                <span id="cert-issuer">CISCO</span>
+                <span class="pipe-mini pipe-mini-r"></span>
             </div>
-        </div>
-    </section>
+            <div class="level-body" id="cert-content"></div>
+            <p class="hint"><b id="cert-back-btn">◀ VOLVER A CERTIFICACIONES</b> &nbsp;(ESC)</p>
+        </section>
+        <!-- Botón de sonido -->
+        <button class="sound-btn" id="sound-btn" title="Silenciar (M)">♪ ON</button>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Sobre Mí</h2>
-            <div class="about-content">
-                <div class="about-text">
-                <p>
-                    Desarrollador con experiencia en creación de bots, scripts de gaming, themes personalizados 
-                    y herramientas de automatización. Especializado en proyectos relacionados con gaming, 
-                    servidores de juegos y personalización de interfaces.
-                </p>
-                <p>
-                    Con 20 repositorios públicos, mi trabajo abarca desde bots de Discord hasta scripts para 
-                    FiveM, pasando por themes de BetterDiscord y herramientas de gestión de servidores. 
-                    Me enfoco en crear soluciones prácticas y funcionales para la comunidad gamer.
-                </p>
-                <div class="about-info">
-                    <div class="info-item">
-                        <i class="fab fa-github"></i>
-                        <span>github.com/IosifStalin6773</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-code-branch"></i>
-                        <span>20 Repositorios Públicos</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-users"></i>
-                        <span>1 Seguidor / 3 Siguiendo</span>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Proyectos Destacados</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-crosshairs"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">EFT-HELIX-GMOD</h3>
-                        <p class="project-description">
-                            Integración de Escape from Tarkov con Gmod Helix gamemode bajo licencia Creative Commons Zero v1.0.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Lua</span>
-                            <span class="tech-tag">EFT</span>
-                            <span class="tech-tag">GMod</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/IosifStalin6773/EFT-HELIX-GMOD" class="project-link">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fab fa-apple"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">macOS-Ventura-13</h3>
-                        <p class="project-description">
-                            Proyecto relacionado con macOS Ventura 13, herramientas y scripts para el sistema operativo de Apple.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">macOS</span>
-                            <span class="tech-tag">Ventura</span>
-                            <span class="tech-tag">Apple</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/IosifStalin6773/macOS-Ventura-13" class="project-link">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-server"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">AMS</h3>
-                        <p class="project-description">
-                            Sistema de gestión y administración modular con funcionalidades avanzadas para servidores.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Lua</span>
-                            <span class="tech-tag">Management</span>
-                            <span class="tech-tag">Server</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/IosifStalin6773/AMS" class="project-link">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Proyectos Adicionales -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-helicopter"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">A3-Antistasi-Plus</h3>
-                        <p class="project-description">
-                            Modificación forkeada de A3 Antistasi Plus que elimina advertencias de incompatibilidad con MCC4 y ALiVE.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">SQF</span>
-                            <span class="tech-tag">Arma 3</span>
-                            <span class="tech-tag">Antistasi</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/IosifStalin6773/A3-Antistasi-Plus-No-incompatibility-Warnings-" class="project-link">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">GmodServerLinkerENT</h3>
-                        <p class="project-description">
-                            Sistema de linkage para servidores Gmod con herramientas de gestión y conexión de entidades.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Lua</span>
-                            <span class="tech-tag">GMod</span>
-                            <span class="tech-tag">Server</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/IosifStalin6773/GmodServerLinkerENT" class="project-link">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Habilidades</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3 class="skill-title">Web Development</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <i class="fab fa-html5"></i>
-                            <span>HTML5</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-css3-alt"></i>
-                            <span>CSS3</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-js"></i>
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-node-js"></i>
-                            <span>Node.js</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-palette"></i>
-                            <span>UI Design</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-title">Gaming & Scripts</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <i class="fas fa-gamepad"></i>
-                            <span>FiveM</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-code"></i>
-                            <span>Lua</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-server"></i>
-                            <span>ESX/QB</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cube"></i>
-                            <span>Permaprops</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-network-wired"></i>
-                            <span>Server Management</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-title">Bots & Automation</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <i class="fab fa-discord"></i>
-                            <span>Discord.js</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-robot"></i>
-                            <span>Bot Development</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-cogs"></i>
-                            <span>Automation</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fas fa-paint-brush"></i>
-                            <span>Themes</span>
-                        </div>
-                        <div class="skill-item">
-                            <i class="fab fa-git-alt"></i>
-                            <span>Git</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section id="blog" class="blog">
-        <div class="container">
-            <h2 class="section-title">Blog & Tutoriales</h2>
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-code"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">15 Mar 2026</span>
-                            <span class="blog-category">Desarrollo</span>
-                        </div>
-                        <h3 class="blog-title">Optimización de Rendimiento en Lua: Guía Completa</h3>
-                        <p class="blog-excerpt">
-                            Técnicas avanzadas para optimizar scripts de Lua en entornos de gaming y servidores.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">Lua</span>
-                            <span class="tag">Performance</span>
-                            <span class="tag">Gaming</span>
-                        </div>
-                        <a href="blog/optimizacion-lua.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">10 Mar 2026</span>
-                            <span class="blog-category">Seguridad</span>
-                        </div>
-                        <h3 class="blog-title">Seguridad en Servidores Gaming: Mejores Prácticas</h3>
-                        <p class="blog-excerpt">
-                            Mejores prácticas para proteger tus servidores de gaming contra ataques y vulnerabilidades.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">Seguridad</span>
-                            <span class="tag">Servers</span>
-                            <span class="tag">GMod</span>
-                        </div>
-                        <a href="blog/seguridad-servers.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-terminal"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">5 Mar 2026</span>
-                            <span class="blog-category">Tutoriales</span>
-                        </div>
-                        <h3 class="blog-title">Guía de Git para Desarrolladores: Comandos Avanzados</h3>
-                        <p class="blog-excerpt">
-                            Aprende a usar Git como profesional con comandos avanzados y flujos de trabajo eficientes.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">Git</span>
-                            <span class="tag">Version Control</span>
-                            <span class="tag">Workflow</span>
-                        </div>
-                        <a href="blog/git-guide.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">28 Feb 2026</span>
-                            <span class="blog-category">Gaming</span>
-                        </div>
-                        <h3 class="blog-title">Desarrollo de Mods para FiveM: ESX y Frameworks</h3>
-                        <p class="blog-excerpt">
-                            Creación de mods personalizados para FiveM con ESX y frameworks populares.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">FiveM</span>
-                            <span class="tag">ESX</span>
-                            <span class="tag">Lua</span>
-                        </div>
-                        <a href="blog/fivem-mods.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">20 Feb 2026</span>
-                            <span class="blog-category">DevOps</span>
-                        </div>
-                        <h3 class="blog-title">Automatización con GitHub Actions: CI/CD Completo</h3>
-                        <p class="blog-excerpt">
-                            Configura pipelines CI/CD automáticos para tus proyectos usando GitHub Actions.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">GitHub</span>
-                            <span class="tag">CI/CD</span>
-                            <span class="tag">Automation</span>
-                        </div>
-                        <a href="blog/github-actions.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="blog-card">
-                    <div class="blog-image">
-                        <div class="blog-placeholder">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-date">15 Feb 2026</span>
-                            <span class="blog-category">Diseño</span>
-                        </div>
-                        <h3 class="blog-title">CSS Grid vs Flexbox: Cuándo Usar Cada Uno</h3>
-                        <p class="blog-excerpt">
-                            Cuándo usar cada uno y cómo combinarlos para layouts complejos y responsive.
-                        </p>
-                        <div class="blog-tags">
-                            <span class="tag">CSS</span>
-                            <span class="tag">Grid</span>
-                            <span class="tag">Flexbox</span>
-                        </div>
-                        <a href="blog/css-grid-flexbox.html" class="blog-link">
-                            Leer más <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Contacto</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Conectemos</h3>
-                    <p>
-                        Si tienes interés en colaborar en proyectos de gaming, bots o desarrollo web, 
-                        o necesitas ayuda con scripts personalizados, no dudes en contactarme. 
-                        Siempre estoy abierto a nuevas oportunidades y colaboraciones en la comunidad tech.
-                    </p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/IosifStalin6773</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-code-branch"></i>
-                            <span>20 Proyectos Públicos</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-users"></i>
-                            <span>Comunidad Gamer</span>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://github.com/IosifStalin6773" class="social-link">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://discord.gg/WQ9XW9g9" class="social-link">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="https://www.instagram.com/oscarcrudi_20/" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="contact-form-container">
-                    <!-- ERROR Overlay -->
-                    <div class="error-overlay">
-                        <div class="error-overlay">
-                        <video autoplay loop muted playsinline class="error-gif" id="error-gif">
-                            <source src="https://i.giphy.com/media/l0MYEqEzwMWFCg8Ji/giphy.mp4" type="video/mp4">
-                        </video>
-                        <div class="error-message">
-                            <h3>⚠️ FEATURE TEMPORALMENTE DESHABILITADA</h3>
-                            <p>El formulario de contacto está en mantenimiento.</p>
-                            <p>📱 Por favor, contáctame a través de mis redes sociales.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Disabled Form -->
-                    <form class="contact-form" style="opacity: 0.3; pointer-events: none;">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Tu Nombre" disabled>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Tu Email" disabled>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Asunto" disabled>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" rows="5" placeholder="Tu Mensaje" disabled></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" disabled>Enviar Mensaje</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>
-                <a href="https://github.com/IosifStalin6773/IosifStalin6773.github.io/tree/main">IosifStalin6773.github.io</a> &copy; 2026 by 
-                <a href="https://github.com/IosifStalin6773">Oscar de la Cruz</a> is licensed under 
-                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
-            </p>
-            
-            <!-- Badges Container -->
-            <div class="badges-container">
-                <!-- Cisco Cybersecurity Badge -->
-                <div class="cisco-badge">
-                    <!-- Direct badge display -->
-                    <a href="https://www.credly.com/badges/ad7f6094-99a0-4aa5-a991-7ae451830572" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="assets/icons/introduction-to-cybersecurity.png" 
-                             alt="Cisco Introduction to Cybersecurity Badge" 
-                             class="badge-image">
-                    </a>
-                </div>
-                
-                <!-- Networking Basics Badge -->
-                <div class="networking-badge">
-                    <!-- Direct badge display -->
-                    <a href="https://www.credly.com/badges/e87a65e0-d445-46a5-8b9e-2a5b3f42da84" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="assets/icons/networking-basics.png" 
-                             alt="Networking Basics Badge" 
-                             class="badge-image">
-                    </a>
-                </div>
-                
-                <!-- Python Essentials 1 Badge -->
-                <div class="python-badge">
-                    <!-- Direct badge display -->
-                    <a href="https://www.credly.com/badges/368a28b9-0ab7-48a4-b404-675a2814e620" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="assets/icons/python-essentials-1.1.png" 
-                             alt="Python Essentials 1 Badge" 
-                             class="badge-image">
-                    </a>
-                </div>
-                
-                <!-- Python Essentials 2 Badge -->
-                <div class="python-badge">
-                    <!-- Direct badge display -->
-                    <a href="https://www.credly.com/badges/95703985-643c-4352-8ddf-eec0a24e98d7" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="assets/icons/python-essentials-2.png" 
-                             alt="Python Essentials 2 Badge" 
-                             class="badge-image">
-                    </a>
-                </div>
-                
-                <!-- Linux Essentials Badge -->
-                <div class="linux-badge">
-                    <!-- Direct badge display -->
-                    <a href="https://www.credly.com/badges/f21b2d04-2f93-439e-a73f-a340263b86f9" target="_blank" rel="noopener noreferrer" class="badge-link">
-                        <img src="assets/icons/linux-essentials.png" 
-                             alt="Linux Essentials Badge" 
-                             class="badge-image">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
-    <script>
-        // ERROR GIF Infinite Loop - Smooth Method
-        function forceGifRestart() {
-            const errorGif = document.getElementById('error-gif');
-            if (errorGif) {
-                const originalSrc = errorGif.src.split('?')[0]; // Remove any existing query params
-                const timestamp = Date.now();
-                errorGif.src = originalSrc + '?t=' + timestamp;
-            }
-        }
-        
-        // Check if GIF has stopped playing and restart if needed
-        function checkGifLoop() {
-            const errorGif = document.getElementById('error-gif');
-            if (errorGif && errorGif.complete) {
-                // Use a longer interval to avoid flickering
-                setTimeout(() => {
-                    forceGifRestart();
-                }, 5000); // Restart every 5 seconds instead of 2
-            }
-        }
-        
-        // Start the loop check when image loads
-        const errorGif = document.getElementById('error-gif');
-        if (errorGif) {
-            // Function to start the loop
-            const startLoop = () => {
-                setInterval(checkGifLoop, 5000);
-            };
-            
-            // If image is already loaded (cached), start immediately
-            if (errorGif.complete) {
-                startLoop();
-            } else {
-                // Wait for load event if not yet loaded
-                errorGif.addEventListener('load', startLoop);
-                errorGif.addEventListener('error', () => {
-                    console.error('Failed to load ERROR.gif');
-                });
-            }
-        }
-        
-        // Also restart when page becomes visible (tab switch)
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                forceGifRestart();
-            }
-        });
-        // Footer functionality removed for security and clean UX
-    </script>
 </body>
+
 </html>
