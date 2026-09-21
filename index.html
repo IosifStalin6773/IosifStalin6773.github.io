@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SUPER PORTFOLIO BROS</title>
+    <title>SUPER PORTFOLIO BROS — Oscar de la Cruz</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,19 +15,32 @@
 
 <body data-screen="boot">
 
-    <!-- ============ ESCENA MARIO ============ -->
     <div class="scene">
 
-        <!-- Nubes -->
+        <!-- Nubes pixeladas -->
         <div class="cloud c1"></div>
         <div class="cloud c2"></div>
         <div class="cloud c3"></div>
         <div class="cloud c4"></div>
 
+        <!-- Pájaros que cruzan el cielo -->
+        <div class="birds-layer" id="birds-layer"></div>
+
+        <!-- Muro de ladrillos (para el nivel CONTACTO) -->
+        <div class="brickwall" id="brickwall"></div>
+
+        <!-- Monedas coleccionables -->
+        <div class="coins-layer is-hidden" id="coins-layer"></div>
+
         <!-- Suelo inferior -->
         <div class="ground"></div>
         <div class="bushes">
-            <span class="bush b1"></span>
+            <span class="bush b1">
+                <!-- Perro de Duck Hunt (aparece con 30 monedas) -->
+                <img class="duck-hunt-dog" id="duck-hunt-dog"
+                    src="https://img.genial.ly/629025ee5b54fc001888379e/46291fb4-2da3-4ee5-b8db-785f5a8f964b.png"
+                    alt="Duck Hunt Dog" />
+            </span>
             <span class="bush b2"></span>
             <span class="bush b3"></span>
         </div>
@@ -59,7 +72,7 @@
                     <p class="blink" id="press-start">PULSA START</p>
                 </div>
 
-                <p class="tiny dim" id="title-copy">© 1987 TU-EMPRESA SOFT</p>
+                <p class="tiny dim" id="title-copy">© 1987</p>
             </div>
         </section>
 
@@ -67,7 +80,7 @@
         <section class="screen" id="screen-menu">
             <h2 class="screen-title">▸ SELECCIONA MUNDO</h2>
             <ul class="menu" id="menu-list"></ul>
-            <p class="hint">↑↓ MOVER &nbsp;·&nbsp; ENTER ENTRAR &nbsp;·&nbsp; M SONIDO</p>
+            <p class="hint">↑↓ MOVER &nbsp;·&nbsp; ENTER ENTRAR &nbsp;·&nbsp; M SONIDO &nbsp;·&nbsp; C MONEDAS</p>
         </section>
 
         <!-- ========== LEVEL ========== -->
@@ -81,6 +94,7 @@
             <div class="level-body" id="level-content"></div>
             <p class="hint"><b id="back-btn">◀ VOLVER AL MAPA</b> &nbsp;(ESC)</p>
         </section>
+
         <!-- ========== CERT DETAIL ========== -->
         <section class="screen" id="screen-cert">
             <div class="level-header">
@@ -92,7 +106,19 @@
             <div class="level-body" id="cert-content"></div>
             <p class="hint"><b id="cert-back-btn">◀ VOLVER A CERTIFICACIONES</b> &nbsp;(ESC)</p>
         </section>
-        <!-- Botón de sonido -->
+
+        <!-- ========== MODAL DE MONEDA ========== -->
+        <div class="coin-modal" id="coin-modal">
+            <div class="coin-modal-card">
+                <div class="coin-modal-icon">◉</div>
+                <h3 id="coin-modal-title">Título</h3>
+                <p id="coin-modal-text">Texto</p>
+                <button class="coin-modal-close" id="coin-modal-close">CERRAR (ESC)</button>
+            </div>
+        </div>
+
+        <!-- Botones superiores -->
+        <button class="coin-btn" id="coin-btn" title="Mostrar/Ocultar monedas (C)">🪙 ON</button>
         <button class="sound-btn" id="sound-btn" title="Silenciar (M)">♪ ON</button>
 
     </div>
